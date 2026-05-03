@@ -1,0 +1,15 @@
+# Local tooling state (Claude Code hooks)
+.remember/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# Hangul Word Processor temp/lock files
+*.hwp.bak
+~$*.hwp
+~$*.hwpx

@@ -1,0 +1,1709 @@
+OpenAI Codex v0.128.0 (research preview)
+--------
+workdir: /home/bh-mark-samsung/workspace/tour_data
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019deea9-a2ad-7d92-8b70-bbfd6c441574
+--------
+user
+# 통합 기획 plan-review 페어 (Claude+Codex 2회차)
+
+당신은 Codex 측 plan-reviewer다. Claude 측은 동시에 같은 기획안을 비평/검토한다.
+
+## 검토 대상
+
+`docs/ideation/total/00_modu_baekje.md` — 「모두의 백제 (Modu Baekje)」 통합 간이 기획.
+- 충남 공주·부여 백제역사유적지구 무장애 헤리티지 관광 OS
+- 4 페르소나 + MVP 5기능 (적합도 카드+동선 / Odii GPS 도슨트 / Waze UGC / 체험학습 PDF / RTO 갭 리포트)
+- KTO OpenAPI 10개 서비스 + 외부 데이터 6종 (다도라/올담/국가유산청/카카오맵·VWorld/기상청/한국관광 1330)
+- 채점 자기평가 1차 92 + PT 91, 충남 RTO 특별상 후보
+
+이전 페어(1회차)의 reconcile 노트는 `docs/ideation/total/01_pair_reconcile_notes.md`에 있다.
+
+## 검토 컨텍스트 (사용자 요청)
+
+사용자가 다음 4가지를 지적했다:
+1. **api_manual 폴더 정합성** — 데이터 인용 오류가 있으면 안 됨 (적격 심사 탈락 위험)
+2. **외부 API/데이터 보강 필요** — 한국관광공사 API에 너무 의존
+3. **수정할 점 식별** — 비평 + 구체적 수정안
+4. **에이전트팀 + 스킬 활용** — 철저한 분석 요구
+
+매뉴얼 정합성 검증과 외부 API 후보는 별도 subagent가 다루므로, 너는 **큰그림 plan-review**에 집중하라:
+
+## 요청 사항
+
+### 1. 기획안의 가장 취약한 5가지 (ranked, 각 80자 이내)
+PT 발표 심사관 입장에서 가장 먼저 따지고 들 약점 5개. 채점 영역(기획력/완성도/실용성/발표) 매핑.
+
+### 2. 외부 API/데이터 추가 추천 (TOP 5, 우선순위순)
+KTO API 외에 본 기획에 가장 가치를 더할 외부 데이터 5개:
+- 데이터/API 명
+- 어떤 기능 / 어떤 점수 항목에 직결되는가
+- MVP 4개월 안에 통합 가능한가
+- 라이선스·비용 위험
+
+특히 다음 카테고리에서 1개씩 의무 추천:
+(a) 충남·공주·부여 특화 (RTO 가점 +2 강화)
+(b) 무장애 / 접근성 표준 (사회적 가치 + KWCAG 2.2 강화)
+(c) 다국어 / 외국인 (P3 페르소나 강화)
+(d) 체험학습 / 교육 (F4 차별 1축 강화)
+(e) 안전 / 긴급 (위치정보 + 위험 완화)
+
+### 3. 4 페르소나 검토
+- P1 휠체어·시니어 / P2 시각·청각 / P3 유아차·자녀 가족 / P4 교사·복지기관 단체
+- 누락된 페르소나 / 합쳐야 할 페르소나 / 분리해야 할 페르소나 식별
+- 외국인은 별도 페르소나로 다시 분리해야 하는가
+
+### 4. MVP 5기능 검토
+- F1 적합도 카드+동선 / F2 Odii GPS 도슨트 / F3 Waze UGC / F4 체험학습 PDF / F5 RTO 갭 리포트
+- 4개월 안에 정말 모두 가능한가 — 가장 위험한 1개
+- F4 체험학습 PDF가 정말 차별 1축으로 작동하는가
+- 빠진 기능 (예: 음성 검색, 챗봇, 보호자 알림 등) 중 추가하면 좋을 1개
+
+### 5. 채점 자기평가 비평
+1차 92 + PT 91이 정확한가, 과대 / 과소 평가된 항목은:
+- 기획력 27/30 — 적정한가
+- 완성도 26/30 — 4개월 MVP 부담 고려 시
+- 데이터 활용 19~20/20 — KTO만 의존이면 19가 맞는가, 외부 보강 후엔 20 가능한가
+- 발전성 18/20 — 외부 API 보강 시 19로 올라갈 수 있는가
+- PT 적정성 27~28/30 — 사회적 가치 강조 충분한가
+- PT 발표 13~14/15 — 시연 시나리오 1개로 충분한가
+
+### 6. 수정 권고 (구체적 5-7개)
+메인 기획안에 직접 반영할 수 있는 구체적 수정 권고. 각 1-2줄.
+
+## 답변 형식
+한국어, 5000자 이내, 핵심만. 각 섹션 명확히 구분.
+
+codex
+`superpowers:using-superpowers` 스킬을 먼저 확인한 뒤, 로컬 기획 문서와 reconcile 노트를 읽고 큰그림 약점 중심으로 압축 검토하겠습니다.
+exec
+/bin/bash -lc "sed -n '1,220p' /home/bh-mark-samsung/.codex/plugins/cache/openai-curated/superpowers/3c463363/skills/using-superpowers/SKILL.md" in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+---
+name: using-superpowers
+description: Use when starting any conversation - establishes how to find and use skills, requiring Skill tool invocation before ANY response including clarifying questions
+---
+
+<SUBAGENT-STOP>
+If you were dispatched as a subagent to execute a specific task, skip this skill.
+</SUBAGENT-STOP>
+
+<EXTREMELY-IMPORTANT>
+If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST invoke the skill.
+
+IF A SKILL APPLIES TO YOUR TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
+
+This is not negotiable. This is not optional. You cannot rationalize your way out of this.
+</EXTREMELY-IMPORTANT>
+
+## Instruction Priority
+
+Superpowers skills override default system prompt behavior, but **user instructions always take precedence**:
+
+1. **User's explicit instructions** (CLAUDE.md, GEMINI.md, AGENTS.md, direct requests) — highest priority
+2. **Superpowers skills** — override default system behavior where they conflict
+3. **Default system prompt** — lowest priority
+
+If CLAUDE.md, GEMINI.md, or AGENTS.md says "don't use TDD" and a skill says "always use TDD," follow the user's instructions. The user is in control.
+
+## How to Access Skills
+
+**In Claude Code:** Use the `Skill` tool. When you invoke a skill, its content is loaded and presented to you—follow it directly. Never use the Read tool on skill files.
+
+**In Copilot CLI:** Use the `skill` tool. Skills are auto-discovered from installed plugins. The `skill` tool works the same as Claude Code's `Skill` tool.
+
+**In Gemini CLI:** Skills activate via the `activate_skill` tool. Gemini loads skill metadata at session start and activates the full content on demand.
+
+**In other environments:** Check your platform's documentation for how skills are loaded.
+
+## Platform Adaptation
+
+Skills use Claude Code tool names. Non-CC platforms: see `references/copilot-tools.md` (Copilot CLI), `references/codex-tools.md` (Codex) for tool equivalents. Gemini CLI users get the tool mapping loaded automatically via GEMINI.md.
+
+# Using Skills
+
+## The Rule
+
+**Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
+
+```dot
+digraph skill_flow {
+    "User message received" [shape=doublecircle];
+    "About to EnterPlanMode?" [shape=doublecircle];
+    "Already brainstormed?" [shape=diamond];
+    "Invoke brainstorming skill" [shape=box];
+    "Might any skill apply?" [shape=diamond];
+    "Invoke Skill tool" [shape=box];
+    "Announce: 'Using [skill] to [purpose]'" [shape=box];
+    "Has checklist?" [shape=diamond];
+    "Create TodoWrite todo per item" [shape=box];
+    "Follow skill exactly" [shape=box];
+    "Respond (including clarifications)" [shape=doublecircle];
+
+    "About to EnterPlanMode?" -> "Already brainstormed?";
+    "Already brainstormed?" -> "Invoke brainstorming skill" [label="no"];
+    "Already brainstormed?" -> "Might any skill apply?" [label="yes"];
+    "Invoke brainstorming skill" -> "Might any skill apply?";
+
+    "User message received" -> "Might any skill apply?";
+    "Might any skill apply?" -> "Invoke Skill tool" [label="yes, even 1%"];
+    "Might any skill apply?" -> "Respond (including clarifications)" [label="definitely not"];
+    "Invoke Skill tool" -> "Announce: 'Using [skill] to [purpose]'";
+    "Announce: 'Using [skill] to [purpose]'" -> "Has checklist?";
+    "Has checklist?" -> "Create TodoWrite todo per item" [label="yes"];
+    "Has checklist?" -> "Follow skill exactly" [label="no"];
+    "Create TodoWrite todo per item" -> "Follow skill exactly";
+}
+```
+
+## Red Flags
+
+These thoughts mean STOP—you're rationalizing:
+
+| Thought | Reality |
+|---------|---------|
+| "This is just a simple question" | Questions are tasks. Check for skills. |
+| "I need more context first" | Skill check comes BEFORE clarifying questions. |
+| "Let me explore the codebase first" | Skills tell you HOW to explore. Check first. |
+| "I can check git/files quickly" | Files lack conversation context. Check for skills. |
+| "Let me gather information first" | Skills tell you HOW to gather information. |
+| "This doesn't need a formal skill" | If a skill exists, use it. |
+| "I remember this skill" | Skills evolve. Read current version. |
+| "This doesn't count as a task" | Action = task. Check for skills. |
+| "The skill is overkill" | Simple things become complex. Use it. |
+| "I'll just do this one thing first" | Check BEFORE doing anything. |
+| "This feels productive" | Undisciplined action wastes time. Skills prevent this. |
+| "I know what that means" | Knowing the concept ≠ using the skill. Invoke it. |
+
+## Skill Priority
+
+When multiple skills could apply, use this order:
+
+1. **Process skills first** (brainstorming, debugging) - these determine HOW to approach the task
+2. **Implementation skills second** (frontend-design, mcp-builder) - these guide execution
+
+"Let's build X" → brainstorming first, then implementation skills.
+"Fix this bug" → debugging first, then domain-specific skills.
+
+## Skill Types
+
+**Rigid** (TDD, debugging): Follow exactly. Don't adapt away discipline.
+
+**Flexible** (patterns): Adapt principles to context.
+
+The skill itself tells you which.
+
+## User Instructions
+
+Instructions say WHAT, not HOW. "Add X" or "Fix Y" doesn't mean skip workflows.
+
+codex
+`superpowers:brainstorming`도 적용됩니다. 구현이 아니라 기획 비평이지만, 추가 기능·데이터 추천을 해야 해서 요구 의도와 제약을 먼저 고정하는 방식으로 쓰겠습니다.
+exec
+/bin/bash -lc "sed -n '1,240p' /home/bh-mark-samsung/.codex/plugins/cache/openai-curated/superpowers/3c463363/skills/brainstorming/SKILL.md" in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+---
+name: brainstorming
+description: "You MUST use this before any creative work - creating features, building components, adding functionality, or modifying behavior. Explores user intent, requirements and design before implementation."
+---
+
+# Brainstorming Ideas Into Designs
+
+Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
+
+Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design and get user approval.
+
+<HARD-GATE>
+Do NOT invoke any implementation skill, write any code, scaffold any project, or take any implementation action until you have presented a design and the user has approved it. This applies to EVERY project regardless of perceived simplicity.
+</HARD-GATE>
+
+## Anti-Pattern: "This Is Too Simple To Need A Design"
+
+Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
+
+## Checklist
+
+You MUST create a task for each of these items and complete them in order:
+
+1. **Explore project context** — check files, docs, recent commits
+2. **Offer visual companion** (if topic will involve visual questions) — this is its own message, not combined with a clarifying question. See the Visual Companion section below.
+3. **Ask clarifying questions** — one at a time, understand purpose/constraints/success criteria
+4. **Propose 2-3 approaches** — with trade-offs and your recommendation
+5. **Present design** — in sections scaled to their complexity, get user approval after each section
+6. **Write design doc** — save to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` and commit
+7. **Spec self-review** — quick inline check for placeholders, contradictions, ambiguity, scope (see below)
+8. **User reviews written spec** — ask user to review the spec file before proceeding
+9. **Transition to implementation** — invoke writing-plans skill to create implementation plan
+
+## Process Flow
+
+```dot
+digraph brainstorming {
+    "Explore project context" [shape=box];
+    "Visual questions ahead?" [shape=diamond];
+    "Offer Visual Companion\n(own message, no other content)" [shape=box];
+    "Ask clarifying questions" [shape=box];
+    "Propose 2-3 approaches" [shape=box];
+    "Present design sections" [shape=box];
+    "User approves design?" [shape=diamond];
+    "Write design doc" [shape=box];
+    "Spec self-review\n(fix inline)" [shape=box];
+    "User reviews spec?" [shape=diamond];
+    "Invoke writing-plans skill" [shape=doublecircle];
+
+    "Explore project context" -> "Visual questions ahead?";
+    "Visual questions ahead?" -> "Offer Visual Companion\n(own message, no other content)" [label="yes"];
+    "Visual questions ahead?" -> "Ask clarifying questions" [label="no"];
+    "Offer Visual Companion\n(own message, no other content)" -> "Ask clarifying questions";
+    "Ask clarifying questions" -> "Propose 2-3 approaches";
+    "Propose 2-3 approaches" -> "Present design sections";
+    "Present design sections" -> "User approves design?";
+    "User approves design?" -> "Present design sections" [label="no, revise"];
+    "User approves design?" -> "Write design doc" [label="yes"];
+    "Write design doc" -> "Spec self-review\n(fix inline)";
+    "Spec self-review\n(fix inline)" -> "User reviews spec?";
+    "User reviews spec?" -> "Write design doc" [label="changes requested"];
+    "User reviews spec?" -> "Invoke writing-plans skill" [label="approved"];
+}
+```
+
+**The terminal state is invoking writing-plans.** Do NOT invoke frontend-design, mcp-builder, or any other implementation skill. The ONLY skill you invoke after brainstorming is writing-plans.
+
+## The Process
+
+**Understanding the idea:**
+
+- Check out the current project state first (files, docs, recent commits)
+- Before asking detailed questions, assess scope: if the request describes multiple independent subsystems (e.g., "build a platform with chat, file storage, billing, and analytics"), flag this immediately. Don't spend questions refining details of a project that needs to be decomposed first.
+- If the project is too large for a single spec, help the user decompose into sub-projects: what are the independent pieces, how do they relate, what order should they be built? Then brainstorm the first sub-project through the normal design flow. Each sub-project gets its own spec → plan → implementation cycle.
+- For appropriately-scoped projects, ask questions one at a time to refine the idea
+- Prefer multiple choice questions when possible, but open-ended is fine too
+- Only one question per message - if a topic needs more exploration, break it into multiple questions
+- Focus on understanding: purpose, constraints, success criteria
+
+**Exploring approaches:**
+
+- Propose 2-3 different approaches with trade-offs
+- Present options conversationally with your recommendation and reasoning
+- Lead with your recommended option and explain why
+
+**Presenting the design:**
+
+- Once you believe you understand what you're building, present the design
+- Scale each section to its complexity: a few sentences if straightforward, up to 200-300 words if nuanced
+- Ask after each section whether it looks right so far
+- Cover: architecture, components, data flow, error handling, testing
+- Be ready to go back and clarify if something doesn't make sense
+
+**Design for isolation and clarity:**
+
+- Break the system into smaller units that each have one clear purpose, communicate through well-defined interfaces, and can be understood and tested independently
+- For each unit, you should be able to answer: what does it do, how do you use it, and what does it depend on?
+- Can someone understand what a unit does without reading its internals? Can you change the internals without breaking consumers? If not, the boundaries need work.
+- Smaller, well-bounded units are also easier for you to work with - you reason better about code you can hold in context at once, and your edits are more reliable when files are focused. When a file grows large, that's often a signal that it's doing too much.
+
+**Working in existing codebases:**
+
+- Explore the current structure before proposing changes. Follow existing patterns.
+- Where existing code has problems that affect the work (e.g., a file that's grown too large, unclear boundaries, tangled responsibilities), include targeted improvements as part of the design - the way a good developer improves code they're working in.
+- Don't propose unrelated refactoring. Stay focused on what serves the current goal.
+
+## After the Design
+
+**Documentation:**
+
+- Write the validated design (spec) to `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md`
+  - (User preferences for spec location override this default)
+- Use elements-of-style:writing-clearly-and-concisely skill if available
+- Commit the design document to git
+
+**Spec Self-Review:**
+After writing the spec document, look at it with fresh eyes:
+
+1. **Placeholder scan:** Any "TBD", "TODO", incomplete sections, or vague requirements? Fix them.
+2. **Internal consistency:** Do any sections contradict each other? Does the architecture match the feature descriptions?
+3. **Scope check:** Is this focused enough for a single implementation plan, or does it need decomposition?
+4. **Ambiguity check:** Could any requirement be interpreted two different ways? If so, pick one and make it explicit.
+
+Fix any issues inline. No need to re-review — just fix and move on.
+
+**User Review Gate:**
+After the spec review loop passes, ask the user to review the written spec before proceeding:
+
+> "Spec written and committed to `<path>`. Please review it and let me know if you want to make any changes before we start writing out the implementation plan."
+
+Wait for the user's response. If they request changes, make them and re-run the spec review loop. Only proceed once the user approves.
+
+**Implementation:**
+
+- Invoke the writing-plans skill to create a detailed implementation plan
+- Do NOT invoke any other skill. writing-plans is the next step.
+
+## Key Principles
+
+- **One question at a time** - Don't overwhelm with multiple questions
+- **Multiple choice preferred** - Easier to answer than open-ended when possible
+- **YAGNI ruthlessly** - Remove unnecessary features from all designs
+- **Explore alternatives** - Always propose 2-3 approaches before settling
+- **Incremental validation** - Present design, get approval before moving on
+- **Be flexible** - Go back and clarify when something doesn't make sense
+
+## Visual Companion
+
+A browser-based companion for showing mockups, diagrams, and visual options during brainstorming. Available as a tool — not a mode. Accepting the companion means it's available for questions that benefit from visual treatment; it does NOT mean every question goes through the browser.
+
+**Offering the companion:** When you anticipate that upcoming questions will involve visual content (mockups, layouts, diagrams), offer it once for consent:
+> "Some of what we're working on might be easier to explain if I can show it to you in a web browser. I can put together mockups, diagrams, comparisons, and other visuals as we go. This feature is still new and can be token-intensive. Want to try it? (Requires opening a local URL)"
+
+**This offer MUST be its own message.** Do not combine it with clarifying questions, context summaries, or any other content. The message should contain ONLY the offer above and nothing else. Wait for the user's response before continuing. If they decline, proceed with text-only brainstorming.
+
+**Per-question decision:** Even after the user accepts, decide FOR EACH QUESTION whether to use the browser or the terminal. The test: **would the user understand this better by seeing it than reading it?**
+
+- **Use the browser** for content that IS visual — mockups, wireframes, layout comparisons, architecture diagrams, side-by-side visual designs
+- **Use the terminal** for content that is text — requirements questions, conceptual choices, tradeoff lists, A/B/C/D text options, scope decisions
+
+A question about a UI topic is not automatically a visual question. "What does personality mean in this context?" is a conceptual question — use the terminal. "Which wizard layout works better?" is a visual question — use the browser.
+
+If they agree to the companion, read the detailed guide before proceeding:
+`skills/brainstorming/visual-companion.md`
+
+사용자 요청은 구현이 아니라 plan-review이므로, 문서 근거와 최신 외부 데이터 리스크를 확인한 뒤 5000자 이내로 압축 답변하겠습니다.
+  → 기획 문서와 reconcile 노트 읽기
+  • 외부 API 후보의 현재성·위험 확인
+  • 심사 관점 약점과 수정 권고 정리
+codex
+먼저 대상 문서 두 개의 주장 구조를 보겠습니다. 특히 기능-데이터-채점이 서로 물리는지, 심사장에서 공격받을 문장들이 어디인지 확인합니다.
+exec
+/bin/bash -lc "sed -n '1,260p' docs/ideation/total/00_modu_baekje.md" in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+# 모두의 백제 (Modu Baekje) — 무장애 헤리티지 1박 2일
+
+> **한 줄 정의** : 휠체어·유아차·시각장애·외국인이 모두 접근 가능한 충남 공주·부여 백제역사유적지구의 무장애 동선·다국어 GPS 도슨트·체험학습 다이어리·현장 검증 UGC를 한 화면에 묶은 무장애 헤리티지 관광 OS
+
+| 항목 | 값 |
+|---|---|
+| **카테고리** | 무장애 / 헤리티지 / 가족 학습 / 외국인 동시 충족 |
+| **특화 지역 (단일 RTO)** | **충남 (CACF)** — 공주시·부여군 백제역사유적지구 (유네스코 세계유산) |
+| **MVP 핵심 페르소나** | 4명 (P1 휠체어·시니어 / P2 시각·청각 접근성 필요자 / P3 유아차·자녀 동반 가족 / P4 교사·복지기관 단체 인솔자) — 외국인은 별도 언어 모드 옵션 |
+| **MVP 핵심 기능** | 5개 (적합도 카드+동선 / Odii 다국어 도슨트 / Waze UGC / 체험학습 PDF / RTO 갭 리포트) |
+| **공모 부문** | 2026 관광데이터 활용 공모전 ① 웹·앱 개발 부문 (5월 6일 16:00 마감) |
+| **추정 채점** | 1차 92/100 + 최종 PT 91/100, 충남 RTO 특별상 강력 후보 |
+
+---
+
+## 0. 통합 원천과 흡수·삭제 매핑
+
+본 기획은 베리어프리 관련 3개 안의 강점만 합쳐 단일 컨셉으로 정리한 결과물이다.
+
+| 원천 | 흡수한 강점 | 본 기획에서 삭제 / 발전방향 이동 |
+|---|---|---|
+| **claude_top_3 / 02_modong** (모동) | 무장애 적합도 5축 점수 산식, Waze 패턴 UGC, KWCAG 2.2 자체 구현 시연, RTO 데이터 갭 리포트, 보호자/교사 단체 모드 | **동행 매칭(F4) → 발전방향 이동** (4개월 MVP 안 사용자 풀 검증 곤란), **5모드 분리 UI → 4 페르소나로 단순화** (시각·청각은 내부 데이터 모델로만 유지) |
+| **codex_top_3 / 03_barrier_free_baekje_diary** (백제 다이어리) | 충남 공주·부여 백제역사유적지구 단일 지역 픽, GPS 트리거 다국어 오디오 도슨트(Odii) 어린이/어른 분리, 체험학습 다이어리 PDF, 야간관광 코스, 4개월 MVP 로드맵 | **익산 / 논산 → 발전방향 확장** (MVP는 공주·부여만), **AR/3D 명시적 제외** (백제 다이어리도 동일 결정 유지) |
+| **gemini_top_3 / 01_barrier_free_navigator** (무장애 내비게이터) | 맞춤 접근성 프로필 입력, 보호자·단체 인솔자 모드 압축 정의, 큰 글씨/자막 + 음성 동시 제공 정책 | **전국 단위 → 충남 단일** 로 명확화 (RTO 가점 +2 직격), **수어 영상은 발전방향** (콘텐츠 제작 부담) |
+
+> 통합 원칙 — (1) **단일 RTO 한정 출시**(가점 +2 + RTO 특별상 직격), (2) **AR / 메타버스 / 3D 일체 제외**(4개월 안 완성도 우선), (3) **POI 단위 정적 인증을 동선·시간·실시간·체험학습·B2G 5축으로 끌어올린다**.
+
+---
+
+## 1) 서비스 기획배경 및 필요성
+
+### 1.1 서비스 기획 배경
+
+**한국 무장애 관광 인프라는 "POI 단위 정적 인증"에 머물러 있다.** KTO 「모두의 여행」, Wheelmap, Wheelmate는 모두 "이 관광지가 휠체어 진입 가능한가"라는 단일 POI 질문에 멈춘다. 그러나 휠체어 사용자·유아차 동반 가족·시각장애인·외국인이 실제 백제역사유적지구를 방문할 때 마주치는 질문은 다음 5개다:
+
+1. **여러 유적이 단차 없이 이어지는 1박 2일 동선이 있는가** — 한 곳만 접근 가능해서는 의미가 없다.
+2. **현장에 가보니 엘리베이터가 고장났다면 다음 사용자도 알 수 있는가** — 엘리베이터·경사로 정적 정보의 60% 이상이 6개월 이상 미갱신 상태다.
+3. **자녀가 백제 역사를 이해하고 학교에 제출할 체험학습 자료를 만들 수 있는가** — 휠체어 자녀를 둔 가족·일반 자녀 동반 가족 공통의 페인포인트.
+4. **외국인이 다국어 GPS 오디오로 백제를 이해할 수 있는가** — 현재 부여 부소산성·공주 공산성에 위치 트리거 다국어 오디오 도슨트는 운영되지 않는다.
+5. **충남 RTO·지자체가 "어느 시군의 무장애 정보가 부족한가"를 데이터로 볼 수 있는가** — KorWithService2 detailWithTour2 누락 POI 시각화 도구가 한국에 없다.
+
+세 가지 정책 흐름이 동시에 같은 방향을 가리킨다 — (a) **고령화** : 65세 이상 1,000만 명 돌파(2025), 시니어 관광 시장 +20%/yr, (b) **AI 기본법(2026.1.22 시행)** : 생성형 AI 결과물 표시·접근성 의무, (c) **KWCAG 2.2 + 디지털포용법 + 장차법 제20·21조** : 정보접근권은 권고에서 의무로 전환되는 추세.
+
+### 1.2 서비스 필요성
+
+| 축 | 시장 공백 | 본 서비스의 응답 |
+|---|---|---|
+| 정책 직격 | KWCAG 2.2 + AI 기본법 + 디지털포용법 3축이 만나는 단일 OS = 한국 0 | KWCAG 2.2 자체 구현 + "AI 생성" 배지 출시일 즉시 적용 |
+| 헤리티지 + 무장애 | 백제역사유적지구(유네스코)에서 휠체어·유아차·외국인이 끊김 없이 이어지는 1박 2일 코스 = 0 | 공주·부여 6 POI 무장애 동선 빌더 + Odii 다국어 GPS 도슨트 |
+| 가족 / 학교 | 자녀가 백제 학습한 체험학습 PDF를 자동 생성하는 도구 = 0 | 방문 인증·사진·퀴즈·음성 메모 → 학교 제출 PDF 즉시 출력 |
+| 충남 RTO | 다도라(SaaS 전자지도) + 올담(데이터포털) 보유, 그러나 무장애 데이터 갭을 보여주는 RTO 대시보드 = 0 | detailWithTour2 누락 POI + 사용자 제보 빈도 시각화 |
+| 사회적 가치 | "착한 기술" 서사를 PT 점수로 직결시키는 무장애 + 유네스코 결합 사례 부재 | 발표 시연 — 휠체어 모드 음성 입력 → 동선 자동 생성 → 체험학습 PDF 출력 |
+
+---
+
+## 2) 서비스 개요
+
+### 2.1 기획 서비스 소개 (한 줄)
+
+> **휠체어·유아차·시각장애·외국인이 모두 갈 수 있는 충남 공주·부여 백제역사유적지구의 무장애 동선·다국어 GPS 도슨트·체험학습 다이어리·현장 검증을 한 화면에 묶은 무장애 헤리티지 관광 OS — 「모두의 백제 (Modu Baekje)」**
+
+### 2.2 기획 서비스 주요 기능 (5개 핵심 — MVP)
+
+#### F1. 무장애 적합도 카드 + 1박 2일 동선 빌더
+
+- **입력 (4 페르소나 프로필)** : P1 휠체어·시니어(장시간 보행 어려움) / P2 시각장애·청각장애·도우미견 / P3 유아차·초등 자녀 동반 / P4 교사·복지기관 단체 인솔자 (단체 인원·다양한 제약 교집합) — 외국인 4언어는 별도 토글. 페르소나는 다중 선택 가능 (예: 휠체어 시니어 + 손녀 동반).
+- **출력** : 공주(공산성·무령왕릉과 왕릉원·국립공주박물관·송산리고분군·공주 한옥마을) + 부여(부소산성·정림사지·국립부여박물관·능산리고분군·궁남지) 후보 POI 각각에 대해 **방문 가능 / 주의 필요 / 정보 없음(현장 확인 필요) / 대체 추천** 4단계 카드.
+- **무장애 적합도 점수 (가중치)** :
+
+```
+적합도 = 0.40 × 진입 가능성   (KorWithService2 detailWithTour2 — wheelchair / exit / elevator)
+       + 0.20 × 동선 연속성   (이전·다음 POI까지 무장애 경로 + 카카오맵 경사도)
+       + 0.20 × 편의시설 충족 (restroom · auditorium · room · lactationroom · stroller)
+       + 0.10 × 시간대 적합도 (TatsCnctrRate — 백제문화제·야간관광 기간 휠체어 회전)
+       + 0.10 × UGC 검증     (최근 30일 사용자 신고 가중)
+```
+
+- **fallback 추천** : 적합도 70% 미만 POI는 같은 테마 인접지로 자동 대체 (KorService2 lclsSystmCode2 + TarRlteTarService1 활용).
+- **1박 2일 / 당일 두 모드** : 시간 예산 + 야간관광 옵션(공산성 야경·금강·부여 야시장)으로 분기.
+
+#### F2. GPS 트리거 다국어 오디오 도슨트 (Odii 활용)
+
+- **위치 진입 시 자동 재생** — Odii.storyLocationBasedList(`xCoord`/`yCoord`/`radius`)로 반경 진입 시 백제 스토리 오디오·자막 자동 호출.
+- **2 모드 분리** : 어린이 모드(쉬운 말, 퀴즈 연동) / 어른 모드(전문 해설, 국가유산청 메타데이터 결합).
+- **다국어 4종** : 국문(KorService2) + 영문(EngService2) + 일문(JpnService2) + 중문 간체(ChsService2) — KTO 다국어 원문 우선, 보조 번역은 "AI 음성 안내" 표기 (AI 기본법 2026.1.22 대응).
+- **시각장애 우선** — TalkBack/VoiceOver 100% 호환, 큰 글씨·고대비 모드 동시 제공.
+
+#### F3. 현장 배리어 제보 + 자동 코스 재계산 (Waze 패턴 UGC)
+
+- 사용자가 엘리베이터 고장·공사 구간·임시 폐쇄·화장실 이용 불가를 사진+위치 제보.
+- 같은 코스 후속 사용자에게 푸시 알림.
+- 같은 위치 24시간 내 3건 이상 신고 → 코스 자동 재계산 (TarRlteTarService1 인접 대체지 추천).
+- 위치정보법 제9조에 따라 **위치기반서비스사업자 신고** 완료 후 운영, GPS 동의서 별도 명시 (PIPA 처리방침).
+
+#### F4. 체험학습 다이어리 PDF (자녀 학습 모드)
+
+- **방문 인증** : QR 또는 GPS 진입 검증.
+- **사진 + 퀴즈 + 음성 메모** : Odii 어린이 모드 스토리에서 자동 생성된 백제 퀴즈 풀고, 사진 첨부, 음성 메모 녹음.
+- **학교 제출용 PDF 즉시 출력** : 방문지·이동 시간·학습 내용·아동 소감 — 학교 양식과 동일 구조.
+- **PT 시연 핵심 장면** — 가족·학교·복지기관 누구나 즉시 이해 가능한 실용 기능.
+
+#### F5. RTO 데이터 갭 리포트 (충남 CACF 대시보드, B2G)
+
+- detailWithTour2 누락 POI 자동 식별 → "공주 시 무장애 정보 입력 누락 12건 / 부여 군 9건" 시각화.
+- 사용자 제보 빈도 + UGC 검증 결과 → **접근성 개선 후보지 시군구별 히트맵** (lDongSignguCd 기준).
+- 일/주/월 리포트 자동 생성 → 충남문화관광재단(CACF) + 다도라 / 올담 데이터포털과 정기 공유.
+- **B2G 가치를 발전성 점수(20점)로 직결**.
+
+### 2.3 서비스 차별성
+
+KTO 「모두의 여행」·Wheelmap·Wheelmate가 멈춘 **POI 단위 정적 인증**을 본 서비스는 **5축 통합**으로 끌어올린다 — (1) **동선** : 4 페르소나 적합도 카드 + 1박 2일 빌더, (2) **다국어 GPS 도슨트** : Odii 위치기반 자동 재생, (3) **실시간 검증** : Waze 패턴 24시간 내 3건 자동 재계산, (4) **체험학습 다이어리 PDF** : 학교·가족 직접 시연 가능한 PT 무기, (5) **B2G 데이터 갭 리포트** : 충남 RTO에 즉시 가치 제공.
+
+> **5축 중 가장 강한 차별축 = (4) 체험학습 다이어리 PDF.** 동선·혼잡·UGC는 데이터 활용 적절성 점수(20점)를 만들고, 다이어리는 **PT 발표에서 즉시 이해되는 "결과물"** 이다. 다른 POI 조회형 무장애 앱과 결정적으로 갈라지는 지점은 — **"무장애 여행이 자녀의 교육 산출물로 남는다"** — 한 문장으로 압축된다. 적정성·실용성·발표 3개 점수(70점)를 동시에 끌어올린다.
+
+**KorWithService2 detailWithTour2 + Odii GPS 트리거 + 다국어 4종(국·영·일·중) + DataLab/TatsCnctr + PhotoGallery**의 6축 결합 사례는 **한국 0**이며, "유네스코 백제 + KWCAG 2.2 + AI 기본법 + 충남 RTO B2G" 4축은 PT 적정성 점수(30점) 직격.
+
+### 2.4 서비스 내 지역 특화 (충남 — 필수 항목)
+
+**왜 충남 단일인가** :
+- **백제역사유적지구(유네스코 세계유산)** — 공주(공산성·송산리 고분군·정지산 유적) + 부여(관북리 유적·부소산성·정림사지·능산리 고분군·나성) — 명확한 헤리티지 IP.
+- **공주 야간관광 특화도시** — 공산성 야경·금강·부여 야시장을 야간 모드 핵심 콘텐츠로 그대로 흡수.
+- **다도라(DADORA)** — 충남 스마트관광 전자지도 SaaS, 본 서비스의 RTO 갭 리포트와 자연스럽게 통합 가능.
+- **올담(alldam)** — 충남 데이터포털, 공주·부여 시군 무장애 보조 데이터 보강.
+- **충남은 2026 공모전 RTO 특별상 8개 권역(부산·대전·광주·세종·충남·경북·강원·제주) 중 하나** (info.pdf p.6) — 단일 지역 한정 출시 시 가점 +2 + CACF 특별상 후보.
+
+**왜 경북 / 다른 RTO를 선택하지 않는가** : 경북은 메타버스/XR 강점이지만 4개월 안에 AR 콘텐츠 제작 리스크 큼. 제주는 자체 OpenAPI(REST+SPARQL)가 풍부해 KTO API 활용 차별성이 약화됨. 충남은 KTO API 의존도 중간 + 명확한 유네스코 IP + 야간관광 특화도시 + 다도라/올담 RTO 협력 자산 = **무장애 헤리티지에 가장 정합적**.
+
+**MVP 대상 6 POI (공주·부여 각 3)** :
+- **공주** : 공산성(史 477) / 무령왕릉과 왕릉원(史 13) / 국립공주박물관
+- **부여** : 부소산성(史 5) / 정림사지(史 301) + 정림사지박물관 / 국립부여박물관
+
+**확장 후보 (발전방향)** : 공주 한옥마을·송산리 고분군 / 부여 능산리 고분군·궁남지·백제문화단지 / 익산(미륵사지·왕궁리 유적) / 논산.
+
+---
+
+## 3) 데이터 활용 방안 (한국관광공사 OpenAPI 활용 필수)
+
+### 3.1 활용 예정 한국관광공사 OpenAPI
+
+본 서비스가 활용하는 KTO OpenAPI는 모두 `docs/api_manual/` 매뉴얼과 1:1 대조 검증되었다. 매뉴얼 폴더 ID, 버전, 베이스 URL, 활용 오퍼레이션, 핵심 응답 필드는 다음과 같다.
+
+| # | API 서비스 | 매뉴얼 폴더 ID | 매뉴얼 버전 | 베이스 URL | 활용 오퍼레이션 | 본 서비스에서의 용도 |
+|:--:|---|---|---|---|---|---|
+| 1 | **KorWithService2** (국문 무장애여행) | `1737596514908` | v4.3 | `apis.data.go.kr/B551011/KorWithService2` | `areaBasedList2` · `locationBasedList2` · `searchKeyword2` · `detailCommon2` · `detailIntro2` · `detailInfo2` · `detailImage2` · **`detailWithTour2`** · `areaBasedSyncList2` · `ldongCode2` · `lclsSystmCode2` | **F1 적합도 카드의 코어** — 21개 무장애 필드 (지체 7 / 시각 7 / 청각 4 / 영유아 3) |
+| 2 | **KorService2** (국문 관광정보) | `1737596499508` | v4.4 | `apis.data.go.kr/B551011/KorService2` | `areaBasedList2` · `locationBasedList2` · `searchKeyword2` · `searchFestival2` · `detailCommon2` · `detailIntro2` · `detailInfo2` · `detailImage2` · `lclsSystmCode2` · `ldongCode2` | F1 동선 빌더의 베이스 POI · 운영시간 · 휴무일 · 이미지 |
+| 3 | **EngService2** (영문) | `1737596531873` | v4.4 | `apis.data.go.kr/B551011/EngService2` | `areaBasedList2` · `detailCommon2` · `detailIntro2` · `detailImage2` · `searchFestival2` | F2 외국인 영문 카드 (contentTypeId 76 관광지 / 78 문화시설 / 85 축제) |
+| 4 | **JpnService2** (일문) | `1737596480579` | v4.4 | `apis.data.go.kr/B551011/JpnService2` | `areaBasedList2` · `detailCommon2` · `detailIntro2` | F2 외국인 일문 카드 |
+| 5 | **ChsService2** (중문 간체) | `1704160495049` | v4.4 | `apis.data.go.kr/B551011/ChsService2` | `areaBasedList2` · `detailCommon2` · `detailIntro2` | F2 외국인 중문 간체 카드 |
+| 6 | **Odii** (관광지 오디오 가이드) | `1720672146251` | v4.1 | `apis.data.go.kr/B551011/Odii` | `themeBasedList` · `themeLocationBasedList` · `storyBasedList` · `storyLocationBasedList` · `storySearchList` | **F2 GPS 트리거 도슨트의 코어** — 위치기반 백제 스토리 자동 재생 |
+| 7 | **TatsCnctrRateService** (관광지 집중률) | `1725501618773` | v4.0 | `apis.data.go.kr/B551011/TatsCnctrRateService` | `tatsCnctrRateList` | F1 시간대 적합도 + 백제문화제 / 야간관광 기간 혼잡 보조 |
+| 8 | **DataLabService** (관광 빅데이터) | `1704160370032` | v4.1 | `apis.data.go.kr/B551011/DataLabService` | `metcoRegnVisitrDDList` · `locgoRegnVisitrDDList` | F5 RTO 대시보드 — 공주·부여 일일 방문자 추세 |
+| 9 | **TarRlteTarService1** (관광지별 연관) | `1725502022236` | v4.1 | `apis.data.go.kr/B551011/TarRlteTarService1` | `areaBasedList1` · `searchKeyword1` | F1 fallback / F3 코스 자동 재계산 시 인접 대체지 추천 |
+| 10 | **PhotoGalleryService1** (관광사진 갤러리) | `1704160396374` | v4.2 | `apis.data.go.kr/B551011/PhotoGalleryService1` | `galleryList1` · `gallerySearchList1` · `galleryDetailList1` | 백제권 감성 비주얼 카드 (`cpyrhtDivCd` Type1 / Type3 출처 표시 의무) |
+
+> **API 활용 합계 = 10개 서비스, 30+ 오퍼레이션, 다국어 4종 동시 활용** — 데이터 활용 적절성 점수(20점) 직격.
+
+### 3.2 데이터 활용 방식
+
+#### (1) F1 적합도 카드 — KorWithService2 detailWithTour2 21필드 직접 활용
+
+매뉴얼 (`docs/api_manual/1737596514908/한국관광공사_개방데이터_활용매뉴얼(무장애여행)_v4.3.docx`) 응답 필드 직인용 :
+
+| 카테고리 | 응답 필드 (영문 키) | 본 서비스에서의 의미 |
+|---|---|---|
+| **공통 5** | `parking` · `route` · `publictransport` · `ticketoffice` · `promotion` | 주차·접근로·대중교통·매표소·홍보물 무장애 |
+| **지체장애 7** | `wheelchair` · `exit` · `elevator` · `restroom` · `auditorium` · `room` · `handicapetc` | 휠체어 임대·출입구·엘리베이터·장애인 화장실·관람석·전용 객실 |
+| **시각장애 7** | `braileblock` · `helpdog` · `guidehuman` · `audioguide` · `bigprint` · `brailepromotion` · `guidesystem` (+ `blindhandicapetc`) | 점자블록·도우미견·안내인·오디오 가이드·큰 글씨·점자 안내·안내 시스템 |
+| **청각장애 4** | `signguide` · `videoguide` · `hearingroom` · `hearinghandicapetc` | 수어 안내·영상 안내·청각 보조 객실 |
+| **영유아가족 3** | `stroller` · `lactationroom` · `babysparechair` (+ `infantsfamilyetc`) | 유아차 임대·수유실·유아 의자 |
+
+**호출 예시** (공주시 부소산성 무장애 상세 — `contentId=988449`는 매뉴얼 샘플 ID, 운영 시 실제 ID로 치환) :
+
+```
+GET https://apis.data.go.kr/B551011/KorWithService2/detailWithTour2?
+    serviceKey={KEY}&MobileOS=ETC&MobileApp=ModuBaekje&_type=json&contentId=988449
+```
+
+**중요 — 신구 코드 체계 전환** : KorWithService2의 `areaCode2` / `categoryCode2` 오퍼레이션과 legacy `areaCode` / `sigunguCode` / `cat1` / `cat2` / `cat3` 파라미터는 **2025-12-31까지만 활용 가능** (매뉴얼 § areaCode2 명시). 본 서비스는 2026년 출시이므로 **`ldongCode2` + `lclsSystmCode2` 신규 체계만 사용**한다.
+
+#### (2) F1 동선 빌더 — KorService2 신분류체계 정밀 검색
+
+충남 공주·부여 백제 유적의 lclsSystm 분류 매핑 (매뉴얼 부속 `신분류체계정보 관광타입정보 연계 정의서.xlsx` 직인용) :
+
+| 카테고리 | lclsSystm1 | lclsSystm2 | lclsSystm3 (예시) | contentTypeId |
+|---|---|---|---|---|
+| 공산성·부소산성·무령왕릉 | `HS` 역사관광 | `HS01` 역사유적지 | (12개 소분류 중 매칭) | 12 (관광지) |
+| 정림사지 등 종교성지 | `HS` | `HS03` 종교성지 | (4개) | 12 |
+| 국립공주박물관·국립부여박물관 | `VE` 문화관광 | `VE07` 전시시설 | (6개) | 14 (문화시설) |
+| 백제문화제 | `EV` 축제 | `EV01` 축제 | `EV010100` 문화관광축제 | 15 (축제) |
+| 백제관·한옥스테이 (숙박) | `AC` 숙박 | `AC03` 펜션/민박 | `AC030200` 한옥스테이 | 32 (숙박) |
+
+호출 예시 (공주시 — `lDongRegnCd=44` 충청남도 + `lDongSignguCd=150` 공주시) :
+
+```
+GET https://apis.data.go.kr/B551011/KorService2/areaBasedList2?
+    serviceKey={KEY}&MobileOS=ETC&MobileApp=ModuBaekje&_type=json
+    &lDongRegnCd=44&lDongSignguCd=150&lclsSystm1=HS&lclsSystm2=HS01
+    &contentTypeId=12&arrange=C&numOfRows=50
+```
+
+**KorWithService2 contentTypeId 제약** : 매뉴얼 § 무장애 안내 — 무장애 서비스는 **12 / 14 / 15 / 28 / 32 / 38** 6종만 지원 (음식점 39 · 여행코스 25 미지원). 본 서비스는 식음료 무장애 정보를 KorService2 39 (음식점) `chkbabycarriage`(유모차 대여), `kidsfacility`(어린이놀이방) 필드로 보강한다.
+
+#### (3) F2 GPS 트리거 다국어 도슨트 — Odii 위치기반
+
+매뉴얼 (`docs/api_manual/1720672146251/한국관광공사_개방데이터_활용매뉴얼(오디)_v4.1.docx`) 특이 사항 :
+
+- **좌표 파라미터 명이 다른 서비스와 다름** — `xCoord` / `yCoord` (KorService2의 `mapX` / `mapY`가 아님).
+- **`langCode` 파라미터** — `ko` / `en` / `ja` / `zh-CN` 등으로 다국어 분기.
+- **신분류체계(lclsSystm) 미사용** — 자체 `themeNm` 등 코드 체계 활용.
+
+호출 예시 (공주 공산성 진입 시 영어 백제 스토리 자동 호출) :
+
+```
+GET https://apis.data.go.kr/B551011/Odii/storyLocationBasedList?
+    serviceKey={KEY}&MobileOS=ETC&MobileApp=ModuBaekje
+    &langCode=en&xCoord=127.1247&yCoord=36.4654&radius=500
+```
+
+#### (4) F2 외국인 다국어 카드 — 4언어 contentTypeId 매핑
+
+다국어 매뉴얼은 contentTypeId 코드 체계가 국문과 다르다 — **국문 12(관광지) ↔ 다국어 76**, **국문 14(문화시설) ↔ 다국어 78**, **국문 15(축제) ↔ 다국어 85**, **국문 32(숙박) ↔ 다국어 80** (다국어 v4.4 매뉴얼 § Table 4 직인용). 본 서비스는 외국인 모드 진입 시 자동 매핑 변환을 거쳐 EngService2 / JpnService2 / ChsService2 호출.
+
+#### (5) F1 시간대 적합도 + 야간관광 — TatsCnctrRateService
+
+매뉴얼 § `tatsCnctrRateList` 직인용 — `areaCd` (legacy 지역코드, 충남=34) + `signguCd` (예: 부여 34800) + `tAtsNm` (관광지명) 기반 향후 30일 집중률.
+
+```
+GET https://apis.data.go.kr/B551011/TatsCnctrRateService/tatsCnctrRateList?
+    serviceKey={KEY}&MobileOS=ETC&MobileApp=ModuBaekje
+    &areaCd=34&signguCd=34800&tAtsNm=부소산성
+```
+
+> 주의 — TatsCnctrRateService는 매뉴얼 기준 legacy areaCd / signguCd를 사용한다. lDong 5자리 체계가 아닌 별도 코드 체계임. 본 서비스는 두 체계 매핑 테이블을 내부 유지.
+
+#### (6) F5 RTO 대시보드 — DataLabService 일일 방문자
+
+매뉴얼 § `locgoRegnVisitrDDList` 직인용 — `startYmd` / `endYmd` (YYYYMMDD) 필수. KT 내국인 + SK텔레콤 외국인 이동통신 기반. 매뉴얼이 명시한 한계 — **"방문 목적을 정확히 알 수 없으므로 '방문자'는 '관광객'과 동일하게 정의되지 않음"**. 본 서비스는 이 한계를 화면에 명시하고 추세 분석 보조로만 사용한다.
+
+#### (7) 라이선스·표시 의무
+
+- **공공누리 출처 표시** — KorService2/KorWithService2의 `cpyrhtDivCd`가 `Type1`(제1유형 — 출처표시) 또는 `Type3`(제1유형 + 변경금지)로 반환. 화면에 출처 자동 표기.
+- **AI 표시 의무** (AI 기본법 2026.1.22 시행) — Odii TTS 보조·번역·동선 자동 생성 시 "AI 음성 안내 / AI 생성 코스" 배지.
+- **위치정보법 제9조** — 위치기반서비스사업자 신고 (방통위) + GPS 동의서 별도 명시.
+
+### 3.3 보조 외부 데이터 (KTO API 보강)
+
+| 데이터 | 용도 |
+|---|---|
+| 충남 다도라 (`chungnam.dadora.kr`) | 충남 POI / 전자지도 / RTO 협력 근거 |
+| 충남 올담 (`alldam.chungnam.go.kr`) | 공주·부여 시군 무장애 보조 통계 |
+| 국가유산청 / 국가유산포털 | 백제 세계유산 메타데이터·이미지 보강 (Odii 어른 모드 결합) |
+| 카카오맵 / VWorld | 경사도·이동 시간 |
+| 기상청·에어코리아 | 폭염·우천 시 실내 동선 대체 |
+| 한국관광 1330 | 외국인 긴급·상담 직접 연결 |
+
+### 3.4 자기평가 (데이터 활용 적절성 20점 만점)
+
+| 항목 | 점수 | 근거 |
+|---|---|---|
+| 저활용 API 결합 | +5 | KorWithService2 detailWithTour2 + Odii GPS 트리거 + DataLab 3축 결합 사례 한국 0 |
+
+exec
+/bin/bash -lc "sed -n '1,260p' docs/ideation/total/01_pair_reconcile_notes.md" in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+# 페어 reconcile 노트 (Claude + Codex)
+
+> 본 문서는 통합 기획 작성 과정의 1:1 페어 분석 산출물이다. 본 기획(`00_modu_baekje.md`)은 Claude(Opus 4.7) 1차안과 Codex(최신 GPT, reasoning effort=xhigh) 분석을 양쪽 비교 후 reconcile한 결과다. CLAUDE.md(글로벌) "Codex Agent Invocation Policy — 1:1 Claude+Codex Pairing" 정책 준수.
+
+---
+
+## 1. 페어 dispatch 메타
+
+| 항목 | 값 |
+|---|---|
+| 작업 단계 | Planning / Plan-Review (구현 전) — Codex 페어링 적용 범위 |
+| Claude 모델 | Opus 4.7 (1M context) |
+| Codex 모델 | Codex CLI 기본 — 호출 시점의 최신 GPT (config 미지정 = 자동 latest) |
+| Codex 추론 effort | `model_reasoning_effort = "xhigh"` (CLAUDE.md 의무) |
+| Codex 호출 명령 | `codex exec --skip-git-repo-check -c 'model_reasoning_effort="xhigh"' - < /tmp/codex_pair_prompt.md` |
+| Codex 결과 파일 | `/tmp/codex_pair_result.txt` (백업: `/tmp/claude-1000/.../bk3jeefwl.output`) |
+| 페어 dispatch 사유 | 통합 컨셉/지역/기능 픽 = 전형적인 planning phase 토픽 선정 — CLAUDE.md "Pairs REQUIRED for: 토픽/feature 선정, plan-document 검토" 정합 |
+
+---
+
+## 2. Convergence (양쪽 일치 — 강한 합의)
+
+| 결정 사항 | Claude | Codex | 합의 |
+|---|---|---|---|
+| 단일 RTO | 충남 | 충남 | ✅ |
+| 핵심 페르소나 수 | 4명 | 4명 | ✅ |
+| 동행 매칭(원천 A F4) MVP 처리 | 발전방향 이동 | 발전방향 이동 | ✅ "사용자 풀·안전 책임·CS 체계 4개월 안 검증 곤란" 동일 근거 |
+| MVP 5개 핵심 기능 골격 | 적합도 카드+동선 / 혼잡회피·시간대 / Odii 다국어 도슨트 / Waze UGC / 체험학습 PDF | 동일 | ✅ |
+| AR / 메타버스 / 3D | 명시적 제외 | 명시적 제외 (장기) | ✅ |
+| 전국 단위 확장 | MVP에서 제거, 충남 단일 | MVP에서 제거, 충남 단일 | ✅ "1차 심사에서 지역특화가 강점" 동일 근거 |
+| 충남 자산 (백제역사유적지구·다도라·올담·공주 야간관광) | 모두 활용 | 모두 활용 | ✅ |
+| 채점 자기평가 1차 | 92/100 | 92/100 | ✅ 동수 |
+| 채점 자기평가 PT | 91/100 | 91/100 | ✅ 동수 |
+| 충남 RTO 특별상 후보 강도 | 강력 후보 | 설득력 높음 | ✅ |
+
+→ **Convergence 매우 강함**. 컨셉·지역·기능·점수의 핵심 축에서 양쪽이 독립적으로 같은 결론에 도달.
+
+---
+
+## 3. Divergence (의견 차이) — 사용자가 선택할 부분 / 본 기획에 반영한 결정
+
+### 3.1 Codex 의견 채택 (4건)
+
+| 차이 | Claude 1차 | Codex | 채택 | 채택 이유 |
+|---|---|---|---|---|
+| 차별화의 "1축" 명시 | 5축 통합 (병렬) | **체험학습 다이어리가 가장 강한 축** — "교육 산출물로 남는다" | **Codex** | PT에서 즉시 이해되는 결과물로 다이어리를 1축으로 강조하면 적정성·실용성·발표 3개 점수(70점)를 동시에 끌어올림 |
+| PT 시연 페르소나 | 부모 + 자녀 부여 1박 2일 | **휠체어 할아버지 + 초등 손녀 공산성** | **Codex** | 3대(노년+아동) 무장애+학습 결합으로 사회적 임팩트가 더 강력. 시연 시나리오 핵심으로 D.1에 반영 |
+| 페르소나 4명 정의 | 휠체어·시니어 / 유아차 가족·자녀 / 외국인 / 보호자·교사 | **시각·청각을 별도 페르소나로 명확화 + 외국인은 모드 옵션** | **Codex** | 시각·청각은 별도 데이터 모델·UI 요구사항이 있으므로 페르소나로 분리하는 게 정확. 외국인은 P3 가족 페르소나 안에서도 발생 가능한 "언어 토글" |
+| 위험 추가 — UGC 오염 | 없음 (누락) | **선택형 제보 + 사진 근거 + 중복 확인 + RTO 검수 큐** | **Codex** | F3 Waze UGC의 운영 리스크 명백 — 부록 B에 6번째 위험으로 추가 |
+
+### 3.2 Codex 의견에 반영하지만 강도 조정 (2건)
+
+| 차이 | Claude 1차 | Codex | 절충안 |
+|---|---|---|---|
+| 데이터 활용 점수 | 19/20 | 20/20 | **19~20 범위 표기** — Codex의 자신감 근거 인정 (10개 서비스 30+ 오퍼레이션 + 매뉴얼 직인용 정합성 100%), 다만 채점은 보수적으로 19 기준 |
+| 발표 점수 | 14/15 | 13/15 | **13~14 범위 표기** — Codex가 더 보수적이지만 휠체어 할아버지·손녀 시연 + KWCAG 자체 구현 + 체험학습 PDF의 3중 임팩트가 유의미. 13.5 기준 |
+
+### 3.3 Claude 의견 유지 (3건)
+
+| 차이 | Claude | Codex | 유지 이유 |
+|---|---|---|---|
+| 데이터 활용 방안 정밀도 | 매뉴얼 폴더 ID + 버전 + 베이스 URL + 응답 필드 21개 직인용 + 신구 코드 체계 전환(2025-12-31 일몰) 명시 | 단순 API 목록 | **Claude 우위** — 사용자가 명시적으로 "api_manual 파일이랑 확실하게 대조해서 오류 없게" 요청. 제안서에는 매뉴얼 정합성이 데이터 활용 적절성 점수 직결 |
+| MVP 대상 POI 수 | 6개 (공주 3 + 부여 3) | 20개 | **6개 유지** — 4개월 MVP에서 detailWithTour2 빈약 시군 보강·KWCAG 자체 구현·다국어 검수까지 동시 수행 시 6개가 현실적. 발전방향에 20개+ 명시. Codex의 "20 POI 우선 검수"는 다국어 위험 완화 항목으로 흡수 |
+| 4개월 로드맵 상세도 | 5개월 단위 표 (5월·6월·7월·8월·9월) + 베타 인원 명시 | 단기·중기·장기 | **Claude 유지** — 공모 일정(5월~9월)과 정확 매칭, 기능심사 제출 v1.0 명시 필요 |
+
+---
+
+## 4. 최종 통합 결정 (Reconcile 후)
+
+### 4.1 컨셉
+- **명칭** : 모두의 백제 (Modu Baekje)
+- **한 줄** : 휠체어·유아차·시각장애·외국인이 모두 갈 수 있는 충남 공주·부여 백제역사유적지구의 무장애 동선·다국어 GPS 도슨트·체험학습 다이어리·현장 검증을 한 화면에 묶은 무장애 헤리티지 관광 OS
+- **단일 RTO** : 충남 (CACF)
+- **MVP 페르소나 4** : P1 휠체어·시니어 / P2 시각·청각 접근성 필요자 / P3 유아차·자녀 동반 가족 / P4 교사·복지기관 단체 인솔자 (외국인은 별도 언어 모드)
+
+### 4.2 MVP 5기능 (Codex와 동일)
+1. F1 무장애 적합도 카드 + 1박 2일 동선 빌더
+2. F2 GPS 트리거 다국어 오디오 도슨트 (Odii)
+3. F3 현장 배리어 제보 (Waze UGC, 24시간 3건 자동 재계산)
+4. F4 체험학습 다이어리 PDF — **1축 차별점**
+5. F5 RTO 데이터 갭 리포트 (충남 CACF B2G)
+
+### 4.3 발전방향 이동 (MVP 제외)
+- 동행 매칭
+- AR/3D/메타버스 문화유산 체험
+- 익산·논산 백제권 확장
+- 다국어 8개국어 (MVP는 국·영·일·중 4언어)
+- 반려동물 모드 (KorPetTourService2)
+
+### 4.4 기획 채점 (양쪽 평균)
+- 1차 100점 만점 → **92** (기획 27 + 완성 26 + 데이터 19 + 발전 18 + 가점 +2)
+- 최종 PT 100점 만점 → **91** (적정성 27 + 완성 26 + 실용 24 + 발표 14)
+- **합산 추정 평균 = 91.5/100** + 충남 RTO 특별상 강력 후보
+
+---
+
+## 5. 페어 dispatch 명령 / 재현 가이드
+
+```bash
+# 1) 프롬프트 작성
+cat > /tmp/codex_pair_prompt.md << 'EOF'
+[프롬프트 본문 — 본 페어에서는 약 4500자]
+EOF
+
+# 2) Codex 호출 (최신 GPT + xhigh effort, stdin pipe)
+codex exec --skip-git-repo-check \
+  -c 'model_reasoning_effort="xhigh"' \
+  - < /tmp/codex_pair_prompt.md \
+  > /tmp/codex_pair_result.txt 2>&1
+
+# 3) 결과 비교 — Claude 1차안 vs Codex 결과 → 본 노트 작성
+```
+
+> 모델명을 명시하지 않은 이유 : CLAUDE.md "Do not name a specific version number" — Codex CLI가 호출 시점의 최신 GPT를 자동 선택. 본 페어 시점(2026-05-04) Codex CLI 최신 모델 = Codex 기본 default.
+
+---
+
+## 6. 페어 단일 실패 모드 회피 검증
+
+CLAUDE.md 정책 — *"If only one side runs during planning, flag the result as 'single-source, unverified'. If Codex runtime is unavailable or blocked during a planning session, STOP and fix the root cause"*.
+
+| 검증 항목 | 결과 |
+|---|---|
+| Codex가 정상 응답했는가 | ✅ exit 0 + 21,555 tokens 사용 |
+| 양쪽이 같은 자료를 봤는가 | ✅ 동일한 3개 원천 + 동일한 평가 기준 + 동일한 핵심 사실 묶음을 양쪽에 제공 |
+| 출력 비교 / divergence 추적 | ✅ 본 노트 §3에 4건 채택·2건 절충·3건 유지 분류 |
+| Single-source 위험 표기 | ❌ 미해당 (양쪽 정상 실행) |
+| Judge round 필요 여부 | ❌ 미해당 — 양쪽이 핵심 결정에서 강하게 수렴, divergence는 모두 reconcilable한 강도/디테일 차이 |
+
+→ **페어 통과**. 본 통합 기획은 cross-family 검증을 거친 plan-document.
+
+exec
+/bin/bash -lc "rg --files docs api_manual | sed -n '1,220p'" in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+rg: api_manual: No such file or directory (os error 2)
+docs/search/gemini_search/02_tourism_datalab_guide.md
+docs/search/gemini_search/04_development_resources.md
+docs/search/gemini_search/01_tour_api_guide.md
+docs/search/gemini_search/03_service_case_studies.md
+docs/search/claude_search/17_auth_payment_messaging.md
+docs/search/claude_search/02_tourapi_4_endpoints.md
+docs/search/claude_search/07_kto_official_services.md
+docs/search/claude_search/27_data_analytics_visualization.md
+docs/search/claude_search/31_supplementary_apis_weather_culture.md
+docs/search/claude_search/22_regional_tourism_programs.md
+docs/search/claude_search/00_contest_overview.md
+docs/search/claude_search/13_kto_tourism_startups.md
+docs/search/claude_search/01_kto_tourapi_overview.md
+docs/search/claude_search/10_vertical_specialty_services.md
+docs/search/claude_search/28_media_image_content_infra.md
+docs/search/claude_search/14_frontend_tech_stack.md
+docs/search/claude_search/18_ai_llm_integration_stack.md
+docs/search/claude_search/11_kto_contest_winners_history.md
+docs/search/claude_search/12_other_public_data_contests.md
+docs/search/claude_search/08_domestic_ota_landscape.md
+docs/search/claude_search/09_global_ota_in_korea.md
+docs/search/claude_search/20_other_metropolitan_rto.md
+docs/search/claude_search/24_privacy_security_law.md
+docs/search/claude_search/15_backend_database_infra.md
+docs/search/claude_search/16_map_location_services.md
+docs/search/claude_search/03_tourapi_codes_schema.md
+docs/search/claude_search/23_data_license_policy.md
+docs/search/claude_search/06_ai_llm_tourism_trends.md
+docs/search/claude_search/30_travel_ux_patterns.md
+docs/search/claude_search/README.md
+docs/search/claude_search/29_review_sns_data_apis.md
+docs/search/claude_search/25_tourism_business_law.md
+docs/search/claude_search/04_korea_tourism_datalab.md
+docs/search/claude_search/05_tourism_bigdata_sources.md
+docs/search/claude_search/21_regional_data_platforms.md
+docs/search/claude_search/26_accessibility_standards.md
+docs/search/claude_search/19_rto_special_award_8regions.md
+docs/search/codex_search/04_cases_and_contests.md
+docs/search/codex_search/01_kto_tourapi_catalog.md
+docs/search/codex_search/05_legal_license_privacy.md
+docs/search/codex_search/00_index.md
+docs/search/codex_search/02_data_portals_and_datasets.md
+docs/search/codex_search/06_sources.md
+docs/search/codex_search/03_development_integration_research.md
+docs/base/info.pdf
+docs/base/format.hwp
+docs/base/format.txt
+docs/api_manual/manual_areaTarDemDsService/한국관광공사_개방데이터_활용매뉴얼(지역별관광수요강도)_v4.0.docx
+docs/api_manual/manual_areaTarDemDsService/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/manual_areaTarDemDsService/한국관광공사_개방데이터_관광지_시군구_코드_정보_v1.0.xlsx
+docs/api_manual/manual_areaTarDivService/한국관광공사_개방데이터_활용매뉴얼(지역별관광다양성)_v4.0.docx
+docs/api_manual/manual_areaTarDivService/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/manual_areaTarDivService/한국관광공사_개방데이터_관광지_시군구_코드_정보_v1.0.xlsx
+docs/api_manual/1704160396374/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1704160396374/한국관광공사_개방데이터_활용매뉴얼(관광사진)_v4.2.docx
+docs/api_manual/1704160359411/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1704160359411/한국관광공사_개방데이터_활용매뉴얼(두루누비)_v4.1.docx
+docs/api_manual/1737596531873/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1737596531873/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596531873/한국관광공사_개방데이터_활용매뉴얼(영문)_v4.4.docx
+docs/api_manual/1737596366080/한국관광공사_다국어_서비스분류코드_v4.2.xlsx
+docs/api_manual/1737596366080/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596366080/한국관광공사_개방데이터_활용매뉴얼(반려동물동반여행)_v4.1.docx
+docs/api_manual/1737596480579/한국관광공사_개방데이터_활용매뉴얼(일문)_v4.4.docx
+docs/api_manual/1737596480579/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1737596480579/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1704160822554/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1704160822554/한국관광공사_개방데이터_활용매뉴얼(관광채용정보)_v4.0.docx
+docs/api_manual/1737596457504/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1737596457504/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596457504/한국관광공사_개방데이터_활용매뉴얼(독어)_v4.3.docx
+docs/api_manual/1725501618773/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1725501618773/한국관광공사_개방데이터_활용매뉴얼(관광지집중률방문자추이예측정보)_v4.0.docx
+docs/api_manual/1725501618773/한국관광공사_개방데이터_관광지_시군구_코드정보_v1.0.xlsx
+docs/api_manual/1737596514908/한국관광공사_개방데이터_활용매뉴얼(무장애여행)_v4.3.docx
+docs/api_manual/1737596514908/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1704160495049/한국관광공사_개방데이터_활용매뉴얼(중문간체)_v4.4.docx
+docs/api_manual/1704160495049/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1704160495049/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596391866/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1737596391866/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596391866/한국관광공사_개방데이터_활용매뉴얼(서어)_v4.3.docx
+docs/api_manual/1737596408255/한국관광공사_개방데이터_활용매뉴얼(불어)_v4.3.docx
+docs/api_manual/1737596408255/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1737596408255/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1725080513010/한국관광공사_개방데이터_활용매뉴얼(웰니스)_v4.1.docx
+docs/api_manual/1725080513010/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596423271/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1704160387374/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596423271/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1704160387374/한국관광공사_개방데이터_활용매뉴얼(고캠핑)_v4.1.docx
+docs/api_manual/1737596423271/한국관광공사_개방데이터_활용매뉴얼(중문번체)_v4.4.docx
+docs/api_manual/1737596057411/한국관광공사_다국어_서비스분류코드_v4.2.xlsx
+docs/api_manual/1737596057411/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596057411/한국관광공사_개방데이터_활용매뉴얼(노어)_v4.3.docx
+docs/api_manual/1720672146251/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1720672146251/한국관광공사_개방데이터_활용매뉴얼(오디)_v4.1.docx
+docs/api_manual/1725502022236/한국관광공사_개방데이터_활용매뉴얼(관광지별연관관광지정보)_v4.1.docx
+docs/api_manual/1725502022236/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1725502022236/한국관광공사_개방데이터_관광지_시군구_코드정보_v1.0.xlsx
+docs/api_manual/1704160406003/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1704160406003/한국관광공사_개방데이터_활용매뉴얼(생태관광)_v4.2.docx
+docs/api_manual/1725092509540/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1725092509540/한국관광공사_개방데이터_활용매뉴얼(관광공모전 수상작).docx
+docs/api_manual/1737596499508/신분류체계정보 관광타입정보 연계 정의서.xlsx
+docs/api_manual/1737596499508/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1737596499508/한국관광공사_개방데이터_활용매뉴얼(국문)_v4.4.docx
+docs/api_manual/manual_areaTarResDemService/한국관광공사_개방데이터_활용매뉴얼(지역별관광자원수요)_v4.0.docx
+docs/ideation/codex_ideation/05_gyeongbuk_open_heritage_graph.md
+docs/ideation/codex_ideation/02_daejeon_zero_clock_festival_pulse.md
+docs/ideation/codex_ideation/03_busan_port_timebox_concierge.md
+docs/ideation/codex_ideation/01_jeju_flow_os.md
+docs/ideation/codex_ideation/04_gangwon_stayyield_workation_os.md
+docs/api_manual/manual_areaTarResDemService/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/manual_areaTarResDemService/한국관광공사_개방데이터_관광지_시군구_코드_정보_v1.0.xlsx
+docs/ideation/claude_top_3/02_modong.md
+docs/ideation/claude_top_3/00_README.md
+docs/ideation/claude_top_3/01_olle_flow_jeju.md
+docs/ideation/claude_top_3/03_gangwon_stayyield.md
+docs/api_manual/1704160370032/한국관광공사_개방데이터_활용매뉴얼(관광빅데이터)_v4.1.docx
+docs/api_manual/1704160370032/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/ideation/codex_top_3/03_barrier_free_baekje_diary.md
+docs/ideation/codex_top_3/01_flow_linked_jeju.md
+docs/ideation/codex_top_3/02_gangwon_89_stayyield.md
+docs/ideation/gemini_top_3/02_jeju_dynamic_dispersion.md
+docs/ideation/gemini_top_3/01_barrier_free_navigator.md
+docs/ideation/gemini_top_3/03_gangwon_workation_wellness.md
+docs/ideation/total/01_pair_reconcile_notes.md
+docs/ideation/total/00_modu_baekje.md
+docs/ideation/total/README.md
+docs/ideation/total/02_codex_raw_output.md
+docs/ideation/claude_ideation/05_baekje_diary.md
+docs/ideation/claude_ideation/02_dulae_hallae.md
+docs/ideation/claude_ideation/00_README.md
+docs/ideation/claude_ideation/01_modu_dongseon.md
+docs/ideation/claude_ideation/04_olle_linked.md
+docs/ideation/claude_ideation/03_89_do.md
+docs/api_manual/1725080563660/한국관광공사_개방데이터_활용매뉴얼(의료)_v4.1.docx
+docs/api_manual/1725080563660/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1725501897980/한국관광공사_개방데이터_관광지_시군구_코드정보_v1.0.xlsx
+docs/api_manual/1725501897980/한국관광공사_개방데이터_활용신청방법_매뉴얼_v3.3.docx
+docs/api_manual/1725501897980/한국관광공사_개방데이터_활용매뉴얼(기초지자체_중심관광지정보)_v4.1.docx
+docs/ideation/gemini_ideation/05_chungnam_barrier_free.md
+docs/ideation/gemini_ideation/03_gyeongbuk_meta_silla.md
+docs/ideation/gemini_ideation/01_busan_galmaetgil_pathfinder.md
+docs/ideation/gemini_ideation/04_gangwon_healing_worcation.md
+docs/ideation/gemini_ideation/02_jeju_tamna_nomad.md
+
+codex
+문서상 큰 축은 잘 잡혀 있지만, 지금 보이는 리스크는 “많이 한다”와 “검증됐다”가 동시에 강하게 적혀 있다는 점입니다. 이어서 로드맵·위험·PT 채점부까지 확인해 균형을 잡겠습니다.
+exec
+/bin/bash -lc "sed -n '260,620p' docs/ideation/total/00_modu_baekje.md" in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+| 저활용 API 결합 | +5 | KorWithService2 detailWithTour2 + Odii GPS 트리거 + DataLab 3축 결합 사례 한국 0 |
+| 다중 분류 / 다국어 | +4 | KorService2 lclsSystmCode2 11대분류 + 다국어 4종 동시 활용 |
+| 사회적 데이터 결합 | +3 | 충남 다도라 / 올담 / 국가유산청 / 한국관광 1330 외부 결합 |
+| UGC + API 검증 루프 | +4 | 사용자 제보 → 데이터 갭 리포트 → RTO 데이터 개선 환류 |
+| 라이선스 준수 | +3 | KOGL Type 1/3 자동 출처 표기 + AI 표시 + 위치정보법 신고 |
+| **합계** | **19/20** | |
+
+---
+
+## 4) 서비스 발전 방향
+
+### 4.1 단기 (출시 ~ 6개월)
+
+| 단계 | 내용 |
+|---|---|
+| **5월** | 공주·부여 6 POI 무장애 필드 + Odii 스토리 + 신분류체계 인덱싱 (접근성 POI DB v0.1) |
+| **6월** | F1 적합도 카드 + 1박 2일 동선 빌더 (무장애 코스 MVP v0.5) |
+| **7월** | F2 GPS 트리거 도슨트 어린이/어른 모드 + 영문/일문 우선 (도슨트 v0.5) |
+| **8월** | F3 Waze UGC + F4 체험학습 PDF + F5 RTO 갭 리포트 + 야간관광 (베타 v0.9) |
+| **9월** | 가족 50명 + 관광약자 20명 + 외국인 20명 베타 테스트 + KWCAG 2.2 자체 점검 + 기능심사 제출 v1.0 |
+| 6개월 후 | 충남 RTO 데이터 갭 첫 리포트 → CACF 정기 공유 / KTO 「모두의 여행」 사용자 + 한국장애인관광협회 등 공식 협업 채널 가동 |
+
+**AI 기본법 2026.1.22 시행 대비** — 출시 시점부터 "AI 음성 안내 / AI 생성 코스" 배지 자체 구현, 워터마크 메타데이터 적용. 시행 즉시 준수.
+
+### 4.2 중기 (6개월 ~ 18개월)
+
+- **백제권 확장** — 익산(미륵사지·왕궁리 유적) + 논산까지 백제역사유적권 전체 (단일 RTO → 권역 RTO 통합)
+- **다국어 확대** — 중문 번체(ChtService2) + 독문(GerService2) + 불문(FreService2) + 서문(SpnService2) + 노문(RusService2) 전 8개국어
+- **B2B 단체 패키지** — 학교 체험학습 / 복지기관 단체 / 여행사 일정 자동 빌더 + 양식 PDF
+- **반려동물 모드** — KorPetTourService2(`detailPetTour2`) 결합 — 시니어 동반견·도우미견 정보 통합
+- **KTO 공식 협업 신청** — 「모두의 여행」 데이터 환류 채널 정규화
+
+### 4.3 장기 (18개월 ~ )
+
+- **유네스코 한국 12권역 전국 확장** — 종묘·창덕궁·해인사 장경판전·석굴암 불국사·고창/화순/강화 고인돌 / 조선왕릉 / 한국의 역사마을(하회·양동) / 남한산성 / 백제역사유적지구 / 산사 한국의 산지승원 / 한국의 서원 / 갯벌 / 가야 고분군
+- **공공 조달 입찰** — KWCAG 2.2 자체 구현 + KTO + 국가유산청 데이터 결합 = 공공 입찰 강력
+- **AI 챗봇 모드** — 휠체어 사용자가 음성으로 일정 작성 ("내일 오전 휠체어로 갈 수 있는 부여 박물관과 식당") — AI 기본법 표시 의무 자체 구현
+- **국제 인증** — WCAG 2.2 AAA + WAI-ARIA 2.2 준수 → 해외 무장애 인증
+- **동행 매칭(MVP에서 보류)** — KTO 「모두의 여행」 사용자 풀이 충분히 확보된 후 부활
+
+### 4.4 기대효과
+
+| 영역 | 기대 결과 |
+|---|---|
+| **사회적 가치** | 휠체어·시니어·시각장애·외국인 만족도 4.7/5.0 (베타) · 한국장애인관광협회 공식 추천 후보 · 학교 체험학습 정식 채택 |
+| **B2G 가치** | 충남 RTO 첫 데이터 갭 리포트 → 공주·부여 무장애 개선 우선순위 도출 · CACF 다도라/올담과 정식 통합 |
+| **정책 모범 사례** | KWCAG 2.2 자체 구현 + AI 기본법 출시일 즉시 준수 → 정부·KTO 후속 사업 우선 협력 채널 |
+| **확장 경로** | 충남 → 유네스코 12권역 → KTO 공식 무장애 채널 협업 → 공공 입찰 |
+
+---
+
+## 부록 A. 4개월 MVP 로드맵 (5~9월)
+
+| 기간 | 구현 목표 | 산출물 |
+|---|---|---|
+| 5월 | 공주·부여 6 POI 무장애 필드 인덱싱 + Odii 스토리 매핑 + 신분류체계 인덱스 | 접근성 POI DB v0.1 |
+| 6월 | F1 적합도 카드 + 1박 2일 동선 빌더 + 카카오맵 경사도 | 무장애 코스 MVP v0.5 |
+| 7월 | F2 GPS 트리거 오디오 (어린이/어른) + 영문·일문 카드 + KWCAG 2.2 자체 점검 1차 | 도슨트 + 다국어 v0.7 |
+| 8월 | F3 Waze UGC + F4 체험학습 PDF + F5 RTO 갭 리포트 + 야간관광 코스 + 위치정보법 신고 완료 | 베타 v0.9 |
+| 9월 | 가족 50 + 관광약자 20 + 외국인 20 베타 테스트 + KWCAG 2.2 자체 점검 2차 + 시연 영상 | 기능심사 제출 v1.0 |
+
+## 부록 B. 위험 + 완화 (6개 핵심)
+
+| 위험 | 영향 | 완화 |
+|---|---|---|
+| detailWithTour2 빈약 시군 존재 (KorWithService2는 음식점·여행코스 미지원) | F1 적합도 신뢰도 저하, MVP 콘텐츠 빈 구간 | "방문 가능 / 주의 필요 / 정보 없음(현장 확인 필요)" **3분류 명시** + MVP는 관광지(12)·문화시설(14) 중심으로 제한 + UGC 제보로 데이터 갭 표시 + 충남 다도라 / 올담 보조 결합 |
+| 다국어 검수 부담 | F2 외국인 모드 품질 | **MVP는 핵심 POI 20개만 우선 검수** + KTO 다국어 API 원문 우선 + 자체 번역은 보조 표시 + AI 번역 시 "AI 음성 안내" 배지 (AI 기본법 2026.1.22 대응) |
+| 위치정보 규제 (위치정보법 제9조) | F2 / F3 운영 부담 | **MVP는 수동 코스 미리보기 중심으로 시작** + GPS 트리거는 **명시 동의 + 최소 저장 + 익명 통계 + 로컬 알림 중심** 설계 + 베타 단계에서 위치기반서비스사업자 신고 완료 (방통위) |
+| KWCAG 2.2 자체 구현 시간 부담 (4.5:1 명도, 44pt 터치) | 완성도 -1점 가능 | **KWCAG 2.2 전체 인증이 아니라 핵심 플로우만 시연** — 명도 4.5:1 + 44pt 터치 + 키보드 접근 + 스크린리더 4축 우선 + shadcn/ui + axe-core CI 자동 점검 + 5월 OT 단계 디자인 시스템 우선 확정 |
+| **UGC 오염** (악의적·중복·오류 제보) | F3 신뢰도 / 코스 재계산 오작동 | **선택형 제보 양식** (자유 텍스트 최소화) + **사진 근거 의무** + **중복 확인 (24시간 내 같은 위치 3건 이상 시 검증)** + **RTO 검수 큐** (충남 CACF 운영자 화면) + 신고자 신뢰도 점수 누적 |
+| 단일 지역 한정 시 "전국 무장애" 본질 약화 | 기획력 -1점 가능 | 9월 시연 영상에 **유네스코 12권역 + KTO 공식 채널 확장 로드맵** 명시, "충남은 첫 시군이며 데이터 갭 리포트로 즉시 전국 확장 가능" 서사 |
+
+## 부록 C. 채점 자기평가
+
+> **Codex 페어 검증** — 본 채점은 Codex(GPT, xhigh effort)와 1:1 페어 분석 결과 양쪽 모두 1차 92/100 + 최종 PT 91/100으로 수렴. 세부 항목 차이는 (a) 데이터 활용 점수 — Codex 20/20 vs Claude 19/20, (b) 발표 점수 — Codex 13/15 vs Claude 14/15. 하한 보수 추정 시 1차 91 + PT 90, 상한 92 + 91. 본 채점은 평균치 기준.
+
+### C.1 1차 100점
+
+| 항목 | 배점 | 추정 | 근거 |
+|---|:--:|:--:|---|
+| 서비스 기획력 (구체성, 독창성, 트렌드) | 30 | **27** | POI→동선·헤리티지·체험학습·B2G 5축 통합, 한국 0. 4 페르소나·6 POI·5기능 명확. **차별의 1축 = 체험학습 PDF "교육 산출물" 서사** |
+| 서비스 완성도 (기능성, 안정성, 편의성) | 30 | **26** | 5개 핵심 기능 명확. KWCAG 2.2 자체 구현은 완성도 부담이지만 PT 임팩트 |
+| 데이터 활용 적절성 (KTO API 필수) | 20 | **19~20** | KorWithService2 detailWithTour2 21필드 + Odii GPS 트리거 + 다국어 4종 + DataLab/TatsCnctr/TarRlteTar/PhotoGallery 10개 서비스 30+ 오퍼레이션 — 매뉴얼 직인용 정합성 100% |
+| 서비스 발전성 (지속성, 확장성) | 20 | **18** | 충남→유네스코 12권역 + 학교/복지기관 + B2G + 다국어 8개국어 명확 |
+| 가점 (지역특화 +2 / Start-up NEST +2) | +4 | **+2** | 충남 단일 지역 한정 출시 (Start-up NEST 미정) |
+| **합계** | **100** | **92** | |
+
+### C.2 최종 PT 100점
+
+| 항목 | 배점 | 추정 | 근거 |
+|---|:--:|:--:|---|
+| 서비스 적정성 (명확성, 논리성, 시의적절성) | 30 | **27~28** | 사회적 가치 + AI 기본법 + KWCAG 2.2 + 유네스코 백제 4축 — 시의성 최고 |
+| 서비스 완성도 (기능 구현도, 데이터 활용 안정성) | 30 | **26** | 4개월 MVP 로드맵 명확 + 4 페르소나 동선 시연 가능 |
+| 서비스 실용성 (활용성, 이용 편의성, 지속성) | 25 | **24** | 휠체어·시각·유아차·단체 4 페르소나 명확 + 학교·복지기관 직접 시연 |
+| 발표 점수 | 15 | **13~14** | 음성 시연 + **체험학습 PDF + 휠체어 할아버지·손녀 시연** + 충남 RTO 대시보드 임팩트. 현장 데이터 검증 질문 대비 필요 |
+| **합계** | **100** | **91** | |
+
+### C.3 RTO 특별상 후보
+
+**충남문화관광재단(CACF) 특별상** — ★★ 강력 후보. 백제역사유적지구 + 다도라/올담 결합 + 공주 야간관광 특화도시 + RTO 갭 리포트 = 충남 단독 비중 최고.
+
+## 부록 D. PT 시연 시나리오
+
+### D.1 핵심 시연 — "휠체어 할아버지와 초등 손녀의 공산성"
+
+> **무대 설정** — 휠체어 사용 70대 할아버지와 초등학생 손녀가 공주 공산성에 도착했다.
+>
+> 1. **앱 진입 / KWCAG 2.2 자체 구현 시연** — 휠체어 모드 + 손녀의 어린이 모드를 다중 선택. 명도 4.5:1, 터치 44pt, TalkBack 호환을 즉석에서 보여준다.
+> 2. **F1 적합도 카드 + 동선 자동 재구성** — 공산성·무령왕릉과 왕릉원·국립공주박물관 동선의 휠체어 적합도를 카드로 표시. 어제 들어온 "공산성 동문 진입로 공사 중" 제보가 자동 검증되어, 동선이 서문 진입 + 평탄 구간 위주로 자동 재계산된다.
+> 3. **F2 GPS 트리거 Odii 도슨트** — 공산성 진입 GPS 트리거 발동, 손녀 어린이 모드 백제 스토리 자동 재생.
+> 4. **F4 체험학습 다이어리 PDF** — 손녀가 퀴즈 3문항을 풀고, 할아버지와 함께 찍은 사진을 첨부, 음성 메모로 "할아버지가 들려주신 무령왕 이야기"를 녹음. 체험학습 PDF가 즉시 출력 — 학교 양식 그대로.
+> 5. **F5 RTO 대시보드** — 충남 CACF 화면 전환, 공주·부여 시군 무장애 정보 누락 5곳 히트맵 + 사용자 제보 빈도 상위 3 POI.
+> 6. **마무리 메시지** — *"AI 기본법 2026년 1월 22일 시행. 우리는 그 의무를 출시일인 5월부터 이미 준수합니다. 무장애 여행이 자녀의 교육 산출물로 남는 첫 서비스입니다."*
+
+### D.2 보조 시연 (질의응답 대비) — "외국인 + 야간관광"
+
+영문 모드 전환 → Odii 영어 백제 해설 자동 재생 → 공주 야간관광 야시장·금강 코스 무장애 적합도 시연 → 한국관광 1330 직접 연결.
+
+### D.3 예상 질의 + 답변 준비
+
+| 질문 | 답변 |
+|---|---|
+| detailWithTour2 데이터가 빈약한 시군은 어떻게 하는가 | "방문 가능 / 주의 필요 / 정보 없음" 3분류 명시 + UGC 제보 + 충남 다도라/올담 보조. **빈약 자체가 본 서비스의 가치(F5 RTO 갭 리포트)**. |
+| 위치정보·개인정보 처리는 | 위치기반서비스사업자 신고 + 명시 동의 + 최소 저장 + 익명 통계 + 로컬 알림 중심 설계. |
+| 다국어 품질 검수 부담은 | MVP는 핵심 20 POI만 우선 검수, 자체 번역은 보조 + "AI 음성 안내" 표기. |
+| 동행 매칭은 왜 빠졌나 | 4개월 안에 사용자 풀·안전 책임 검증 곤란 → 발전방향 중장기 커뮤니티 기능. |
+| 단일 충남으로 좁힌 이유는 | 지역특화 가점 +2, RTO 특별상 후보, 4개월 안 완성도·시연력 — 발전방향에 유네스코 12권역 명시. |
+
+---
+
+## 부록 E. 본 통합 기획의 1차 출처
+
+- **공모전 요강** : `docs/base/info.pdf` (1차 100점 / PT 100점 / 시상 / RTO 특별상 8권역)
+- **제안서 양식** : `docs/base/format.txt` (4대주제 기획배경·개요·데이터·발전방향)
+- **원천 1** : `docs/ideation/claude_top_3/02_modong.md` (모동)
+- **원천 2** : `docs/ideation/codex_top_3/03_barrier_free_baekje_diary.md` (백제 다이어리)
+- **원천 3** : `docs/ideation/gemini_top_3/01_barrier_free_navigator.md` (무장애 내비게이터)
+- **API 매뉴얼** : `docs/api_manual/{1737596514908, 1737596499508, 1737596531873, 1737596480579, 1704160495049, 1720672146251, 1725501618773, 1704160370032, 1725502022236, 1704160396374}/`
+- **API 정밀 정리본** : `docs/search/claude_search/02_tourapi_4_endpoints.md` (매뉴얼 직인용)
+- **코드 스키마 정리본** : `docs/search/claude_search/03_tourapi_codes_schema.md` (lDong / lclsSystm / contentTypeId / 다국어 매핑)
+- **접근성 표준** : `docs/search/claude_search/26_accessibility_standards.md` (KWCAG 2.2 / 디지털포용법 / AI 기본법 / 저작권법)
+- **충남 RTO 자료** : `docs/search/claude_search/19_rto_special_award_8regions.md` (CACF / 다도라 / 올담)
+
+exec
+/bin/bash -lc 'rg -n "자기평가|위험|로드맵|4개월|PT|점수|페르소나|외국" docs/ideation/total/00_modu_baekje.md' in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+3:> **한 줄 정의** : 휠체어·유아차·시각장애·외국인이 모두 접근 가능한 충남 공주·부여 백제역사유적지구의 무장애 동선·다국어 GPS 도슨트·체험학습 다이어리·현장 검증 UGC를 한 화면에 묶은 무장애 헤리티지 관광 OS
+7:| **카테고리** | 무장애 / 헤리티지 / 가족 학습 / 외국인 동시 충족 |
+9:| **MVP 핵심 페르소나** | 4명 (P1 휠체어·시니어 / P2 시각·청각 접근성 필요자 / P3 유아차·자녀 동반 가족 / P4 교사·복지기관 단체 인솔자) — 외국인은 별도 언어 모드 옵션 |
+12:| **추정 채점** | 1차 92/100 + 최종 PT 91/100, 충남 RTO 특별상 강력 후보 |
+22:| **claude_top_3 / 02_modong** (모동) | 무장애 적합도 5축 점수 산식, Waze 패턴 UGC, KWCAG 2.2 자체 구현 시연, RTO 데이터 갭 리포트, 보호자/교사 단체 모드 | **동행 매칭(F4) → 발전방향 이동** (4개월 MVP 안 사용자 풀 검증 곤란), **5모드 분리 UI → 4 페르소나로 단순화** (시각·청각은 내부 데이터 모델로만 유지) |
+23:| **codex_top_3 / 03_barrier_free_baekje_diary** (백제 다이어리) | 충남 공주·부여 백제역사유적지구 단일 지역 픽, GPS 트리거 다국어 오디오 도슨트(Odii) 어린이/어른 분리, 체험학습 다이어리 PDF, 야간관광 코스, 4개월 MVP 로드맵 | **익산 / 논산 → 발전방향 확장** (MVP는 공주·부여만), **AR/3D 명시적 제외** (백제 다이어리도 동일 결정 유지) |
+26:> 통합 원칙 — (1) **단일 RTO 한정 출시**(가점 +2 + RTO 특별상 직격), (2) **AR / 메타버스 / 3D 일체 제외**(4개월 안 완성도 우선), (3) **POI 단위 정적 인증을 동선·시간·실시간·체험학습·B2G 5축으로 끌어올린다**.
+34:**한국 무장애 관광 인프라는 "POI 단위 정적 인증"에 머물러 있다.** KTO 「모두의 여행」, Wheelmap, Wheelmate는 모두 "이 관광지가 휠체어 진입 가능한가"라는 단일 POI 질문에 멈춘다. 그러나 휠체어 사용자·유아차 동반 가족·시각장애인·외국인이 실제 백제역사유적지구를 방문할 때 마주치는 질문은 다음 5개다:
+39:4. **외국인이 다국어 GPS 오디오로 백제를 이해할 수 있는가** — 현재 부여 부소산성·공주 공산성에 위치 트리거 다국어 오디오 도슨트는 운영되지 않는다.
+49:| 헤리티지 + 무장애 | 백제역사유적지구(유네스코)에서 휠체어·유아차·외국인이 끊김 없이 이어지는 1박 2일 코스 = 0 | 공주·부여 6 POI 무장애 동선 빌더 + Odii 다국어 GPS 도슨트 |
+52:| 사회적 가치 | "착한 기술" 서사를 PT 점수로 직결시키는 무장애 + 유네스코 결합 사례 부재 | 발표 시연 — 휠체어 모드 음성 입력 → 동선 자동 생성 → 체험학습 PDF 출력 |
+60:> **휠체어·유아차·시각장애·외국인이 모두 갈 수 있는 충남 공주·부여 백제역사유적지구의 무장애 동선·다국어 GPS 도슨트·체험학습 다이어리·현장 검증을 한 화면에 묶은 무장애 헤리티지 관광 OS — 「모두의 백제 (Modu Baekje)」**
+66:- **입력 (4 페르소나 프로필)** : P1 휠체어·시니어(장시간 보행 어려움) / P2 시각장애·청각장애·도우미견 / P3 유아차·초등 자녀 동반 / P4 교사·복지기관 단체 인솔자 (단체 인원·다양한 제약 교집합) — 외국인 4언어는 별도 토글. 페르소나는 다중 선택 가능 (예: 휠체어 시니어 + 손녀 동반).
+68:- **무장애 적합도 점수 (가중치)** :
+100:- **PT 시연 핵심 장면** — 가족·학교·복지기관 누구나 즉시 이해 가능한 실용 기능.
+107:- **B2G 가치를 발전성 점수(20점)로 직결**.
+111:KTO 「모두의 여행」·Wheelmap·Wheelmate가 멈춘 **POI 단위 정적 인증**을 본 서비스는 **5축 통합**으로 끌어올린다 — (1) **동선** : 4 페르소나 적합도 카드 + 1박 2일 빌더, (2) **다국어 GPS 도슨트** : Odii 위치기반 자동 재생, (3) **실시간 검증** : Waze 패턴 24시간 내 3건 자동 재계산, (4) **체험학습 다이어리 PDF** : 학교·가족 직접 시연 가능한 PT 무기, (5) **B2G 데이터 갭 리포트** : 충남 RTO에 즉시 가치 제공.
+113:> **5축 중 가장 강한 차별축 = (4) 체험학습 다이어리 PDF.** 동선·혼잡·UGC는 데이터 활용 적절성 점수(20점)를 만들고, 다이어리는 **PT 발표에서 즉시 이해되는 "결과물"** 이다. 다른 POI 조회형 무장애 앱과 결정적으로 갈라지는 지점은 — **"무장애 여행이 자녀의 교육 산출물로 남는다"** — 한 문장으로 압축된다. 적정성·실용성·발표 3개 점수(70점)를 동시에 끌어올린다.
+115:**KorWithService2 detailWithTour2 + Odii GPS 트리거 + 다국어 4종(국·영·일·중) + DataLab/TatsCnctr + PhotoGallery**의 6축 결합 사례는 **한국 0**이며, "유네스코 백제 + KWCAG 2.2 + AI 기본법 + 충남 RTO B2G" 4축은 PT 적정성 점수(30점) 직격.
+126:**왜 경북 / 다른 RTO를 선택하지 않는가** : 경북은 메타버스/XR 강점이지만 4개월 안에 AR 콘텐츠 제작 리스크 큼. 제주는 자체 OpenAPI(REST+SPARQL)가 풍부해 KTO API 활용 차별성이 약화됨. 충남은 KTO API 의존도 중간 + 명확한 유네스코 IP + 야간관광 특화도시 + 다도라/올담 RTO 협력 자산 = **무장애 헤리티지에 가장 정합적**.
+146:| 3 | **EngService2** (영문) | `1737596531873` | v4.4 | `apis.data.go.kr/B551011/EngService2` | `areaBasedList2` · `detailCommon2` · `detailIntro2` · `detailImage2` · `searchFestival2` | F2 외국인 영문 카드 (contentTypeId 76 관광지 / 78 문화시설 / 85 축제) |
+147:| 4 | **JpnService2** (일문) | `1737596480579` | v4.4 | `apis.data.go.kr/B551011/JpnService2` | `areaBasedList2` · `detailCommon2` · `detailIntro2` | F2 외국인 일문 카드 |
+148:| 5 | **ChsService2** (중문 간체) | `1704160495049` | v4.4 | `apis.data.go.kr/B551011/ChsService2` | `areaBasedList2` · `detailCommon2` · `detailIntro2` | F2 외국인 중문 간체 카드 |
+155:> **API 활용 합계 = 10개 서비스, 30+ 오퍼레이션, 다국어 4종 동시 활용** — 데이터 활용 적절성 점수(20점) 직격.
+219:#### (4) F2 외국인 다국어 카드 — 4언어 contentTypeId 매핑
+221:다국어 매뉴얼은 contentTypeId 코드 체계가 국문과 다르다 — **국문 12(관광지) ↔ 다국어 76**, **국문 14(문화시설) ↔ 다국어 78**, **국문 15(축제) ↔ 다국어 85**, **국문 32(숙박) ↔ 다국어 80** (다국어 v4.4 매뉴얼 § Table 4 직인용). 본 서비스는 외국인 모드 진입 시 자동 매핑 변환을 거쳐 EngService2 / JpnService2 / ChsService2 호출.
+237:매뉴얼 § `locgoRegnVisitrDDList` 직인용 — `startYmd` / `endYmd` (YYYYMMDD) 필수. KT 내국인 + SK텔레콤 외국인 이동통신 기반. 매뉴얼이 명시한 한계 — **"방문 목적을 정확히 알 수 없으므로 '방문자'는 '관광객'과 동일하게 정의되지 않음"**. 본 서비스는 이 한계를 화면에 명시하고 추세 분석 보조로만 사용한다.
+254:| 한국관광 1330 | 외국인 긴급·상담 직접 연결 |
+256:### 3.4 자기평가 (데이터 활용 적절성 20점 만점)
+258:| 항목 | 점수 | 근거 |
+279:| **9월** | 가족 50명 + 관광약자 20명 + 외국인 20명 베타 테스트 + KWCAG 2.2 자체 점검 + 기능심사 제출 v1.0 |
+304:| **사회적 가치** | 휠체어·시니어·시각장애·외국인 만족도 4.7/5.0 (베타) · 한국장애인관광협회 공식 추천 후보 · 학교 체험학습 정식 채택 |
+311:## 부록 A. 4개월 MVP 로드맵 (5~9월)
+319:| 9월 | 가족 50 + 관광약자 20 + 외국인 20 베타 테스트 + KWCAG 2.2 자체 점검 2차 + 시연 영상 | 기능심사 제출 v1.0 |
+321:## 부록 B. 위험 + 완화 (6개 핵심)
+323:| 위험 | 영향 | 완화 |
+326:| 다국어 검수 부담 | F2 외국인 모드 품질 | **MVP는 핵심 POI 20개만 우선 검수** + KTO 다국어 API 원문 우선 + 자체 번역은 보조 표시 + AI 번역 시 "AI 음성 안내" 배지 (AI 기본법 2026.1.22 대응) |
+329:| **UGC 오염** (악의적·중복·오류 제보) | F3 신뢰도 / 코스 재계산 오작동 | **선택형 제보 양식** (자유 텍스트 최소화) + **사진 근거 의무** + **중복 확인 (24시간 내 같은 위치 3건 이상 시 검증)** + **RTO 검수 큐** (충남 CACF 운영자 화면) + 신고자 신뢰도 점수 누적 |
+330:| 단일 지역 한정 시 "전국 무장애" 본질 약화 | 기획력 -1점 가능 | 9월 시연 영상에 **유네스코 12권역 + KTO 공식 채널 확장 로드맵** 명시, "충남은 첫 시군이며 데이터 갭 리포트로 즉시 전국 확장 가능" 서사 |
+332:## 부록 C. 채점 자기평가
+334:> **Codex 페어 검증** — 본 채점은 Codex(GPT, xhigh effort)와 1:1 페어 분석 결과 양쪽 모두 1차 92/100 + 최종 PT 91/100으로 수렴. 세부 항목 차이는 (a) 데이터 활용 점수 — Codex 20/20 vs Claude 19/20, (b) 발표 점수 — Codex 13/15 vs Claude 14/15. 하한 보수 추정 시 1차 91 + PT 90, 상한 92 + 91. 본 채점은 평균치 기준.
+340:| 서비스 기획력 (구체성, 독창성, 트렌드) | 30 | **27** | POI→동선·헤리티지·체험학습·B2G 5축 통합, 한국 0. 4 페르소나·6 POI·5기능 명확. **차별의 1축 = 체험학습 PDF "교육 산출물" 서사** |
+341:| 서비스 완성도 (기능성, 안정성, 편의성) | 30 | **26** | 5개 핵심 기능 명확. KWCAG 2.2 자체 구현은 완성도 부담이지만 PT 임팩트 |
+347:### C.2 최종 PT 100점
+352:| 서비스 완성도 (기능 구현도, 데이터 활용 안정성) | 30 | **26** | 4개월 MVP 로드맵 명확 + 4 페르소나 동선 시연 가능 |
+353:| 서비스 실용성 (활용성, 이용 편의성, 지속성) | 25 | **24** | 휠체어·시각·유아차·단체 4 페르소나 명확 + 학교·복지기관 직접 시연 |
+354:| 발표 점수 | 15 | **13~14** | 음성 시연 + **체험학습 PDF + 휠체어 할아버지·손녀 시연** + 충남 RTO 대시보드 임팩트. 현장 데이터 검증 질문 대비 필요 |
+361:## 부록 D. PT 시연 시나리오
+374:### D.2 보조 시연 (질의응답 대비) — "외국인 + 야간관광"
+385:| 동행 매칭은 왜 빠졌나 | 4개월 안에 사용자 풀·안전 책임 검증 곤란 → 발전방향 중장기 커뮤니티 기능. |
+386:| 단일 충남으로 좁힌 이유는 | 지역특화 가점 +2, RTO 특별상 후보, 4개월 안 완성도·시연력 — 발전방향에 유네스코 12권역 명시. |
+392:- **공모전 요강** : `docs/base/info.pdf` (1차 100점 / PT 100점 / 시상 / RTO 특별상 8권역)
+
+exec
+/bin/bash -lc "sed -n '1,220p' docs/search/codex_search/02_data_portals_and_datasets.md && sed -n '1,220p' docs/search/claude_search/26_accessibility_standards.md" in /home/bh-mark-samsung/workspace/tour_data
+ succeeded in 0ms:
+# 국내 관광 데이터 포털 및 데이터셋 조사
+
+조사 기준일: 2026-05-03
+
+## 1. 한국관광 데이터랩
+
+URL: https://datalab.visitkorea.or.kr/
+
+한국관광 데이터랩은 관광 빅데이터 분석 포털이다. 메인 메뉴에서 확인되는 분석 범위는 다음과 같다.
+
+| 메뉴 | 세부 내용 |
+| --- | --- |
+| 지역별 분석 | 전국 현황, 인기관광지, 지역별 관광 현황, 외래객 지역별 방한현황, 중심-연관 관광지 지도, 방문자 기준 지역방문현황, 성/연령별 방문·소비 현황 |
+| 인구감소지역 현황 | 인구감소지역 지도, 관광/비관광 소비, 관광대체 효과, 프로파일링 |
+| 관광수요 지수 | 관광수요 지수, 지역별 수요/다양성/자원 관련 지표 |
+| 관광지별 현황 | 관광지별 분석, 성/연령 방문 집중률 |
+| 국가별 분석 | 방한여행 현황, 빅데이터 기반 국가별 방한현황, 항공 운항, 무슬림 방한현황, 국가별 정보 |
+| 관광산업 분석 | 관광사업체 인허가, 숙박업종별 현황, 관광숙박업, 관광 VOC |
+| 테마별 분석 | 문화관광축제, 행사/축제 DIY 맞춤 분석, 의료관광, MICE, 야간관광, 한류관광, 캠핑관광, 걷기여행, 해양관광 |
+| 빅데이터 | 이동통신 방문자수, 신용카드 관광지출액, 내비게이션 검색건수/검색순위 |
+| 관광통계/실태조사 | 방한 외래관광객, 국민 해외관광객, 관광수지, 세계관광통계, 크루즈통계, 국민여행조사, 외래관광객조사, 잠재 방한여행객 조사 |
+| 데이터랩 소개 | 서비스 활용 가이드, 활용안내, FAQ, 데이터 설명, 공지사항, 우수 활용사례 |
+
+개발 관점에서 데이터랩은 다음 자료를 제공한다.
+
+| 자료 유형 | 활용 위치 | 주의점 |
+| --- | --- | --- |
+| 이동통신 방문자수 | 지역/관광지 방문 추이, 혼잡도 추정 | 방문자는 관광객과 동일 개념이 아니며 집계 기준 확인 필요 |
+| 신용카드 관광지출액 | 지역 소비, 업종별 소비 | 카드사/표본/외지인 정의 확인 필요 |
+| 내비게이션 검색량 | 목적지 관심도, 계절성 | 검색량은 실제 방문과 다름 |
+| 관광수요지수 | 지역 비교 지표 | 지수 산식과 하위지표 설명 필요 |
+| 관광통계/실태조사 | 시장 규모, 추세 분석 | 통계 공표 시점과 API 실시간 데이터 시점이 다름 |
+| VOC/1330 자료 | 불편 신고, 상담 트렌드 | 개인정보와 원문 공개 여부 확인 필요 |
+
+## 2. 공공데이터포털: 한국관광공사 기관 데이터
+
+기관별 검색 페이지 기준 한국관광공사는 전체 101건, 파일데이터 73건, 오픈 API 28건이 표시된다. 대표적으로 다음 데이터가 확인된다.
+
+| 구분 | 데이터 | 용도 |
+| --- | --- | --- |
+| 오픈 API | 국문/다국어 관광정보, 무장애, 생태, 관광사진, 고캠핑, 두루누비, 오디, 관광빅데이터, 관광지 집중률 예측, 중심/연관 관광지, 웰니스, 의료, 반려동물 | 서비스 실시간 연동 |
+| 파일데이터 | 전국 야영장 등록 현황, 품질인증 현황, 관광불편신고 유형별 월별 집계, LOD, 관광 스토리텔링 DB, MICE 자료 | 보조 DB 구축, 분석, 배치 수집 |
+| LOD | 국문관광정보LOD(관광장소), 국문관광정보LOD 데이터셋 | RDF/연계 데이터, 시맨틱 데이터 모델 |
+| 사진 | 지역별 한국관광사진, 관광사진 정보 API, 관광공모전 수상작 | 이미지 메타데이터, 홍보/콘텐츠 이미지 |
+
+## 3. 전국 표준 관광 데이터셋
+
+공공데이터포털 표준데이터는 지자체가 등록한 파일을 전국 단위로 병합해 제공한다. TourAPI와 필드 구조가 다르므로 보완 데이터 또는 교차 검증 데이터로 다루는 것이 적합하다.
+
+### 전국관광지정보표준데이터
+
+URL: https://www.data.go.kr/data/15021141/standard.do  
+요청주소: `https://api.data.go.kr/openapi/tn_pubr_public_trrsrt_api`
+
+| 항목 | 내용 |
+| --- | --- |
+| 제공범위 | 광역지방자치단체장이 지정한 관광지/관광단지 정보 |
+| 소관/제공 | 문화체육관광부 / 지방자치단체 |
+| 갱신주기 | 연간 |
+| 수정일 | 2025-04-08 |
+| 주요 필드 | 관광지명, 구분, 주소, 위도, 경도, 시설 정보, 지정일자, 수용인원, 주차가능수, 소개, 관리기관 |
+| API 주요 파라미터 | `pageNo`, `numOfRows`, `type`, `trrsrtNm`, `trrsrtSe`, `rdnmadr`, `lnmadr`, `latitude`, `longitude`, `institutionNm`, `referenceDate` |
+
+### 전국문화축제표준데이터
+
+URL: https://www.data.go.kr/data/15013104/standard.do  
+요청주소: `https://api.data.go.kr/openapi/tn_pubr_public_cltur_fstvl_api`
+
+| 항목 | 내용 |
+| --- | --- |
+| 제공범위 | 지역 대표 문화·예술·국가유산·전통·생태·자연·지역특성 축제 |
+| 제공기관 | 한국관광공사, 지방자치단체 |
+| 갱신주기 | 분기 |
+| 수정일 | 2026-02-10 |
+| 주요 필드 | 축제명, 장소, 시작/종료일, 내용, 주관/주최/후원, 전화번호, 홈페이지, 주소, 위도/경도 |
+| API 주요 파라미터 | `fstvlNm`, `opar`, `fstvlStartDate`, `fstvlEndDate`, `homepageUrl`, `latitude`, `longitude` |
+
+### 전국시티투어정보표준데이터
+
+URL: https://www.data.go.kr/data/15025456/standard.do  
+요청주소: `https://api.data.go.kr/openapi/tn_pubr_public_city_tour_api`
+
+| 항목 | 내용 |
+| --- | --- |
+| 제공범위 | 지방자치단체가 운영하는 시티투어 정보 |
+| 제공기관 | 지방자치단체 |
+| 갱신주기 | 반기 |
+| 수정일 | 2025-11-26 |
+| 주요 필드 | 시도명, 시군구명, 코스명, 문의처, 운영시간, 운행방식, 탑승장소, 코스정보, 주변관광정보, 운행정보, 요금, 홈페이지, 관리기관 |
+| API 주요 파라미터 | `ctprvnNm`, `signguNm`, `cityTourCourse`, `operHhmm`, `courseInfo`, `operInfo`, `useCharge` |
+
+### 한국관광공사 전국 야영장 등록 현황
+
+URL: https://www.data.go.kr/data/15037499/fileData.do
+
+| 항목 | 내용 |
+| --- | --- |
+| 제공형태 | CSV 파일, 공공데이터포털 자동 변환 API(XML/JSON) |
+| 전체 행 | 5,138행 |
+| 갱신주기 | 반기 |
+| 차기 등록 예정일 | 2026-08-10 |
+| 주요 필드 | 야영장명, 사업주체, 시도, 시군구, 주소, 일반야영장/자동차야영장/글램핑/카라반 수, 편의시설, 안전시설 |
+| 유의사항 | 데이터 미집계로 공란 발생 가능 |
+
+## 4. 문화공공데이터광장
+
+URL: https://www.culture.go.kr/data/
+
+문화공공데이터광장은 문화체육관광부 소속기관, 지자체, 타 부처 기관의 문화정보를 모아 제공하는 플랫폼이다. 데이터 소개 페이지는 문화공공데이터를 유산, 예술, 체육, 관광, 한글, 문화재 등 다양한 문화 분야 공공데이터로 정의한다.
+
+오픈API 목록 페이지 기준 총 447건의 결과가 표시된다. 맞춤형 API는 38건이 표시되며, 관광 서비스 개발에 참고할 수 있는 데이터가 포함된다.
+
+| API/자료 | 확인 내용 |
+| --- | --- |
+| 오픈API 일반 | REST, JSON/XML 형태 다수 |
+| 오픈API 이용방법 | 오픈API 선택, 활용신청, 키 발급, URL+키 호출 |
+| 맞춤형 API | 여러 기관 데이터를 특정 주제로 표준화해 제공 |
+| 전국 다국어 가이드 제공 문화시설 | 영어, 중국어 등 다국어 가이드 제공 문화시설 데이터 |
+| 전시정보(통합) | 여러 문화기관의 전시 정보를 공통 항목으로 표준화 |
+| 전국 시티투어 코스와 함께하는 맛집 정보 | 전국시티투어정보표준데이터와 음식점 데이터를 결합한 맞춤형 API |
+
+문화공공데이터광장은 TourAPI의 관광 POI를 직접 대체하기보다는 공연·전시·문화시설·문화행사·문화재 데이터를 결합할 때 필요한 보조 데이터원이다.
+
+## 5. 문화빅데이터 플랫폼
+
+URL: https://www.bigdata-culture.kr/
+
+문화빅데이터 플랫폼은 한국문화정보원이 운영하는 문화·체육·관광 분야 데이터 유통/분석 플랫폼이다. 한국문화정보원 사업 안내 페이지는 문화빅데이터 플랫폼이 공공기관과 민간기업 협업으로 데이터를 생산·수집·가공·유통해 데이터 활용 생태계 조성에 기여한다고 설명한다.
+
+플랫폼 메인과 사업 안내에서 확인되는 관련 분야:
+
+| 분야 | 데이터 예 |
+| --- | --- |
+| 관광 | 관광지, 축제, 공연 등 문화 행사 정보, 지역별 관광명소, 지역 문화재, 관광 연관시설 |
+| 음식 | 국내 식당 및 메뉴, 카페·디저트, 무슬림 친화식당 |
+| 숙박 | 숙박·레저시설, 호텔 및 주변 편의시설 |
+| 소셜 | 여행·축제·스포츠 트렌드, 문화관광시설 검색량, 후기 감성/연관어 |
+| 한류 | 방한객 문화향유 행태, 해외 한류 키워드 분석 |
+| 미디어 | 여행·축제·맛집 관련 방송/광고/시청률 데이터 |
+
+개발 관점에서 문화빅데이터는 직접 API형 실시간 POI 검색보다는 리포트, 데이터 상품, 분석/시각화, 맞춤형 데이터 신청에 가까운 자료원이다. 데이터 라이선스와 유료/무료 여부가 상품별로 다를 수 있으므로 서비스에 편입하기 전 개별 상품 조건 확인이 필요하다.
+
+## 6. 지역 관광 데이터와 스마트관광 데이터
+
+공공데이터포털에는 지자체와 지역 관광재단이 제공하는 관광 API/파일데이터가 다수 있다. TourAPI 전국 데이터의 공백을 보완하거나 특정 지역 서비스에서 정확도를 높이는 데 검토할 수 있다.
+
+| 예시 | URL | 조사 내용 |
+| --- | --- | --- |
+| 양양군 고고양양 추천코스 상세 정보 | https://www.data.go.kr/data/15147805/openapi.do | 양양 스마트관광 플랫폼 기반 관광지 POI/추천 코스 API |
+| 전라남도 아름다운 영상정보 | https://www.data.go.kr/data/15143411/openapi.do | 관광지·문화유산·축제 관련 영상 목록/상세 정보 |
+| 경남 우수음식점 DB Open API | https://www.data.go.kr/data/15097647/openapi.do | 경남 스마트관광서비스용 우수음식점 DB |
+| 전북특별자치도 주요 관광지 정보 | https://www.data.go.kr/data/15104026/openapi.do | 전북 지역 주요 관광지 상세 정보 |
+| 부산푸디투어정보 서비스 | https://www.data.go.kr/data/15063507/openapi.do | 부산 음식관광 정보 |
+| 인천 스마트관광도시 Open API | https://api.incheoneasy.com | 인천 스마트관광도시/인천e지 연계 가능 포털 |
+
+## 7. 보조 공공 API
+
+관광 웹·앱에서 실사용 흐름을 완성하려면 관광 POI 외에도 시간, 날씨, 이동, 주소, 지도 데이터가 필요하다.
+
+| 영역 | 자료 | URL | 핵심 필드/기능 |
+| --- | --- | --- | --- |
+| 날씨 | 기상청 단기예보 조회서비스 | https://www.data.go.kr/data/15084084/openapi.do | 초단기실황, 초단기예보, 단기예보, 격자 좌표 `nx`, `ny`, JSON/XML |
+| 휴일 | 한국천문연구원 특일 정보 | https://www.data.go.kr/data/15012690/openapi.do | 국경일, 공휴일, 기념일, 24절기, `isHoliday` |
+| 지도/주소 | 카카오 지도/로컬 API | https://developers.kakao.com/docs | 지도, 키워드 장소 검색, 주소-좌표 변환, 좌표-주소 변환 |
+| 지도/경로 | 네이버 Maps API | https://api.ncloud-docs.com/docs/application-maps-overview | Static Map, Directions, Geocoding, Reverse Geocoding |
+| 공간정보 | VWorld OpenAPI | https://www.vworld.kr/dev/v4dv_opnapi2_s001.do | 지도, 지오코딩, 공간 데이터 |
+| 도로명주소 | 도로명주소 개발자센터 | https://business.juso.go.kr/addrlink/main.do | 도로명주소 검색, 팝업/검색 API |
+| 대중교통 | TAGO/공공데이터포털 교통 API | https://www.data.go.kr/ | 버스, 지하철, 고속버스 등 개별 API 확인 |
+
+# 26. 웹·모바일 접근성 / AI 기본법 / 저작권 / 외국인 친화 표준
+
+> 2026 한국관광공사 관광데이터 활용 공모전 출품작 운영을 위한 접근성·AI·저작권·표준 조사
+> 조사 시점: 2026-05-03 (현행 법령 기준)
+> 출처: 국가법령정보센터(law.go.kr), 한국디지털접근성진흥원(kwacc.or.kr), 한국정보접근성인증평가원(wa.or.kr), 한국저작권위원회(copyright.or.kr)
+
+---
+
+## 1. 웹 접근성 — 한국형 웹 콘텐츠 접근성 지침 (KWCAG) 2.2
+
+### 1.1 KWCAG 2.2 개요
+- 정식 명칭: **한국형 웹 콘텐츠 접근성 지침 2.2** (Korean Web Content Accessibility Guidelines 2.2)
+- 국가표준 (TTAK.OT-10.0003/R3 등 KS X 6308 계열)
+- 1차 출처: https://a11ykr.github.io/kwcag22/
+- 한국정보접근성인증평가원: https://www.wa.or.kr/m1/sub1.asp
+- 한국디지털접근성진흥원: http://www.kwacc.or.kr/Accessibility/Certification
+
+### 1.2 법적 기반
+- **디지털포용법** 제21조 + 시행령 제20조
+- **장애인차별금지 및 권리구제 등에 관한 법률** (장차법) 제20조, 제21조 — 정보접근권
+- 1차 출처: http://www.kwacc.or.kr/Accessibility/Law
+
+### 1.3 KWCAG 2.2 구조
+- **4가지 원칙** (POUR: Perceivable, Operable, Understandable, Robust)
+- **14개 지침** (각 원칙별 세부 지침)
+- **33개 검사항목**
+
+#### 4대 원칙
+
+| 원칙 | 지침 수 | 핵심 내용 |
+|------|---------|---------|
+| **인식의 용이성 (Perceivable)** | 5 | 대체 텍스트, 멀티미디어 자막/대체수단, 명료성(색·명도 대비, 폰트), 명도 대비 비율 (4.5:1 이상) |
+| **운용의 용이성 (Operable)** | 4 | 키보드 접근, 충분한 시간 제공, 광과민성 발작 방지, 쉬운 내비게이션 |
+| **이해의 용이성 (Understandable)** | 3 | 가독성, 예측 가능성, 입력 도움 (오류 메시지, 레이블) |
+| **견고성 (Robust)** | 2 | 문법 준수, 웹 애플리케이션 접근성 |
+
+### 1.4 주요 검사항목 (33개 중 핵심)
+- 1.1.1 적절한 대체 텍스트 (alt 속성)
+- 1.2.1 자막 제공 (영상)
+- 1.3.1 색 의존성 회피
+- 1.3.2 명도 대비 (텍스트 4.5:1, 큰 텍스트 3:1)
+- 2.1.1 키보드 사용 보장
+- 2.2.1 응답 시간 조절 (충분한 시간)
+- 2.2.2 정지 기능 제공 (자동 재생/이동)
+- 2.3.1 깜빡임/번쩍임 (초당 3~50회 사이 금지)
+- 2.4.1 반복 영역 건너뛰기 (스킵 내비게이션)
+- 2.4.2 제목 제공 (페이지·프레임·콘텐츠)
+- 3.1.1 기본 언어 표시 (lang 속성)
+- 3.2.1 사용자 요구에 따른 실행
+- 3.3.1 콘텐츠 선형 구조 + 표 마크업
+- 3.3.2 레이블 제공 (입력 양식)
+- 4.1.1 마크업 오류 방지
+- 4.1.2 웹 애플리케이션 접근성 (WAI-ARIA)
+
+### 1.5 적용 대상
+- PC 웹, 터치스크린 기기, **모바일 기기 모든 웹 콘텐츠**
+- 반응형 웹은 KWCAG 2.2 단일 적용 가능
+
+---
+
+## 2. 모바일 앱 접근성 — 한국형 모바일 애플리케이션 콘텐츠 접근성 지침
+
+### 2.1 표준
+- 정식 명칭: **모바일 애플리케이션 콘텐츠 접근성 지침 2.0** (KS X 3253)
+- 인증 절차: 한국정보접근성인증평가원, 한국디지털접근성진흥원 등 국가공인 평가기관
+- 1차 출처: http://www.kwacc.or.kr/Accessibility/Certification
+
+### 2.2 모바일 앱 접근성 핵심 원칙
+- 인식의 용이성: 대체 텍스트, 색 의존성 회피, 명도 대비
+- 운용의 용이성: **터치 제스처 대안 제공**, 초점, 응답 시간 조절
+- 이해의 용이성: 텍스트 콘텐츠의 명확성, 사용자 인터페이스 일관성, 알림 기능
+- 견고성: 접근성 속성, 보조기술 호환성
+
+### 2.3 OS별 접근성 가이드
+- **iOS**: VoiceOver, Dynamic Type, Smart Invert, Switch Control 등 — Apple Human Interface Guidelines (Accessibility)
+- **Android**: TalkBack, Live Caption, Switch Access 등 — Android Accessibility Guidelines
+
+### 2.4 인증 마크
+- 정보통신접근성(웹·앱) 품질 마크
+- 유효기간: **1년** (재인증 필요)
+- 인증기관: 한국디지털접근성진흥원, 한국정보접근성인증평가원, 웹와치 등
+
+---
+
+## 3. WAI-ARIA (Accessible Rich Internet Applications)
+
+### 3.1 ARIA 개요
+- W3C 표준 — 동적 콘텐츠와 사용자 인터페이스 컴포넌트의 접근성 향상
+- KWCAG 2.2 검사항목 4.1.2 (웹 애플리케이션 접근성)에서 ARIA 적용 권장
+
+### 3.2 핵심 ARIA 속성
+- `role` (button, dialog, navigation, alert, status 등)
+- `aria-label`, `aria-labelledby`, `aria-describedby` (접근 가능한 이름)
+- `aria-expanded`, `aria-hidden`, `aria-current` (상태)
+- `aria-live` (실시간 업데이트 알림)
+- `aria-controls`, `aria-haspopup` (관계)
+
+### 3.3 SPA/React/Vue/Next.js 등 적용
+- 시맨틱 HTML 우선, ARIA는 보조
+- 페이지 라우팅 시 포커스 관리 (스크린 리더 사용자 안내)
+- 모달/드로어/탭 컴포넌트 ARIA role 명시
+
+---
+
+## 4. AI 기본법 (인공지능 발전과 신뢰 기반 조성 등에 관한 기본법)
+
+### 4.1 법령 개요
+- 정식 명칭: **인공지능 발전과 신뢰 기반 조성 등에 관한 기본법** (약칭: AI 기본법)
+- 제정·공포: **2025. 1. 21.**
+- **시행: 2026. 1. 22.** (디지털의료기기 관련 조항은 2026. 1. 24.)
+- 소관 부처: 과학기술정보통신부
+- 1차 출처: https://www.law.go.kr/lsInfoP.do?lsiSeq=268543
+
+### 4.2 적용 대상
+- 한국 내에서 AI 시스템을 개발·제공·이용하는 자
+- **국외 사업자도 한국 내 영향이 있으면 적용** (역외 적용 + 국내 대리인 지정 의무)
+
+### 4.3 핵심 의무 (5가지)
+
+| 의무 | 내용 | 적용 대상 |
+|------|------|----------|
+| **투명성 확보** | AI가 생성한 결과물임을 사용자에게 고지 (생성형 AI), 워터마크 등 | 모든 AI 사업자 |
+| **안전성 확보** | 위험 평가, 안전 조치, 사고 대응 체계 | 모든 AI 사업자 |
+| **고영향 AI 사업자 특별 책무** | 영향평가, 위험관리체계, 인적 감독, 문서화 | 고영향 AI (의료/금융/공공/교통/에너지/채용 등) |
+| **AI 영향 평가** | 사회적 영향 사전 평가 | 고영향 AI |
+| **국내 대리인 지정** | 해외 빅테크의 한국 내 대리인 지정 | 일정 규모 이상 외국 AI 사업자 |
+
+### 4.4 생성형 AI 표시 의무 (제31조 등)
+- 생성형 AI로 만든 결과물(텍스트/이미지/영상/음성)임을 **명확히 고지**
+- 딥페이크 등 사실 오인 가능성 있는 콘텐츠 → **워터마크/메타데이터 표시 의무**
+
+### 4.5 처벌
+- 위반 시 과태료 (최대 3천만원)
+- **계도 기간**: 시행 후 최소 1년 이상 (실제 과태료 부과는 2027년 이후로 예상)
+- 통합 안내·지원 센터 운영 예정
+
+### 4.6 출품작에서 생성형 AI 활용 시
+- 챗봇·번역·이미지 생성 등 생성형 AI 활용 시 결과물에 "AI 생성" 표시
+- 학습 데이터 출처 (KOGL 1유형 등) 명시
+- 사용자 입력 데이터의 학습 활용 여부 처리방침 공개
+- 편향·환각(hallucination) 가능성 사용자 고지
+
+---
+
+## 5. 저작권법 — 생성형 AI 학습/출력
+
+### 5.1 저작권법 일반 (출품작 콘텐츠)
+- 1차 출처: https://www.law.go.kr/법령/저작권법
+- 운영 기관: 한국저작권위원회 (https://www.copyright.or.kr)
+
+### 5.2 생성형 AI 저작권 안내서 (한국저작권위원회)
+- **"생성형 AI 저작권 안내서"** (2023. 12. 발간)
+- **"생성형 인공지능 활용 저작물의 저작권 등록 안내서"** (2024. 12. 발간)
+- 1차 출처: https://www.copyright.or.kr/information-materials/publication/research-report/view.do?brdctsno=54253
+- 안내서 본문: https://www.copyright.or.kr/information-materials/publication/research-report/view.do?brdctsno=52591
+
+### 5.3 핵심 원칙
+1. **저작물 정의**: 저작권법 제2조 제1호 — "인간의 사상 또는 감정을 표현한 창작물"
+2. **AI 단독 생성물은 저작물 아님** — 인간 창작자성 결여
+3. **AI를 도구로 활용한 창작물은 저작물** — 인간의 창작적 기여 인정 시 등록 가능
+4. **학습 단계의 저작물 이용** — 저작권법 제46조(이용허락) 또는 공정이용 사유에 해당하지 않으면 침해
+
+### 5.4 AI 산출물 저작권 등록 (한국저작권위원회 2024 안내서)
+- 등록 신청 시 **인간의 창작적 기여 부분 명시**
+- AI 생성 부분과 인간 창작 부분 구분
+- AI 도구만 사용한 결과물은 저작권 등록 불가
+
+### 5.5 출품작에서 생성형 AI 사용 시 저작권 체크
+- [ ] AI 학습에 사용한 데이터의 저작권 처리 (KOGL 라이선스, 공정이용 등)
+- [ ] AI 생성 콘텐츠를 서비스 화면에 노출 시 "AI 생성" 표시
+- [ ] 사용자가 입력한 콘텐츠의 저작권 → 약관에 사용 범위 명시
+- [ ] 타인 저작물(이미지/음악/폰트) 무단 사용 금지
+
+### 5.6 한국 정부 동향
+- **문화체육관광부**: 생성형 AI 저작권 워킹그룹 운영 중
+- **과기정통부 + 문체부**: AI 학습 데이터 처리 가이드라인 후속 작업 중
+
+---
+
+## 6. AI 윤리 가이드라인
+
+### 6.1 과학기술정보통신부 AI 윤리기준 (2020. 12. 발표)
+- **3대 기본 원칙**: 인간 존엄성, 사회 공공선, 기술의 합목적성
+- **10대 핵심 요건**: 인권 보장, 프라이버시 보호, 다양성 존중, 침해 금지, 공공성, 연대성, 데이터 관리, 책임성, 안전성, 투명성
+
+### 6.2 KISA 「생성형 AI 윤리 가이드북」 (2024. 12.)
+- 1차 출처 (PDF): https://files-scs.pstatic.net/2024/12/02/Qc1KPwrTsz/생성형_AI윤리_가이드북.pdf
+- 항목: 허위조작정보, 윤리, 생성형 책임성, 저작권, 개인정보·인격권, 오남용
+
+### 6.3 출품작에서의 적용
+- 챗봇/추천에서 차별·편향 회피
+- 사용자 데이터의 윤리적 처리
+- AI 결정에 대한 사용자 이의제기 채널
+
+---
+
+## 7. 다국어 / 외국인 친화 표준
+
+### 7.1 한국관광공사 외국어 표준 표기
+- **한국관광공사 외국어 표기 매뉴얼** — 관광지·음식·문화재 명칭 영문/일문/중문(간체/번체) 표준
+- 표기 일관성: 매니저(menu) 표기, 고유명사 로마자 표기 (문체부 고시 「국어의 로마자 표기법」 준수)
+- 1차 출처: 문체부 「국어의 로마자 표기법」 (https://www.law.go.kr/행정규칙/국어의로마자표기법)
+
+### 7.2 한국관광 품질인증 (Korea Quality, KQ)
+- 1차 출처: https://koreaquality.visitkorea.or.kr/qualityIntroduction/evaluationStandard.kto
+- 운영: 한국관광공사
+- 평가 분야:
+  - 시설 및 서비스 (60%)
+  - 인력의 전문성 (20%)
+  - 안전관리 (20%)
+- 100점 만점 70점 이상 인증
+- 적용 대상: 숙박, 쇼핑, 식당 등
+- 인증 데이터 (CSV): 한국관광공사 한국관광 품질인증 현황 (https://www.data.go.kr/data/15034825/fileData.do)
+
+### 7.3 관광약자 (배리어프리 관광) 표준
+- **관광 약자**: 장애인, 고령자, 영유아 동반자, 임산부, 외국인 등
+- 정보 표준화: 무장애 관광지 정보, 휠체어 접근성, 점자/오디오 가이드 정보
+- 운영: 한국관광공사 + 서울관광재단 다누림 등
+- 입법·정책 동향 (KDI): https://eiec.kdi.re.kr/policy/domesticView.do?ac=0000179192
+
+
+web search: 
+web search: 충남 올담 데이터포털 관광 공주 부여 공공데이터 API
+web search: 
+web search: site:data.go.kr 장애물 없는 생활환경 인증 현황 공공데이터
+web search: 
+web search: site:data.go.kr 충청남도 공주시 관광지 openapi 부여군 관광지
+web search: 
+web search: https://alldam.chungnam.go.kr/
+web search: 
+web search: https://alldam.chungnam.go.kr/index.chungnam?menuCd=DOM_000000201001003000
+web search: 
+web search: '관광' in https://alldam.chungnam.go.kr/index.chungnam?menuCd=DOM_000000201001003000
+web search: 
+web search: 국가유산청 공공데이터 OpenAPI 문화재 기본정보 API
+web search: 
+web search: site:data.go.kr/data 국가유산청 문화재 API
+web search: 
+web search: 문화공공데이터광장 전국 다국어 가이드 제공 문화시설 API
+web search: 
+web search: 행정안전부 재난문자방송 발령현황 API 공공데이터
+web search: 
+web search: site:data.go.kr/data/ 응급의료기관 openapi 국립중앙의료원
+web search: 
+web search: VWorld OpenAPI DEM 경사도 고도 API
+codex
+외부 데이터는 최신 페이지가 있는 것 위주로만 남기겠습니다. 특히 “있을 것 같다” 수준의 민간/지자체 API는 탈락 위험이 있으니, 공식 포털에서 확인되는 데이터와 통합 난이도가 낮은 것만 추천 후보로 잡습니다.
+  ✓ 기획 문서와 reconcile 노트 읽기
+  → 외부 API 후보의 현재성·위험 확인
+  • 심사 관점 약점과 수정 권고 정리
+web search: 
+web search: 
+web search: 
+web search: https://www.data.go.kr/data/15092317/openapi.do
+web search: 
+web search: https://www.data.go.kr/data/3051093/fileData.do?recommendDataYn=Y
+web search: 
+web search: https://alldam.chungnam.go.kr/index.chungnam?menuCd=DOM_000000201001003000
+  ✓ 기획 문서와 reconcile 노트 읽기
+  ✓ 외부 API 후보의 현재성·위험 확인
+  → 심사 관점 약점과 수정 권고 정리
+codex
+정리는 거의 끝났습니다. 결론은 “컨셉은 강하지만 현재 점수는 방어 가능한 상한”이고, 수정 방향은 기능을 늘리기보다 외부 데이터 근거와 MVP 범위 방어력을 높이는 쪽입니다.
+  ✓ 기획 문서와 reconcile 노트 읽기
+  ✓ 외부 API 후보의 현재성·위험 확인
+  ✓ 심사 관점 약점과 수정 권고 정리
+codex
+**1. 취약점 TOP 5**
+
+| 순위 | 약점 | 채점 영역 |
+|---:|---|---|
+| 1 | 5기능+다국어+KWCAG+UGC를 4개월에 모두 완성한다는 범위 과밀 | 완성도/PT |
+| 2 | `detailWithTour2` 공백이 크면 F1 적합도와 F5 갭 리포트가 동시에 흔들림 | 데이터/완성도 |
+| 3 | 외국인을 토글로만 처리해 안전·교통·상담 니즈가 페르소나에서 빠짐 | 기획력/실용성 |
+| 4 | F3 자동 재계산은 사용자 풀·오염 검수·책임 소재가 MVP 밖임 | 완성도/실용성 |
+| 5 | F4 PDF는 무장애가 아닌 일반 체험학습 앱으로 보일 위험 | 기획력/PT |
+
+**2. 외부 API/데이터 TOP 5**
+
+| 우선 | 데이터/API | 직결 기능·점수 | 4개월 통합 | 라이선스·비용 위험 |
+|---:|---|---|---|---|
+| 1 | 한국사회보장정보원 `장애인편의시설 현황` + 한국장애인개발원 `BF 인증정보` | F1/F5, 무장애 신뢰도, 사회적 가치 | 가능. 6 POI 주소·좌표 매칭 | 무료·제한 없음 계열. 단 개발 트래픽 낮고 BF는 연간 갱신 |
+| 2 | 충남 올담 OpenAPI + 다도라 전자지도 | F5, 충남 RTO 가점 +2, 지역특화 | 가능. 공주·부여·문화관광·재난안전 필터부터 | 올담 페이지는 KOGL 4유형 표시. 데이터별 조건 확인 필요 |
+| 3 | 국가유산청 `전국 지정문화재 현황` / 문화재 공간정보 | F2/F4, 교육 PDF의 정통성 | 가능. 6 POI 해설·사진·나레이션만 매핑 | 무료. XML/LINK라 파싱·출처표시 필요 |
+| 4 | 문화공공데이터광장 `전국 다국어 가이드 제공 문화시설` | F2, 외국인 페르소나/PT 보강 | 부분 가능. “다국어 제공 여부” 교차검증용 | 무료 성격. 실제 백제권 커버리지 확인 필요 |
+| 5 | 국립중앙의료원 응급의료기관 정보 + 행안부 AED | F1/F3, 안전·긴급 대응 | 가능. “가까운 응급실/AED” 버튼 수준 | 무료. 의료정보 최신성·면책 문구 필요 |
+
+**3. 4 페르소나 검토**
+
+P1 휠체어·시니어는 유지 가능하다. 다만 “시니어=휠체어”가 아니므로 피로도, 낙상 위험, 큰 글씨, 휴식 간격을 별도 요구로 써야 한다.
+
+P2 시각·청각은 합치면 안 된다. 발표용 이름은 하나로 둬도, 요구사항은 P2a 시각, P2b 청각으로 분리해야 한다. 음성 안내와 자막/수어/시각 알림은 반대 성격의 UX다.
+
+P3 유아차·자녀 가족은 F4의 주 타깃이므로 유지. P4 교사·복지기관은 일반 관광객이 아니라 구매자/운영자 성격이라 유지 가치가 있다.
+
+외국인은 별도 페르소나로 다시 분리하는 편이 맞다. 다국어를 핵심 차별로 주장한다면 “언어 토글”만으로는 부족하다. P5 외국인 자유여행자 또는 외국인 가족을 부록/보조 시연에 추가하고, 1330·응급·교통·문화 맥락 니즈를 넣어야 한다. 4명 고정이면 외국인을 핵심 타깃이 아닌 횡단 모드로 낮춰 표현해야 한다.
+
+**4. MVP 5기능 검토**
+
+4개월 안에 “심사용 MVP”는 가능하지만 “운영 가능한 완성품”은 과장이다. 6 POI 한정, 수동 검수 데이터, 데모용 UGC를 전제로 해야 한다.
+
+가장 위험한 기능은 F3 Waze UGC다. 사용자 풀이 없으면 24시간 3건 검증이 작동하지 않고, 잘못된 자동 재계산은 책임 문제가 생긴다. MVP에서는 “제보 접수 + 관리자 검수 큐 + 룰 기반 대체 경로”로 낮추는 게 안전하다.
+
+F4 PDF는 PT 차별축으로 작동한다. 단, 그냥 사진·퀴즈 PDF면 흔하다. 국가유산청 해설, Odii 퀴즈, 방문 인증, 접근성 동선 기록, 교사용 요약을 묶어야 “무장애 헤리티지 체험학습”이 된다.
+
+추가하면 좋은 1개는 음성 검색/명령이다. 챗봇보다 작고, 보호자 알림보다 규제 부담이 낮다. “휠체어로 갈 수 있는 공산성 코스 찾아줘”를 F1 진입점으로 넣으면 접근성과 PT 임팩트가 동시에 오른다.
+
+**5. 채점 자기평가 비평**
+
+현재 1차 92 + PT 91은 “상한 점수”다. 지금 문서 상태만 보면 1차 90~91, PT 89~90이 더 보수적이다. 외부 데이터와 범위 축소를 반영하면 92/91은 다시 방어 가능하다.
+
+기획력 27/30은 적정하나 “한국 0” 주장은 근거 없으면 감점 포인트다. 완성도 26/30은 높다. F3를 베타로 낮추지 않으면 24~25가 맞다.
+
+데이터 활용 19~20/20은 현재 19가 맞다. KTO 10개를 많이 쓰는 것보다 비KTO 데이터가 실제 기능에 들어가야 20이다. 위 TOP5를 F1/F4/F5에 넣으면 20 가능하다.
+
+발전성 18/20은 적정, 충남 올담·BF·응급 데이터 환류 구조를 넣으면 19 가능하다. PT 적정성 27~28은 사회적 가치가 충분하지만 법·정책 나열보다 실제 사용자 장면이 더 중요하다. 발표 13~14/15는 핵심 시나리오 1개만으로는 13, 외국인/긴급 보조 시연까지 있으면 14다.
+
+**6. 수정 권고**
+
+1. “매뉴얼 정합성 100%” 표현은 검증표로 바꿔라. API별 `검증 완료/검증 중/운영 확인 필요` 상태를 붙이는 편이 더 안전하다.
+
+2. 데이터 활용 섹션에 “KTO vs 비KTO 역할 분담표”를 추가하라. KTO는 관광 POI, 외부 데이터는 접근성 검증·교육·안전·RTO 근거로 분리한다.
+
+3. F3는 MVP에서 자동 재계산을 낮춰라. “사용자 제보 → 관리자 검수 → 후속 사용자 경고 → 대체 경로 제안” 단계로 쓰는 게 방어 가능하다.
+
+4. 외국인은 P5로 분리하거나 핵심 문구에서 낮춰라. “모두 접근 가능”을 말하려면 외국인 안전·상담·교통 니즈가 필요하다.
+
+5. F4 PDF에 국가유산청 해설과 교사용 루브릭을 붙여라. 그래야 일반 PDF가 아니라 백제 헤리티지 교육 산출물이 된다.
+
+6. F1 진입점에 음성 검색을 추가하라. 접근성 시연, P1/P2 설득, PT 첫 장면을 동시에 강화한다.
+
+7. 점수표를 “현재/보강 후” 2열로 바꿔라. 과대평가 인상을 줄이고, 수정안 반영 효과를 심사관에게 직접 보여줄 수 있다.
+
+공식 확인 근거: [충남 올담 OpenAPI](https://alldam.chungnam.go.kr/index.chungnam?menuCd=DOM_000000201001003000), [장애인편의시설 현황](https://www.data.go.kr/data/15092317/openapi.do), [BF 인증정보](https://www.data.go.kr/data/3051093/fileData.do?recommendDataYn=Y), [국가유산청 지정문화재 현황](https://www.data.go.kr/data/15034324/openapi.do), [응급의료기관 정보](https://www.data.go.kr/dataset/15000563/openapi.do), [AED 데이터](https://www.data.go.kr/data/15147982/openapi.do), [문화공공데이터광장](https://www.culture.go.kr/data/openapi/openapiInfo.do).
+tokens used
+229,993
+**1. 취약점 TOP 5**
+
+| 순위 | 약점 | 채점 영역 |
+|---:|---|---|
+| 1 | 5기능+다국어+KWCAG+UGC를 4개월에 모두 완성한다는 범위 과밀 | 완성도/PT |
+| 2 | `detailWithTour2` 공백이 크면 F1 적합도와 F5 갭 리포트가 동시에 흔들림 | 데이터/완성도 |
+| 3 | 외국인을 토글로만 처리해 안전·교통·상담 니즈가 페르소나에서 빠짐 | 기획력/실용성 |
+| 4 | F3 자동 재계산은 사용자 풀·오염 검수·책임 소재가 MVP 밖임 | 완성도/실용성 |
+| 5 | F4 PDF는 무장애가 아닌 일반 체험학습 앱으로 보일 위험 | 기획력/PT |
+
+**2. 외부 API/데이터 TOP 5**
+
+| 우선 | 데이터/API | 직결 기능·점수 | 4개월 통합 | 라이선스·비용 위험 |
+|---:|---|---|---|---|
+| 1 | 한국사회보장정보원 `장애인편의시설 현황` + 한국장애인개발원 `BF 인증정보` | F1/F5, 무장애 신뢰도, 사회적 가치 | 가능. 6 POI 주소·좌표 매칭 | 무료·제한 없음 계열. 단 개발 트래픽 낮고 BF는 연간 갱신 |
+| 2 | 충남 올담 OpenAPI + 다도라 전자지도 | F5, 충남 RTO 가점 +2, 지역특화 | 가능. 공주·부여·문화관광·재난안전 필터부터 | 올담 페이지는 KOGL 4유형 표시. 데이터별 조건 확인 필요 |
+| 3 | 국가유산청 `전국 지정문화재 현황` / 문화재 공간정보 | F2/F4, 교육 PDF의 정통성 | 가능. 6 POI 해설·사진·나레이션만 매핑 | 무료. XML/LINK라 파싱·출처표시 필요 |
+| 4 | 문화공공데이터광장 `전국 다국어 가이드 제공 문화시설` | F2, 외국인 페르소나/PT 보강 | 부분 가능. “다국어 제공 여부” 교차검증용 | 무료 성격. 실제 백제권 커버리지 확인 필요 |
+| 5 | 국립중앙의료원 응급의료기관 정보 + 행안부 AED | F1/F3, 안전·긴급 대응 | 가능. “가까운 응급실/AED” 버튼 수준 | 무료. 의료정보 최신성·면책 문구 필요 |
+
+**3. 4 페르소나 검토**
+
+P1 휠체어·시니어는 유지 가능하다. 다만 “시니어=휠체어”가 아니므로 피로도, 낙상 위험, 큰 글씨, 휴식 간격을 별도 요구로 써야 한다.
+
+P2 시각·청각은 합치면 안 된다. 발표용 이름은 하나로 둬도, 요구사항은 P2a 시각, P2b 청각으로 분리해야 한다. 음성 안내와 자막/수어/시각 알림은 반대 성격의 UX다.
+
+P3 유아차·자녀 가족은 F4의 주 타깃이므로 유지. P4 교사·복지기관은 일반 관광객이 아니라 구매자/운영자 성격이라 유지 가치가 있다.
+
+외국인은 별도 페르소나로 다시 분리하는 편이 맞다. 다국어를 핵심 차별로 주장한다면 “언어 토글”만으로는 부족하다. P5 외국인 자유여행자 또는 외국인 가족을 부록/보조 시연에 추가하고, 1330·응급·교통·문화 맥락 니즈를 넣어야 한다. 4명 고정이면 외국인을 핵심 타깃이 아닌 횡단 모드로 낮춰 표현해야 한다.
+
+**4. MVP 5기능 검토**
+
+4개월 안에 “심사용 MVP”는 가능하지만 “운영 가능한 완성품”은 과장이다. 6 POI 한정, 수동 검수 데이터, 데모용 UGC를 전제로 해야 한다.
+
+가장 위험한 기능은 F3 Waze UGC다. 사용자 풀이 없으면 24시간 3건 검증이 작동하지 않고, 잘못된 자동 재계산은 책임 문제가 생긴다. MVP에서는 “제보 접수 + 관리자 검수 큐 + 룰 기반 대체 경로”로 낮추는 게 안전하다.
+
+F4 PDF는 PT 차별축으로 작동한다. 단, 그냥 사진·퀴즈 PDF면 흔하다. 국가유산청 해설, Odii 퀴즈, 방문 인증, 접근성 동선 기록, 교사용 요약을 묶어야 “무장애 헤리티지 체험학습”이 된다.
+
+추가하면 좋은 1개는 음성 검색/명령이다. 챗봇보다 작고, 보호자 알림보다 규제 부담이 낮다. “휠체어로 갈 수 있는 공산성 코스 찾아줘”를 F1 진입점으로 넣으면 접근성과 PT 임팩트가 동시에 오른다.
+
+**5. 채점 자기평가 비평**
+
+현재 1차 92 + PT 91은 “상한 점수”다. 지금 문서 상태만 보면 1차 90~91, PT 89~90이 더 보수적이다. 외부 데이터와 범위 축소를 반영하면 92/91은 다시 방어 가능하다.
+
+기획력 27/30은 적정하나 “한국 0” 주장은 근거 없으면 감점 포인트다. 완성도 26/30은 높다. F3를 베타로 낮추지 않으면 24~25가 맞다.
+
+데이터 활용 19~20/20은 현재 19가 맞다. KTO 10개를 많이 쓰는 것보다 비KTO 데이터가 실제 기능에 들어가야 20이다. 위 TOP5를 F1/F4/F5에 넣으면 20 가능하다.
+
+발전성 18/20은 적정, 충남 올담·BF·응급 데이터 환류 구조를 넣으면 19 가능하다. PT 적정성 27~28은 사회적 가치가 충분하지만 법·정책 나열보다 실제 사용자 장면이 더 중요하다. 발표 13~14/15는 핵심 시나리오 1개만으로는 13, 외국인/긴급 보조 시연까지 있으면 14다.
+
+**6. 수정 권고**
+
+1. “매뉴얼 정합성 100%” 표현은 검증표로 바꿔라. API별 `검증 완료/검증 중/운영 확인 필요` 상태를 붙이는 편이 더 안전하다.
+
+2. 데이터 활용 섹션에 “KTO vs 비KTO 역할 분담표”를 추가하라. KTO는 관광 POI, 외부 데이터는 접근성 검증·교육·안전·RTO 근거로 분리한다.
+
+3. F3는 MVP에서 자동 재계산을 낮춰라. “사용자 제보 → 관리자 검수 → 후속 사용자 경고 → 대체 경로 제안” 단계로 쓰는 게 방어 가능하다.
+
+4. 외국인은 P5로 분리하거나 핵심 문구에서 낮춰라. “모두 접근 가능”을 말하려면 외국인 안전·상담·교통 니즈가 필요하다.
+
+5. F4 PDF에 국가유산청 해설과 교사용 루브릭을 붙여라. 그래야 일반 PDF가 아니라 백제 헤리티지 교육 산출물이 된다.
+
+6. F1 진입점에 음성 검색을 추가하라. 접근성 시연, P1/P2 설득, PT 첫 장면을 동시에 강화한다.
+
+7. 점수표를 “현재/보강 후” 2열로 바꿔라. 과대평가 인상을 줄이고, 수정안 반영 효과를 심사관에게 직접 보여줄 수 있다.
+
+공식 확인 근거: [충남 올담 OpenAPI](https://alldam.chungnam.go.kr/index.chungnam?menuCd=DOM_000000201001003000), [장애인편의시설 현황](https://www.data.go.kr/data/15092317/openapi.do), [BF 인증정보](https://www.data.go.kr/data/3051093/fileData.do?recommendDataYn=Y), [국가유산청 지정문화재 현황](https://www.data.go.kr/data/15034324/openapi.do), [응급의료기관 정보](https://www.data.go.kr/dataset/15000563/openapi.do), [AED 데이터](https://www.data.go.kr/data/15147982/openapi.do), [문화공공데이터광장](https://www.culture.go.kr/data/openapi/openapiInfo.do).

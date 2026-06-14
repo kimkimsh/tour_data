@@ -1,0 +1,2273 @@
+== codex plan-review launch Sun Jun 14 09:02:05 AM KST 2026 ==
+Reading additional input from stdin...
+OpenAI Codex v0.139.0
+--------
+workdir: /home/mark-minipc/workspace/tour_data/docs/plan
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: danger-full-access
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 019ec36f-8403-7dd1-be50-5d8de0834402
+--------
+user
+You are GPT/Codex doing an INDEPENDENT, critical PLAN-REVIEW of the implementation blueprint for 「모두의 백제 (Modu Baekje)」 in a 1:1 pairing with Claude. Use maximum reasoning depth (xhigh). The blueprint documents are provided in the <stdin> block below: SPEC.md (frozen source of truth) + 02_architecture + 05_feature_F1 + 12_workstreams + 15_risks (the spine; docs 01,03,04,06–11,13,14 also exist but aren't pasted). Do NOT run shell commands or write files — print your full review to stdout.
+
+CONTEXT: barrier-free heritage tourism web app (Next.js 15 + Supabase + Vercel Seoul; 공주·부여 6 POIs) for the 2026 KTO 관광데이터 활용 공모전 ① 웹·앱 개발 부문. Build phase; 기능심사(완성 서비스) + PT in Oct 2026, built by a parallel AI agent team. WIN CONDITION: 1차 100 (기획력30/완성도30/데이터활용20/발전성20 +지역특화+2), PT 100 (적정성30/완성도30/실용성25/발표15) → 대상/최우수상 + 충남 RTO 특별상. Thesis: one verified accessibility dataset flows F1→F2→F3→F4→F5. Locked: no pgvector/RAG/dynamic-routing/messaging; Layer C cap +0.12; static curated 6-POI routes; no runtime KTO calls (DB snapshots); PWA; no-login core.
+
+YOUR REVIEW — be critical and specific (you previously produced the architecture half of this pairing; now stress-test the WRITTEN plan). Cover:
+1. The TOP blockers/risks that would cause this to lose the contest or slip the Oct timeline — that the plan under-weights or hasn't truly mitigated (vs merely listing).
+2. Buildability gaps for an AI agent team: under-specified workstreams, hidden critical-path items, places two agents collide, missing acceptance criteria, the verify-at-build-time gates' adequacy.
+3. The 4-Layer 적합도 산식 (calculateSuitability in 05/SPEC §7): correctness, edge cases, exploitability, whether it's implementable from the spec alone, and whether its output actually earns 데이터활용/기획력 points.
+4. Scope: what to CUT further, and the single highest-leverage focus for the Oct review + PT.
+5. Anything in the plan you DISAGREE with or that contradicts itself.
+Give each finding a severity (blocker/major/minor), where (file/section), the issue, and a concrete fix. End with: is this blueprint contest-ready, and the 3 most important things to change. Print markdown to stdout now.
+
+<stdin>
+===== SPEC.md =====
+# 모두의 백제 (Modu Baekje) — 구현 기획 SPEC (frozen source of truth)
+
+> **Status:** APPROVED DIRECTION (2026-06-14). This file is the single authoritative spec; every `docs/plan/NN_*.md` expands a section here and must not contradict it. Provenance: canonical proposal `docs/ideation/total/00_modu_baekje.md`, research `docs/plan/_research/00_SYNTHESIS.md` (+ 9 briefs), and the Claude⇆Codex pairing `_pairing_reconcile.md`.
+
+## 0. One-line
+
+> A **barrier-free (무장애) heritage tourism web app** for the **2026 KTO 관광데이터 활용 공모전 ① 웹·앱 개발 부문**, covering **공주·부여 백제역사유적지구 6 POIs**, where **one verified accessibility dataset flows through F1→F2→F3→F4→F5** — pre-trip decision → on-site guidance → field reports → education record → 충남 RTO improvement signal.
+
+## 1. Contest frame & scoring targets (build phase; 기능심사 + PT in Oct 2026)
+
+| Phase | Items (weights) |
+|---|---|
+| 1차 (서면·기능, 100) | 기획력 30 · 완성도 30 · **데이터활용 20** · 발전성 20 · (+지역특화 가점 **+2**, 충남) |
+| 최종 PT (100) | 적정성 30 · 완성도 30 · 실용성 25 · 발표 15 |
+
+**Design rule:** every feature must visibly earn one of these. The differentiator that earns **데이터활용 20 + 기획력**: the **transparent 4-Layer 적합도 evidence card** built on a **verified 6-POI content package**. The PT money shot for **실용성 + 발표**: the F4 6-channel diary. 충남 single-region = +2 + CACF RTO 특별상 candidacy.
+
+## 2. Locked decisions
+
+| # | Decision | Value |
+|---|---|---|
+| 2.1 | Topic | 「모두의 백제」 (confirmed) |
+| 2.2 | Stack | **Next.js 15** (App Router, TS, React 19, Node 20) + **Supabase** (Postgres 17 + PostGIS; **no pgvector in MVP**) + **Vercel**, all **Seoul** (`icn1` / `ap-northeast-2`) |
+| 2.3 | App shape | **PWA** (Serwist) — not native. Mobile-native KS X 3253 = 발전방향 |
+| 2.4 | Cache model | Next 15 + `unstable_cache` (never wrap per-user data). No Next 16 Cache Components yet |
+| 2.5 | Direction | **Narrow, contract-first, content-verified system** (not a broad platform) |
+| 2.6 | Routing | **Curated static route packages** for 6 POIs. **NO dynamic pgRouting / DEM** in MVP |
+| 2.7 | Data serving | **No runtime KTO calls.** All data published to Supabase by ETL; volatile data (crowd/weather/air) = short-interval snapshots. DB = primary cache + source of truth (demo-resilient) |
+| 2.8 | Search/AI | **No pgvector / RAG / embeddings / OCR / 360° / multi-AI-provider** in MVP → 발전방향 |
+| 2.9 | Messaging | **No FCM/APNs/알림톡** in MVP. In-app banner + Supabase Realtime for approved alerts |
+| 2.10 | ETL scheduler | **GitHub Actions** for heavy batch; **Vercel Cron** only for short refresh; GH Actions → HMAC-protected internal endpoint → `revalidateTag`; bounded TTL recovers on failure |
+| 2.11 | Auth | Core (탐색·도슨트·다이어리) works with **no login**. Supabase **Anonymous** auth only for UGC identity; social promotion optional |
+| 2.12 | Payment | None in MVP (info+recommendation only → no 통신판매업/여행업) |
+| 2.13 | A11y cert | **Self-assessment + manual screen-reader verification on the critical path**; formal WA/KWACC cert filing is **not** a pre-review blocker (→ 발전방향, file mid-Sept if buffered) |
+| 2.14 | Layer C cap | Certification correction capped at **+0.12** (1.00–1.12); KQ = metadata only. Documented as a refinement of the proposal's ×1.30 |
+| 2.15 | External data (MVP) | KTO (10 services) + BF인증 + 국가유산청 + 기상청 + 응급/AED + 충남(다도라/올담). Rest of the 24 → 발전방향 |
+| 2.16 | Content authored | Only the 백제 마스코트 6컷 is custom; all pictograms/AAC/쉬운글 reuse open sets (ARASAAC/KS/복지부/KODDI/국립특수교육원) |
+
+## 3. The 6 MVP POIs (공주 3 · 부여 3)
+
+공주: **공산성** (史477) · **무령왕릉과 왕릉원** (史13) · **국립공주박물관**
+부여: **부소산성** (史5) · **정림사지+정림사지박물관** (史301) · **국립부여박물관**
+Demo-priority pair (deepest content): **공산성 · 부소산성**.
+
+## 4. Architecture — three planes + pure-domain core
+
+```
+DATA PLANE        KTO + 공공 API ─► typed source adapters (string-first parse; JSON-ok/XML-error; Zod passthrough)
+                    ─► ETL CLI (GitHub Actions): source_records(raw) → normalize → validate → PUBLISH txn
+                    ─► Supabase (canonical POI, accessibility_facts, route_guides, docent_assets, approved UGC, dashboard snapshots)
+DOMAIN PLANE      pure TS, framework-free, TDD: calculateSuitability · buildItinerary · resolveGuide · moderateReport · buildDiaryDocument
+PRESENTATION      Next 15 RSC (unstable_cache, public read-models only) ─► Client: accessible LIST = source of truth; map = secondary; IndexedDB = profile/diary/offline guide
+```
+ETL failure ⇒ keep serving last successful publish (ingest ≠ publish transaction).
+
+**Monorepo (packages enforce agent boundaries; `domain` cannot import Next.js):**
+```
+apps/web/src/{app/[locale], features/{f1-poi-card,f1-planner,f1-route-guide,f1-safety,f1-community,f1-predictable,f2-docent,f3-report,f4-diary,f5-dashboard}, admin, shared}
+packages/{domain, application, db, kto-client, public-data-clients, etl, ui, exports, content-schema, test-fixtures}
+content/{pois, route-guides, docent, pictograms, licenses}
+supabase/{migrations, seed, tests}
+scripts/{ingest, validate-content, publish}
+tests/{contract, e2e, accessibility, demo}
+.github/workflows/{ci.yml, kto-etl.yml, release-readiness.yml}
+```
+
+**Module map:** `domain/poi` · `domain/accessibility` (capability + persona matrix + suitability) · `domain/itinerary` · `domain/guide` · `domain/docent` · `domain/reporting` · `domain/diary` · `domain/rto` · `integrations/kto` · `integrations/public-data` · `application` · `features` · `admin` · `etl`.
+
+## 5. Data model (Supabase) — raw/normalized separation, capability facts
+
+**Source/publish:** `ingest_runs` · `source_records(source, source_id, raw_payload, hash, fetched_at)` · `dataset_versions(dataset, published_version, published_at)` · `source_code_mappings(service, code_type, source_code, label)` (bootstrapped from `ldongCode2`/`lclsSystmCode2` — never hardcoded).
+
+**POI/accessibility (public read when published):** `pois(id, kto_content_id, geom, type, visibility)` · `poi_translations(poi_id, locale, title, description, provenance)` · `poi_media(url, license_code/cpyrhtDivCd, attribution, transform_policy)` · `poi_entrances(location, name, geometry, verified_at)` · **`accessibility_facts(poi_id, capability_code, status ∈ {supported|partial|unsupported|unknown}, detail, source, source_field, verified_at)`** ← decouples domain from KTO field names · `poi_certifications(grade, period, source)` · `nearby_facilities(kind ∈ {restroom|AED|hospital|equipment}, ...)` · `context_snapshots(weather, crowd, air, effective_period)`.
+
+**Routes/docent (public):** `route_guides(poi, persona_flags, version, published)` · `route_steps(seq, action, geometry, photo, easy_text)` · `route_hazards(type, severity, permanent|temporary)` · `itinerary_templates(budget_mode, ordered_pois, slot_durations)` · `docent_stories(poi, locale, mode, source)` · `docent_assets(audio, transcript, braille, sign_video)`.
+
+**UGC/admin (RLS):** `barrier_reports(reporter_id, poi, category, status, occurred_at)` — self insert/read, approved public · `report_evidence(private_storage_path)` — reporter+admin only · `moderation_events` — admin only · `reviews(persona, dimensions, status)` — approved public · `gpx_submissions(route, source, moderation_status)` · `admin_roles(user_id, role)` · `audit_events` — append-only, admin only. Pre-approval photos in a **private Storage bucket**; Realtime broadcasts **approved alert state only**, never raw reports.
+
+**F4/F5:** diary defaults to **IndexedDB**; server stores only explicitly-submitted data. Views: `gap_metric_snapshots`, `poi_completeness_mv`, `report_trends_mv`, `rto_dashboard_snapshots` (PT-reproducible).
+
+RLS default deny; anon-restrictive; admin via `admin_roles`.
+
+## 6. KTO API contracts (10 services) + integration rules
+
+Gateway `https://apis.data.go.kr/B551011/{ServiceID}/{op}` (provider B551011). Required every call: `serviceKey`, `MobileOS=ETC`, `MobileApp=ModuBaekje`. JSON via `&_type=json`; **errors are ALWAYS XML** → parse body-as-string first. Error codes: 00/0000 ok·03 no-data·10/11 bad/missing param·22 over-traffic·30 unregistered/double-encoded key·31 expired.
+
+| Service | Key ops | Notes/gotchas |
+|---|---|---|
+| KorService2 | areaBasedList2/Sync2, locationBasedList2, searchKeyword2/Festival2, detailCommon2/Intro2/Info2/Image2, ldongCode2, lclsSystmCode2 | primary content; `*2`; festival needs `eventStartDate` |
+| **KorWithService2** | **detailWithTour2** (barrier-free), list/detail | **authoritative accessibility source**; contentTypeId only 12/14/15/28/32/38 |
+| Odii | storyLocationBasedList/storyBasedList/themeBasedList | **`xCoord`/`yCoord`/`langCode`(ko/en/ja/zh-CN)/`radius`(m)**, own `themeNm`, no lclsSystm |
+| TatsCnctrRateService | tatsCnctrRateList | **legacy codes** (areaCd=34 충남; signguCd 부여=34800; **공주 TBD**); 0–100 index, not headcount |
+| DataLabService | locgoRegnVisitrDDList, metcoRegnVisitrDDList | startYmd/endYmd; ~4-day lag; **"방문자≠관광객" caveat mandatory** |
+| TarRlteTarService1 | areaBasedList1, searchKeyword1 | `1` suffix; legacy areaCd/signguCd+baseYm |
+| PhotoGalleryService1 | galleryList1/SearchList1/DetailList1 | 공공누리 1유형 (free) |
+| Eng/Jpn/Chs/ChtService2 | KorService2 op set (no detailPetTour2) | **multilingual contentTypeId: 관광지 76 / 문화 78 / 행사 85 / 레포츠 75 / 숙박 80 / 쇼핑 79 / 음식 82**; 여행코스25 has none |
+
+**Typed client (`packages/kto-client`):** `request<TReq,TRaw>(op,req) → {ok,data,rawBody,fetchedAt} | {ok:false,error,rawBody}`. DECODING key in server-only env, encode exactly **once** (double-encode = code 30). Zod `passthrough()`, strict on identifiers. Every normalized fact carries `source/sourceField/sourceUpdatedAt/ingestedAt`. **No hidden cache in client** (quota/retry = ETL's job; serverless token buckets aren't shared). Saved real-response **fixtures** → contract tests run without the live API.
+
+**New vs legacy codes (resolved):** standardize on `*2` + `lDong*`/`lclsSystm*`; treat legacy `areaCode`/`cat*` as read-only fallback. **Fetch lDong codes from `ldongCode2` at bootstrap — never hardcode 44/150/760.** `cat→lclsSystm` is NOT a rename → build label map empirically. Legacy `areaCd=34` (TatsCnctr/TarRlte/DataLab) ≠ lDong namespace.
+
+**Accounts:** dev = 1,000 calls/op/day (auto); **operating ≈ 100,000/day (review 1–3d, needs a registered 활용사례 URL) — apply EARLY, well before Oct.**
+
+## 7. 4-Layer 적합도 산식 (deterministic; `packages/domain/accessibility`)
+
+```
+calculateSuitability({ poiFacts, routeGuide, personaIds, timeContext, certifications, ugcSummary, calculationDate, policyVersion }) → SuitabilityResult
+
+capability value: supported 1.00 · partial 0.50 · unsupported 0.00 · unknown 0.35  (always return coverage separately)
+
+A (POI intrinsic) = 0.30 entry + 0.18 continuity + 0.15 amenities + 0.12 rest + 0.10 timeContext + 0.08 safety + 0.07 verifiedUgc
+   continuity = min(segment scores) (worst-segment, not average); rest = max no-rest travel vs persona threshold
+B (persona fit) = 0.75 + 0.25 × min(personaFit over selected personas)   ; personaFit = weightedMean (critical×4 / supporting×2 / other×1)
+   multi-persona uses the LOWEST personaFit (할아버지 vs 손녀: one's barrier can't be masked by the other)
+C (certification) = 1.00 + min(0.12, Σ[BF 예비+0.02|일반+0.05|우수+0.08] + [열린관광지+0.04])   → 1.00..1.12 ; KQ = metadata only
+D (freshness) = weightedMean(per-fact decay: ≤90d 1.00 / ≤365d 0.90 / >365d 0.75)   ; approved UGC refreshes only the related capability's date
+
+score = round(clamp(100 · A · B · C · D, 0, 100))
+
+Forced rules:
+  - any selected-persona CRITICAL capability = unsupported → score ≤ 49
+  - critical = unknown OR evidence coverage < 65% → label "정보 없음"
+  - else label: 75–100 방문가능 · 50–74 주의 · 0–49 대체추천
+  - score < 70 → also surface alternative POIs (TarRlteTar)
+  - return: total + per-axis contribution + deductions + data dates + policyVersion  (drives the F1.A transparent card)
+Null rule: empty field ⇒ "정보 없음 — 현장 확인 필요", split (a) 본질 제약 vs (b) 운영자 미입력. NEVER infer.
+```
+
+**Time budget:** select from curated `itinerary_templates` (not a general optimizer). total = POI stay + fixed transfer matrix + persona rest + meals + lodging-switch cost; persona multipliers take the **max**, not product (anti-explosion). 반나절→1박2일 = expansion within the same template family (PT-stable, identical result every run).
+
+## 8. Features → modules (canonical F1–F5)
+
+- **F1 무장애 토털 가이드 OS** — A POI 무장애 상세 카드 (`accessibility`,`features/f1-poi-card`) · B 사전 베리어프리 정적 경로 (`guide`,`features/f1-route-guide`) · C SOS·콜택시·보조기기+AAC (`features/f1-safety`, static directory) · D 시간예산 6단 + 4-Layer 산식 (`accessibility`,`itinerary`,`features/f1-planner`) · E 페르소나 후기 + GPX 환류 (`reporting`,`features/f1-community`,exports) · F **예측 가능 백제** 7요소 (`features/f1-predictable`, reuses F1.B step data).
+- **F2 Odii 4채널 도슨트** — 음성·자막·점자·수어 × ko/en/ja/zh-CN (`docent`,`features/f2-docent`); consent-gated geofence + **map-tap fallback**; "AI 음성 안내" badge; transcript always visible; `aria-live`.
+- **F3 배리어 제보 + 검수 큐** — structured report + photo → admin queue → approve → Realtime alert (`reporting`,`features/f3-report`,`admin/moderation`); **no auto-recalc**; reporter-trust filter.
+- **F4 다중 출력 다이어리** — local-first diary + quiz + 6 outputs: 학생PDF(충남교육청 form via pdf-lib) · 교사루브릭 · 점자.brf(braillify) · 쉬운글PDF · GPX · 단체합본 (`diary`,`features/f4-diary`,`exports`); react-pdf for new reports, **HTML alternative always**, **no Chromium in MVP**.
+- **F5 충남 RTO 갭 리포트** — completeness aggregates + visitor trends ("방문자≠관광객" caveat) (`rto`,`features/f5-dashboard`); doubles as B2G gap view.
+- **외국인 4언어** = cross-cutting locale/content layer over every public feature.
+
+## 9. Workstreams, contracts, dependency graph, timeline
+
+**Freeze first (one owner each, versioned):** ① DB Contract v1 (tables/enums/RLS/Storage) ② KTO Contract v1 (transport + raw fixtures + normalized types) ③ Domain Contract v1 (the 5 signatures) ④ Design Contract v1 (tokens + a11y primitives) ⑤ **Content Package Contract v1** (6-POI Zod schema: entrances/steps/photos/slope/단차/rest/AAC/docent/source/verified-date).
+
+**Streams:** C0 Contracts · C1 Data Platform · C2 KTO/ETL · C3 Design/A11y · **C4 Content (6-POI)** · F1-AD · F1-B · F1-C · F1-E · F1-F · F2 · F3 · F4 · F5 · I0 Integration (D.1 assembly) · Q0 Quality.
+
+```
+C0 ├─► C1 ─► C2 ─► F1-AD, F2, F5
+   ├─► C3 ──────► all features
+   └─► C4 ─► F1-AD, F1-B, F1-C, F1-F, F2, F4
+C1 ─► F3 ;  F1-B ─► F1-F, F1-E, F4 ;  F3 approve ─► F1-B alerts, F5
+(F1-AD+F1-B+F2+F3+F4+F5) ─► I0 ─► Q0
+```
+
+**Timeline (we are at 6/14):** 6/14–6/28 contracts + first vertical slice (공산성·국립공주박물관 data; 반나절+휠체어·시니어·가족 works on one screen; CI: typecheck/unit/axe/core-E2E) → 6/29–7/19 6-POI ETL/publish + F1.A/D + F1.B 공주 3 + F3 state machine + F4 PDF/BRF/GPX spike → 7/20–8/9 F1.B 부여 3 + F1.C/E/F + F2 4-lang/4-channel + F3 approve-alert + F4 6 outputs + F5 → 8/10–8/31 D.1 golden flow + Serwist offline (6-POI bundles) + manual NVDA/VoiceOver/TalkBack + license/AI-label/위치동의 audit + fallback drills → 9/1–9/15 real 관광약자 + a11y-expert validation; snapshot all demo API responses → 9/16–9/30 RC: feature freeze, PT scenario + backup video, demo seed vs prod separation, judge/admin accounts + incident runbook.
+
+## 10. KWCAG 2.2 + legal (condensed; see 06/07)
+
+**KWCAG 2.2** = 33 검사항목 (KS X OT0003). CI gates (fail PR): `@axe-core/playwright` violations=0 on core routes (exclude `.map-canvas`→manual), `jest-axe` components, Storybook `addon-a11y` (catches contrast), Lighthouse a11y ≥0.95, `eslint-plugin-jsx-a11y`. Dev-critical: route-change focus reset + `aria-live`; map keyboard/list alternative; docent consent + transcript + controls; contrast 4.5/3:1; `prefers-reduced-motion`; one h1 + landmarks + skip-link; labeled inputs; Radix/React-Aria focus traps. Voluntary: target ≥24px, focus-ring 3:1. **Manual NVDA/센스리더 is the cert-direct gate.**
+
+**Legal:** **위치정보법 제9조의2** 방통위 신고 before real-time GPS (MVP map-tap defers it); no raw-GPS persistence (§23 secure-wipe). **PIPA** separate consent checkboxes; PII only in Supabase Seoul Postgres (never CDN/Edge); disclose Vercel(US)/Kakao 위탁·국외이전. **AI 기본법** labels "AI 음성 안내/AI 번역/AI 생성 코스" (visible + SR). **KOGL** store `cpyrhtDivCd`; Type3 = no transform; per-asset attribution. Most-restrictive-wins handled per-asset (don't transform restricted assets); prefer OFL/CC-BY/ARASAAC for anything transformed.
+
+## 11. Risks & verify-at-build-time gates
+
+Top mitigations: raw-store + adapter isolation + fixture contract tests (API field drift); no auto-generated routes, per-POI verified-by/date (route error); unknown-separation + coverage + caps (false precision); 1 contract owner + versioned schema + dir ownership (agent drift); 1 vertical slice per F1–F5 (feature glut); snapshot data + pre-gen media + backup video (demo-day outage); **expert validation (관광약자/특수교육/점자) is non-negotiable and separate from dev**. **Verify-at-build-time (Foundation):** detailWithTour2 exact field keys vs guide v4.3 + live probe; lDong codes via ldongCode2; gateway suffixes via Swagger; TatsCnctr 공주 signguCd; Odii coverage for the 6 POIs.
+
+## 12. PT narrative (D.1 = the whole product as one story)
+
+No login → select 휠체어 할아버지 + 시니어 + 초등 손녀 → 반나절 공산성: entrance/rest/restroom/alert + **score evidence** → approved "동문 공사" report emphasizes 서문 static guide (no auto-reroute) → on-site Odii 음성·자막·점자·수어 → switch to 1박2일 → same verified template family extends to 부여 → 손녀's record → 학생PDF·쉬운글PDF·BRF·GPX → same data's gaps appear on the F5 충남 RTO dashboard.
+> **"한 번 수집한 무장애 데이터가 여행 전 판단, 현장 안내, 교육 기록, 다음 방문자의 경고, 충남의 시설 개선 우선순위까지 연결됩니다."**
+The win condition is **evidence that the same dataset traverses F1→F5**, not feature count.
+
+===== 02_architecture.md =====
+# 02 — 시스템 아키텍처 (System Architecture)
+
+> SPEC §4를 구현 가능한 수준으로 확장한 문서. 권위 원천은 `docs/plan/SPEC.md` (frozen). 본 문서는 SPEC §2 Locked decisions·§4 three planes·§5 data model·§9 workstreams를 구체화하며, 어떤 항목도 SPEC와 모순되지 않는다.
+> 스택은 LOCKED — Next.js 15 (App Router, React 19, Node 20) + Supabase (Postgres 17 + PostGIS) + Vercel (Seoul `icn1`), PWA(Serwist). **MVP 제외**: pgvector/RAG, dynamic pgRouting/DEM, FCM/APNs/알림톡, OCR/360°/multi-AI. **Layer C cap = +0.12**. **No runtime KTO calls** — DB가 1차 캐시이자 source of truth.
+> 참조: `_research/00_SYNTHESIS.md`, `_research/R4_supabase_vercel.md`, `_research/D2_tech_stack.md`, `_research/_pairing_reconcile.md`.
+
+---
+
+## 0. 아키텍처 한 줄
+
+> **Supabase에 ETL로 발행된 검증 데이터**(data plane) → **프레임워크 비의존 순수 TS 도메인**(domain plane)이 `calculateSuitability` 등 5개 결정적 함수로 가공 → **Next 15 RSC가 public read-model만 캐시**(presentation plane)하여 렌더. 한 번 수집한 무장애 데이터가 F1→F2→F3→F4→F5를 관통하며, **런타임에 KTO를 호출하지 않으므로 데모 당일 외부 의존이 0**이다.
+
+설계 불변식 (전 문서 공통):
+1. **순수 도메인은 Next.js·Supabase·React를 import 하지 않는다** (`packages/domain`은 0 framework deps).
+2. **접근성 리스트가 source of truth, 지도는 secondary** (canvas는 SR에 안 보임).
+3. **per-user 데이터는 절대 `unstable_cache`로 감싸지 않는다** (cross-user 유출).
+4. **ETL 실패 시 마지막 성공 publish를 계속 서빙** (ingest ≠ publish transaction).
+5. **PII는 Supabase Postgres(Seoul)에만** — CDN/Edge/Blob에 태우지 않는다.
+
+---
+
+## 1. 세 평면 (Three Planes) + 순수 도메인 코어
+
+### 1.1 평면 책임 정의
+
+| 평면 | 책임 (responsibility) | 무엇이 아닌가 (boundary) | 구현 위치 |
+|---|---|---|---|
+| **DATA PLANE** | KTO·공공 API를 typed adapter로 수집 → raw 저장 → normalize → validate → **PUBLISH 트랜잭션**으로 canonical 테이블에 발행. 휘발 데이터(혼잡·날씨·대기)는 짧은 주기 스냅샷. | 런타임 사용자 요청을 직접 처리하지 않음. KTO를 브라우저/RSC가 직접 부르지 않음. | `packages/{kto-client, public-data-clients, etl, db}` · GitHub Actions · Supabase |
+| **DOMAIN PLANE** | 결정적·TDD 순수 TS. `calculateSuitability` · `buildItinerary` · `resolveGuide` · `moderateReport` · `buildDiaryDocument`. KTO 필드명에 의존하지 않고 `capability_code`로 추상화된 입력만 받음. | I/O 없음. DB·HTTP·React·env 접근 없음. 랜덤·시계(`Date.now()`) 직접 호출 없음(주입). | `packages/domain` (framework-free) |
+| **PRESENTATION PLANE** | Next 15 RSC가 published read-model을 `unstable_cache`로 캐시해 렌더. 클라이언트: 접근성 리스트=source of truth, 지도=secondary, IndexedDB=프로필/다이어리/오프라인 가이드. | 비즈니스 로직 임베드 금지(도메인 호출만). per-user RLS 데이터를 Data Cache에 적재 금지. | `apps/web` |
+
+### 1.2 전체 데이터 흐름 다이어그램
+
+```
+┌──────────────────────────── DATA PLANE (build-time / batch) ────────────────────────────┐
+│  KTO TourAPI (10 svc)        공공 API (BF·국가유산청·기상·응급·충남)                        │
+│        │                            │                                                     │
+│        ▼                            ▼                                                      │
+│  packages/kto-client          packages/public-data-clients                                │
+│  request<TReq,TRaw>()         (string-first parse · Zod passthrough · single-encode key)  │
+│        └──────────────┬──────────────┘                                                    │
+│                       ▼                                                                    │
+│            packages/etl  (CLI, GitHub Actions)                                            │
+│            ① INGEST   → source_records(raw_payload, hash, fetched_at)   ← 실패해도 여기까지 │
+│            ② NORMALIZE→ adapter: raw 필드 → capability_code (KTO 필드명 격리)              │
+│            ③ VALIDATE → content-schema Zod (6-POI contract); coverage 계산                 │
+│            ④ PUBLISH (single txn) → canonical 테이블 + dataset_versions++                  │
+│                       │                                                                    │
+│                       ▼                                                                    │
+│            ⑤ POST /api/internal/revalidate  (HMAC)  → revalidateTag('poi:all', …)         │
+└───────────────────────┬───────────────────────────────────────────────────────────────┘
+                        │  (Supabase Postgres 17 + PostGIS, Seoul ap-northeast-2)
+                        │  canonical: pois · accessibility_facts · route_guides ·
+                        │             docent_assets · approved UGC · dashboard snapshots
+                        ▼
+┌──────────────── PRESENTATION PLANE (request-time, Vercel icn1) ───────────────────────────┐
+│  RSC (Server Component)                                                                     │
+│   ├─ getPublishedPoi(id)   ── unstable_cache(tags:['poi:{id}','poi:all']) → Vercel Data Cache│
+│   ├─ getAccessibilityFacts(id) ── same                                                      │
+│   └─ calls DOMAIN PLANE (pure):                                                             │
+│         calculateSuitability({ poiFacts, routeGuide, personaIds, timeContext, … })         │
+│                       │                                                                     │
+│                       ▼  SuitabilityResult { total, perAxis, deductions, dataDates, … }    │
+│   RSC streams HTML  →  Client islands (TanStack Query hydrate · Zustand prefs)             │
+│        │                                                                                    │
+│        ▼                                                                                    │
+│  Browser: AccessibleList(source of truth) ║ KakaoMap(CustomOverlay, secondary)             │
+│           IndexedDB: persona profile · diary draft · offline 6-POI bundle                  │
+│           Service Worker (Serwist): precache app shell + per-POI guide bundles             │
+│                                                                                            │
+│  per-user 경로 (RLS, NEVER cached): barrier_reports insert/read · diary submit ·           │
+│           Supabase Realtime(approved alert state only)                                      │
+└────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 1.3 흐름의 핵심 규칙
+
+- **ETL 실패 격리**: `INGEST`(②까지)와 `PUBLISH`(④)는 분리. `PUBLISH`가 단일 트랜잭션이므로 부분 발행이 없고, 실패 시 직전 `dataset_versions.published_version`이 그대로 서빙된다. bounded TTL이 다음 성공 publish까지 회복을 보장.
+- **capability 격리 (D7)**: `accessibility_facts(capability_code, status, source, source_field)`가 KTO `detailWithTour2`의 (아직 미검증인) 필드 키와 도메인을 분리한다. 도메인은 `WHEELCHAIR_ENTRY`·`BRAILLE_BLOCK` 같은 안정적 `capability_code`만 본다.
+- **런타임 KTO 0회 (D4)**: Tats(혼잡)·DataLab(방문자)·기상·대기까지 전부 짧은 주기 스냅샷으로 Supabase에 적재. 데모 당일 외부 API 장애가 화면에 영향을 주지 않는다.
+
+---
+
+## 2. 모노레포 패키지 레이아웃 + import 방향 규칙
+
+### 2.1 디렉터리 (SPEC §4 그대로)
+
+```
+apps/
+  web/                          # 유일한 Next.js 15 앱
+    src/
+      app/[locale]/             # next-intl 라우팅 (ko/en/ja/zh-CN)
+      features/                 # f1-poi-card · f1-planner · f1-route-guide · f1-safety ·
+                                # f1-community · f1-predictable · f2-docent · f3-report ·
+                                # f4-diary · f5-dashboard
+      admin/                    # moderation 큐 등 admin 화면
+      shared/                   # 앱 전용 공용 컴포넌트/훅 (도메인 아님)
+packages/
+  domain/                       # 순수 TS, 0 framework deps — 5개 결정적 함수
+  application/                  # 도메인 ↔ db/clients 오케스트레이션 (use-case 계층)
+  db/                           # Supabase 클라이언트 + 생성 타입 + query 함수
+  kto-client/                   # typed server-only KTO 클라이언트
+  public-data-clients/          # BF·국가유산청·기상·응급·충남 어댑터
+  etl/                          # INGEST→NORMALIZE→VALIDATE→PUBLISH CLI
+  ui/                           # 디자인 시스템 (Tailwind v4 토큰 + shadcn/Radix + a11y primitives)
+  exports/                      # PDF/BRF/GPX 생성 (react-pdf · pdf-lib · braillify)
+  content-schema/               # 6-POI Content Package Zod 스키마 + 타입
+  test-fixtures/               # 저장된 실제 KTO 응답 fixtures (contract test용)
+content/
+  {pois, route-guides, docent, pictograms, licenses}   # 큐레이션 콘텐츠 (Git 관리)
+supabase/
+  {migrations, seed, tests}
+scripts/
+  {ingest, validate-content, publish}
+tests/
+  {contract, e2e, accessibility, demo}
+.github/workflows/
+  {ci.yml, kto-etl.yml, release-readiness.yml}
+```
+
+### 2.2 각 패키지의 책임 (한 줄 계약)
+
+| 패키지 | 책임 | 노출 인터페이스 (대표) | 의존 가능 대상 |
+|---|---|---|---|
+| `domain` | 결정적 산식·일정·검수·다이어리 도큐먼트 로직. **순수.** | `calculateSuitability` · `buildItinerary` · `resolveGuide` · `moderateReport` · `buildDiaryDocument` + 타입 | (없음 — 0 deps) |
+| `content-schema` | 6-POI Content Package 계약 (entrances/steps/photos/slope/단차/rest/AAC/docent/source/verified-date)의 Zod 스키마와 타입 | `ContentPackageSchema`, `PoiContent` 타입 | `zod` |
+| `kto-client` | KTO 10서비스 transport. single-encode 키, JSON-ok/XML-error 처리, Zod passthrough. **숨은 캐시 없음.** | `request<TReq,TRaw>(op, req)` + 서비스 래퍼 | `zod` |
+| `public-data-clients` | 비KTO 공공 API 어댑터 (string-first parse, 좌표 변환) | `getBfCertifications` · `getEmergencyFacilities` · `getWeatherSnapshot` … | `zod`, `proj4` |
+| `etl` | 위 클라이언트로 수집 → normalize(어댑터) → validate(content-schema) → **PUBLISH txn** → HMAC revalidate | `runIngest()` · `runPublish()` (CLI 엔트리) | `kto-client`, `public-data-clients`, `content-schema`, `db`, `domain`(검증용) |
+| `db` | Supabase 클라이언트 팩토리 + `supabase gen types`로 생성된 TS 타입 + query 함수 | `createServerClient` · `createServiceClient` · `getPublishedPoi` … | `@supabase/ssr`, `@supabase/supabase-js` |
+| `application` | use-case 오케스트레이션 — db에서 read-model 조립 → domain 호출 → 결과 반환. RSC가 부르는 진입점. | `loadPoiCardModel(id, personaIds, ctx)` · `loadPlannerModel(...)` | `db`, `domain`, `content-schema` |
+| `ui` | 디자인 토큰·shadcn/Radix 프리미티브·a11y primitives(skip-link, RouteFocusReset, aria-live, focus-trap) | 컴포넌트 export | `react`, `tailwind`, `radix` |
+| `exports` | PDF(react-pdf)·official form fill(pdf-lib)·BRF(braillify)·GPX 생성. 항상 HTML 대안 동반. | `renderStudentPdf` · `fillChungnamForm` · `toBrf` · `toGpx` | `@react-pdf/renderer`, `pdf-lib`, `braillify` |
+| `test-fixtures` | 저장된 실제 KTO 응답. live API 없이 contract test 실행. | fixture 상수 export | (없음) |
+
+### 2.3 import 방향 규칙 (단방향, 강제)
+
+```
+        content-schema ─┐
+                        ▼
+   domain (0 deps) ◄── application ──► db ──► @supabase/ssr
+        ▲                  │                    @supabase/supabase-js
+        │                  └──► content-schema
+        │
+  apps/web/features ──► application ──► domain
+                   └──► ui
+                   └──► db (read-model query, RSC만)
+
+   etl ──► kto-client ──► (zod)
+       ──► public-data-clients
+       ──► content-schema
+       ──► db
+       ──► domain (publish 전 검증 시 산식 호출 가능)
+```
+
+**HARD RULES (CI eslint `no-restricted-imports` + dependency-cruiser로 강제):**
+
+1. **`domain`은 다음을 import 할 수 없다**: `next`, `next/*`, `react`, `@supabase/*`, `db`, `kto-client`, `public-data-clients`, `application`, `apps/web/*`. (순수성 위반 = CI fail)
+2. **`apps/web`는 `kto-client`·`public-data-clients`·`etl`을 import 할 수 없다.** 런타임 KTO 호출 금지를 구조로 못박는다 — 앱은 오직 `db`(published read-model)와 `application`만 본다.
+3. **`domain`은 어떤 패키지도 `domain`을 거꾸로 import 하지 않는다** (역방향 의존 0). 도메인은 잎(leaf).
+4. **`ui`는 `application`·`db`·`domain`을 import 하지 않는다** (프레젠테이션 프리미티브만).
+5. **KTO·service_role 키는 `kto-client`·`etl`·`db`(server) 안에서만**. `apps/web` 클라이언트 번들에 들어가면 CI fail (`server-only` 패키지 가드).
+
+```ts
+// dependency-cruiser 규칙 (요지) — .dependency-cruiser.cjs
+const RULES = [
+  { name: 'domain-is-pure',
+    severity: 'error',
+    from: { path: '^packages/domain' },
+    to:   { path: '(^node_modules/(next|react)|^packages/(db|kto-client|application))' } },
+  { name: 'web-no-kto',
+    severity: 'error',
+    from: { path: '^apps/web' },
+    to:   { path: '^packages/(kto-client|public-data-clients|etl)' } },
+];
+```
+
+---
+
+## 3. 모듈 맵 (Module Map)
+
+SPEC §4 module map을 패키지 내부 모듈로 전개.
+
+| 모듈 | 패키지 경로 | 책임 | 주요 export |
+|---|---|---|---|
+| `domain/poi` | `packages/domain/src/poi` | POI value object·capability 모델 | `Poi`, `Capability`, `CapabilityStatus` |
+| `domain/accessibility` | `.../accessibility` | capability + persona matrix + **suitability 산식** | `calculateSuitability`, `PersonaMatrix`, `SuitabilityResult` |
+| `domain/itinerary` | `.../itinerary` | 시간 예산 6단 + 5슬롯 분배 (curated template 선택) | `buildItinerary`, `ItineraryResult` |
+| `domain/guide` | `.../guide` | 정적 경로 가이드 단계 해석 (F1.B 데이터) | `resolveGuide`, `GuideStep` |
+| `domain/docent` | `.../docent` | 도슨트 채널/모드/언어 해석 (F2) | `resolveDocent`, `DocentTrack` |
+| `domain/reporting` | `.../reporting` | 제보 검수 상태기계 + reporter-trust (F3) | `moderateReport`, `ReportState` |
+| `domain/diary` | `.../diary` | 다이어리 도큐먼트 모델 (6 출력의 공통 IR) | `buildDiaryDocument`, `DiaryDocument` |
+| `domain/rto` | `.../rto` | completeness/gap 집계 규칙 (F5) | `computeGapMetrics` |
+| `integrations/kto` | `packages/kto-client` | KTO transport + 서비스 래퍼 | §2.2 |
+| `integrations/public-data` | `packages/public-data-clients` | 비KTO 어댑터 | §2.2 |
+| `application` | `packages/application` | use-case 오케스트레이션 | `loadPoiCardModel` … |
+| `features` | `apps/web/src/features/*` | 화면별 RSC + client island | feature별 page/section |
+| `admin` | `apps/web/src/admin` | 검수 큐·감사 화면 | `ModerationQueue` |
+| `etl` | `packages/etl` | 배치 파이프라인 | `runIngest`, `runPublish` |
+
+도메인 타입 시그니처 (계약, SPEC §7과 정합):
+
+```ts
+// packages/domain/src/accessibility/calculateSuitability.ts
+export type CapabilityStatus = 'supported' | 'partial' | 'unsupported' | 'unknown';
+
+export interface PoiFact {
+  capabilityCode: string;          // e.g. 'WHEELCHAIR_ENTRY' — KTO 필드명 아님
+  status: CapabilityStatus;
+  verifiedAt: string | null;       // ISO date; null ⇒ 미검증
+  source: string;                  // 'KorWithService2' | 'UGC' | 'BF인증' | …
+}
+
+export interface SuitabilityInput {
+  poiFacts: ReadonlyArray<PoiFact>;
+  routeGuide: RouteGuideSummary | null;
+  personaIds: ReadonlyArray<string>;
+  timeContext: TimeContext;        // 혼잡·기상·대기 스냅샷 (주입)
+  certifications: ReadonlyArray<Certification>;
+  ugcSummary: UgcSummary | null;
+  calculationDate: string;         // 시계 주입 — Date.now() 직접 호출 금지
+  policyVersion: string;
+}
+
+export interface SuitabilityResult {
+  total: number;                   // round(clamp(100·A·B·C·D, 0, 100))
+  label: '방문가능' | '주의' | '대체추천' | '정보없음';
+  perAxisContribution: Record<string, number>;
+  deductions: ReadonlyArray<{ reason: string; amount: number }>;
+  coverage: number;                // 0..1 — evidence coverage (라벨 결정에 사용)
+  dataDates: Record<string, string | null>;
+  policyVersion: string;
+  alternatives: ReadonlyArray<string>;   // score<70 → 대체 POI ids
+}
+
+export function calculateSuitability(input: SuitabilityInput): SuitabilityResult;
+```
+
+> 산식 본문(A/B/C/D 가중치, forced rules, null rule)은 SPEC §7이 권위. 본 문서는 시그니처·격리·주입(시계·timeContext)만 못박는다.
+
+---
+
+## 4. 캐싱 모델 (Caching Model)
+
+### 4.1 결정 (SPEC §2.4 · R4 §6)
+
+- **Next 15 + `unstable_cache`** 로 시작 (생태계 성숙도). Next 16 Cache Components는 아직 사용하지 않음.
+- **published read-model(public)만 캐시.** per-user/RLS 데이터는 절대 `unstable_cache`로 감싸지 않는다 (`cookies()`/`headers()` 접근 불가 → cross-user 유출).
+- 무효화는 **ETL의 `revalidateTag`** 가 유일한 경로 (시간 기반 TTL은 안전망).
+
+### 4.2 캐시 키·태그 설계
+
+| read-model | 캐시 메커니즘 | 태그 | revalidate(TTL 안전망) | 무효화 트리거 |
+|---|---|---|---|---|
+| POI 마스터 + 번역 | `unstable_cache` | `poi:all`, `poi:{id}` | 86400s (1일) | ETL POI publish |
+| accessibility_facts | `unstable_cache` | `poi:{id}`, `facts:all` | 86400s | ETL facts publish |
+| route_guides / steps | `unstable_cache` | `guide:{poi}` | 86400s | ETL guide publish |
+| docent_assets | `unstable_cache` | `docent:{poi}:{locale}` | 86400s | ETL docent publish |
+| context_snapshots (혼잡/날씨/대기) | `unstable_cache` | `context:{area}` | 1800s (30분) | 짧은 주기 cron publish |
+| dashboard snapshots (F5) | `unstable_cache` | `rto:dashboard` | 86400s | MV refresh publish |
+| **barrier_reports (per-user/RLS)** | **캐시 금지** — React `cache()` (요청 단위 memo)만 | — | — | (실시간) |
+| **diary / profile** | IndexedDB (서버 캐시 아님) | — | — | (local-first) |
+
+```ts
+// packages/db/src/readModels.ts — public read-model만 unstable_cache
+import { unstable_cache } from 'next/cache';
+
+const POI_TTL_SECONDS = 86_400;            // 1 day safety-net (정상 무효화는 revalidateTag)
+const CONTEXT_TTL_SECONDS = 1_800;         // 30 min for volatile snapshots
+
+export const getPublishedPoi = unstable_cache(
+  async (poiId: string) => queryPublishedPoi(poiId),   // service-role read of published rows
+  ['published-poi'],
+  { tags: ['poi:all'], revalidate: POI_TTL_SECONDS },
+);
+// per-user 데이터(barrier_reports 등)는 절대 여기 들어오지 않는다.
+```
+
+### 4.3 안티패턴 가드
+
+- `unstable_cache` 콜백 내부에서 `cookies()`/`headers()`/`auth.getUser()` 호출 금지 — RSC lint 룰로 검출.
+- per-user 결과는 RSC에서 `cache()`(요청 단위)로만 메모. Data Cache 적재 금지.
+- Next 16 `use cache` 와 혼용 금지 (`cacheComponents` off 상태에서 `use cache`는 no-op).
+
+---
+
+## 5. Vercel 구성 (icn1 + cron) — `vercel.json`
+
+### 5.1 리전 핀 + 짧은 refresh cron
+
+```jsonc
+// vercel.json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "regions": ["icn1"],                      // 전 함수 Seoul (ap-northeast-2) 고정.
+                                            // 기본값 iad1(워싱턴)이면 매 호출 태평양 왕복 발생.
+  "crons": [
+    // 짧은 주기 refresh만 Vercel Cron이 담당 (SPEC §2.10).
+    // 휘발 데이터(혼잡/날씨/대기) 스냅샷 갱신. UTC 고정 → KST 환산 필수.
+    { "path": "/api/cron/refresh-context", "schedule": "0 * * * *" }   // 매시 정각 (UTC=KST 기준 시각 무관 hourly)
+  ],
+  "functions": {
+    "src/app/api/exports/**/*": { "maxDuration": 60 }   // PDF/BRF 생성 여유
+  }
+}
+```
+
+> **무거운 배치 ETL은 Vercel Cron이 아니라 GitHub Actions** (`.github/workflows/kto-etl.yml`). Vercel Cron은 SPEC §2.10대로 짧은 refresh 전용. KST 04:00 일배치가 필요하면 `0 19 * * *`(UTC)지만, 본 프로젝트의 무거운 수집은 GH Actions로 분리한다 (Hobby 1일 1회 제약·serverless duration 한계 회피).
+
+### 5.2 Cron 엔드포인트 보호
+
+```ts
+// apps/web/src/app/api/cron/refresh-context/route.ts
+export async function GET(req: Request) {
+  // Vercel Cron은 production 배포에만 트리거. CRON_SECRET으로 외부 호출 차단.
+  if (req.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', { status: 401 });
+  }
+  await refreshContextSnapshots();          // Tats/날씨/대기 → context_snapshots upsert
+  return Response.json({ ok: true });
+}
+```
+
+### 5.3 플랜·리전 결정 근거 (R4 §7·§9)
+
+- **Pro 권장 (심사 기간)**: Supabase Free는 1주 비활성 시 일시정지(심사 직전 사고), Vercel Hobby cron은 1일 1회. 심사 기간(2026-10 전후) 둘 다 Pro.
+- **단일 리전 `icn1`로 충분** (Hobby 단일 리전, Pro 최대 3). Edge/미들웨어는 글로벌 배포되므로 **PII를 미들웨어에서 다루지 않는다**.
+
+---
+
+## 6. No-runtime-KTO-calls 원칙 + DB-as-cache + HMAC revalidate
+
+### 6.1 원칙 (SPEC §2.7 · D4)
+
+런타임 사용자 요청은 **절대 KTO를 호출하지 않는다**. 모든 데이터는 ETL이 Supabase에 발행한다. 휘발 데이터(혼잡·방문자·날씨·대기)도 짧은 주기 스냅샷으로 DB에 적재된다. 따라서 **DB가 1차 캐시이자 source of truth**이며, 데모 당일 외부 API 장애가 화면에 0 영향이다.
+
+근거: (a) serverless token-bucket은 인스턴스 간 공유되지 않아 쿼터 가드가 불안정(per-instance), (b) KTO 에러는 항상 XML이라 런타임 파싱 리스크, (c) 운영 계정 100k/day는 데모 트래픽엔 충분하지만 **장애 회복력**이 핵심.
+
+### 6.2 DB-as-cache 흐름 (ingest ≠ publish)
+
+```
+GitHub Actions (kto-etl.yml, 일배치)
+  │
+  ├─ ① INGEST  : kto-client.request() → source_records(raw_payload, hash, fetched_at)
+  │              실패해도 여기서 멈춤. canonical은 직전 상태 유지.
+  │
+  ├─ ② NORMALIZE: adapter가 raw → accessibility_facts(capability_code, status, source_field)
+  │              KTO 필드명(detailWithTour2 미검증 키)을 여기서 흡수.
+  │
+  ├─ ③ VALIDATE : content-schema Zod (6-POI). coverage 계산. 실패 POI는 publish 제외.
+  │
+  ├─ ④ PUBLISH  : 단일 트랜잭션
+  │      BEGIN;
+  │        upsert pois / accessibility_facts / route_guides / docent_assets / snapshots;
+  │        update dataset_versions set published_version = published_version + 1, published_at = now();
+  │      COMMIT;            ← 부분 발행 없음. 실패 시 ROLLBACK → 직전 버전 그대로 서빙.
+  │
+  └─ ⑤ REVALIDATE: POST https://{prod}/api/internal/revalidate  (HMAC 서명)
+```
+
+### 6.3 HMAC-protected revalidate 엔드포인트
+
+GH Actions는 Vercel과 다른 신뢰 도메인이므로, publish 직후 내부 엔드포인트를 **HMAC 서명**으로 호출해 캐시를 무효화한다 (D13).
+
+```ts
+// apps/web/src/app/api/internal/revalidate/route.ts
+import { createHmac, timingSafeEqual } from 'node:crypto';
+import { revalidateTag } from 'next/cache';
+
+const SIGNATURE_HEADER = 'x-revalidate-signature';
+const MAX_SKEW_MS = 300_000;                 // 5분 — replay 방지 timestamp 윈도우
+
+export async function POST(req: Request) {
+  const body = await req.text();             // { tags: string[], ts: number }
+  const provided = req.headers.get(SIGNATURE_HEADER) ?? '';
+  const expected = createHmac('sha256', process.env.REVALIDATE_HMAC_SECRET!)
+    .update(body).digest('hex');
+
+  const ok = provided.length === expected.length &&
+             timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  if (!ok) { return new Response('Bad signature', { status: 401 }); }
+
+  const { tags, ts } = JSON.parse(body) as { tags: string[]; ts: number };
+  if (Math.abs(Date.now() - ts) > MAX_SKEW_MS) {
+    return new Response('Stale', { status: 401 });   // replay 차단
+  }
+  for (const tag of tags) { revalidateTag(tag); }
+  return Response.json({ revalidated: tags });
+}
+```
+
+```ts
+// packages/etl/src/revalidate.ts — publish 트랜잭션 직후 호출
+export async function notifyRevalidate(tags: string[]): Promise<void> {
+  const payload = JSON.stringify({ tags, ts: Date.now() });
+  const signature = createHmac('sha256', process.env.REVALIDATE_HMAC_SECRET!)
+    .update(payload).digest('hex');
+  await fetch(`${process.env.PROD_BASE_URL}/api/internal/revalidate`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', 'x-revalidate-signature': signature },
+    body: payload,
+  });
+}
+```
+
+### 6.4 회복 모델
+
+- revalidate 호출이 실패해도 **bounded TTL**(POI 86400s, context 1800s)이 다음 요청에서 SWR로 갱신을 보장 → 캐시가 영원히 stale 되지 않는다.
+- PUBLISH 트랜잭션이 실패하면 `dataset_versions`가 증가하지 않으므로 read-model은 직전 발행을 계속 서빙. **데모 무중단.**
+
+---
+
+## 7. 요청 생애주기 스케치 (Request Lifecycle)
+
+### 7.1 공개 읽기 경로 — F1.A POI 카드 (대표)
+
+```
+사용자 → GET /ko/poi/공산성?persona=P1a,P1b,P3&budget=halfday
+  │
+  1. Vercel Edge (icn1) → Next 15 RSC 진입. next-intl 미들웨어가 locale=ko 해석.
+  │   (미들웨어는 PII 미접근, Cache-Control 누수 방지 헤더만 설정)
+  │
+  2. RSC: application.loadPoiCardModel(poiId, personaIds, ctx)
+  │     ├─ db.getPublishedPoi(poiId)          ── unstable_cache HIT? → Vercel Data Cache
+  │     ├─ db.getAccessibilityFacts(poiId)    ── unstable_cache
+  │     ├─ db.getContextSnapshot(areaCode)    ── unstable_cache (30분 TTL)
+  │     └─ (KTO 호출 0회 — 전부 published read-model)
+  │
+  3. RSC → domain.calculateSuitability({ poiFacts, personaIds, timeContext, certifications,
+  │                                      calculationDate(주입), policyVersion })
+  │     → SuitabilityResult { total:82, label:'방문가능', perAxisContribution, deductions,
+  │                           coverage, dataDates, alternatives }
+  │
+  4. RSC가 HTML 스트리밍:
+  │     <AccessibleList> (source of truth) + 투명 evidence 카드(perAxis/deductions/dataDates)
+  │     <KakaoMap>는 client island로 지연 로드 (secondary)
+  │
+  5. Client hydrate: TanStack Query가 RSC dehydrated state 흡수, Zustand가 persona/언어 prefs 로드.
+  │     IndexedDB에서 persona 프로필 복원 → 즉시 모든 카드에 적용.
+  │
+  6. Service Worker(Serwist): app shell precache HIT. 6-POI 번들이면 오프라인에서도 동작.
+```
+
+**라운드트립**: 외부 API 0회. Data Cache HIT 시 DB 조회도 0회. domain 산식은 순수·동기 → 마이크로초 단위.
+
+### 7.2 per-user 쓰기 경로 — F3 배리어 제보
+
+```
+사용자 → Server Action submitReport(form, photo)
+  │
+  1. db.createServerClient() → auth.getUser() (getSession() 금지 — 서버 검증 안 됨)
+  │     익명 사용자도 authenticated 역할 (is_anonymous=true). UGC identity용.
+  │
+  2. 사진 → Supabase Storage PRIVATE 버킷 'ugc-pending' (승인 전 비공개, signed URL은 admin만)
+  │
+  3. insert barrier_reports (RLS: owner insert, restrictive: 영구 사용자만? — UGC는 anon 허용,
+  │     pre-approval은 status='pending', 공개 read는 status='approved'만)
+  │     → 절대 unstable_cache 경유하지 않음 (per-user/RLS)
+  │
+  4. admin 검수 큐(/admin/moderation)에서 moderateReport 상태기계로 approve
+  │     → Postgres 트리거가 realtime.broadcast_changes()로 approved alert state만 방송
+  │     (raw report 본문은 방송하지 않음 — region:{area} 토픽)
+  │
+  5. 구독 중인 클라이언트가 in-app 배너로 수신 (FCM/APNs 없음 — SPEC §2.9)
+```
+
+### 7.3 배치 경로 — 일배치 ETL (GitHub Actions)
+
+```
+.github/workflows/kto-etl.yml (cron) → packages/etl runIngest → runPublish
+  → §6.2 ① INGEST → ② NORMALIZE → ③ VALIDATE → ④ PUBLISH(txn) → ⑤ HMAC revalidate
+  → 실패 시 직전 published_version 유지, bounded TTL이 회복.
+```
+
+---
+
+## 8. 확정 기술 스택 표 (라이브러리 + 정확 버전)
+
+> SPEC §2.2·§2.3, SYNTHESIS §1, R-briefs 기준. MVP 제외 라인은 발전방향으로 명시.
+
+### 8.1 코어 플랫폼
+
+| 레이어 | 라이브러리 | 버전/설정 | 비고 |
+|---|---|---|---|
+| 프레임워크 | Next.js (App Router) | **15.x** | Next 16 Cache Components는 발전방향 |
+| 런타임/언어 | React 19 · TypeScript · Node | **Node 20 LTS** | Node 18 EOL |
+| 번들러 | Turbopack | dev 기본 | — |
+| 호스팅 | Vercel | region **`icn1`** (ap-northeast-2) | `vercel.json` `"regions":["icn1"]` |
+| DB/BaaS | Supabase | Postgres **17** + PostGIS, region `ap-northeast-2` | **pgvector 미사용(MVP)** |
+
+### 8.2 UI / 스타일
+
+| 라이브러리 | 버전 | 역할 |
+|---|---|---|
+| Tailwind CSS | **v4** (`@theme`, OKLCH, `tw-animate-css`) | 전 스타일 |
+| shadcn/ui | code-copy (npm 아님), Radix 기반 | 프리미티브 |
+| Radix UI / React Aria | WAI-ARIA complete | focus-trap·ARIA (직접 구현 금지) |
+| Pretendard | static TTF (SIL OFL 1.1) | UI + PDF embed |
+
+### 8.3 상태 / 데이터 / i18n
+
+| 관심사 | 라이브러리 | 설정 |
+|---|---|---|
+| 서버 상태 | **TanStack Query v5** | `staleTime 60_000`, `gcTime 300_000`; RSC hydrate |
+| 클라이언트 상태 | **Zustand** | 필터·a11y prefs·언어 |
+| 폼 | **React Hook Form + Zod** | 검색/의도 폼 |
+| i18n | **next-intl v3** | `app/[locale]`, ICU; `ko/en/ja/zh-CN` |
+| Supabase 클라이언트 | **@supabase/ssr 0.12.0** | `getAll/setAll` 쿠키; 인가는 `getUser()`/`getClaims()` (`getSession()` 금지) |
+
+### 8.4 지도 / 지오
+
+| 관심사 | 선택 | 비고 |
+|---|---|---|
+| 베이스맵 + 한국 POI/주소 | **Kakao Maps JS SDK** (`libraries=services,clusterer,drawing`); `react-kakao-maps-sdk` | CustomOverlay = DOM/ARIA 마커 |
+| 정부 공간 보강 | **VWorld** (행정경계·보조 geocoder·WMS) | — |
+| 권위 주소 | **도로명주소 API**(juso.go.kr) | 공개 도로명+영문 (무인증) |
+| 좌표 변환 | **proj4js**(client) / **pyproj**(ETL) | EPSG:5179/5186 ↔ 4326 |
+| 제외 | Mapbox | KR 주소 geocoding + 지도 residency |
+
+### 8.5 문서 / 미디어 / 출력
+
+| 관심사 | 선택 | 비고 |
+|---|---|---|
+| **PDF** | **@react-pdf/renderer** (Node route, no Chromium) + Pretendard TTF + `registerHyphenationCallback`(CJK) | 신규 리포트 |
+| official form fill | **pdf-lib** + `@pdf-lib/fontkit` | 충남교육청 체험학습 서식 |
+| **점자** | **braillify** (npm **2.0.1**, Apache-2.0, WASM) | Unicode U+2800 + `.brf`(40×25 + FF) |
+| GPX | hand-written **GPX 1.1** XML | WGS84/metric |
+| 오프라인 PWA | **Serwist `@serwist/next` 9.5.11** + IndexedDB(`idb`/`localForage`) | app shell + 6-POI 번들 precache |
+| 차트(F5) | Recharts (MIT) / ECharts (Apache-2.0) | RTO 대시보드 |
+| HTML 대안 | 모든 PDF에 **항상 HTML 대안** | KWCAG — PDF-only 화면 금지 |
+| **제외(발전방향)** | pgvector/RAG, OCR, 360°, Puppeteer/Chromium, multi-AI provider | SPEC §2.8 |
+
+### 8.6 인증 / 메시징 / Cron
+
+| 관심사 | 선택 | 비고 |
+|---|---|---|
+| Auth | **Supabase Anonymous** (UGC identity); 소셜 승격 optional | 코어는 무로그인 동작 (SPEC §2.11) |
+| 실시간 | **Supabase Realtime (Broadcast from Database)** | approved alert state만 |
+| 메시징 | **in-app 배너** (FCM/APNs/알림톡 없음 — MVP) | SPEC §2.9 |
+| 무거운 배치 ETL | **GitHub Actions** (`kto-etl.yml`) | SPEC §2.10 |
+| 짧은 refresh | **Vercel Cron** (`vercel.json crons`, UTC) | context 스냅샷 |
+| a11y test | `@axe-core/playwright`, `jest-axe`/`vi-axe 10`, Storybook `addon-a11y`, Lighthouse v12, `eslint-plugin-jsx-a11y` | CI 게이트 (06/10 참조) |
+
+---
+
+## 9. 환경 변수 · 시크릿 경계
+
+| 변수 | 위치 | 노출 경계 |
+|---|---|---|
+| `KTO_SERVICE_KEY` (**DECODING** 키) | `etl`/`kto-client` (server-only) | 클라이언트 번들 금지. single-encode. 로그에서 strip. |
+| `SUPABASE_SERVICE_ROLE_KEY` | `etl`·server route | 클라이언트 금지 |
+| `NEXT_PUBLIC_SUPABASE_URL` / `…_PUBLISHABLE_KEY` | 클라이언트 OK | RLS가 방어선 |
+| `CRON_SECRET` | Vercel env | cron 엔드포인트 인증 |
+| `REVALIDATE_HMAC_SECRET` | GH Actions + Vercel env (공유) | HMAC 서명/검증 |
+| `KAKAO_MAP_JS_KEY` | 클라이언트 (도메인 제한) | JS 키, REST 키는 server-only |
+
+> SPEC §6: DECODING 키를 server-only env에 두고 `URLSearchParams`/`new URL()`로 **정확히 한 번** 인코딩 (double-encode = code 30). 클라이언트 노출·로그 노출 금지.
+
+---
+
+## 10. 비용 봉투 (Cost Envelope)
+
+| 항목 | 플랜 | 월 비용 |
+|---|---|---|
+| Supabase | Pro (심사 기간) | $25 |
+| Vercel | Pro (심사 기간) | $20 |
+| OpenAI 임베딩 | — (pgvector 미사용 MVP) | $0 |
+| **합계** | | **~$45/mo** |
+
+근거 (R4 §9): 개발 중엔 Free 가능하나 심사 기간(2026-10 전후)엔 **둘 다 Pro** — Supabase Free 1주 일시정지 + Vercel Hobby cron 1일 1회 제약 회피. 콘테스트 트래픽은 Pro 포함 한도 내 여유. Upstash Redis는 제외(런타임 KTO 0회 → 쿼터 가드 불필요).
+
+---
+
+## 11. 수용 기준 (Acceptance Criteria)
+
+본 아키텍처가 "구현 가능"하려면 다음이 CI/리뷰에서 검증되어야 한다.
+
+- [ ] `packages/domain`이 `next`/`react`/`@supabase/*`/`db`/`kto-client`를 import 하지 않음 (dependency-cruiser `error`).
+- [ ] `apps/web`가 `kto-client`/`public-data-clients`/`etl`을 import 하지 않음 (런타임 KTO 0회 구조 보장).
+- [ ] `unstable_cache` 콜백 내 `cookies()`/`headers()`/`getUser()` 호출 0건 (lint).
+- [ ] per-user 테이블(barrier_reports/diary)이 어떤 `unstable_cache` 호출에도 등장하지 않음.
+- [ ] `vercel.json`에 `"regions":["icn1"]` 존재. 모든 함수가 icn1로 핀.
+- [ ] `/api/internal/revalidate`가 HMAC 미서명 요청을 401로 거부 + 5분 skew 초과 401 (contract test).
+- [ ] PUBLISH가 단일 트랜잭션 — 부분 발행 시 ROLLBACK 후 직전 `published_version` 서빙 (etl test).
+- [ ] `calculateSuitability`가 동일 입력에 동일 출력 (golden test) + `calculationDate` 주입(시계 직접 호출 0).
+- [ ] KTO DECODING 키가 클라이언트 번들/로그에 등장 0건.
+- [ ] 모든 PDF 출력 경로에 HTML 대안 존재 (KWCAG).
+- [ ] contract test가 `test-fixtures`만으로(live KTO 없이) 통과.
+
+---
+
+## 12. 미해결 항목 (이 문서 범위에서)
+
+- **detailWithTour2 정확 필드 키** (guide v4.3 + live probe) — `accessibility_facts.source_field` 매핑이 여기 의존. `capability_code` 추상화로 도메인은 격리되나 NORMALIZE 어댑터는 검증 필요. (SPEC §11, blocking C2)
+- **lDong 코드** (`ldongCode2` bootstrap) — 하드코딩 금지. ETL bootstrap이 채움.
+- **Next 15 → 16 마이그레이션 시점** — 본 문서는 15 + `unstable_cache` 고정. 16은 발전방향.
+- **CSAP** — 발주처가 정부기관이 되면 Vercel/Supabase 대신 NCloud/NHN 강제 가능 (아키텍처 변경). 현재 비정부 가정.
+
+===== 05_feature_F1_total_guide.md =====
+# 05 — F1 무장애 토털 가이드 OS (구현 기획)
+
+> **Status:** EXPANDS `SPEC.md` §7 + §8(F1) + 제안서 §F1.A–F. SPEC = 단일 진실원. 본 문서는 SPEC와 충돌하지 않으며, F1 6 sub-feature를 빌드 가능한 수준으로 상세화한다.
+> **Scope:** F1.A POI 무장애 상세 카드 · F1.B 사전 베리어프리 정적 경로 · F1.C SOS·콜택시·보조기기+AAC · F1.D 시간예산 6단 + 4-Layer 적합도 산식 · F1.E 페르소나 후기 + GPX 환류 · F1.F 예측 가능 백제 7요소.
+> **Stack (LOCKED):** Next.js 15 (App Router/RSC, TS, React 19) + Supabase (PG17 + PostGIS, no pgvector) + Vercel `icn1`. PWA(Serwist). **No pgvector/RAG/dynamic-routing/messaging in MVP. Layer C cap +0.12. 정적 큐레이션 6-POI 경로. 런타임 KTO 호출 없음 — DB 스냅샷.**
+> **소유 모듈:** `packages/domain/{accessibility,itinerary,guide}` · `apps/web/src/features/{f1-poi-card,f1-route-guide,f1-safety,f1-planner,f1-community,f1-predictable}` · `packages/exports`.
+
+---
+
+## 0. F1 한눈에 — sub-feature → 모듈 → 데이터 → 워크스트림
+
+| Sub | 명칭 | 도메인 모듈 | feature 모듈 | 핵심 read-model | 워크스트림 | MVP 단계 |
+|---|---|---|---|---|---|---|
+| **F1.A** | POI 무장애 상세 카드 | `domain/accessibility` | `features/f1-poi-card` | `accessibility_facts`·`poi_certifications`·`poi_entrances`·`nearby_facilities`·`context_snapshots` | F1-AD | 1차 |
+| **F1.B** | 사전 베리어프리 정적 경로 | `domain/guide` | `features/f1-route-guide` | `route_guides`·`route_steps`·`route_hazards` | F1-B | 공주 1차 / 부여 2차 |
+| **F1.C** | SOS·콜택시·보조기기+AAC | — (static directory) | `features/f1-safety` | `nearby_facilities`·`safety_directory`(static JSON)·`aac_cards` | F1-C | 2차 |
+| **F1.D** | 시간예산 6단 + 4-Layer 산식 | `domain/accessibility`·`domain/itinerary` | `features/f1-planner` | `itinerary_templates` + F1.A reads | F1-AD | 1차 |
+| **F1.E** | 페르소나 후기 + GPX | `domain/reporting` | `features/f1-community` | `reviews`·`gpx_submissions` | F1-E | 2차 |
+| **F1.F** | 예측 가능 백제 7요소 | — (reuses F1.B step data) | `features/f1-predictable` | `route_steps`(픽토그램 id)·`aac_cards`·`pictogram_assets` | F1-F | 2차 |
+
+**의존 그래프 (SPEC §9):** `C4 Content → F1-AD, F1-B, F1-C, F1-F` · `F1-B → F1-F, F1-E, F4` · `F3 approve → F1-B alerts`.
+
+**핵심 설계 불변식 (모든 sub-feature 공통):**
+1. **접근성 LIST = 진실원, MAP = 보조.** 지도 캔버스는 스크린리더에 비가시 → 모든 POI/단차/회전영역/경로단계는 텍스트 리스트로 먼저 존재한다 (R5 §6.3).
+2. **NEVER infer.** 빈 필드는 추론 금지 → `unknown` + "정보 없음 — 현장 확인 필요", 부재사유 (a)본질제약 vs (b)운영자 미입력 분리 (SPEC §7 Null rule).
+3. **런타임 KTO 호출 0.** 모든 데이터는 ETL이 Supabase에 publish한 read-model에서 RSC `unstable_cache`로 읽는다. 변동 데이터(혼잡/날씨/대기)도 단주기 스냅샷.
+4. **결정론(determinism).** `calculateSuitability`/`buildItinerary`는 동일 입력 → 동일 출력. PT에서 매 실행 동일 결과 (정적 템플릿 선택, 일반 최적화기 아님).
+5. **투명성(transparency).** 점수는 항상 per-axis 기여·감점·데이터 날짜·`policyVersion`을 함께 반환 → F1.A 증거 카드가 렌더.
+
+---
+
+## 1. 데이터 모델 — F1 read-models (DDL 스케치)
+
+> SPEC §5 테이블의 F1 관련 서브셋. **public read = published 행만.** RLS default deny. 모든 정규화 fact는 `source / source_field / source_updated_at / ingested_at / verified_at` 출처 4-튜플을 보유한다.
+
+### 1.1 capability 모델 — `accessibility_facts` (F1.A·F1.D 코어)
+
+도메인을 KTO 필드명(미검증)에서 분리하는 핵심 테이블. `capability_code`는 도메인 enum, KTO `detailWithTour2` 필드는 `source_field`에만 기록.
+
+```sql
+-- domain capability codes are framework-stable; KTO field names live in source_field only
+CREATE TYPE capability_status AS ENUM ('supported', 'partial', 'unsupported', 'unknown');
+
+CREATE TYPE absence_reason AS ENUM (
+  'intrinsic',     -- (a) 본질 제약: 사적지 계단 등 문화재 보존 사유 (개선 불가)
+  'unentered',     -- (b) 운영자 미입력: F5 갭 리포트 우선 (개선 가능)
+  'not_applicable' -- capability irrelevant to this POI type
+);
+
+CREATE TABLE accessibility_facts (
+  id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id          uuid NOT NULL REFERENCES pois(id),
+  capability_code text NOT NULL,            -- e.g. 'entrance_step_free', 'braille_block', 'accessible_restroom'
+  status          capability_status NOT NULL,
+  absence_reason  absence_reason,           -- non-null only when status IN ('unsupported','unknown')
+  detail          text,                     -- human-readable note (KO), nullable
+  source          text NOT NULL,            -- 'KorWithService2' | 'BF인증' | 'UGC' | 'survey' | ...
+  source_field    text,                     -- raw KTO key, e.g. 'wheelchair' (audit only; domain never reads this)
+  source_updated_at timestamptz,            -- KTO modifiedtime (drives Layer D freshness)
+  verified_at     timestamptz,              -- field-survey or UGC verification date
+  published       boolean NOT NULL DEFAULT false,
+  UNIQUE (poi_id, capability_code, source)
+);
+CREATE INDEX ON accessibility_facts (poi_id) WHERE published;
+```
+
+**capability_code 표준 집합 (도메인 enum, 21 → 분류축):** `detailWithTour2` 21필드를 도메인 capability로 매핑. 정확한 KTO 필드 키는 **guide v4.3 검증 후 확정**(SPEC §11 verify-at-build-time, 미검증이면 `unknown`). 매핑 표는 §2.2.
+
+### 1.2 출입구·인증·시설·맥락 (F1.A 보조 영역)
+
+```sql
+CREATE TABLE poi_entrances (
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id        uuid NOT NULL REFERENCES pois(id),
+  name          text NOT NULL,              -- '서문' | '북문' | '정문'
+  geom          geography(Point, 4326),
+  slope_grade   numeric(4,1),              -- NGII DEM 유도 경사도(%) — 정적, 런타임 DEM 호출 없음
+  step_free     boolean,                   -- null = 미확인
+  photo_refs    text[],                    -- poi_media ids / storage paths
+  ugc_verify_count int NOT NULL DEFAULT 0,
+  verified_at   timestamptz,
+  published     boolean NOT NULL DEFAULT false
+);
+
+CREATE TABLE poi_certifications (        -- Layer C 입력
+  id        uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id    uuid NOT NULL REFERENCES pois(id),
+  scheme    text NOT NULL,               -- 'BF' | '열린관광지' | 'KQ'
+  grade     text,                        -- BF: '예비' | '일반' | '우수'
+  period    daterange,
+  source    text NOT NULL,
+  published boolean NOT NULL DEFAULT false
+);
+
+CREATE TABLE nearby_facilities (         -- F1.A 응급/화장실/보조기기 + F1.C
+  id        uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id    uuid NOT NULL REFERENCES pois(id),
+  kind      text NOT NULL,               -- 'restroom' | 'AED' | 'hospital' | 'equipment'
+  name      text NOT NULL,
+  geom      geography(Point, 4326),
+  distance_m int,                        -- precomputed to POI centroid
+  detail    jsonb,                       -- phone, hours, rental contact, etc.
+  source    text NOT NULL,
+  published boolean NOT NULL DEFAULT false
+);
+
+CREATE TABLE context_snapshots (         -- Layer A timeContext (단주기 스냅샷, 런타임 KTO 호출 없음)
+  id               uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id           uuid NOT NULL REFERENCES pois(id),
+  crowd_index      int,                  -- TatsCnctr 0–100 (not headcount)
+  weather_warning  text,                 -- KMA 특보 코드 (폭염/호우/...) or null
+  air_grade        text,                 -- AirKorea 등급
+  effective_period tstzrange NOT NULL,
+  fetched_at       timestamptz NOT NULL
+);
+```
+
+### 1.3 경로 (F1.B·F1.F)
+
+```sql
+CREATE TABLE route_guides (
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id        uuid NOT NULL REFERENCES pois(id),
+  persona_flags text[] NOT NULL,         -- ['wheelchair','low_vision','stroller','low_stimulus']
+  version       int NOT NULL,
+  verified_by   text,                    -- 현장 검수자 (route-error 위험 완화, SPEC §11)
+  verified_at   timestamptz,
+  published     boolean NOT NULL DEFAULT false,
+  UNIQUE (poi_id, version)
+);
+
+CREATE TABLE route_steps (               -- POI당 5~12 단계 (제안서 §F1.B)
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  route_id      uuid NOT NULL REFERENCES route_guides(id),
+  seq           int NOT NULL,            -- 1-based; F1.F-2 '1단계 1행동'의 단위
+  action        text NOT NULL,          -- '서문 진입 (평탄 30m, 점자블록 유)'
+  geom          geography(LineString, 4326),
+  distance_m    int,
+  slope_grade   numeric(4,1),
+  surface       text,                   -- 'paved' | 'gravel' | ...
+  photo_refs    text[],
+  easy_text     text,                   -- 쉬운글 (7세 어휘) — F1.F·F2 공유
+  pictogram_id  text,                   -- F1.F-1 일정 카드 (KS/ARASAAC id)
+  tts_text      text,                   -- TTS 읽기용 (5채널 출력)
+  UNIQUE (route_id, seq)
+);
+
+CREATE TABLE route_hazards (             -- 구간별 장애요소
+  id        uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  step_id   uuid NOT NULL REFERENCES route_steps(id),
+  type      text NOT NULL,              -- 'step' | 'slope' | 'narrow' | 'crossing' | 'surface'
+  severity  text NOT NULL,              -- 'low' | 'medium' | 'high'
+  geom      geography(Point, 4326),
+  permanence text NOT NULL              -- 'permanent' | 'temporary'(F3 검수 통과 시)
+);
+
+CREATE TABLE turning_areas (             -- 휠체어 회전 가능 영역 폴리곤 (F1.A 지도 + F1.B 단계)
+  id        uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id    uuid NOT NULL REFERENCES pois(id),
+  geom      geography(Polygon, 4326),
+  diameter_m numeric(4,1),              -- 회전 직경 (min ~1.5m)
+  published boolean NOT NULL DEFAULT false
+);
+```
+
+### 1.4 일정 템플릿 (F1.D) · 후기/GPX (F1.E) · 정적 디렉터리/AAC (F1.C·F1.F)
+
+```sql
+CREATE TABLE itinerary_templates (       -- 정적 큐레이션, 일반 최적화기 아님 (SPEC §7)
+  id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  family        text NOT NULL,           -- '공주반나절' | '공주부여1박2일' (확장은 동일 family 내)
+  budget_mode   text NOT NULL,           -- 'half_day'|'full_day'|'one_night'|'two_night'
+  ordered_pois  uuid[] NOT NULL,         -- POI 방문 순서
+  slot_durations jsonb NOT NULL,         -- {stay,transfer,rest,meal,lodging} per-POI minutes
+  persona_flags text[] NOT NULL,
+  version       int NOT NULL,
+  published     boolean NOT NULL DEFAULT false
+);
+
+CREATE TABLE reviews (                    -- F1.E 페르소나별 후기 분리 (RLS: approved public)
+  id        uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  poi_id    uuid NOT NULL REFERENCES pois(id),
+  persona   text NOT NULL,               -- 'wheelchair'|'low_vision'|... (단일 평점 금지)
+  dimensions jsonb NOT NULL,             -- {entrance:4, restroom:5, rest:3} 0–5
+  body      text,
+  reporter_id uuid,                      -- Supabase anonymous auth
+  status    text NOT NULL DEFAULT 'pending', -- 'pending'|'approved'|'rejected'
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE gpx_submissions (            -- F1.E GPX 환류 (검수 통과만 공개)
+  id        uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  route_id  uuid NOT NULL REFERENCES route_guides(id),
+  source    text NOT NULL,               -- 'curated' | 'ugc'
+  gpx_xml   text,                        -- GPX 1.1 (WGS84/metric)
+  moderation_status text NOT NULL DEFAULT 'pending',
+  published boolean NOT NULL DEFAULT false
+);
+
+-- F1.C/F1.F static content (content/ package; published once, never per-user)
+CREATE TABLE aac_cards (                  -- F1.C 도움요청 5종 = F1.F-6 예외 카드 (데이터 공유)
+  id          text PRIMARY KEY,          -- 'help' | 'pain' | 'too_loud' | 'lost' | 'restroom'
+  label_ko    text NOT NULL,
+  label_en    text NOT NULL,
+  label_ja    text NOT NULL,
+  label_zh    text NOT NULL,
+  pictogram_id text NOT NULL,            -- ARASAAC primary id
+  tts_refs    jsonb NOT NULL,            -- {ko,en,ja,zh} audio storage paths
+  license     text NOT NULL             -- 'CC BY-NC-SA 4.0 ARASAAC' (출처 표기)
+);
+
+CREATE TABLE pictogram_assets (           -- F1.F-1 48 픽토그램 (6 POI × 8단계) 재활용 셋
+  id        text PRIMARY KEY,
+  source    text NOT NULL,               -- 'ARASAAC'|'KS X ISO 7001'|'복지부'|'KODDI'
+  license   text NOT NULL,
+  transformable boolean NOT NULL,        -- 복지부 2유형/KODDI 4유형 = false (원형 유지)
+  svg_ref   text NOT NULL,
+  keyword_ko text NOT NULL
+);
+```
+
+> `safety_directory`(콜택시·보조기기 대여 연락처)는 정적 JSON으로 `content/` 패키지에 두고 `deploy-atomic-config-bundling` 패턴으로 JS 청크에 정적 import한다(스키마-데이터 버전 스큐 회피). DB 테이블 불필요(전화 딥링크만).
+
+---
+
+## 2. F1.A — POI 무장애 상세 카드
+
+> 사용자가 "갈까 말까"가 아니라 **"어떻게 갈까"** 를 결정하게 한다. 핵심 차별점 = **4-Layer 점수의 투명한 증거 렌더링**.
+
+### 2.1 카드 영역 명세 (모든 region)
+
+| # | 카드 영역 | 컴포넌트 | 데이터 소스 | 접근성 요구 |
+|---|---|---|---|---|
+| 1 | **상단 3-class 라벨 + 부재사유** | `SuitabilityLabel` | `SuitabilityResult.label` + `deductions` | 색만으로 구분 금지(아이콘+텍스트); `aria-label` 점수+사유 |
+| 2 | **투명 점수 증거 카드** | `ScoreEvidenceCard` | `SuitabilityResult.{total, axes[], deductions[], dataDates, policyVersion}` | 4-Layer 분해를 테이블로; 각 축 기여 막대는 텍스트 수치 병기 |
+| 3 | **출입구별 사진 + 경사도** | `EntranceGallery` | `poi_entrances` (+ `poi_media`) | 사진 `alt`; 경사도 텍스트("서문 평탄 2%"); UGC 검증 횟수 표기 |
+| 4 | **휠체어 회전 영역 지도** | `TurningAreaMap` | `turning_areas` 폴리곤 + `route_hazards`(단차 마커) | **LIST 우선**; CustomOverlay DOM 마커; 폴리곤 직경 텍스트 |
+| 5 | **점자블록/음성 안내 경로** | `GuidanceSystemPanel` | `accessibility_facts` (braille/audio/guidesystem) | P2a 핵심; 상태 3-class + 부재사유 |
+| 6 | **휴식 인프라** | `RestInfraPanel` | `accessibility_facts`(rest) + `nearby_facilities` | P1b 직격; 화장실 간격 m 텍스트 |
+| 7 | **장애인 화장실** | `AccessibleRestroomPanel` | `nearby_facilities`(restroom) + 행안부 표준 | 위치 m + 픽토그램 |
+| 8 | **응급 인프라** | `EmergencyInfraPanel` | `nearby_facilities`(AED/hospital) 500m/1km cutoff | 거리·전화 딥링크 |
+| 9 | **페르소나×필드 매트릭스** | `PersonaFieldMatrix` | `accessibility_facts` + persona 가중치(§4.3) | critical/보조/무관 정렬; SR용 테이블 캡션 |
+| 10 | **현장 사진 미리보기** | `PhotoPreviewStrip` | `poi_media` (PhotoGallery + UGC) | `cpyrhtDivCd` 출처/라이선스 표기 |
+
+### 2.2 capability_code 매핑 (detailWithTour2 21필드 → 도메인 enum)
+
+> KTO 필드 키는 **guide v4.3 검증 후 확정**. 검증 전엔 `unknown`. 도메인은 `capability_code`만 읽는다.
+
+| 분류 | KTO `source_field`(미검증) | 도메인 `capability_code` | 1차 페르소나 |
+|---|---|---|---|
+| 지체 | `wheelchair` | `wheelchair_access` | wheelchair (critical) |
+| 지체 | `exit` | `exit_step_free` | wheelchair (critical) |
+| 지체 | `elevator` | `elevator` | wheelchair (critical) |
+| 지체 | `restroom` | `accessible_restroom` | wheelchair·senior (critical) |
+| 지체 | `room` | `barrier_free_room` | wheelchair (보조) |
+| 지체 | `auditorium` | `accessible_auditorium` | wheelchair (보조) |
+| 시각 | `braileblock` | `braille_block` | low_vision (critical) |
+| 시각 | `audioguide` | `audio_guide` | low_vision (critical) |
+| 시각 | `guidesystem` | `guidance_system` | low_vision (보조) |
+| 시각 | `bigprint` | `large_print` | low_vision (보조) |
+| 시각 | `helpdog` | `guide_dog_ok` | low_vision (critical) |
+| 청각 | `signguide` | `sign_guide` | deaf (critical) |
+| 청각 | `videoguide` | `video_subtitle` | deaf (critical) |
+| 청각 | `hearingroom` | `hearing_room` | deaf (보조) |
+| 영유아 | `stroller` | `stroller_access` | family (critical) |
+| 영유아 | `lactationroom` | `lactation_room` | family (보조) |
+| 영유아 | `babysparechair` | `baby_chair` | family (무관/보조) |
+| 공통 | `parking` | `accessible_parking` | wheelchair·senior (보조) |
+| 공통 | `route` | `access_route_desc` | all (메타) |
+| 공통 | `publictransport` | `public_transport` | all (메타) |
+| 공통 | `ticketoffice` | `ticket_office_access` | wheelchair (무관) |
+
+### 2.3 컴포넌트 트리 (F1.A)
+
+```
+<PoiAccessibilityCard poiId>                      // RSC; reads published read-models
+├── <SuitabilityLabel result>                     // 3-class + 부재사유 칩
+├── <ScoreEvidenceCard result>                    // ← 투명 4-Layer 증거 (§2.4)
+│   ├── <AxisBreakdownTable axes>                 // Layer A 7축 기여 테이블
+│   ├── <LayerMultiplierRow layer="B|C|D" />      // B/C/D 배수 + 근거
+│   ├── <DeductionList deductions />              // forced rules 감점 사유
+│   └── <DataFreshnessFooter dataDates policyVersion />
+├── <EntranceGallery entrances>                   // client island (사진 lazy)
+├── <TurningAreaMap polygons hazards>             // client island; LIST=truth (§7)
+│   ├── <AccessibleTurningList />                 // ← source of truth
+│   └── <KakaoTurningAreaCanvas />                // CustomOverlay 폴리곤/마커
+├── <GuidanceSystemPanel facts />
+├── <RestInfraPanel facts facilities />
+├── <AccessibleRestroomPanel facilities />
+├── <EmergencyInfraPanel facilities />            // 500m/1km cutoff
+├── <PersonaFieldMatrix facts personaWeights />
+└── <PhotoPreviewStrip media />                   // cpyrhtDivCd 출처 표기
+```
+
+### 2.4 투명 점수 증거 렌더링 — `ScoreEvidenceCard` (차별점)
+
+`SuitabilityResult`(§4.2)를 받아 **데이터활용 20점 + 기획력**을 직격하는 증거 카드를 렌더. 단순 "78점"이 아니라 **왜 78점인지**를 보여준다.
+
+```
+┌─ 공산성 · 휠체어+시니어+가족 · 반나절 ───────────────────┐
+│  [주의] 72점   (75 미만 → 대체 POI 함께 표시)            │
+│                                                          │
+│  Layer A (POI 본질) = 0.81                                │
+│   진입가능성   0.30 × 1.00 = 0.300  [supported]          │
+│   동선연속성   0.18 × 0.50 = 0.090  [worst-segment 0.50] │
+│   편의시설     0.15 × 0.75 = 0.113                       │
+│   휴식인프라   0.12 × 1.00 = 0.120                       │
+│   시간대적합   0.10 × 0.70 = 0.070  [혼잡 index 64]      │
+│   사회적안전   0.08 × 1.00 = 0.080  [AED 800m]           │
+│   UGC검증      0.07 × 0.50 = 0.035  [unknown 보정]       │
+│  ─ A 합계 = 0.808                                        │
+│  Layer B (페르소나 적합) = 0.875  [min personaFit=0.50] │
+│  Layer C (인증) = 1.05  [BF 일반 +0.05]                  │
+│  Layer D (신뢰도) = 0.93  [평균 갱신 ~200일]            │
+│                                                          │
+│  점수 = round(100 × 0.808 × 0.875 × 1.05 × 0.93) = 69    │
+│  ⚠ 데이터 날짜: detailWithTour2 2025-11 / BF 2024-08     │
+│  ⚠ policyVersion: suitability-v1.0                       │
+│  ⚠ 감점: 동선연속성 worst-segment(만하루 경사 6°)        │
+└──────────────────────────────────────────────────────────┘
+```
+
+> **렌더 규칙:** (1) 모든 배수·기여는 텍스트 수치를 함께 노출(막대만 X). (2) `unknown`이 critical에 있거나 coverage<65%면 점수 대신 "정보 없음" 표시(§4.4). (3) `deductions`는 forced rule 명을 한국어로 풀어 표기. (4) `dataDates`/`policyVersion`은 항상 푸터에. (5) 색 대비 4.5:1, 라벨은 색+아이콘+텍스트 3중.
+
+### 2.5 F1.A 수용 기준
+
+- [ ] 6 POI 모두 카드 렌더; `unknown` 필드는 "정보 없음 — 현장 확인 필요" + 부재사유 (a)/(b) 라벨.
+- [ ] `ScoreEvidenceCard`가 7축 기여 + B/C/D 배수 + 감점 + 데이터 날짜 + policyVersion을 모두 표기.
+- [ ] 회전영역 지도가 LIST 대안을 가지며 axe `.exclude('.map-canvas')` 후 수동 체크리스트 등록.
+- [ ] 페르소나×필드 매트릭스가 선택 페르소나의 critical 4를 상단 정렬.
+- [ ] 모든 사진 `cpyrhtDivCd` 기반 출처/Type3 변형금지 준수.
+
+---
+
+## 3. F1.B — 사전 베리어프리 정적 경로
+
+> 실시간 GPS 음성 내비 대신 **사전 검수된 무장애 가이드를 현장에서 단계별 참조**. 오프라인 작동 + GPS 송신 최소화. **동적 라우팅/DEM 런타임 호출 없음** — 경사도는 NGII DEM 유도 정적 속성(SPEC §2.6, R5 §3).
+
+### 3.1 동선 단계 카드 (`route_steps`)
+
+POI 진입~퇴장을 5~12 단계로 사전 분할. 각 단계 = `route_steps` 1행. 예(공산성 서문 코스):
+
+| seq | action | distance_m | slope | hazard | easy_text | pictogram |
+|---|---|---|---|---|---|---|
+| 1 | 서문 진입 (평탄, 점자블록 유) | 30 | 2% | — | "넓고 평평한 길이에요" | `walk_flat` |
+| 2 | 우측 광장 회전영역 (직경 3m) | 15 | 1% | — | "여기서 돌 수 있어요" | `turn_area` |
+| 3 | 휴식 벤치 1번 (그늘) | 10 | 0% | — | "여기서 쉬어요" | `rest_bench` |
+| 4 | 만하루 진입로 (경사 6° 우회로) | 40 | 6% | slope/medium | "조금 가파른 길, 천천히" | `slope_up` |
+| … | … | … | … | … | … | … |
+
+### 3.2 5채널 정적 출력
+
+단일 `route_steps` 행 → 5채널 동시 생성 (사전 준비, 런타임 변환 최소화):
+
+| 채널 | 소스 컬럼 | 생성 |
+|---|---|---|
+| 지도 | `geom` (LineString) | Kakao Polyline (오프라인 시 IndexedDB GeoJSON) |
+| 사진 | `photo_refs` | PhotoGallery + UGC (CacheFirst) |
+| 쉬운글 | `easy_text` | F1.F·F2 공유 (7세 어휘) |
+| 픽토그램 | `pictogram_id` → `pictogram_assets` | KS/ARASAAC SVG |
+| TTS 읽기 | `tts_text` | 사전 합성 MP3(Storage) 또는 클라이언트 SpeechSynthesis |
+
+### 3.3 오프라인 번들 (Serwist + IndexedDB)
+
+"이 가이드 오프라인 저장" 탭 시 POI 1개 가이드 패키지를 IndexedDB에 영속(R5 §5):
+
+```ts
+// IndexedDB object store: poiGuides
+interface OfflineGuideBundle {
+  poiId: string;
+  routeId: string;
+  steps: RouteStep[];          // action/easy_text/pictogram_id/tts_text
+  photos: Blob[];              // client-compressed (Canvas API)
+  gpxXml: string;              // GPX 1.1
+  brailleUnicode: string;      // U+2800 block (F4 점자 연동)
+  turningAreas: GeoJSON.Polygon[];
+  hazards: GeoJSON.Point[];
+  slopeTags: { stepSeq: number; grade: number }[];
+  updatedAt: string;
+}
+```
+
+- App shell = Serwist precache; 사진 = CacheFirst; 경로 JSON = NetworkFirst(timeout 3s) → 캐시 fallback.
+- `output:'export'` 금지(Supabase SSR 충돌) → 일반 Vercel 배포 + 명시적 "오프라인 다운로드" 액션(R5 §5.1).
+
+### 3.4 GPX 환류 (F1.E 연동)
+
+검수 통과 `gpx_submissions`만 카카오/구글/네이버맵 "따라가기" 딥링크 제공(R3 §2.2):
+
+```ts
+// 카카오 1차 (좌표 다중경유 지원), 구글 2차, .gpx 다운로드 병행
+function buildKakaoRouteUrl(steps: RouteStep[]): string {
+  const pts = steps.map(s => `${s.lat},${s.lng}`);
+  const sp = pts[0], ep = pts[pts.length - 1];
+  const vps = pts.slice(1, -1).slice(0, 5)              // 최대 5 경유지
+    .map((p, i) => `vp${i === 0 ? '' : i + 1}=${p}`).join('&');
+  return `kakaomap://route?sp=${sp}&${vps}&ep=${ep}&by=foot`;
+}
+```
+
+### 3.5 컴포넌트 트리 + 수용 기준 (F1.B)
+
+```
+<RouteGuideView poiId routeId>
+├── <RouteStepList steps>                  // ← source of truth (단계 텍스트)
+│   └── <StepCard step>                     // 5채널: 사진/지도/쉬운글/픽토/TTS
+├── <RouteMapCanvas polyline hazards />     // CustomOverlay; 보조
+├── <HazardLegend hazards />                // 색만 X — 아이콘+텍스트
+├── <AlternativeRouteToggle />              // 우천/혼잡/공사 우회 (F3 연동)
+├── <OfflineDownloadButton bundle />        // IndexedDB 영속
+└── <MapAppDeepLinks kakao google naver />  // GPX 환류
+```
+
+- [ ] 공주 3 POI 1차, 부여 3 POI 2차. 각 경로 `verified_by`/`verified_at` 필수(route-error 완화).
+- [ ] 단계 LIST가 지도 없이 완전 사용 가능(스크린리더 단독 통과).
+- [ ] 오프라인 다운로드 후 네트워크 차단 상태에서 5채널 모두 렌더.
+- [ ] GPX 딥링크가 카카오 1차 + 미설치 web fallback + `.gpx` 다운로드 제공.
+
+---
+
+## 4. F1.D — 시간예산 6단 + 4-Layer 적합도 산식
+
+> **핵심 빌드 산출물.** `calculateSuitability`는 결정론적 순수 함수(`packages/domain/accessibility`, framework-free, TDD). 동일 입력 → 동일 출력.
+
+### 4.1 capability value (SPEC §7)
+
+| status | value | 비고 |
+|---|---|---|
+| supported | 1.00 | |
+| partial | 0.50 | |
+| unsupported | 0.00 | |
+| unknown | 0.35 | **coverage는 항상 별도 반환** (점수에 섞지 않음) |
+
+### 4.2 TypeScript 시그니처
+
+```ts
+// packages/domain/accessibility — pure, deterministic. No I/O, no Next import.
+type CapabilityStatus = 'supported' | 'partial' | 'unsupported' | 'unknown';
+type SuitabilityClass = '방문가능' | '주의' | '대체추천' | '정보없음';
+
+interface CapabilityFact {
+  capabilityCode: string;
+  status: CapabilityStatus;
+  sourceUpdatedAt: string | null;   // ISO; drives Layer D
+  verifiedAt: string | null;
+}
+
+interface CalculateSuitabilityInput {
+  poiFacts: CapabilityFact[];
+  routeGuide: {                      // worst-segment continuity inputs
+    segmentScores: number[];        // per-segment 0..1
+    maxNoRestTravelMin: number;     // longest no-rest stretch
+  } | null;
+  personaIds: PersonaId[];          // e.g. ['wheelchair','senior','family']
+  timeContext: {
+    crowdIndex: number | null;      // 0..100 (TatsCnctr)
+    weatherWarning: string | null;
+    airGrade: string | null;
+  };
+  certifications: { scheme: 'BF' | '열린관광지' | 'KQ'; grade?: string }[];
+  ugcSummary: { verifiedCapabilityDates: Record<string, string> };
+  calculationDate: string;          // ISO; freshness baseline (PT-stable: inject fixed date)
+  policyVersion: string;            // 'suitability-v1.0'
+}
+
+interface AxisContribution {
+  axis: 'entry' | 'continuity' | 'amenities' | 'rest'
+      | 'timeContext' | 'safety' | 'verifiedUgc';
+  weight: number;                   // fixed
+  value: number;                    // 0..1 (capability-derived)
+  contribution: number;             // weight * value
+}
+
+interface SuitabilityResult {
+  total: number;                    // round(clamp(100·A·B·C·D, 0, 100))
+  label: SuitabilityClass;
+  axes: AxisContribution[];         // Layer A breakdown (7)
+  layerB: number; layerC: number; layerD: number;
+  coverage: number;                 // evidence coverage 0..1 (separate from value)
+  deductions: { rule: string; note: string }[];   // forced-rule trail
+  dataDates: Record<string, string>;               // per-source freshness
+  alternativesNeeded: boolean;      // score < 70
+  policyVersion: string;
+}
+
+function calculateSuitability(input: CalculateSuitabilityInput): SuitabilityResult;
+```
+
+> **CLAUDE.md 주: `SuitabilityResult`는 순수 TS 도메인(C++ 아님)** — shared_ptr 규칙은 C++ 전용이며 본 스택(TS)에는 적용되지 않는다. 단, 동일 정신으로 결과는 항상 **전체 breakdown을 담은 단일 객체**로 반환(인스펙션-한-번 가정 금지) — 호출자가 캐시/큐/스레드에 넣어도 안전.
+
+### 4.3 Layer 산식 (결정론 단계)
+
+**Layer A (POI 본질, 합 1.00):**
+
+| axis | weight | value 계산 |
+|---|---|---|
+| entry | 0.30 | mean(capability value of entry-related codes: wheelchair_access/exit_step_free/elevator) |
+| continuity | 0.18 | `min(routeGuide.segmentScores)` — **worst-segment, 평균 아님** |
+| amenities | 0.15 | weightedMean(restroom/auditorium/room/lactation/stroller) |
+| rest | 0.12 | `maxNoRestTravelMin` vs persona threshold → 초과 시 감점 |
+| timeContext | 0.10 | crowdIndex/weather/air 매핑 (혼잡 64→0.70 등) |
+| safety | 0.08 | AED/hospital 500m=1.00 / 1km=0.50 / 초과=0.00 |
+| verifiedUgc | 0.07 | 최근 30일 UGC 검증 가중(없으면 unknown 0.35) |
+
+`A = Σ(weight × value)`.
+
+**Layer B (페르소나 적합):** `B = 0.75 + 0.25 × min(personaFit over selected personas)`
+- `personaFit = weightedMean(critical×4 / supporting×2 / other×1)` of that persona's capability values.
+- **다중 페르소나는 최저 personaFit 사용** (할아버지 vs 손녀: 한쪽 장벽을 다른 쪽이 가릴 수 없음).
+
+**Layer C (인증, cap +0.12):** `C = 1.00 + min(0.12, Σ[BF 예비+0.02 | 일반+0.05 | 우수+0.08] + [열린관광지+0.04])` → 1.00..1.12. **KQ = metadata only** (점수 미반영).
+
+**Layer D (신뢰도):** `D = weightedMean(per-fact decay)`; decay = `≤90d 1.00 / ≤365d 0.90 / >365d 0.75`. 승인 UGC는 **관련 capability의 날짜만** 갱신.
+
+**최종:** `score = round(clamp(100 · A · B · C · D, 0, 100))`.
+
+### 4.4 Forced rules + 라벨 (결정론, 순서 중요)
+
+```
+1. coverage = (non-unknown critical+supporting facts) / (total expected) 
+2. if (any selected-persona CRITICAL capability == 'unsupported') → score = min(score, 49)
+3. if (any selected-persona CRITICAL == 'unknown' OR coverage < 0.65) → label = '정보없음'  (점수 비표시)
+4. else label:  75–100 '방문가능' · 50–74 '주의' · 0–49 '대체추천'
+5. if (score < 70) → alternativesNeeded = true  (TarRlteTar 대체 POI 표시)
+6. return total + per-axis contribution + deductions + dataDates + policyVersion
+Null rule: 빈 필드 → 'unknown' + '정보 없음 — 현장 확인 필요', 부재사유 (a)본질 vs (b)미입력. NEVER infer.
+```
+
+### 4.5 Worked example — 공산성, 반나절, 휠체어+시니어+가족
+
+**입력 facts (공산성, 발췌):**
+
+| capability | status | value | sourceUpdatedAt |
+|---|---|---|---|
+| wheelchair_access | supported | 1.00 | 2025-11 |
+| exit_step_free | supported | 1.00 | 2025-11 |
+| elevator | partial | 0.50 | 2025-11 |
+| accessible_restroom | supported | 1.00 | 2025-11 |
+| braille_block | partial | 0.50 | 2025-11 |
+| stroller_access | supported | 1.00 | 2025-11 |
+| lactation_room | unknown | 0.35 | — |
+
+**Layer A 계산:**
+
+| axis | weight | value | contribution |
+|---|---|---|---|
+| entry | 0.30 | mean(1.00,1.00,0.50)=0.833 | 0.250 |
+| continuity | 0.18 | min(segments)=0.50 (만하루 6° 구간) | 0.090 |
+| amenities | 0.15 | wMean(restroom1.00, stroller1.00, lactation0.35)=0.783 | 0.117 |
+| rest | 0.12 | maxNoRest 18min < 시니어 30min 임계 → 1.00 | 0.120 |
+| timeContext | 0.10 | crowdIndex 64 → 0.70 | 0.070 |
+| safety | 0.08 | AED 800m (≤1km) → 0.50 | 0.040 |
+| verifiedUgc | 0.07 | 최근 UGC 없음 → unknown 0.35 → 0.50 보정 | 0.035 |
+| **A 합계** | | | **0.722** |
+
+**Layer B:** personaFit —
+- wheelchair: wMean(critical: wheelchair1.0/exit1.0/elevator0.5/restroom1.0 ×4, 보조 ×2) ≈ 0.88
+- senior: rest/restroom 양호 ≈ 0.82
+- family: stroller1.0 critical, lactation unknown 보조 ≈ **0.78** (최저는 아님)
+- low-vision 미선택. **min personaFit = 0.78** (가정상 family가 최저)
+- `B = 0.75 + 0.25 × 0.78 = 0.945`. (예시 단순화; 실제 매트릭스 가중치는 §4.3)
+
+> 위 증거 카드(§2.4)의 표는 시연용 라운드 수치(B=0.875)로 단순화했고, 본 worked example은 산식 단계의 정확한 적용을 보인다. **빌드 시 §4.3 가중치가 단일 진실원.**
+
+**Layer C:** BF 일반 → `C = 1.00 + min(0.12, 0.05) = 1.05`.
+**Layer D:** 대부분 2025-11(≤365d→0.90), lactation unknown 제외 평균 ≈ `0.93`.
+
+**최종:** `100 × 0.722 × 0.945 × 1.05 × 0.93 = 66.6 → round = 67`.
+- coverage: lactation 1개 unknown / 21 → coverage ≈ 0.95 (≥0.65 통과).
+- critical 중 unsupported/unknown 없음 → 라벨 산정.
+- 67 → **'주의' (50–74)**, score<70 → `alternativesNeeded = true` (무령왕릉·국립공주박물관 대체 표시).
+- deductions: `continuity worst-segment(만하루 6°)`, `safety AED 800m 1km-cutoff`.
+
+### 4.6 시간예산 6단 + buildItinerary (정적 템플릿 선택)
+
+```ts
+function buildItinerary(input: {
+  budgetMode: 'half_day' | 'full_day' | 'one_night' | 'two_night';
+  personaIds: PersonaId[];
+  templates: ItineraryTemplate[];     // published, curated
+}): ItineraryResult;  // selects a template, NOT a general optimizer
+```
+
+- **total = POI stay + 고정 transfer matrix + persona rest + meals + lodging-switch cost.**
+- **persona multipliers = max, 곱 아님** (anti-explosion). P1b 시니어 휴식 1.25, P3 식사 1.20, 외국인 도슨트 1.30 중 **최댓값**만 적용.
+- 반나절→1박2일 = **동일 template family 내 확장** (PT-stable, 매 실행 동일). 일반 최적화기 사용 금지.
+
+| 모드 | 예산 | POI 묶음 | MVP |
+|---|---|---|---|
+| 반나절 | 180–240분 | 1 POI 정밀 | 1차 |
+| 당일 | 480–600분 | 2–3 POI | 1차 |
+| 1박2일 | 1440분 | 4–6 POI + 야간 + 숙박 | 1차 |
+| 2박3일 | 2880분 | 6 POI + 익산/논산 1 | 2차 |
+
+### 4.7 컴포넌트 트리 + 수용 기준 (F1.D)
+
+```
+<PlannerView>
+├── <BudgetModeSlider modes />              // 6단 (반나절~)
+├── <PersonaSelector personaIds />          // P1~P4 + 외국인 토글
+├── <SuitabilityResultPanel result />       // → reuses <ScoreEvidenceCard>
+├── <ItinerarySteps itinerary />            // 선택된 template 순서
+└── <AlternativePoiList shown={result.alternativesNeeded} />
+```
+
+- [ ] `calculateSuitability` 단위 테스트: 위 worked example이 67±0(결정론) 산출.
+- [ ] forced rule: critical unsupported → score≤49; critical unknown/coverage<65% → '정보없음'.
+- [ ] 동일 입력 100회 실행 → 동일 결과(PT 재현성).
+- [ ] persona multiplier가 max(곱 아님)임을 테스트로 고정.
+- [ ] 반나절→1박2일 전환이 동일 family 내에서 결정론적.
+
+---
+
+## 5. F1.C — SOS·콜택시·보조기기 + AAC 5종
+
+> 정적 디렉터리 + 전화 딥링크. API 발급(콜택시)은 발전방향. AAC = ARASAAC 1차 + F1.F-6과 데이터 공유.
+
+| 영역 | 컴포넌트 | 데이터 | 동작 |
+|---|---|---|---|
+| SOS 버튼(전 화면 우상단 고정) | `SosFab` | static directory | 119 + 1330 + 영사콜센터 다국어 `tel:` 딥링크; 동반자 GPS는 PIPA 명시 동의 후만 |
+| 보조기기 대여+예약 | `EquipmentRentalPanel` | `nearby_facilities`(equipment) + KODDI | 연락처 딥링크 |
+| 장애인콜택시 | `CallTaxiPanel` | `safety_directory`(공주/부여 콜택시) | `tel:` 딥링크 |
+| AAC 도움요청 5종 | `AacCardDeck` | `aac_cards` | 픽토그램+쉬운글+다국어+TTS 동시; 1탭 확대 |
+
+```
+<SafetyLayer>                               // app-level fixed
+├── <SosFab />                              // 모든 화면 우상단; aria-label 명시
+├── <EquipmentRentalPanel facilities />
+├── <CallTaxiPanel directory />
+└── <AacCardDeck cards={['help','pain','too_loud','lost','restroom']} />
+```
+
+- AAC 5종 라벨: 도움이 필요해요 / 아파요 / 소리가 너무 커요 / 길을 잃었어요 / 화장실이 필요해요.
+- 출처: 한국보완대체의사소통학회 공개 AAC 셋 + KS 픽토그램 재활용; ARASAAC(CC BY-NC-SA) 1차, 출처 표기.
+- **수용 기준:** [ ] SOS가 모든 라우트에 고정·SR 포커스 가능. [ ] AAC 5종이 픽토+쉬운글+4언어+TTS 동시 출력. [ ] 모든 외부 연락은 `tel:`/딥링크(런타임 API 호출 없음).
+
+---
+
+## 6. F1.E — 페르소나별 후기 분리 + GPX / F1.F — 예측 가능 백제 7요소
+
+### 6.1 F1.E
+
+- **페르소나별 후기 분리:** `reviews.persona`별 탭. "휠체어 4.5/5 vs 시각 3.2/5" — 단일 평점 금지(페르소나마다 신뢰도 상이).
+- **GPX 환류:** F4 PDF 출력 시 GPX 동반; `gpx_submissions.moderation_status='approved'`만 환류.
+- **개인 무장애 프로필 영속:** **로컬(IndexedDB)만**, 서버 X(PIPA 회피). 한 번 입력한 페르소나·예산이 모든 카드에 즉시 적용.
+
+```
+<CommunityView poiId>
+├── <PersonaReviewTabs personas>            // 분리 탭
+│   └── <ReviewList persona reviews />
+├── <ReviewSubmitForm />                     // anon auth; status='pending'
+└── <GpxFeedbackPanel approvedGpx />
+```
+
+### 6.2 F1.F — 7요소 (F1.B step data 재사용)
+
+| 요소 | 컴포넌트 | 데이터 | 핵심 |
+|---|---|---|---|
+| F1.F-1 픽토그램 일정 카드 | `PictogramSchedule` | `route_steps.pictogram_id` (48개) | KS/ARASAAC 재활용 |
+| F1.F-2 단계 카드(1단계 1행동) | `SingleStepCard` | `route_steps`(현재+다음만) | 이전 단계 숨김(인지 부하↓) |
+| F1.F-3 예측 가능 동선 60초 카운트다운 | `ChangeCountdown` | F3 알림 + Odii 쉬운글 | 즉시 변경 X; 변경 후 미리보기 + `aria-live` |
+| F1.F-4 자극 강도 조절 | `SensoryCalmSlider` | OS Reduce Motion API | 음성/진동/깜빡임/BGM 4축 + 조용모드 |
+| F1.F-5 보호자 동반(GPS X) | `GuardianSyncView` | step card ID 동기(좌표 X) | 위치정보법 부담 회피 |
+| F1.F-6 캐릭터 + AAC 예외 | `MascotAacCard` | 마스코트 6컷 + `aac_cards` | F1.C와 공유 |
+| F1.F-7 발달장애 단체 모드 | `GroupGuideMode` | `route_steps` + F4 합본 PDF | 30→10×3 그룹; 종이 카드 배포 |
+
+```
+<PredictableBaekjeMode poiId routeId>        // P3/P4 활성 시 1탭 프리셋 7요소 동작
+├── <PictogramSchedule steps />
+├── <SingleStepCard current next />
+├── <ChangeCountdown alert />                 // 60s + 미리보기
+├── <SensoryCalmSlider />                     // prefers-reduced-motion 연동
+├── <GuardianSyncView stepCardId />           // GPS 좌표 X
+├── <MascotAacCard cards />
+└── <GroupGuideMode groups />
+```
+
+- **수용 기준:** [ ] 1탭으로 7요소 일괄 활성. [ ] F1.F-3 변경은 60초 카운트다운+미리보기 후만. [ ] F1.F-4가 OS Reduce Motion + KWCAG §2.3.1(광과민) 준수. [ ] F1.F-5는 좌표 송신 0(step ID만). [ ] AAC 카드가 F1.C와 동일 `aac_cards` 데이터.
+
+---
+
+## 7. 접근성 map/list 패턴 (F1 전역, KWCAG 2.2)
+
+> **LIST = 진실원, MAP = 보조.** 지도 캔버스는 SR 비가시 → 모든 정보는 텍스트로 먼저 존재(R5 §6.3, R2 §5.2).
+
+### 7.1 패턴
+
+```
+<AccessibleMapSection ariaLabel>
+├── <PoiTextList items />                    // ← source of truth: 이름/거리/경사/단차수
+├── <KakaoMapCanvas className="map-canvas">  // axe .exclude; 수동 체크리스트
+│   ├── CustomOverlay (real DOM, role/aria-label)  // raster Marker 대신
+│   ├── Polygon (turning areas) + centroid CustomOverlay 라벨
+│   └── 단차 markers as CustomOverlay (focusable)
+└── <MapKeyboardControls />                  // 드래그/핀치 → 버튼 대안 (2.5.1/2.5.4)
+```
+
+- **CustomOverlay 우선:** 실제 DOM → focusable/labelable. raster `Marker`는 SR 비친화.
+- **폴리곤 회전영역:** GeoJSON `[lng,lat]` → `kakao.maps.LatLng(lat,lng)`. `polygon.getArea()`로 최소 회전 직경(~1.5m) 검증. 라벨 = centroid CustomOverlay.
+- **비색 단서:** 경사/단차 심각도는 색만 X — 아이콘+텍스트.
+- **키보드:** pan/zoom 버튼 + 화살표 마커 내비. 드래그/핀치 버튼 대안 필수.
+
+### 7.2 라우트 변경 포커스 (App Router 미자동)
+
+`usePathname` 변경 시 `<h1>`로 포커스 이동(`tabIndex={-1}` + `ref.focus()`) + `document.title` 갱신 + `aria-live="polite"`로 결과 수/지도 선택 안내(R2 §2.2).
+
+---
+
+## 8. 모듈 경계 + 의존성 + 빌드 순서
+
+```
+packages/domain/accessibility  → calculateSuitability (pure, TDD) ── F1.A, F1.D
+packages/domain/itinerary      → buildItinerary (template select) ── F1.D
+packages/domain/guide          → resolveGuide (step assembly) ──── F1.B → F1.F, F1.E
+packages/exports               → GPX 1.1 builder ───────────────── F1.B/E
+features/f1-poi-card | f1-route-guide | f1-safety | f1-planner | f1-community | f1-predictable
+```
+
+- `domain`은 Next.js import 금지(framework-free). RSC가 `unstable_cache`로 published read-model을 읽어 도메인 함수에 주입.
+- **빌드 순서(SPEC §9):** C4 Content 6-POI → F1-AD + F1-D(1차 vertical slice: 공산성·반나절·휠체어/시니어/가족) → F1-B 공주 → F1-B 부여 + F1-C/E/F.
+
+## 9. F1 통합 수용 기준 (D.1 골든 플로우 기여)
+
+- [ ] 로그인 없이 휠체어+시니어+가족 선택 → 반나절 공산성 카드(증거 점수 포함) 1화면 동작.
+- [ ] `calculateSuitability` 결정론(동일 입력 동일 출력) + 전체 breakdown 반환.
+- [ ] F3 승인 제보("동문 공사") → F1.B 서문 정적 가이드 강조(자동 리라우팅 X).
+- [ ] 반나절→1박2일 전환이 동일 template family로 부여 확장.
+- [ ] 모든 카드 색 대비 4.5:1, 라벨 색+아이콘+텍스트 3중, axe 0 violations(map-canvas 제외 후 수동).
+- [ ] 오프라인 번들 후 네트워크 차단에서 F1.B 5채널 렌더.
+
+## 10. Open items (verify-at-build-time)
+
+- detailWithTour2 정확한 필드 키 — guide v4.3 + 라이브 프로브로 확정 후 `capability_code` 매핑(§2.2) 고정. 미검증이면 `unknown`.
+- §4.5 worked example의 §2.4 증거 카드 수치(B=0.875)는 시연용 라운드값; **§4.3 가중치가 단일 진실원** — 빌드 시 일치시켜 두 표를 동기화.
+- Layer A `verifiedUgc`/`rest`/`timeContext`의 value 매핑 곡선(혼잡 index→value 등) 상세 테이블은 C4 Content 단계에서 6-POI 실측 후 확정.
+- persona×capability critical/보조/무관 가중치 매트릭스(5×21) 정확 표 — C4 단계 작성, 본 문서 §2.2가 1차 골격.
+- 마스코트 6컷(F1.F-6)만 자체 제작; 나머지 픽토/AAC는 오픈셋 재활용(라이선스 §1.4 `transformable` 플래그 준수).
+
+===== 12_workstreams_sequencing.md =====
+# 12 — 워크스트림 · 일정 · 에이전트팀 실행
+
+> **Status:** EXPANDS SPEC §9 (+ §4 monorepo, §11 risks). Source of truth = `docs/plan/SPEC.md`; 본 문서는 그 §9를 빌드 가능한 실행 계획으로 확장한다. 충돌 시 SPEC가 우선한다.
+> **Provenance:** SPEC §9 (streams/contracts/graph/timeline), 연구 `_research/00_SYNTHESIS.md §8` (parallel workstream decomposition), Claude⇆Codex pairing `_research/_pairing_reconcile.md` (D6 F1 5-way split · D8 C4 early-frozen content · D9 monorepo boundaries).
+> **We are at 2026-06-14.** Functional review (기능심사) + PT = 2026-10. 빌드 종료 타깃 = **2026-09-30 RC**.
+
+---
+
+## 0. 이 문서의 책임 (one-line)
+
+> **누가 / 무엇을 / 언제 / 어떤 인터페이스로** 만드는지를 고정한다 — 5개 contract를 먼저 얼리고, 16개 stream을 디렉터리·계약 소유권으로 분리하여, 병렬 AI 에이전트팀이 충돌 없이 **vertical-slice-first**로 빌드하도록 하는 실행 규약.
+
+핵심 3원칙 (SPEC §11 "agent drift" mitigation = `1 contract owner + versioned schema + dir ownership`):
+
+1. **Contract-first freeze** — 5개 계약을 코드보다 먼저 얼린다. 계약은 버전드(`v1`)이며 owner-stream 1개만 변경할 수 있다.
+2. **Per-feature directory ownership** — 각 stream은 monorepo의 자기 디렉터리에서만 쓴다(write). 타 디렉터리는 읽기(import contract)만.
+3. **Vertical-slice-first** — 넓게 깔지 않는다. 6/14–6/28 안에 `공산성` 1개 POI가 F1→F4를 관통하는 1개 화면을 먼저 세운 뒤 수평 확장한다.
+
+---
+
+## 1. 5개 Frozen Contracts (먼저 얼린다)
+
+SPEC §9: *"Freeze first (one owner each, versioned)."* 각 계약은 **owner-stream 1개**, **정확한 산출물(artifact)**, **버전 게이트**를 가진다. 계약 변경 = owner-stream의 PR + 버전 bump + 전 consumer에게 broadcast. **계약이 green이 되기 전에는 어떤 feature stream도 시작하지 않는다.**
+
+| # | Contract | Owner stream | 정확한 artifact (path) | Freeze 게이트 (Done = 이게 통과) |
+|:--:|---|---|---|---|
+| ① | **DB Contract v1** | **C1** Data Platform | `supabase/migrations/*.sql` + `packages/db/src/types.ts` (generated) + `packages/db/src/rls.test.sql` | 모든 테이블/enum/RLS/Storage 정책이 `supabase db reset`로 생성되고 RLS 테스트(default-deny, anon-restrictive, admin) green |
+| ② | **KTO Contract v1** | **C2** KTO/ETL | `packages/kto-client/src/index.ts` (transport + `request<TReq,TRaw>`) + `packages/test-fixtures/kto/*.json` (real-response fixtures) + `packages/kto-client/src/types/*.ts` (normalized) | contract 테스트가 **fixtures로** green (live API 없이). `detailWithTour2` 필드키가 guide v4.3 + live probe로 검증됨 (SPEC §11) |
+| ③ | **Domain Contract v1** | **C0** Contracts | `packages/domain/src/index.ts` — 5개 함수 시그니처 + 입출력 타입 (구현은 stub OK, 시그니처는 frozen) | 5개 시그니처 컴파일 + 타입 export. consumer가 import만으로 작업 가능 |
+| ④ | **Design Contract v1** | **C3** Design/A11y | `packages/ui/src/tokens.ts` + `packages/ui/src/primitives/*` (SkipLink, RouteFocusReset, AriaLiveRegion, FocusTrapModal) + Storybook | 토큰 대비 4.5/3:1 검증, a11y primitives Storybook `addon-a11y` green, eslint-jsx-a11y green |
+| ⑤ | **Content Package Contract v1** | **C4** Content (6-POI) | `packages/content-schema/src/index.ts` (Zod) + `content/pois/_schema.json` + `content/pois/gongsanseong.json` (1개 reference fill) | Zod 스키마가 `entrances/steps/photos/slope/단차/rest/AAC/docent/source/verified-date` 전 필드 정의 + 1개 POI가 schema validate 통과 |
+
+### 1.1 5개 Domain Contract 시그니처 (Contract ③ — frozen, C0 소유)
+
+순수 TS, framework-free (SPEC §4 *"`domain` cannot import Next.js"*). 모든 입력은 `Readonly<...>`, 모든 함수는 deterministic (같은 입력 → 같은 출력, PT-stable).
+
+```ts
+// packages/domain/src/index.ts  — Domain Contract v1 (frozen signatures; impl may be stubbed)
+
+export function calculateSuitability(input: SuitabilityInput): SuitabilityResult;
+export function buildItinerary(input: ItineraryInput): ItineraryResult;
+export function resolveGuide(input: GuideInput): ResolvedGuide;
+export function moderateReport(input: ModerationInput): ModerationDecision;
+export function buildDiaryDocument(input: DiaryInput): DiaryDocument;
+
+// ── Contract types (excerpt; full set lives in packages/domain/src/types.ts) ──
+
+export type CapabilityStatus = 'supported' | 'partial' | 'unsupported' | 'unknown';
+
+export interface CapabilityFact {           // mirrors accessibility_facts row (DB Contract ①)
+  capabilityCode: string;                   // domain-stable code, NOT a KTO field name
+  status: CapabilityStatus;
+  detail: string;
+  source: string;
+  sourceField: string;
+  verifiedAt: string;                       // ISO date
+}
+
+export interface SuitabilityInput {
+  poiFacts: ReadonlyArray<CapabilityFact>;
+  routeGuide: ResolvedGuide | null;
+  personaIds: ReadonlyArray<string>;        // selected personas (multi → LOWEST personaFit)
+  timeContext: TimeContext | null;          // crowd/weather/air snapshot
+  certifications: ReadonlyArray<Certification>;
+  ugcSummary: UgcSummary | null;
+  calculationDate: string;                  // ISO; drives Layer D decay
+  policyVersion: string;                    // e.g. "suitability-1.0" — echoed in result
+}
+
+export interface SuitabilityResult {
+  score: number;                            // round(clamp(100·A·B·C·D,0,100))
+  label: '방문가능' | '주의' | '대체추천' | '정보 없음';
+  axisContributions: { A: number; B: number; C: number; D: number };
+  deductions: ReadonlyArray<{ reason: string; capabilityCode: string }>;
+  coverage: number;                         // 0..1; <0.65 on critical ⇒ "정보 없음"
+  dataDates: ReadonlyArray<{ capabilityCode: string; verifiedAt: string }>;
+  alternatives: ReadonlyArray<string> | null; // populated when score < 70 (TarRlteTar)
+  policyVersion: string;
+}
+```
+
+> **계약 동결 효과:** F1-AD(consumer)는 `calculateSuitability`를 **import**해서 화면을 만들고, C0(owner)는 내부 구현을 TDD로 채운다. 시그니처가 frozen이므로 둘은 충돌 없이 병렬 진행한다. 구현이 stub(고정값 반환)이어도 F1-AD의 컴포넌트 트리는 완성 가능 — 이것이 vertical-slice를 가능케 하는 메커니즘이다.
+
+---
+
+## 2. Stream 정의 (C0–C4 · F* · I0 · Q0)
+
+각 stream = **소유 디렉터리 1개 집합** + **노출 인터페이스** + **의존** + **DoD**. "exposes"는 다른 stream이 import할 계약면을 뜻한다. 소유 디렉터리 밖은 write 금지(read-only import).
+
+### 2.1 Foundation streams (C0–C4)
+
+| Stream | 소유 디렉터리 (write) | Deliverables | Exposes (인터페이스) | Depends on | DoD (test gate) |
+|---|---|---|---|---|---|
+| **C0 Contracts** | `packages/domain`, `packages/application`, `tests/contract` | 5개 domain 시그니처 동결 + 순수 산식 TDD 구현 (`calculateSuitability` 등) + application orchestrator 시그니처 | Contract ③ (5 함수), `application` 진입점 | — | `vitest` unit: Layer A/B/C/D 가중치·forced rules·null rule 케이스 전부 green; 시그니처 컴파일 |
+| **C1 Data Platform** | `supabase/`, `packages/db`, `tests/contract/rls.*` | 전 테이블/enum/RLS/Storage migration + `match`/read-model RPC + generated types | Contract ① (DB schema + RLS + `packages/db` typed client) | C0 (타입 참조) | `supabase db reset` green; RLS 테스트(default-deny/anon/admin) green; generated types 컴파일 |
+| **C2 KTO/ETL** | `packages/kto-client`, `packages/public-data-clients`, `packages/etl`, `scripts/{ingest,validate-content,publish}`, `.github/workflows/kto-etl.yml` | typed KTO client(single-encode·XML-error fallback·Zod passthrough) + real fixtures + ETL CLI(`source_records→normalize→validate→PUBLISH txn`) + bootstrap `ldongCode2`/`lclsSystmCode2` + HMAC revalidate endpoint | Contract ② (transport + normalized types + fixtures) | C0, C1 (publish 타깃) | contract 테스트가 fixtures로 green(live API 無); `detailWithTour2` 필드키 verified; publish txn이 실패 시 last-good 유지 |
+| **C3 Design/A11y** | `packages/ui`, `apps/web/src/app/[locale]/layout` (shell만), `.storybook` | Tailwind v4 토큰(대비쌍) + Radix/shadcn base + Pretendard + a11y primitives + pictogram registry | Contract ④ (`packages/ui` 컴포넌트 + 토큰) | C0 | Storybook `addon-a11y` green; 토큰 대비 4.5/3:1; eslint-jsx-a11y green; primitives(RouteFocusReset/AriaLive) 단위 검증 |
+| **C4 Content (6-POI)** | `packages/content-schema`, `content/{pois,route-guides,docent,pictograms,licenses}` | Content Package Zod 스키마 + 6-POI 검증 fill(entrances/steps/photos/slope/단차/rest/AAC/docent/source/verified-date) + 라이선스 레지스트리 | Contract ⑤ (Zod schema + `content/*.json`) | C0 (타입), C2 (KTO 사진/필드 결합) | `scripts/validate-content` green(6 POI 전부 schema 통과); 각 fill에 `verified-by`/`verified-date` 존재 (SPEC §11 route-error mitigation) |
+
+### 2.2 Feature streams (F1-AD/B/C/E/F · F2 · F3 · F4 · F5)
+
+SPEC §8/§9의 canonical F1–F5. F1은 의존 차이에 따라 5-way split(pairing D6). 각 feature는 `apps/web/src/features/<dir>`만 write.
+
+| Stream | 소유 디렉터리 (write) | Deliverables | Exposes | Depends on | DoD (test gate) |
+|---|---|---|---|---|---|
+| **F1-AD** POI카드 + 시간예산 | `features/f1-poi-card`, `features/f1-planner` | F1.A 무장애 상세 카드(출입구 사진·회전 폴리곤·휴식·매트릭스·부재사유 라벨) + **4-Layer 투명 evidence card** + F1.D 시간예산 6단(curated `itinerary_templates`) | `<PoiAccessibilityCard>`, `<SuitabilityEvidenceCard>`, `<TimeBudgetPlanner>` | C1, C2, C3, C4, C0(`calculateSuitability`/`buildItinerary`) | axe 0 on `/poi/[id]`·`/plan`; evidence card가 per-axis 기여·deduction·data-date·policyVersion 표시; null→"정보 없음" |
+| **F1-B** 베리어프리 경로 | `features/f1-route-guide` | 정적 step 카드(5~12단계)·출입구별 접근법·구간 hazard·대체경로·5채널 출력(지도/사진/쉬운글/픽토그램/TTS) | `<RouteGuideViewer>`, step data model (F1-F·F1-E·F4 재사용) | C1, C3, C4, C0(`resolveGuide`) | axe 0 on `/route/[poi]`; map 제외→list가 source of truth; 각 step에 verified-by/date |
+| **F1-C** SOS·AAC | `features/f1-safety` | SOS 고정 버튼(119/1330/영사콜센터 딥링크) + 보조기기/콜택시 static directory + AAC 5종(픽토그램·쉬운글·다국어·TTS) | `<SosButton>`, `<AacHelpCards>`, static directory model | C3, C4 (AAC/픽토그램), C1(facility) | axe 0; AAC 카드 SR 읽힘; F1.F-6과 AAC 데이터 공유(단일 출처) |
+| **F1-E** 후기 + GPX | `features/f1-community`, `packages/exports` (GPX 부분) | 페르소나별 후기 분리 탭 + GPX 환류(검수 통과 동선만) + 로컬 프로필 영속 | `<PersonaReviewTabs>`, `exportGpx(route)` | C1, F1-B(step data), C0(`moderateReport` 연계) | axe 0; GPX 1.1 valid XML; 후기 RLS(approved public) |
+| **F1-F** 예측가능 백제 | `features/f1-predictable` | 7요소(픽토그램 일정·1단계1행동·60초 카운트다운·자극조절·보호자동반(GPS 좌표 X)·캐릭터+AAC·단체모드) — F1.B step 데이터 재사용 | `<PredictableMode>` 7 sub-components | C3, C4, F1-B(step data) | axe 0; `prefers-reduced-motion` 존중; 보호자동반은 좌표 송신 0(코드 grep로 검증) |
+| **F2** Odii 4채널 도슨트 | `features/f2-docent` | 음성·자막·점자·수어 × ko/en/ja/zh-CN; consent-gated geofence + **map-tap fallback**; "AI 음성 안내" 배지; transcript 상시; `aria-live` | `<DocentPlayer>`, `<LangSwitcher>` | C1(docent_assets), C2(Odii), C3, C4 | axe 0 on `/docent/[poi]`; transcript 가시; consent 게이트; AI 배지 SR 노출 |
+| **F3** 배리어 제보 + 검수 큐 | `features/f3-report`, `apps/web/src/admin/moderation` | 구조화 제보 + 사진 → admin 큐 → approve → Realtime alert; **no auto-recalc**; reporter-trust filter | `<BarrierReportForm>`, `<ModerationQueue>`, approve → alert-state | C1(barrier_reports + RLS + private bucket), C0(`moderateReport`) | RLS(self insert/read·approved public·evidence private); Realtime은 approved alert state만 broadcast(raw report 금지) |
+| **F4** 다중 출력 다이어리 | `features/f4-diary`, `packages/exports` (PDF/BRF 부분) | local-first 다이어리 + 퀴즈 + 6 출력(학생PDF/교사루브릭/점자.brf/쉬운글PDF/GPX/단체합본); **HTML alt 상시**, no Chromium | `<DiaryEditor>`, `buildDiaryDocument`(C0)→`renderPdf/renderBrf/...` | C0(`buildDiaryDocument`), C3, C4, F1-B(step data) | 6 출력 산출물 생성됨; pdf-lib 충남교육청 form fill; braillify .brf(40×25+FF); HTML alt 존재; IndexedDB local-first |
+| **F5** 충남 RTO 갭 리포트 | `features/f5-dashboard`, `packages/rto` (있다면 `packages/domain/rto`) | completeness aggregates + visitor trends("방문자≠관광객" caveat) + 시군 히트맵; B2G gap view | `<RtoDashboard>` | C1(`gap_metric_snapshots`/`poi_completeness_mv`/`report_trends_mv`/`rto_dashboard_snapshots`), C2(DataLab), F3(approved 집계) | axe 0; caveat 상시 표시; snapshot view로 PT-reproducible |
+
+### 2.3 Integration & Quality streams
+
+| Stream | 소유 디렉터리 (write) | Deliverables | Depends on | DoD |
+|---|---|---|---|---|
+| **I0 Integration (D.1 assembly)** | `tests/e2e`, `tests/demo`, `apps/web/src/app/[locale]/(demo)` | D.1 golden flow를 한 시나리오로 조립(SPEC §12); Serwist offline(6-POI 번들); 데모 seed; fallback drills | F1-AD, F1-B, F2, F3, F4, F5 | Playwright E2E가 D.1 7-step 전 구간 통과; offline 모드에서 6-POI 가이드 동작; 데모 seed ≠ prod |
+| **Q0 Quality** | `tests/{accessibility,contract}`, `.github/workflows/{ci.yml,release-readiness.yml}`, `tests/e2e` (gate만) | CI 게이트(typecheck/unit/axe/lighthouse/eslint-jsx-a11y/contract); 수동 NVDA/VoiceOver/TalkBack 매트릭스; license/AI-label/위치동의 audit | I0 + 모든 stream | release-readiness 워크플로 green; 수동 SR 매트릭스 기록; audit 체크리스트 통과 |
+
+---
+
+## 3. Dependency Graph (SPEC §9 확장)
+
+SPEC §9 그래프를 stream 단위로 펼친 것. 화살표 = "build-before / contract-depends".
+
+```
+                 ┌────────────────────────────────────────────────────────┐
+   C0 Contracts ─┤ (5 domain signatures + pure산식)                        │
+                 └─┬───────────────┬───────────────┬──────────────────────┘
+                   │               │               │
+                   ▼               ▼               ▼
+              C1 Data Platform   C3 Design/A11y   C4 Content (6-POI)
+                   │               │ (→ all features)      │
+                   ▼               │                        │
+              C2 KTO/ETL ──────────┼────────────────────────┤
+                   │               │                        │
+        ┌──────────┼───────────────┴───────────┬────────────┤
+        ▼          ▼                            ▼            ▼
+     F1-AD        F2          F5            F1-B          F1-C
+        │          │           ▲              │             ▲
+        │          │           │              ▼             │
+        │          │           │           F1-F · F1-E · F4 │
+        │          │           │              ▲             │
+   C1 ──┴──────────┴──► F3 ─(approve)─► F1-B alerts, F5     │  (F1-C reuses F1-F·C4 AAC)
+                                                             │
+   (F1-AD + F1-B + F2 + F3 + F4 + F5) ─► I0 (D.1 assembly) ─► Q0 (gates)
+```
+
+명시적 엣지 (SPEC §9 그대로):
+
+- `C0 → C1 → C2 → {F1-AD, F2, F5}` — 데이터 평면 후 feature.
+- `C0 → C3 → all features` — design contract는 모든 feature의 전제.
+- `C0 → C4 → {F1-AD, F1-B, F1-C, F1-F, F2, F4}` — content package가 substrate.
+- `C1 → F3` — 제보는 DB 계약만 있으면 시작 가능(ETL 불필요).
+- `F1-B → {F1-F, F1-E, F4}` — step data model 재사용.
+- `F3 approve → {F1-B alerts, F5}` — 승인된 제보가 경고/집계로 흐른다.
+- `(F1-AD+F1-B+F2+F3+F4+F5) → I0 → Q0`.
+
+**Critical path:** `C0 → C2(`detailWithTour2` 검증) → C4(6-POI fill) → F1-AD(evidence card)`. 무장애 데이터 = 제품 차별축이며 cert/legal stream을 게이트한다 (SYNTHESIS §8 build sequence). 따라서 6/14–6/28에 C2의 필드 검증과 C4의 1-POI fill을 **front-load**한다.
+
+---
+
+## 4. Week-by-Week Build Sequence (6/14 → 9/30)
+
+SPEC §9 timeline을 주차별 window + 목표 + 게이트로 확장. 각 window 끝 = 머지 가능한 vertical 상태 + CI green.
+
+### Window 1 — 6/14 ~ 6/28 · "Contracts + 첫 vertical slice"
+
+> **목표:** 5개 계약을 얼리고, `공산성·국립공주박물관` 데이터로 **반나절 + 휠체어·시니어·가족이 한 화면에서 동작**하는 수직 슬라이스 1개를 세운다.
+
+| stream | 이 window의 산출 | 게이트 |
+|---|---|---|
+| C0 | 5 시그니처 동결 + `calculateSuitability` Layer A/B/C/D TDD green | unit green |
+| C1 | DB Contract v1 migration + RLS 테스트 + `packages/db` types | `db reset` + RLS green |
+| C2 | KTO client transport + `detailWithTour2` 필드 검증(guide v4.3 + live probe) + 공산성/국립공주박물관 fixtures + bootstrap `ldongCode2`/`lclsSystmCode2` | contract 테스트 fixtures로 green |
+| C3 | 토큰 + a11y primitives(SkipLink/RouteFocusReset/AriaLive/FocusTrapModal) + Storybook | addon-a11y green |
+| C4 | Content Zod schema + 공산성 1-POI fill(verified) | validate-content green(1 POI) |
+| F1-AD (slice) | 공산성 카드 + evidence card + 반나절 planner(P1a·P1b·P3) 한 화면 | axe 0 on slice route |
+
+**Window 1 종료 게이트 (vertical-slice-first 검증):** `typecheck + unit + @axe-core/playwright(core route) + core E2E(공산성 반나절 휠체어·시니어·가족)` 전부 green. 이 게이트를 통과하지 못하면 Window 2 수평 확장을 시작하지 않는다.
+
+### Window 2 — 6/29 ~ 7/19 · "6-POI 데이터 + F1.A/D + F1.B 공주 + F3 골격"
+
+> **목표:** content/ETL를 6-POI로 수평 확장하고, F1의 핵심(A/D)과 공주 3 POI 경로, F3 상태기계, F4 출력 spike를 세운다.
+
+| stream | 산출 | 게이트 |
+|---|---|---|
+| C2/C4 | 6-POI ETL publish + 6-POI content fill 전부 verified | validate-content green(6 POI); publish txn last-good |
+| F1-AD | 6-POI 카드 + evidence card 완성; itinerary 반나절/당일/1박2일 | axe 0; itinerary 결정론 테스트(같은 입력→같은 결과) |
+| F1-B | 공주 3 POI(공산성·무령왕릉·국립공주박물관) step 가이드 | axe 0; step마다 verified-by/date |
+| F3 | 제보 폼 + admin 큐 state machine(no auto-recalc) | RLS 테스트; state 전이 unit |
+| F4 (spike) | PDF/BRF/GPX 1건씩 생성 spike | 산출물 생성 확인 |
+
+### Window 3 — 7/20 ~ 8/9 · "부여 + F1.C/E/F + F2 + F3 alert + F4 6출력 + F5"
+
+> **목표:** 나머지 feature 표면을 전부 채운다 — 부여 경로, 안전/후기/예측모드, 4언어·4채널 도슨트, 승인-알림 루프, 6 출력 다이어리, RTO 대시보드.
+
+| stream | 산출 | 게이트 |
+|---|---|---|
+| F1-B | 부여 3 POI(부소산성·정림사지·국립부여박물관) step 가이드 | axe 0; verified |
+| F1-C/E/F | SOS·AAC / 후기·GPX / 예측가능 7요소 | axe 0; 보호자동반 좌표 0 grep |
+| F2 | 4언어 × 4채널(음성·자막·점자·수어) + consent geofence + map-tap fallback + AI 배지 | axe 0; transcript 가시; consent 게이트 |
+| F3 | approve → Realtime alert(approved state only) → F1-B alerts / F5 | Realtime payload 검증(raw report 미노출) |
+| F4 | 6 출력 전부(학생PDF·교사루브릭·.brf·쉬운글PDF·GPX·단체합본) + HTML alt | 6 산출물 생성; HTML alt 존재 |
+| F5 | completeness + visitor trends(caveat) + 히트맵 | axe 0; caveat 표시; snapshot view |
+
+### Window 4 — 8/10 ~ 8/31 · "D.1 golden flow + offline + 수동 SR + audit + fallback drills"
+
+> **목표:** 6개 feature를 D.1 단일 서사로 조립하고, 오프라인·수동 스크린리더·법무 audit·장애 대비 드릴로 데모 견고성을 확보한다.
+
+| stream | 산출 | 게이트 |
+|---|---|---|
+| I0 | D.1 golden flow E2E 조립(SPEC §12 7-step) + Serwist offline(6-POI 번들) + fallback drills(ETL 실패 시 last-good) | D.1 E2E green; offline 6-POI 동작 |
+| Q0 | 수동 NVDA/센스리더 + VoiceOver + TalkBack 매트릭스 1차 | 수동 매트릭스 기록 |
+| Q0 | license/AI-label/위치동의 audit(KOGL `cpyrhtDivCd`·AI 배지·PIPA 분리동의) | audit 체크리스트 |
+
+### Window 5 — 9/1 ~ 9/15 · "실사용자 + 전문가 검증 + 데모 응답 스냅샷"
+
+> **목표:** 실 관광약자 + a11y 전문가 검증(SPEC §11 *"non-negotiable, separate from dev"*)을 거치고, 데모용 모든 API 응답을 스냅샷하여 PT-day 외부 의존을 0으로 만든다.
+
+| 산출 | 게이트 |
+|---|---|
+| 실 관광약자 + 특수교육/점자 전문가 validation 세션 | 결함 티켓화 + 핵심경로 remediation |
+| 모든 데모 API 응답 스냅샷(crowd/weather/air 포함) | demo seed에서 외부 호출 0 |
+| (옵션) 형식 cert 파일링 준비(버퍼 있으면 mid-Sept) | SPEC §2.13 — pre-review blocker 아님 |
+
+### Window 6 — 9/16 ~ 9/30 · "RC: feature freeze + PT 자산"
+
+> **목표:** 기능 동결, PT 시나리오·백업 영상, 데모/prod 분리, 심사/admin 계정, 인시던트 런북.
+
+| 산출 | 게이트 |
+|---|---|
+| Feature freeze(버그픽스만) | release-readiness 워크플로 green |
+| PT 시나리오 + 백업 데모 영상 | D.1 영상 재생 가능 |
+| demo seed vs prod 분리 + judge/admin 계정 + incident runbook | 계정 로그인 + 런북 리허설 |
+
+---
+
+## 5. 에이전트팀이 이걸 어떻게 병렬 실행하는가
+
+> **핵심:** stream 수가 곧 충돌 위험이다. 충돌은 코드가 아니라 **계약면과 디렉터리 경계**로 막는다. 에이전트는 "자기 디렉터리에 write, 계약을 import"라는 단 하나의 규약만 지키면 된다.
+
+### 5.1 Phase별 동시 실행 (어느 stream이 같은 phase에 도는가)
+
+| Phase (window) | 동시 실행 stream | 충돌이 안 나는 이유 |
+|---|---|---|
+| **P0 Foundation** (W1) | C0 · C1 · C2 · C3 · C4 (5 병렬) | 각자 별도 package 디렉터리; C0 시그니처만 공유(읽기). C1↔C2는 DB Contract ①로만 만남(C2는 publish 타깃 schema를 import) |
+| **P1 Vertical slice** (W1 말) | F1-AD(slice) 단독 + Foundation 잔여 | slice는 stub 구현 위에서 컴포넌트 트리 완성 가능(§1.1 효과) |
+| **P2 Feature fan-out** (W2–W3) | F1-AD · F1-B · F1-C · F1-E · F1-F · F2 · F3 · F4 · F5 (최대 9 병렬) | 각 feature는 `features/<dir>` 1개만 write; 공유는 계약(`packages/ui`·`packages/domain`·`packages/content-schema`) import |
+| **P3 Integration** (W4) | I0 단독(조립) + Q0(게이트) | I0만 `(demo)`/`tests/e2e` write; feature 디렉터리는 read-only 조립 |
+| **P4 Hardening** (W5–W6) | Q0 + 잔여 버그픽스 | freeze 하에 owner-stream만 자기 디렉터리 수정 |
+
+> **에이전트 디스패치 모드(메타):** P0/P2 fan-out은 single-turn N-way **subagent burst**로 충분하다(독립 디렉터리·shared state 없음·머지 가능). teammate 프로세스는 비용만 늘린다. 다만 P3 I0 조립처럼 cross-turn 누적 컨텍스트가 필요한 supervisory 구간은 1–2 teammate가 정당화된다.
+
+### 5.2 Interface freeze가 collision을 막는 메커니즘
+
+1. **One contract owner** — 계약 ①–⑤는 각 owner-stream(C1/C2/C0/C3/C4) 1개만 변경 PR을 낸다. consumer는 절대 계약 파일을 수정하지 않는다(변경 필요 시 owner에게 요청). → 동시 write 충돌 원천 차단.
+2. **Versioned schema** — 계약은 `v1`. 변경은 minor(추가, backward-compatible)면 in-place, breaking이면 `v2` 신설 + consumer 마이그레이션 윈도. → 한 쪽 변경이 다른 쪽을 조용히 깨뜨리지 않는다.
+3. **Per-feature directory ownership** — monorepo가 경계를 강제한다(SPEC §4: `domain` cannot import Next.js). 각 stream의 write 범위는 §2 표의 "소유 디렉터리"로 고정. CODEOWNERS/lint로 cross-dir write를 차단한다.
+4. **Stub-first** — 계약이 frozen이면 구현은 stub여도 consumer가 진행 가능. owner가 내부를 채우는 동안 consumer가 막히지 않는다.
+
+### 5.3 Integration / hand-off protocol
+
+stream 간 인수인계는 **계약 + green CI + fixture**로만 이뤄진다. "구두/요약"으로 넘기지 않는다.
+
+```
+HAND-OFF CHECKLIST (producer → consumer)
+  [ ] 계약 파일(packages/<pkg>/src/index.ts)이 export됨
+  [ ] 해당 계약의 contract 테스트가 green (tests/contract/*)
+  [ ] consumer가 쓸 fixture/seed가 packages/test-fixtures 또는 supabase/seed에 있음
+  [ ] 변경이면 버전 노트(무엇이 minor/breaking인지) PR 본문에 명시
+  [ ] consumer는 import만으로 빌드 green (producer 내부 미완성이어도 stub로 통과)
+```
+
+- **C2 → C1 publish hand-off:** ETL은 `PUBLISH txn`으로만 read-model을 갱신한다(ingest ≠ publish). 실패 시 last-good 유지 → consumer(F1/F2/F5)는 항상 일관된 스냅샷을 본다(SPEC §4, demo-resilient).
+- **F3 → F1-B/F5 hand-off:** 승인 이벤트는 Realtime으로 **approved alert state만** broadcast. raw report는 절대 흐르지 않는다(SPEC §5 RLS). F1-B는 alert state를 읽어 경고 배너만 띄운다(no auto-reroute, SPEC §8 F3).
+- **계약 변경 broadcast:** owner가 계약을 bump하면 PR에 영향 consumer를 태그하고, consumer의 contract 테스트가 깨지면 그게 알림이다(silent drift 방지).
+
+---
+
+## 6. Vertical-Slice-First 원칙 & Per-Stream Test Gate
+
+### 6.1 Vertical-slice-first (SPEC §11 "feature glut" mitigation)
+
+> 16개 stream을 수평으로 동시에 절반씩 짓지 않는다. **1개 POI(공산성)가 F1→F4를 관통하는 1개 화면**을 먼저 완성(Window 1)한 뒤, 같은 골격에 POI/feature를 수평 확장한다. 이유: 통합 리스크를 마지막이 아니라 첫 주에 노출시키고, D.1 서사가 빌드 1주차부터 살아 있게 한다.
+
+slice의 정의(Window 1 종료 상태): `공산성` → 휠체어·시니어·가족 선택 → 반나절 → F1.A 카드 + evidence card → F1.B step(공산성 1개) → F4 다이어리 1 출력. 데이터는 `공산성·국립공주박물관`만. 이 한 줄이 F1→F5 서사(SPEC §12)의 축소판이다.
+
+### 6.2 Per-stream test gate (각 stream의 "Definition of Done"은 게이트 통과다)
+
+전역 CI 게이트(SPEC §10): `@axe-core/playwright` violations=0(core routes; `.map-canvas` 제외→수동), `jest-axe` 컴포넌트, Storybook `addon-a11y`, Lighthouse a11y ≥0.95, `eslint-plugin-jsx-a11y`. 추가로 stream별:
+
+| stream | 고유 게이트 (CI에서 PR fail) |
+|---|---|
+| C0 | `vitest` 산식 케이스(가중치·forced rules·null rule) 100% green; 시그니처 컴파일 |
+| C1 | `supabase db reset` green + RLS 테스트(default-deny/anon/admin) green |
+| C2 | contract 테스트가 **fixtures로** green(live API 無); single-encode(코드 30 회피) 검증 |
+| C3 | Storybook addon-a11y green; 토큰 대비 4.5/3:1; primitives 단위 |
+| C4 | `validate-content` green(전 POI schema 통과); 각 fill verified-by/date 존재 |
+| F1-AD | axe 0 on `/poi/[id]`·`/plan`; evidence card per-axis/deduction/date/policyVersion 표시 |
+| F1-B | axe 0; list=source of truth(map 제외); step마다 verified-by/date |
+| F1-C | axe 0; AAC SR 읽힘; AAC 단일 출처(F1.F-6 공유) |
+| F1-E | axe 0; GPX 1.1 valid; 후기 RLS approved-public |
+| F1-F | axe 0; reduced-motion 존중; 보호자동반 좌표 송신 0(grep) |
+| F2 | axe 0; transcript 가시; consent 게이트; AI 배지 SR 노출 |
+| F3 | RLS(self/approved/evidence-private); Realtime은 approved state만(raw 미노출) |
+| F4 | 6 출력 생성; pdf-lib form fill; .brf 40×25+FF; HTML alt 존재; IndexedDB local-first |
+| F5 | axe 0; "방문자≠관광객" caveat 표시; snapshot view로 reproducible |
+| I0 | D.1 E2E green(7-step); offline 6-POI 동작; demo seed ≠ prod |
+| Q0 | release-readiness 워크플로 green; 수동 SR 매트릭스 기록; license/AI/위치동의 audit 통과 |
+
+> **게이트 미통과 = 머지 불가 = hand-off 불가.** 이것이 "tests pass, so it's fine"이 아니라 "계약 + green CI로만 인수인계"라는 규약을 강제하는 지점이다.
+
+---
+
+## 7. 요약 테이블 (한눈)
+
+| 축 | 값 |
+|---|---|
+| Frozen contracts | 5 (DB①/KTO②/Domain③/Design④/Content⑤) — 각 owner 1, versioned |
+| Streams | 16 (C0–C4 · F1-AD/B/C/E/F · F2 · F3 · F4 · F5 · I0 · Q0) |
+| Critical path | C0 → C2(`detailWithTour2` 검증) → C4(6-POI fill) → F1-AD(evidence card) |
+| Windows | 6 (6/14→6/28→7/19→8/9→8/31→9/15→9/30) |
+| 첫 vertical slice | 공산성 반나절 휠체어·시니어·가족 (Window 1 종료 게이트) |
+| 충돌 방지 | one owner + versioned schema + per-feature dir ownership + stub-first |
+| Hand-off | 계약 export + contract 테스트 green + fixture + 버전 노트 (구두 금지) |
+| 최대 병렬 | P2에서 9 feature stream (subagent burst) |
+
+===== 15_risks_open_items.md =====
+# 15 위험·미해결 항목·결정 로그
+
+> **Authority:** SPEC §11 + proposal 부록 B 확장. 이 문서는 구현 중 발생하는 결정·위험을 추적하는 살아있는 로그다. SPEC.md가 변경되면 이 문서도 같은 커밋에 갱신한다.
+> **상태 (2026-06-14):** 결정 로그 §3 잠금 완료. §1 위험 레지스터와 §2 빌드타임 게이트는 C0 contracts 단계에서 검증 후 상태를 갱신한다.
+
+---
+
+## §1. 위험 레지스터
+
+각 위험은 독립 행으로 추적된다. **Impact:** H=High(점수 또는 런타임 영향) / M=Medium / L=Low. **Likelihood:** H/M/L. **Priority = Impact × Likelihood.** Owner-stream은 SPEC §9 스트림 코드(C0–Q0)를 따른다.
+
+### 1.1 데이터 계층 위험
+
+| ID | 위험 | Impact | Likelihood | Priority | 완화 전략 | Owner |
+|---|---|:---:|:---:|:---:|---|:---:|
+| R-D1 | **`detailWithTour2` 필드 키 불일치** — 제안서(21필드), D1 브리프, D4 브리프가 세 가지 서로 다른 키 목록(`restroom` vs `handicaptoilet`, `lactationroom` vs `nursingroom`)을 제시함. F1.A 카드와 `accessibility_facts` 스키마가 잘못된 키에 의존할 경우 ETL 전체가 공 데이터를 반환 | H | H | HH | (1) C0/WS0-KTOClient 첫 태스크로 가이드 v4.3 PDF 다운로드 + 공주/부여 실 contentId 프로브 실행. (2) 확인된 키만 `content-schema` Zod에 등록; 미확인 키는 `unknown` passthrough. (3) 계약 테스트(`tests/contract/detailWithTour2.spec.ts`)를 실 응답 fixture로 실행; CI가 키 누락 시 실패 | C2 |
+| R-D2 | **lDong 코드 하드코딩** — 제안서 예시(`lDongRegnCd=44`, `lDongSignguCd=150/760`)는 digest 주장이며 live 검증 미완료. 잘못된 값은 `areaBasedList2` 필터가 빈 결과를 반환 | H | M | HM | (1) `ldongCode2` 부트스트랩 호출 결과를 `source_code_mappings` 테이블에 적재. (2) 코드는 DB에서만 조회; 소스에 `44/150/760` 리터럴 금지. (3) `scripts/validate-content/verify-ldong-codes.ts`가 공주·부여 코드를 응답에서 확인 후 CI 통과 | C2 |
+| R-D3 | **`cat→lclsSystm` 이름 변경 오해** — `HS/HS01` 등 예시가 실제 `lclsSystmCode2` 응답과 불일치하면 POI 카테고리 필터가 전체 실패 | H | M | HM | (1) `lclsSystmCode2` 부트스트랩 응답에서 레이블 맵을 실증적으로 생성; D1 예시를 가설로만 처리. (2) 맵을 `source_code_mappings(service='lclsSystm')`에 저장. (3) `HS/VE/EV` 가설은 허용; 소스 코드에 직접 사용 금지 | C2 |
+| R-D4 | **serviceKey 이중 인코딩** → `resultCode 30` — Encoding key를 서버가 한 번 더 인코딩하면 `%2B→%252B`가 되어 KTO가 미등록 키로 거부 | H | M | HM | (1) Decoding key를 서버 전용 env var에 보관. (2) `URLSearchParams` / `new URL()`로 정확히 한 번 인코딩; `kto-client`에 double-encode 감지 단언 추가. (3) 키를 로그·응답에 절대 노출 금지 | C2 |
+| R-D5 | **KTO 운영 계정 발급 지연** — dev 계정은 1,000 calls/op/day 상한. 운영 계정(≈100,000/day) 심사 1–3일 + 활용사례 URL 필요. PT 직전 심사라면 데모가 quota 한계에 걸림 | H | M | HM | (1) 활용사례 URL 생성 즉시(첫 수직 슬라이스 배포) 운영 계정 신청. (2) 데모 환경은 DB 스냅샷 우선(런타임 KTO 호출 불필요 — SPEC §2.7). (3) `tests/demo/` 시나리오 전체를 스냅샷 seed로 실행 가능하게 유지 | C2 |
+| R-D6 | **Odii 6 POI 미커버리지** — Odii `storyLocationBasedList`가 공주·부여 6 POI를 커버하지 않을 가능성 | H | M | HM | (1) C0 단계에서 `themeBasedList`·`storyBasedList` 키워드 프로브로 커버리지 측정. (2) 미커버 POI는 국가유산청 메타데이터 + CLOVA TTS 자체 생성으로 대체. (3) 데모 음성은 Supabase Storage 사전 저장(런타임 Odii 무의존) | F2 |
+| R-D7 | **TatsCnctr 공주 `signguCd` 미확인** — 부여=34800만 브리프에 존재; 공주 코드가 없으면 F1.D Layer A 시간대 적합도 입력 누락 | M | H | MH | (1) C0 단계에서 `tatsCnctrRateList` 충남(areaCd=34) 응답을 파싱해 `tAtsNm`×`signguCd` 매핑 덤프. (2) 공주 코드를 `source_code_mappings`에 기록. (3) 미발견 시 Layer A `timeContext` 가중치(0.10) 항목에 `unknown` 처리(→ 0.35 기본값); UI에 "시간대 정보 없음" 표시 | C2, F1-AD |
+| R-D8 | **Supabase Free 플랜 자동 일시정지** — 1주일 비활동 시 Free 플랜 DB가 일시정지. PT 직전 리뷰어 접근 불능 | H | L | HL | (1) 9월 1일 이전 Supabase Pro로 업그레이드($25/mo). (2) GitHub Actions health-check cron이 매일 DB에 쿼리를 보내 idle 방지. (3) `tests/demo/smoke.spec.ts`를 매일 실행하는 Vercel Cron으로 추가 방어 | C1 |
+
+### 1.2 도메인 로직 위험
+
+| ID | 위험 | Impact | Likelihood | Priority | 완화 전략 | Owner |
+|---|---|:---:|:---:|:---:|---|:---:|
+| R-L1 | **적합도 점수 허위 정밀도** — `calculateSuitability`가 소수점 점수를 반환하지만 `unknown`(0.35 대입) 비중이 높으면 점수가 의미 없는 중간값을 반환. 사용자가 "62점"을 믿고 방문했다가 현장 불일치 | H | M | HM | (1) `coverage` 비율을 항상 `SuitabilityResult`에 포함. (2) coverage < 65% → `label = "정보 없음"` 강제(SPEC §7). (3) 카드 UI는 점수 숫자보다 라벨과 coverage %, 마지막 검증일을 전면에 표시. (4) "정보 없음" 라벨은 (a) 본질 제약 / (b) 운영자 미입력 사유를 분리 표시 | domain, F1-AD |
+| R-L2 | **에이전트 계약 드리프트** — 모노레포 6개 패키지가 병렬 개발될 때 `domain` 순수 함수 시그니처, DB 스키마, KTO 클라이언트 타입이 개별로 수정되면 런타임 오류가 통합 단계까지 숨겨짐 | H | M | HM | (1) 각 계약(DB v1, KTO v1, Domain v1, Design v1, Content v1)은 단일 소유자가 버전 태그를 붙여 관리(SPEC §9). (2) `packages/domain`은 Next.js/Supabase import 금지(`eslint-plugin-import` boundary 규칙). (3) Contract test suite(`tests/contract/`)는 fixture 기반으로 CI에서 실행; 계약 변경은 PR 필수. (4) `.github/CODEOWNERS`로 계약 파일 변경 시 소유자 리뷰 강제 | C0, C1 |
+| R-L3 | **Layer C 상한 미준수** — 개발 중 원래 제안서 Layer C(×1.00–1.30)를 참조하면 cap +0.12 결정이 실수로 되돌아감 | M | M | MM | (1) `calculateSuitability` 소스 주석에 `// Layer C capped at +0.12 (1.00–1.12); proposal ×1.30 was replaced — see Decision D-5` 기입. (2) Unit test로 BF우수(+0.08) + 열린관광지(+0.04) = +0.12 = max 검증; +0.13이면 실패. (3) KQ는 score boost 없이 metadata-only — `poi_certifications` 행으로만 저장 | domain |
+| R-L4 | **멀티페르소나 페널티 누락** — `multi-persona`에서 가장 낮은 `personaFit`을 취하는 로직이 누락되면 한 페르소나가 다른 페르소나의 높은 점수로 마스킹됨 | H | L | HL | (1) `calculateSuitability` 내 `min(personaFit over selected personas)` 단언 테스트를 P1a+P3 조합으로 작성. (2) `critical AND` 강제: 선택 페르소나의 CRITICAL capability가 `unsupported`이면 score ≤ 49 강제 — 별도 unit test | domain |
+
+### 1.3 기능 범위 위험
+
+| ID | 위험 | Impact | Likelihood | Priority | 완화 전략 | Owner |
+|---|---|:---:|:---:|:---:|---|:---:|
+| R-F1 | **기능 과밀(Feature Glut)** — F1~F5 + 4개 언어 + KWCAG + UGC를 4개월 안에 완성하려는 범위 과대 | H | H | HH | (1) F1~F5 각각 수직 슬라이스 1개(공산성 휠체어·시니어·가족 조합)를 6/28까지 완성. (2) "발전방향" 태그 기능은 UI에도 "(출시 예정)" 뱃지로 표시; 데모에 포함하지 않음. (3) SPEC §9 타임라인 준수를 Q0가 매 스프린트 검증 | all streams |
+| R-F2 | **F4 PDF/BRF 품질** — `@react-pdf/renderer` CJK 줄바꿈 미설정, Pretendard TTF 미임베드, `braillify` 한국어 점자 변환 오류 | H | M | HM | (1) `registerHyphenationCallback`을 per-char no-hyphen으로 설정. (2) Pretendard static TTF를 `packages/ui/fonts/`에 번들; 외부 URL 의존 금지. (3) `braillify` → `.brf` 40×25 포맷 + FF(0x0C) 페이지 구분자 unit test. (4) HTML 대안 항상 제공(SPEC §8 F4). (5) Chromium 의존 금지(MVP) | F4 |
+| R-F3 | **F3 UGC 오염** — 악의적·중복·오류 제보가 검수 큐를 초과하거나 승인 전 레코드가 공개 읽기 가능 | H | M | HM | (1) `barrier_reports`는 `self insert/read + approved public` RLS(SPEC §5). (2) 선택형 양식 + 사진 근거 필수; 자유 텍스트 최소화. (3) 신고자 신뢰도 점수 컬럼(`reporter_trust`)으로 자동 필터. (4) 자동 재계산 없음 — 관리자 검수 큐 통과 후 `Supabase Realtime` broadcast(승인 상태만) | F3, C1 |
+| R-F4 | **F2 수어 영상 커버리지** — MVP 6 POI 샘플 수어 영상은 국립국어원 한국수어사전 + 서울관광재단 다누림 협력 의존. 협력 미성사 시 수어 채널 비워짐 | M | M | MM | (1) 수어 채널은 선택적 채널; 미제공 POI는 "수어 자막 준비 중" 상태 표시. (2) 대안: 한국수어사전 embed/deep-link 방식 전환(재배포 없이). (3) 채널 4개 중 3개(음성·자막·점자)는 수어와 무관하게 독립 완성 | F2 |
+| R-F5 | **다국어 콘텐츠 품질** — KTO 다국어 서비스 원문 품질이 낮거나 POI 커버리지 부족 시 영문/일문/중문 UI가 한국어보다 현저히 열악 | M | M | MM | (1) KTO 다국어 원문 우선; 자체 번역은 보조 + "AI 번역" 배지 의무. (2) multilingual contentTypeId 매핑(76/78/85) 검증 fixture 작성; 국문 12로 다국어 호출 시 빈 결과 확인 테스트. (3) 6 POI의 다국어 원문 커버리지를 ETL 실행 후 `poi_completeness_mv`에서 확인 | C2, F1-AD |
+
+### 1.4 접근성·법률 위험
+
+| ID | 위험 | Impact | Likelihood | Priority | 완화 전략 | Owner |
+|---|---|:---:|:---:|:---:|---|:---:|
+| R-A1 | **a11y 자동화 과신** — axe-core CI가 KWCAG 33검사항목의 30–50%만 커버. CI 통과를 "인증 통과"로 오해하거나 수동 검사 없이 제출 | H | M | HM | (1) CI 게이트는 자동화 회귀 방지 전용임을 README에 명시. (2) NVDA + 센스리더 수동 검사를 9/1–9/15 주간으로 일정 고정(SPEC §9). (3) map canvas는 axe `.exclude('.map-canvas')` 처리 후 수동 체크리스트로 라우팅; 게이트 통과 ≠ 커버 | Q0, C3 |
+| R-A2 | **정식 인증 일정 착오** — "자체점검(MVP)"과 "정식 인증(발전방향)"의 경계가 흐려지면 PT에서 인증 과장으로 감점 | H | L | HL | (1) UI, 발표 자료, 이 문서 모두에서 "KWCAG 2.2 자체점검 (axe-core CI + 수동 SR 검증)"과 "정식 인증 신청 후보 (WA/KWACC, 출시 후 3개월 내)"를 명확히 분리. (2) K-WAH 자체점검 보고서를 9월 말 작성(인증 기관 제출 서식) | C3, Q0 |
+| R-A3 | **위치정보법 제9조의2 신고 누락** — GPS 실시간 사용 전 방통위 신고 없이 배포하면 법 위반 | H | L | HL | (1) MVP는 map-tap 방식으로 실시간 GPS를 지연(SPEC §2.11 + §10). (2) 방통위 신고를 9월 배포 전까지 완료; 신고 전까지 GPS 자동 트리거 기능은 기능 플래그로 비활성. (3) raw GPS는 영구 저장 금지(§23 secure-wipe) | C3 |
+| R-A4 | **PIPA 개인정보 국외이전 미고지** — Vercel(US) 처리·Supabase Storage CDN의 글로벌 PoP을 개인정보처리방침에 미기재 | M | M | MM | (1) PII(제보 작성자 식별·소셜 프로필)는 Supabase Seoul Postgres에만 저장; CDN/Edge 배치 금지. (2) 개인정보처리방침에 Vercel(US)/Kakao 위탁·국외이전 명시. (3) 분리 동의 체크박스(수집·이용 / 제3자제공 / 위치 / 마케팅) 구현 | C3 |
+| R-A5 | **AI 기본법 라벨 누락** — "AI 음성 안내", "AI 번역", "AI 생성 코스" 배지가 CSS-only 또는 스크린리더에 노출 안 됨 | M | M | MM | (1) 배지는 `aria-label` 포함 실제 DOM 요소로 렌더. (2) 릴리스 준비 체크리스트(`tests/demo/ai-label-audit.spec.ts`)에서 3종 배지 존재 확인 | C3, Q0 |
+| R-A6 | **KOGL Type3 이미지 변환** — `cpyrhtDivCd=Type3` 이미지를 crop/filter/composite하면 저작권 위반 | M | M | MM | (1) `poi_media.transform_policy` 컬럼을 ETL이 `cpyrhtDivCd`에서 파생. (2) 이미지 렌더 컴포넌트는 `transform_policy='no_transform'`이면 next/image 변환 파라미터 금지. (3) `content-schema` Zod로 Type3 자산에 transform 시도 시 컴파일 경고 | C2, C3 |
+
+### 1.5 운영·데모 위험
+
+| ID | 위험 | Impact | Likelihood | Priority | 완화 전략 | Owner |
+|---|---|:---:|:---:|:---:|---|:---:|
+| R-O1 | **데모 당일 외부 API 장애** — PT 현장에서 KTO API 또는 Odii가 응답 불능 | H | M | HM | (1) 모든 KTO 호출은 DB 스냅샷 우선(SPEC §2.7); 런타임 KTO 의존 없음. (2) Odii 음성·Supabase Storage MP3 사전 저장. (3) `tests/demo/` 전체를 seed DB로 실행하는 오프라인 데모 모드 유지. (4) 9/16–9/30 RC 단계에서 백업 영상 촬영(SPEC §9) | C1, Q0 |
+| R-O2 | **Vercel Cron 타임존 착오** — `0 19 * * *` UTC = KST 04:00이 아닌 다른 시간이면 ETL과 분석 시간이 불일치 | L | M | LM | (1) `vercel.json crons`에 주석으로 `# KST 04:00 = UTC 19:00` 명시. (2) ETL 로그에 `ingestedAt`(UTC ISO8601)을 기록하고 모니터링 | C1 |
+| R-O3 | **HMAC 보호 없는 `revalidateTag` 엔드포인트** — 공개 엔드포인트 노출 시 DoS 가능 | M | L | ML | (1) GitHub Actions → 내부 endpoint 호출 시 `X-Internal-Secret` HMAC 헤더 검증 미들웨어 적용. (2) 엔드포인트는 `NEXT_PUBLIC_` 아닌 서버 전용 환경 변수에서 시크릿 로드 | C1 |
+
+### 1.6 검증·전문가 위험
+
+| ID | 위험 | Impact | Likelihood | Priority | 완화 전략 | Owner |
+|---|---|:---:|:---:|:---:|---|:---:|
+| R-V1 | **전문가 검증 미실시** — 관광약자·특수교육·점자 전문가 검증 없이 개발팀만의 접근성 판단에 의존 | H | M | HM | **전문가 검증은 협상 불가 비차단 조건(non-negotiable).** (1) 9/1–9/15 관광약자(휠체어·시니어) 실사용자 20명 + 특수교육 교사 + 점자 사용자 베타 테스트 일정 확정(SPEC §9). (2) 테스트 결과 피드백을 9/16 이전에 반영. (3) PT 발표에 실사용자 인용 포함 | Q0 |
+| R-V2 | **AI 전용 개발의 도메인 한계** — AI 에이전트 팀은 실제 무장애 현장 경험이 없어 접근성 판단의 맥락 오류 가능. 예: 경사도 숫자가 정확해도 실제 휠체어 조작 난이도와 불일치 | H | M | HM | (1) `route_steps`, `route_hazards` 데이터는 실측 검증 없이 "미검증" 플래그 유지. (2) 현장 검수 1회(5–6월 6 POI 방문 계획)를 전문가와 함께 수행. (3) UGC 검수를 전문 운영자(CACF 협력)가 담당. (4) 이 제약을 PT에서 "9월 관광약자 베타 테스트로 검증"으로 투명하게 언급 | C4, Q0 |
+
+---
+
+## §2. 빌드타임 검증 게이트 (Foundation)
+
+SPEC §11 "Verify-at-build-time" 목록의 구체 실행 절차. 모두 C0/C2 단계 완료 전에 통과해야 한다. 실패 시 downstream 스트림(F1-AD, F2, F5)은 해당 계약에 의존하는 코드를 작성하지 않는다.
+
+### Gate 1 — `detailWithTour2` 정확한 필드 키
+
+**검증 절차:**
+
+```typescript
+// scripts/validate-content/verify-detailWithTour2.ts
+// 실행: npx ts-node scripts/validate-content/verify-detailWithTour2.ts
+const PROBE_CONTENT_IDS = [
+  '2634812', // 공산성
+  '264141',  // 무령왕릉과 왕릉원
+  '126508',  // 국립공주박물관
+  '126425',  // 부소산성
+  '126544',  // 정림사지
+  '126375',  // 국립부여박물관
+];
+
+// 1. KorWithService2/detailWithTour2 호출
+// 2. 응답 키 목록을 guide v4.3 필드 목록과 비교
+// 3. 불일치 키를 콘솔에 출력하고 exit(1)
+// 4. 확인된 키를 packages/content-schema/src/detailWithTour2Fields.ts에 export
+```
+
+**합격 기준:** 6 POI 모두에서 응답이 오고, 최소 15개 키가 확인되며, Zod 스키마에 `unknown` passthrough 없이 등록 가능.
+
+**연동 위험:** R-D1.
+
+### Gate 2 — lDong 코드 (충남/공주/부여)
+
+**검증 절차:**
+
+```typescript
+// scripts/validate-content/verify-ldong-codes.ts
+// 기대값(가설): lDongRegnCd=44(충남), lDongSignguCd=150(공주), 760(부여)
+// 실행: KorService2/ldongCode2 호출 → 충남 레코드 필터 → 실제값과 비교
+
+interface LDongVerifyResult {
+  province: { code: string; label: string };   // 충남
+  sigungu: { code: string; label: string }[];  // 공주, 부여
+  hypothesis: { regnCd: '44'; gongjuSiguCd: '150'; buyeoSiguCd: '760' };
+  match: boolean;
+}
+// match=false이면 exit(1), source_code_mappings 테이블에 실제값 upsert
+```
+
+**합격 기준:** `ldongCode2`에서 충남·공주·부여 레코드를 찾고, `source_code_mappings`에 기록 완료.
+
+**연동 위험:** R-D2.
+
+### Gate 3 — KTO 게이트웨이 서픽스 확인
+
+각 서비스의 실제 URL 서픽스를 Swagger/가이드 PDF와 대조한다.
+
+| 서비스 | 예상 서픽스 | 검증 방법 |
+|---|---|---|
+| `TatsCnctrRateService` | `/tatsCnctrRateList` (서픽스 없음) | 실 호출 후 `resultCode=00` 확인 |
+| `DataLabService` | `/locgoRegnVisitrDDList`, `/metcoRegnVisitrDDList` | 실 호출 |
+| `PhotoGalleryService1` | `/galleryList1`, `/gallerySearchList1`, `/galleryDetailList1` | 실 호출 |
+| `Odii` | `/storyLocationBasedList`, `/storyBasedList`, `/themeBasedList` | 실 호출 (공주·부여 좌표) |
+| `TarRlteTarService1` | `/areaBasedList1`, `/searchKeyword1` (`1` 서픽스) | 실 호출 |
+
+**합격 기준:** 전 서비스 `resultCode=00` 또는 `03`(데이터 없음); `10/11` 파라미터 에러 없음.
+
+**연동 위험:** R-D4.
+
+### Gate 4 — TatsCnctr 공주 `signguCd`
+
+```typescript
+// scripts/validate-content/verify-tats-signgu.ts
+// KorWithService/tatsCnctrRateList areaCd=34 + 부여 signguCd=34800 → 정상 확인
+// 동일 호출에서 공주 관련 레코드 필터 → signguCd 추출
+// 결과를 source_code_mappings(service='TatsCnctr', code_type='signguCd')에 upsert
+```
+
+**합격 기준:** 공주에 해당하는 `signguCd`를 실 응답에서 추출 완료. 미발견 시 `unknown` 상태로 `source_code_mappings`에 기록하고 R-D7 완화 전략 2 적용.
+
+**연동 위험:** R-D7.
+
+### Gate 5 — Odii 6 POI 커버리지
+
+```typescript
+// scripts/validate-content/verify-odii-coverage.ts
+const POI_COORDS = [
+  { name: '공산성',       x: 127.1247, y: 36.4654, radius: 500 },
+  { name: '무령왕릉',     x: 127.1149, y: 36.4592, radius: 500 },
+  { name: '국립공주박물관', x: 127.1282, y: 36.4651, radius: 300 },
+  { name: '부소산성',     x: 126.9087, y: 36.2777, radius: 500 },
+  { name: '정림사지',     x: 126.9204, y: 36.2745, radius: 300 },
+  { name: '국립부여박물관', x: 126.9218, y: 36.2718, radius: 300 },
+];
+// storyLocationBasedList langCode=ko 호출 → storyId 목록 확인
+// 커버리지 리포트: { poi, storyCount, langCodes: string[] }[]
+```
+
+**합격 기준:** 6 POI 중 4개 이상에서 `storyCount > 0`. 미달 POI는 R-D6 대안(국가유산청 + CLOVA TTS) 자동 활성.
+
+**연동 위험:** R-D6.
+
+### Gate 실행 순서 및 CI 통합
+
+```yaml
+# .github/workflows/ci.yml (Foundation Gate 단계)
+jobs:
+  foundation-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gate 1 — detailWithTour2 fields
+        run: npx ts-node scripts/validate-content/verify-detailWithTour2.ts
+      - name: Gate 2 — lDong codes
+        run: npx ts-node scripts/validate-content/verify-ldong-codes.ts
+      - name: Gate 3 — gateway suffixes
+        run: npx ts-node scripts/validate-content/verify-gateway-suffixes.ts
+      - name: Gate 4 — TatsCnctr signguCd
+        run: npx ts-node scripts/validate-content/verify-tats-signgu.ts
+      - name: Gate 5 — Odii coverage
+        run: npx ts-node scripts/validate-content/verify-odii-coverage.ts
+```
+
+Gates 1–5는 C0 완료 전에 한 번, ETL 첫 실행 후 한 번 총 두 번 실행한다. 이후 weekly로 실행해 KTO 서비스 변경을 감지한다.
+
+---
+
+## §3. 결정 로그
+
+모든 잠금된 결정을 추적한다. **상태:** LOCKED = 변경 불가 / USER = 사용자가 직접 결정 / PAIRING = Claude⇆Codex pairing 결과.
+
+### 3.1 SPEC §2 잠금 결정
+
+| ID | 결정 | 값 | 상태 | 근거 |
+|---|---|---|:---:|---|
+| D-1 | 주제 | 「모두의 백제」 | LOCKED | 제안서 확정 |
+| D-2 | 스택 | Next.js 15 + Supabase(Postgres 17+PostGIS) + Vercel, 전부 Seoul(`icn1`/`ap-northeast-2`) | LOCKED | 서울 리전 고정으로 KTO→DB 왕복 지연 최소화; `icn1` 누락 시 Washington PoP 경유 |
+| D-3 | 앱 형태 | PWA(Serwist `@serwist/next` 9.5.11) — 네이티브 앱 아님. 모바일 KS X 3253 = 발전방향 | LOCKED | 앱스토어 배포 오버헤드 없이 KWCAG 2.2 준수 가능; 4개월 MVP 적합 |
+| D-4 | 캐시 모델 | Next 15 + `unstable_cache`; 사용자별 데이터는 캐시 금지; Next 16 Cache Components = 발전방향 | LOCKED | 생태계 성숙도 + 사용자별 데이터 cross-user 누출 방지 |
+| D-5 | **Layer C cap** | **+0.12 (1.00–1.12)**; KQ = 메타데이터만 | **USER + PAIRING** | Codex 권고 채택; 사용자 확인(2026-06-14). 제안서 ×1.30은 정밀도 과장; cap과 문서화가 심사 투명성을 높임. 세부 내역: BF 예비+0.02 / 일반+0.05 / 우수+0.08 + 열린관광지+0.04 |
+| D-6 | **방향성** | **Narrow, contract-first, content-verified system** (광범위 플랫폼 아님) | **USER + PAIRING** | Codex 핵심 테제 채택; 사용자 확인(2026-06-14). 6 POI 검증 콘텐츠 패키지가 기반; 투명 카드가 그 위에 서 있음 |
+| D-7 | 라우팅 | **정적 큐레이션 경로 패키지** (6 POI). pgRouting/DEM 동적 라우팅 = MVP 제외 | LOCKED/PAIRING | 유산지 계단·문짝·경사는 DEM으로 추론 불가 — 수동 검수 필수. Codex D2 결정 |
+| D-8 | 데이터 제공 | **런타임 KTO 호출 없음.** 모든 데이터는 ETL→Supabase 게시; 휘발성 데이터(혼잡/날씨/공기)도 단기 스냅샷 | LOCKED/PAIRING | 데모 당일 KTO 장애 무영향; DB = 1차 캐시 + 진실 소스. Codex D4 결정 |
+| D-9 | 검색/AI | **pgvector/RAG/임베딩/OCR/360°/멀티AI 제공자 없음** → 발전방향 | LOCKED/PAIRING | 6 POI에 벡터 검색 불필요. Codex D3 결정 |
+| D-10 | 메시징 | **FCM/APNs/알림톡 없음** → 발전방향. 인앱 배너 + Supabase Realtime(승인된 알림만) | LOCKED/PAIRING | MVP 범위 축소; Realtime은 `barrier_reports` 승인 상태 broadcast에 한정 |
+| D-11 | ETL 스케줄러 | **GitHub Actions**(무거운 배치) + **Vercel Cron**(단기 새로고침만). GH Actions → HMAC 보호 내부 엔드포인트 → `revalidateTag` | LOCKED/PAIRING | 서버리스 토큰 버킷은 인스턴스 간 미공유 → ETL 재시도 GH Actions가 담당. Codex D13 결정 |
+| D-12 | 인증 | 핵심(탐색·도슨트·다이어리) = **로그인 불필요**. UGC 식별용 Supabase **Anonymous** auth만 | LOCKED/PAIRING | Codex D10 |
+| D-13 | 결제 | MVP 없음(정보+추천만 → 통신판매업/여행업 미적용) | LOCKED | |
+| D-14 | A11y 인증 | **자체점검 + 수동 스크린리더 검증**이 핵심 경로; 정식 WA/KWACC 신청 = MVP 비차단(발전방향, 9월 중순 파일링 가능 시) | LOCKED | |
+| D-15 | 외부 데이터(MVP) | KTO 10개 서비스 + BF인증 + 국가유산청 + 기상청 + 응급/AED + 충남(다도라/올담). 나머지 24개 → 발전방향 | LOCKED/PAIRING | Codex D11 |
+| D-16 | 자체 제작 콘텐츠 | **백제 마스코트 6컷만** 자체 제작. 픽토그램/AAC/쉬운글은 공개 셋 재활용(ARASAAC/KS/복지부/KODDI/국립특수교육원) | LOCKED | |
+
+### 3.2 Claude⇆Codex Pairing 결과 (2026-06-14)
+
+**Pairing 범위:** 아키텍처 기획 단계(구현 전). 두 모델이 동일 입력(제안서 + SYNTHESIS)으로 독립 초안 작성 후 조정.
+
+**수렴 (양측 독립 합의 → 고신뢰):**
+
+1. 순수 도메인 `calculateSuitability` 결정론적 함수 — Layer A 가중치 동일, 페르소나 매트릭스 동일, Layer D 감쇠 동일
+2. F1을 복수 스트림으로 분할
+3. 정식 F1–F5 번호 유지; 외국인 = 횡단 레이어
+4. 접근 가능 리스트 = 진실 소스; 지도 = 보조
+5. 로컬 퍼스트 다이어리(IndexedDB), 날 GPS 저장 없음(PIPA)
+6. 계약 우선 동결 (스키마 + KTO 클라이언트 + 디자인 시스템 + 도메인 시그니처)
+7. 수동 스크린리더 검증 > 형식 인증이 핵심 경로
+8. GitHub Actions = 무거운 배치 ETL; Vercel Cron = 단기 새로고침만
+9. D.1 데모 = 하나의 데이터셋이 F1→F5를 통과하는 단일 내러티브
+10. 데모 깊이로 범위 축소(수어 일부 POI, UGC 수동, 지오펜스 동의+탭 폴백, 자동 재계산 없음)
+
+**발산 → 해결 (Codex 개선 채택):**
+
+| Pairing ID | 주제 | Claude | Codex | 채택 |
+|---|---|---|---|---|
+| D1 | #1 레버리지 | 점수 카드 | 6-POI 콘텐츠 패키지 | **양쪽** — 패키지가 기반(Codex), 카드가 표면(Claude) |
+| D2 | 휠체어 라우팅 | WS1-GeoPipeline (pgRouting+NGII DEM) | **제거** → 정적 큐레이션 경로 | **Codex** → D-7 |
+| D3 | pgvector/RAG | nice-to-have로 유지 | **제거** (6 POI에 불필요) | **Codex** → D-9 |
+| D4 | KTO 캐싱/런타임 | 토큰 버킷 + TTL + 일부 라이브 | **런타임 KTO 없음**; 스냅샷으로 서브 | **Codex** → D-8 |
+| D5 | Layer C 승수 | 제안서 ×1.00–1.30 | cap **+0.12** (1.00–1.12) | **USER** → D-5 |
+| D6 | F1 분할 세분도 | F1-core + F1-assist (2개) | F1-AD / F1-B / F1-C / F1-E / F1-F (5개) | **Codex** |
+| D7 | 무장애 스키마 | `poi_barrier_free(jsonb)` | `accessibility_facts(capability_code, status, source_field)` | **Codex** — KTO 필드명과 도메인 분리 |
+| D8 | 콘텐츠 타이밍 | 후기 WS3-Content | **조기 동결 Content Package Contract + C4 스트림** | **Codex** |
+| D9 | 레포 구조 | 단일 Next 앱 | **모노레포** (apps/web + packages/{domain,…}) | **Codex** |
+| D10 | 인증 | anon-first | 핵심 기능 **로그인 불필요**; UGC 식별만 anon auth | **Codex** |
+| D11 | 외부 데이터 | (암묵적 trim) | 명시적 MVP 셋 + 나머지 발전방향 | **Codex** |
+| D12 | PDF | react-pdf + Chromium | react-pdf + pdf-lib + **HTML 대안 항상; MVP Chromium 없음** | **Codex** |
+| D13 | 캐시 무효화 | (미지정) | GH Actions → HMAC → `revalidateTag`; bounded TTL 복구 | **Codex** |
+
+**수렴 판정:** 셋 수렴, 순서 일부 발산 → 판사 라운드 불필요. Codex 개선은 모두 제안서 리스크 레지스터와 정합.
+
+**채택된 통합 입장:** Narrow, contract-first, content-verified system (Codex 척추) + 순수 도메인 점수 핵심이 투명 증거 카드로 표면화 (Claude 차별화).
+
+### 3.3 사용자 결정
+
+| ID | 결정 | 날짜 | 내용 |
+|---|---|---|---|
+| U-1 | **방향성 확인** | 2026-06-14 | 파이링 권고 채택 — Narrow direction (D-6). 드롭 목록: pgRouting/DEM, pgvector/RAG, Upstash, FCM/APNs/알림톡, OCR, 360°, 멀티AI 제공자, 24개 데이터셋 완전 통합 |
+| U-2 | **Layer C cap** | 2026-06-14 | Codex 권고 채택 — +0.12 상한 (D-5). 제안서 ×1.30은 정밀도 과장으로 문서화된 개선 사항으로 명시 |
+
+### 3.4 미결 항목 (Open Items)
+
+구현 중 추가 결정이 필요한 항목. 해결되면 상태를 RESOLVED로 변경하고 결정 내용을 기입한다.
+
+| OI ID | 항목 | 차단 대상 | 기한 | 상태 |
+|---|---|---|---|---|
+| OI-1 | `detailWithTour2` 정확한 필드 키 (Gate 1) | F1-AD, F1.B, F2 스키마 | C0 완료 전 | OPEN |
+| OI-2 | 충남/공주/부여 lDong 코드 실측값 (Gate 2) | F1-AD 지역 필터, F5 대시보드 | C0 완료 전 | OPEN |
+| OI-3 | TatsCnctr 공주 `signguCd` (Gate 4) | F1.D Layer A 시간대 | C0 완료 전 | OPEN |
+| OI-4 | Odii 6 POI 커버리지 (Gate 5) | F2 도슨트 채널 계획 | C0 완료 전 | OPEN |
+| OI-5 | 게이트웨이 서픽스 확인 — TatsCnctr/DataLab/PhotoGallery/Odii (Gate 3) | C2 ETL | C0 완료 전 | OPEN |
+| OI-6 | KTO 운영 계정 신청 타이밍 — 활용사례 URL 생성 즉시 신청 | 데모 안정성 | 첫 수직 슬라이스 배포 직후 | OPEN |
+| OI-7 | Odii 미커버 POI 대안 선택 — 자체 TTS vs 국가유산청 메타데이터 혼합 비율 | F2 | Gate 5 결과 후 | OPEN |
+| OI-8 | 방통위 LBS 신고 일정 — 9월 배포 전 완료 필요 | GPS 자동 트리거 기능 활성화 | 9월 배포 전 | OPEN |
+| OI-9 | CACF(충남문화관광재단) 협력 확인 — UGC 검수 큐 운영자 역할 합의 | F3 검수 워크플로 | 7월 말 | OPEN |
+| OI-10 | 9/1–9/15 관광약자 베타 테스트 참가자 모집 (최소 20명) | R-V1 완화 | 8월 말까지 모집 | OPEN |
+
+---
+
+## §4. 위험 요약 매트릭스
+
+```
+Impact/Likelihood  |  L        M        H
+-------------------|---------|---------|---------
+H                  | R-A2,   | R-D1,   | R-F1
+                   | R-A3    | R-D2,   |
+                   |         | R-D3,   |
+                   |         | R-D4,   |
+                   |         | R-D5,   |
+                   |         | R-D6,   |
+                   |         | R-L1,   |
+                   |         | R-L2,   |
+                   |         | R-F2,   |
+                   |         | R-F3,   |
+                   |         | R-A1,   |
+                   |         | R-O1,   |
+                   |         | R-V1,   |
+                   |         | R-V2    |
+-------------------|---------|---------|---------
+M                  | R-O3    | R-D7,   |
+                   |         | R-L3,   |
+                   |         | R-F4,   |
+                   |         | R-F5,   |
+                   |         | R-A4,   |
+                   |         | R-A5,   |
+                   |         | R-A6    |
+-------------------|---------|---------|---------
+L                  |         | R-O2    | R-D8,
+                   |         |         | R-L4,
+                   |         |         | R-A2,
+                   |         |         | R-A3
+```
+
+**즉시 주의(HH) 위험:** R-D1(detailWithTour2 필드), R-D4(serviceKey 인코딩), R-D5(운영계정 지연), R-F1(기능 과밀). 이 네 가지는 C0 단계 시작 직후 완화 조치를 실행한다.
+
+---
+
+## §5. 결정·위험 변경 프로토콜
+
+1. **위험 상태 갱신:** 완화 조치 실행 후 해당 위험 행에 `~~취소선~~`으로 완료 표시 + 날짜와 담당자 기입.
+2. **결정 변경:** LOCKED 결정은 변경 불가. USER 결정은 사용자가 명시 요청 시 이 문서와 SPEC.md를 같은 커밋에 갱신.
+3. **미결 항목 해결:** OI 항목이 해결되면 RESOLVED 상태로 변경 + 결정 내용을 §3에 신규 행으로 추가.
+4. **새 위험 추가:** ID 채번(R-X_NN 형식), Impact/Likelihood/Priority/완화/Owner 모두 기입 후 §4 매트릭스 갱신.
+5. **이 문서와 SPEC.md 간 모순:** SPEC.md가 항상 우선. 이 문서가 SPEC을 어긋나면 즉시 수정.
+</stdin>
+codex
+# 독립 PLAN-REVIEW — 모두의 백제
+
+## 핵심 판단
+
+현재 청사진은 **아키텍처 방향은 강하지만 contest-ready는 아니다.** 가장 큰 문제는 기능 수가 아니라, 핵심 주장인 “검증된 무장애 데이터”의 검증 절차와 산식이 아직 구현 계약으로 동결될 수준까지 정의되지 않았다는 점이다. 이 상태로 병렬 개발하면 화면은 완성돼도 심사에서 데이터 신뢰성과 실용성을 방어하기 어렵다.
+
+## 주요 발견
+
+| 심각도 | 위치 | 문제 | 구체적 수정 |
+|---|---|---|---|
+| **blocker** | `SPEC §7`, `05 §4`, `12 §1.1` | `SuitabilityResult` 계약이 문서마다 다르다. `total`/`score`, `axes`/`perAxisContribution`/`axisContributions`, `"정보없음"`/`"정보 없음"`이 불일치한다. | 단일 TS 계약 파일을 권위 원천으로 정하고 문서에는 복사하지 말고 링크만 둔다. 계약 golden fixture를 consumer CI에 포함한다. |
+| **blocker** | `05 §4.3`, `§10` | 산식의 핵심 입력이 미정이다. persona×capability 매트릭스, axis별 capability 집합, 휴식 임계값, 혼잡·날씨 매핑, freshness 가중치, 다중 source 충돌 규칙이 없다. 스펙만으로 구현할 수 없다. | 코딩 전 `suitability-policy-v1.json`으로 모든 매트릭스·곡선·우선순위·임계값을 수치화하고, 최소 30개 golden case를 전문가가 승인한다. |
+| **blocker** | `C4`, `12 Window 1–2`, `15 R-V2` | `verified_by/date` 존재만으로 현장 검증을 인정한다. 측정 방법, 장비, 사진 증거, 검수자 자격, 재검수 주기, 오차 허용치가 없다. | POI별 evidence pack을 DoD로 지정한다: 원본 사진, 측정값, 측정법, 검수자, 2차 승인, 유효기간, 변경 이력. 단순 문자열 검증은 금지한다. |
+| **blocker** | `12 §4`, `15 OI-10` | 실사용자·점자·특수교육 검증이 9월로 밀려 있고 참가자 모집도 미해결이다. 결과가 나올 때는 feature freeze 직전이다. | 7월에 demo-pair 1차 검증, 8월 전체 흐름 2차 검증, 9월 회귀 검증으로 분할한다. 모집·보상·장소·담당자·합격 기준을 6월에 확정한다. |
+| **blocker** | `F4`, `02 §8.5`, `15 R-F2` | Unicode 점자와 `.brf`를 사실상 동일하게 취급한다. 한국어 점역 정확성, Braille ASCII/embosser 호환성, 수학·구두점 규칙이 검증되지 않았다. | 대상 점역 규칙과 실제 점자 프린터를 먼저 지정한다. 점자 사용자의 대조 검수 없이는 “BRF 지원”을 심사 주장으로 사용하지 않는다. |
+| **blocker** | `12 Window 1`, `§6.1` | 첫 vertical slice 정의가 서로 다르다. Window 1 표에는 F1-AD만 있으나 §6.1은 F1.B와 F4까지 요구하고, 위험 문서는 F1→F5 slice라고 주장한다. | 첫 slice를 명시적으로 축소해 하나로 고정한다: 공산성 F1.A/D → 검증 경로 3단계 → HTML 다이어리 → F5 gap 1개. 담당·fixture·E2E를 함께 지정한다. |
+| **blocker** | `15 R-F1`, 전체 일정 | 4개월에 6개 현장 경로, 4언어, 수어, 점자, 6개 출력, UGC, admin, offline, F5를 모두 “완성”하는 것은 인력·콘텐츠 생산량 기준이 없다. 위험을 나열했지만 실제 scope gate가 없다. | 7/19과 8/9에 자동 scope-cut gate를 둔다. 핵심 경로 미달 시 후술한 컷 목록을 질문 없이 적용하도록 결정한다. |
+| **major** | `SPEC §7`, `05 §4.3` | Layer A가 “POI intrinsic”이라면서 휠체어·유아 capability를 섞는다. Layer B에서도 같은 사실을 다시 평가해 이중 계산한다. | A는 물리·운영 축으로 정의하거나, persona별 A를 계산한다. 같은 capability가 A와 B에 들어가면 중복 목적을 문서화하고 민감도 분석을 제공한다. |
+| **major** | `SPEC §7` | `unknown=0.35`는 근거 부재를 부분 적합으로 보상한다. coverage 65%만 넘으면 나머지 unknown이 점수를 올릴 수 있다. | unknown은 점수 기여 0 또는 계산 제외로 처리하고, 별도 confidence를 표시한다. 부족한 데이터가 높은 점수를 만들 수 없게 한다. |
+| **major** | `05 §4.5` | 예시 자체가 규칙과 모순된다. `verifiedUgc unknown=0.35`라면서 contribution은 `0.07×0.50=0.035`로 계산한다. | worked example을 golden test에서 직접 생성해 문서에 삽입한다. 수기 숫자를 유지하지 않는다. |
+| **major** | `05 §4.4` | 알려진 critical unsupported와 critical unknown이 동시에 있으면 `"정보없음"`이 알려진 위험을 덮을 수 있다. | 우선순위를 `known critical blocker → 대체추천`, 그 다음 `insufficient evidence → 정보없음`으로 변경한다. 두 상태가 있으면 둘 다 노출한다. |
+| **major** | `SPEC §7 Layer C` | 인증이 실제 접근성 점수를 최대 12% 올린다. 인증은 이미 capability facts와 중복되며 74점을 75점으로 바꿀 수 있다. | 인증은 점수 승수보다 confidence/coverage 증거로 사용한다. 승수를 유지한다면 인증만으로 라벨 경계를 넘지 못하도록 한다. |
+| **major** | `SPEC §7 Layer D` | 오래된 긍정·부정 증거를 모두 동일하게 곱셈 감점한다. freshness는 적합성이 아니라 불확실성인데 낮은 적합도로 표현된다. | stale fact를 점차 `unknown`으로 전환하거나 confidence를 낮춘다. suitability와 evidence confidence를 별도 출력한다. |
+| **major** | `SPEC §7`, `F3` | UGC가 Layer A, capability 날짜 갱신, 원본 fact로 중복 반영될 수 있다. 한 번 승인된 제보로 점수 조작이 가능하다. | UGC는 단독으로 authoritative status를 변경하지 못하게 하고, corroboration 수·검수자·증거 수준에 따른 명시적 승격 규칙을 둔다. |
+| **major** | `SPEC §7 alternatives` | `TarRlteTar`의 연관 관광지는 접근성 대체지라는 보장이 없다. 관련성 데이터를 안전 대안으로 표시하는 것은 오해를 만든다. | 대체지는 점수가 계산되고 검증 경로가 있는 6 POI에서만 선택한다. TarRlteTar는 “관련 관광지”로 별도 표시한다. |
+| **major** | `05 §2.4`, `§4.4` | 대체지 노출 기준이 한 곳은 `<75`, 권위 산식은 `<70`이다. | 하나의 정책 상수로 통합하고 boundary test `69/70/74/75`를 추가한다. |
+| **major** | `05 §4.6` | “시간예산 6단”이라면서 타입과 표에는 4개뿐이다. `2박3일`에는 잠금된 6 POI 밖의 익산·논산도 포함된다. | MVP를 `반나절/당일/1박2일` 3단으로 축소한다. 2박3일과 타 지역은 발전방향으로 이동한다. |
+| **major** | `12 §1–5` | 계약이 모두 green이어야 feature가 시작된다면서 C0–C4와 F1 slice를 같은 기간 병렬 실행한다. C1→C2→C4→F1의 실질 순차 의존이 감춰져 있다. | 계약 freeze를 48–72시간 단위로 순차화하고, stub UI와 real-data integration을 별도 milestone로 분리한다. |
+| **major** | `12 §2` | 디렉터리 ownership이 실제로 충돌한다. F1-E와 F4가 `packages/exports`, I0와 Q0가 `tests/e2e`, C2가 소유 범위 밖 revalidate route를 수정한다. | shared package를 별도 owner stream으로 만들거나 하위 경로까지 소유권을 분할한다. root config, lockfile, env, app routes, migrations에도 owner를 지정한다. |
+| **major** | `02 §2.3`, `§5–6` | `apps/web`는 public-data client를 import할 수 없다면서 Vercel Cron route가 날씨/Tats/대기 refresh를 직접 수행한다. | context refresh를 GH Actions/별도 worker로 이동하거나 server-only cron package 예외를 계약에 명시한다. |
+| **major** | `02 §6.2` | “단일 publish transaction”만으로 데이터셋 버전 정합성이 보장되지 않는다. 삭제된 fact, 실패한 POI, 이전 버전 잔존 행 처리 규칙이 없다. | staging/versioned tables에 완전한 snapshot을 생성한 뒤 active version 포인터를 원자적으로 교체한다. replace/delete semantics를 테스트한다. |
+| **major** | `02 §4.2` | 예제 `unstable_cache`는 정적 태그 `poi:all`만 설정해 문서의 `poi:{id}` 무효화를 구현하지 못한다. | POI별 cached factory 또는 명시적 key/tag builder를 만들고 POI 단위 invalidation contract test를 추가한다. |
+| **major** | `15 §2` | live API 검증을 일반 CI와 weekly CI에 넣으면 quota·secret·외부 장애로 PR이 막힌다. “fixture-only contract test” 원칙과도 충돌한다. | live probes를 수동/예약된 integration workflow로 분리한다. PR CI는 signed fixture와 schema drift test만 사용한다. |
+| **major** | `Gate 1` | “6 POI 모두 최소 15개 키”는 API가 빈 필드를 생략하면 실패한다. 동시에 `Zod passthrough` 원칙과 “passthrough 없이 등록” 기준도 모순이다. | envelope 필수 필드와 optional capability 필드를 구분한다. unknown key는 기록·경고하되 publish를 막을지 명시한다. |
+| **major** | `F2`, `15 R-F4/F5` | “4언어 × 음성·자막·점자·수어”는 콘텐츠 생산·언어학적으로 과장돼 있다. 한국수어는 단순 다국어 채널이 아니며 언어별 점자도 별도 검증이 필요하다. | 한국어 4채널은 demo pair만 완성한다. 외국어는 텍스트·자막·음성으로 제한하고 수어/점자는 검증된 언어만 주장한다. |
+| **major** | `F1.B §3.3` | Canvas 사진 압축은 Type3 변형 금지와 충돌하고 CORS taint·IndexedDB quota 문제도 있다. Cache Storage와 IndexedDB에 자산이 중복된다. | license-aware bundle manifest, 최대 용량, 자산 hash, 저장소 하나를 정의한다. 오프라인 지도 대신 완전한 텍스트 단계 사용을 보장한다. |
+| **major** | `F3`, `C1` | anonymous UGC에 rate limit, upload 제한, CAPTCHA/abuse control, admin permanent-auth 방식이 없다. | 제보 횟수·파일 크기/MIME·중복 hash 제한, server-side rate limit, admin MFA, audit retention을 acceptance criteria에 추가한다. |
+| **major** | `F5` | completeness와 gap priority의 계산 정의가 없다. 6 POI의 방문자 추세와 제보 수만 보여주면 “RTO 개선 신호”가 아니라 장식 대시보드가 된다. | `impact × severity × confidence × feasibility` 기반 우선순위와 실제 조치 항목을 정의한다. 각 지표가 어떤 RTO 결정을 지원하는지 명시한다. |
+| **major** | `15 R-V1` | “20명 테스트”만 있고 성공 기준이 없다. 참가자 수는 품질 증거가 아니다. | 핵심 과업 완료율, critical error 수, 도움 요청률, 정보 이해도, 경로 판단 정확도에 합격선을 둔다. |
+| **minor** | `02 §0`, `15 R-O1` | “데모 당일 외부 의존 0”은 과장이다. Vercel, Supabase, Kakao SDK, Storage에는 여전히 의존한다. | “런타임 KTO/Odii 의존 0”으로 정확히 표현하고 Kakao 실패 시 list-only fallback을 시연한다. |
+| **minor** | `SPEC §10`, `15 R-A4` | “PII는 Supabase Seoul에만”이라는 표현은 Server Action, Vercel 로그, Storage/CDN 처리까지 고려하면 보장하기 어렵다. | 실제 data-flow diagram과 로그 redaction 검사를 만들고 법률 주장은 전문 검토 후 확정한다. |
+
+## 추가로 줄여야 할 범위
+
+1. **F1.F 7요소를 3요소로 축소:** 시각 일정, 1단계 1행동, calm mode + AAC만 유지. 보호자 동기화·60초 변경·단체모드는 발전방향으로 이동.
+2. **F2 geofence 제거:** map-tap만 MVP로 유지. 한국어 4채널은 공산성·부소산성에만 깊게 구현.
+3. **F1.E 후기와 UGC GPX 제출 제거:** F3만 UGC 진입점으로 유지. curated GPX 다운로드는 가능하지만 community loop는 연기.
+4. **F4 출력 품질 우선:** HTML, 학생 PDF, 쉬운글 PDF, 전문가 검증 BRF를 우선한다. 교사 루브릭·단체합본은 동일 문서 모델의 얇은 파생물일 때만 포함.
+5. **F5를 단일 gap report로 축소:** 히트맵·일반 방문 추세보다 “어떤 시설을 왜 먼저 개선할지” 한 화면에 집중.
+6. **6 POI 깊이 차등화:** 공산성·부소산성은 완전한 evidence pack과 route를 제공하고 나머지 4곳은 검증 카드 중심으로 제한한다.
+
+## 가장 높은 레버리지
+
+**“하나의 검증된 barrier fact가 어디서 왔고, 사용자 판단을 어떻게 바꾸며, 현장 경로·다이어리·RTO 개선 항목까지 어떻게 이어지는지”를 감사 가능한 한 줄의 lineage로 보여주는 것**이다.
+
+예: 원본 사진·측정 → `accessibility_fact` → 산식 병목 → 서문 경로 단계 → 다이어리 기록 → F5 개선 우선순위. 이것이 기능 개수보다 데이터활용·기획력·실용성 점수를 훨씬 직접적으로 얻는다.
+
+## 최종 판정
+
+**현재는 contest-ready가 아니다.** 좋은 구현 방향과 발표 서사는 있지만, 핵심 데이터의 신뢰성, 산식 계약, 일정의 실행 가능성이 아직 방어되지 않는다.
+
+가장 중요한 변경 3가지는 다음이다.
+
+1. 산식 정책과 반환 계약을 완전히 동결하고 전문가 승인 golden cases로 검증한다.
+2. 공산성·부소산성 evidence pack과 조기 실사용자 검증을 최우선 critical path로 만든다.
+3. F1.F/F1.E/F2 다국어 범위를 즉시 줄이고, F1→F5 데이터 lineage 한 흐름의 완성도에 집중한다.
+tokens used
+68,318
+== codex exit=0 Sun Jun 14 09:04:34 AM KST 2026, raw bytes: 13458 ==

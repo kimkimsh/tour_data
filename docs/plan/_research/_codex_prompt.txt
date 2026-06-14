@@ -1,0 +1,27 @@
+You are GPT/Codex acting as an INDEPENDENT staff-level software architect in a 1:1 cross-model PLANNING pairing with Claude. Use maximum reasoning depth (xhigh). The two source documents you must base your analysis on are provided in the <stdin> block appended to this prompt: DOCUMENT 1 = the canonical submitted proposal for 「모두의 백제 (Modu Baekje)」, DOCUMENT 2 = the consolidated research synthesis (verified against live data.go.kr / vendor docs on 2026-06-13). Read both fully. Do NOT run any shell commands and do NOT write any files — print your FULL markdown analysis to stdout only.
+
+CONTEXT: We are building 「모두의 백제」, a barrier-free (무장애) heritage tourism web app for the 2026 KTO 관광데이터 활용 공모전 ① 웹·앱 개발 부문. Today is 2026-06-14. Proposal already submitted; we are in the BUILD phase. Functional review (기능심사) + final PT is October 2026. Stack is LOCKED: Next.js 15 (App Router, TypeScript) + Supabase (Postgres/PostGIS/pgvector/Auth/Storage/Realtime) + Vercel, all Seoul region. Build executed by a parallel AI agent team (no human devs). Quality bar: win 1st place.
+
+CANONICAL feature numbering (from the proposal — USE THIS, not the synthesis's re-numbering):
+- F1 무장애 토털 가이드 OS — 6 sub-features: A POI 무장애 상세 카드 / B 사전 베리어프리 경로 안내(정적) / C SOS·보조기기·콜택시 + AAC 도움요청 / D 시간예산 6단 + 4-Layer 적합도 산식 / E 페르소나별 후기 + 무장애 동선 GPX 환류 / F 예측 가능 백제(발달·인지 친화 7요소)
+- F2 Odii GPS 트리거 다국어·다채널 도슨트 — 음성·자막·점자·수어 4채널 × 국·영·일·중
+- F3 현장 배리어 제보 + 관리자 검수 큐 (Waze UGC; 자동 재계산 X)
+- F4 다중 출력 다이어리 — 6채널(학생PDF·교사루브릭·점자.brf·쉬운글PDF·GPX·단체합본)
+- F5 충남 RTO 데이터 갭 리포트 (B2G 대시보드)
+- 외국인 4언어 = cross-cutting 횡단 모드, NOT a standalone feature.
+
+ALREADY-RESOLVED — treat as ground truth, do NOT re-litigate:
+- Contest scoring — 1차 100점: 기획력30/완성도30/데이터활용20/발전성20 (+지역특화 가점 +2). 최종 PT 100점: 적정성30/완성도30/실용성25/발표15.
+- 충남 IS an eligible RTO 특별상 region (official 8: 부산·대전·광주·세종·충남·경북·강원·제주). The synthesis's "7-RTO / 충남 not listed" claim is WRONG.
+- No government client → no CSAP constraint (Vercel/Supabase fine). PWA (Serwist) not native for MVP. Next.js 15 + unstable_cache (not 16). No payment in MVP.
+- detailWithTour2 exact field keys, lDong codes, gateway path suffixes = verify-at-build-time Foundation tasks (NOT architecture blockers).
+
+YOUR TASK — produce an INDEPENDENT architecture & build plan (critique the synthesis; don't just agree). Cover concretely:
+1. System architecture — module map; Supabase schema sketch (tables + RLS intent); data flow (KTO ETL → DB → cache → UI); where each F1–F5 lives; typed KTO client design; the 4-Layer 적합도 산식 as a concrete deterministic computation (inputs → layers → 0–100 + 4-class label).
+2. Parallel WORKSTREAM decomposition for an agent team — maximally independent units, the FROZEN interfaces between them (DB schema / typed KTO client / design-token+component library / pure-domain signatures), a dependency graph, and a phased build sequence mapped to mid-June→September. Map Phase-2 feature streams to canonical F1–F5. Decide whether/how to split F1 (it has 6 sub-features).
+3. Repo / directory structure.
+4. Top risks + mitigations, and EXPLICITLY every place you DISAGREE with the synthesis (its §8 workstreams, §3 caching model, §2 API-reality calls, routing approach, PDF approach, ETL scheduler Vercel-Cron-vs-GitHub-Actions, etc.). Divergence is the signal we want.
+5. What you would CUT / DE-SCOPE for a realistic, demo-winning MVP by the Oct review, and what to EMPHASIZE for the PT (proposal D.1 demo = 휠체어 할아버지 + 초등 손녀, 반나절→1박2일 전환).
+6. The single highest-leverage thing to get right.
+
+Be concrete and opinionated. State confidence levels. Where you expect Claude's default would differ, say so. Output the full analysis as markdown to stdout now.

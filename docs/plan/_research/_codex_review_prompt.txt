@@ -1,0 +1,11 @@
+You are GPT/Codex doing an INDEPENDENT, critical PLAN-REVIEW of the implementation blueprint for 「모두의 백제 (Modu Baekje)」 in a 1:1 pairing with Claude. Use maximum reasoning depth (xhigh). The blueprint documents are provided in the <stdin> block below: SPEC.md (frozen source of truth) + 02_architecture + 05_feature_F1 + 12_workstreams + 15_risks (the spine; docs 01,03,04,06–11,13,14 also exist but aren't pasted). Do NOT run shell commands or write files — print your full review to stdout.
+
+CONTEXT: barrier-free heritage tourism web app (Next.js 15 + Supabase + Vercel Seoul; 공주·부여 6 POIs) for the 2026 KTO 관광데이터 활용 공모전 ① 웹·앱 개발 부문. Build phase; 기능심사(완성 서비스) + PT in Oct 2026, built by a parallel AI agent team. WIN CONDITION: 1차 100 (기획력30/완성도30/데이터활용20/발전성20 +지역특화+2), PT 100 (적정성30/완성도30/실용성25/발표15) → 대상/최우수상 + 충남 RTO 특별상. Thesis: one verified accessibility dataset flows F1→F2→F3→F4→F5. Locked: no pgvector/RAG/dynamic-routing/messaging; Layer C cap +0.12; static curated 6-POI routes; no runtime KTO calls (DB snapshots); PWA; no-login core.
+
+YOUR REVIEW — be critical and specific (you previously produced the architecture half of this pairing; now stress-test the WRITTEN plan). Cover:
+1. The TOP blockers/risks that would cause this to lose the contest or slip the Oct timeline — that the plan under-weights or hasn't truly mitigated (vs merely listing).
+2. Buildability gaps for an AI agent team: under-specified workstreams, hidden critical-path items, places two agents collide, missing acceptance criteria, the verify-at-build-time gates' adequacy.
+3. The 4-Layer 적합도 산식 (calculateSuitability in 05/SPEC §7): correctness, edge cases, exploitability, whether it's implementable from the spec alone, and whether its output actually earns 데이터활용/기획력 points.
+4. Scope: what to CUT further, and the single highest-leverage focus for the Oct review + PT.
+5. Anything in the plan you DISAGREE with or that contradicts itself.
+Give each finding a severity (blocker/major/minor), where (file/section), the issue, and a concrete fix. End with: is this blueprint contest-ready, and the 3 most important things to change. Print markdown to stdout now.

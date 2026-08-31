@@ -191,7 +191,7 @@ SPEC §4 module map을 패키지 내부 모듈로 전개.
 | `domain/guide` | `.../guide` | 정적 경로 가이드 단계 해석 (F1.B 데이터) | `resolveGuide`, `GuideStep` |
 | `domain/docent` | `.../docent` | 도슨트 채널/모드/언어 해석 (F2) | `resolveDocent`, `DocentTrack` |
 | `domain/reporting` | `.../reporting` | 제보 검수 상태기계 + reporter-trust (F3) | `moderateReport`, `ReportState` |
-| `domain/diary` | `.../diary` | 다이어리 도큐먼트 모델 (6 출력의 공통 IR) | `buildDiaryDocument`, `DiaryDocument` |
+| `domain/diary` | `.../diary` | 다이어리 도큐먼트 모델 (6 출력의 공통 IR). **`buildDiaryDocument`는 순수 IR(DTO)만 반환 — Buffer·react-pdf·braillify 직접 호출 금지(렌더링은 `packages/exports`=CX; SPEC §14.5e)** | `buildDiaryDocument`, `DiaryDocument` |
 | `domain/rto` | `.../rto` | completeness/gap 집계 규칙 (F5) | `computeGapMetrics` |
 | `integrations/kto` | `packages/kto-client` | KTO transport + 서비스 래퍼 | §2.2 |
 | `integrations/public-data` | `packages/public-data-clients` | 비KTO 어댑터 | §2.2 |
@@ -207,7 +207,7 @@ SPEC §4 module map을 패키지 내부 모듈로 전개.
 export type CapabilityStatus = 'supported' | 'partial' | 'unsupported' | 'unknown';
 
 export interface PoiFact {
-  capabilityCode: string;          // e.g. 'WHEELCHAIR_ENTRY' — KTO 필드명 아님
+  capabilityCode: string;          // 16 §2 canonical code, e.g. 'wheelchair_access' (KTO 필드명·임의 코드 아님; SPEC §14.2)
   status: CapabilityStatus;
   verifiedAt: string | null;       // ISO date; null ⇒ 미검증
   source: string;                  // 'KorWithService2' | 'UGC' | 'BF인증' | …
@@ -226,7 +226,7 @@ export interface SuitabilityInput {
 
 // SuitabilityResult 전체 계약은 16_suitability_policy.md §1 + packages/domain/policy/types.ts가 단일 권위.
 // 이 문서에서 재선언하지 않는다. 아키텍처 계층에서 필요한 입출력 요약만 아래에 기록.
-export function calculateSuitability(input: SuitabilityInput): import('@modu-baekje/domain/policy/types').SuitabilityResult;
+export function calculateSuitability(input: SuitabilityInput): import('@modu/domain/policy/types').SuitabilityResult;
 ```
 
 > 산식 본문(A/B/C/D 가중치, forced rules, null rule)은 SPEC §7이 권위. `SuitabilityResult` 필드 정의·타입·label 철자는 **[`16_suitability_policy.md §1`](./16_suitability_policy.md)**이 단일 권위 — 이 문서에서 필드를 재선언하지 않는다. 본 문서는 시그니처·격리·주입(시계·timeContext)만 못박는다.
@@ -285,7 +285,7 @@ export function getPublishedPoi(poiId: string) {
 
 - `unstable_cache` 콜백 내부에서 `cookies()`/`headers()`/`auth.getUser()` 호출 금지 — RSC lint 룰로 검출.
 - per-user 결과는 RSC에서 `cache()`(요청 단위)로만 메모. Data Cache 적재 금지.
-- Next 16 `use cache` 와 혼용 금지 (`cacheComponents` off 상태에서 `use cache`는 no-op).
+- Next 16 `use cache` 와 혼용 금지 (`cacheComponents` off 상태에서 `use cache`는 **no-op이 아니라 하드 빌드 에러** — 의도보다 강한 가드; SPEC §14.9). `vercel.json` functions glob은 **Vercel Project Root(`apps/web`) 기준 상대경로**여야 함(아니면 export 함수가 기본 타임아웃으로 떨어짐).
 
 ---
 
@@ -319,7 +319,7 @@ export function getPublishedPoi(poiId: string) {
 // This route is an HTTP gate only: it authenticates the Vercel Cron call and delegates
 // to packages/etl (server-only). It must NOT import public-data-clients directly —
 // that would violate the apps/web boundary rule (§2.3 rule 2 + carved exception).
-import { runContextRefresh } from '@modu-baekje/etl/contextRefresh'; // server-only package
+import { runContextRefresh } from '@modu/etl/contextRefresh'; // server-only package (workspace scope = @modu/* everywhere; SPEC §14.5d)
 
 export async function GET(req: Request) {
   // Vercel Cron은 production 배포에만 트리거. CRON_SECRET으로 외부 호출 차단.
@@ -384,7 +384,7 @@ GitHub Actions (kto-etl.yml, 일배치)
                     tags = ['poi:all'] + ['poi:{id}' for each published poi]
 ```
 
-> **삭제·실패·이전 버전 처리 규칙:** (a) 삭제된 사실 — staging의 tombstone 행이 PUBLISH 트랜잭션 내에서 canonical 테이블에서 제거. (b) 실패 POI mid-batch — `③ VALIDATE`에서 제외된 POI는 staging에 기록되지 않으므로 canonical에서 이전 버전 행이 그대로 유지; 다음 배치에서 재시도. (c) 이전 버전 행 — `dataset_versions.active` 포인터가 바뀌기 전까지 read-model 쿼리는 이전 `published_version` 기준으로 읽음 (read-model 쿼리에 `WHERE published_version = (SELECT published_version FROM dataset_versions WHERE dataset='main' AND active=true)` 조건 추가).
+> **삭제·실패·이전 버전 처리 규칙:** (a) 삭제된 사실 — staging의 tombstone 행이 PUBLISH 트랜잭션 내에서 canonical 테이블에서 제거. (b) 실패 POI mid-batch — `③ VALIDATE`에서 제외된 POI는 staging에 기록되지 않으므로 canonical에서 이전 버전 행이 그대로 유지; 다음 배치에서 재시도. (c) 이전 버전 행 — **publish atomicity의 단일 권위는 `03`의 `publish_dataset()` delete-then-insert**(SPEC §14.5b): canonical 테이블은 항상 현행 버전만 보유하므로 read-model 쿼리에 **`published_version` WHERE 필터를 두지 않는다**(이 `02`의 version-filter 방식은 폐기; `dataset_versions`는 감사·롤백 메타로만 유지). 실패 시 트랜잭션 ROLLBACK으로 직전 발행이 그대로 유지된다.
 
 ### 6.3 HMAC-protected revalidate 엔드포인트
 
@@ -395,13 +395,13 @@ GH Actions는 Vercel과 다른 신뢰 도메인이므로, publish 직후 내부 
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { revalidateTag } from 'next/cache';
 
-const SIGNATURE_HEADER = 'x-revalidate-signature';
+const SIGNATURE_HEADER = 'x-etl-signature';
 const MAX_SKEW_MS = 300_000;                 // 5분 — replay 방지 timestamp 윈도우
 
 export async function POST(req: Request) {
   const body = await req.text();             // { tags: string[], ts: number }
   const provided = req.headers.get(SIGNATURE_HEADER) ?? '';
-  const expected = createHmac('sha256', process.env.REVALIDATE_HMAC_SECRET!)
+  const expected = createHmac('sha256', process.env.ETL_HMAC_SECRET!)
     .update(body).digest('hex');
 
   const ok = provided.length === expected.length &&
@@ -421,11 +421,11 @@ export async function POST(req: Request) {
 // packages/etl/src/revalidate.ts — publish 트랜잭션 직후 호출
 export async function notifyRevalidate(tags: string[]): Promise<void> {
   const payload = JSON.stringify({ tags, ts: Date.now() });
-  const signature = createHmac('sha256', process.env.REVALIDATE_HMAC_SECRET!)
+  const signature = createHmac('sha256', process.env.ETL_HMAC_SECRET!)
     .update(payload).digest('hex');
   await fetch(`${process.env.PROD_BASE_URL}/api/internal/revalidate`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', 'x-revalidate-signature': signature },
+    headers: { 'content-type': 'application/json', 'x-etl-signature': signature },
     body: payload,
   });
 }
@@ -575,11 +575,11 @@ export async function notifyRevalidate(tags: string[]): Promise<void> {
 
 | 변수 | 위치 | 노출 경계 |
 |---|---|---|
-| `KTO_SERVICE_KEY` (**DECODING** 키) | `etl`/`kto-client` (server-only) | 클라이언트 번들 금지. single-encode. 로그에서 strip. |
+| `KTO_SERVICE_KEY_DECODING` | `etl`/`kto-client` (server-only) | DECODING 키; 클라이언트 번들 금지. single-encode. 로그에서 strip. (env명 doc 04와 통일; SPEC §14.5a) |
 | `SUPABASE_SERVICE_ROLE_KEY` | `etl`·server route | 클라이언트 금지 |
 | `NEXT_PUBLIC_SUPABASE_URL` / `…_PUBLISHABLE_KEY` | 클라이언트 OK | RLS가 방어선 |
 | `CRON_SECRET` | Vercel env | cron 엔드포인트 인증 |
-| `REVALIDATE_HMAC_SECRET` | GH Actions + Vercel env (공유) | HMAC 서명/검증 |
+| `ETL_HMAC_SECRET` | GH Actions + Vercel env (공유) | HMAC 서명/검증 (body+timestamp 서명, header `x-etl-signature`; 단일 컨벤션, SPEC §14.5a) |
 | `KAKAO_MAP_JS_KEY` | 클라이언트 (도메인 제한) | JS 키, REST 키는 server-only |
 
 > SPEC §6: DECODING 키를 server-only env에 두고 `URLSearchParams`/`new URL()`로 **정확히 한 번** 인코딩 (double-encode = code 30). 클라이언트 노출·로그 노출 금지.

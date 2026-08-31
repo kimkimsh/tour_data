@@ -286,7 +286,7 @@ export async function POST(req: Request): Promise<Response>;
 ```typescript
 // packages/etl/src/braille.ts
 
-import { braillify } from 'braillify';  // Apache-2.0, WASM, 2024 개정 한국점자규정
+import { translateToUnicode } from 'braillify';  // Apache-2.0, WASM, 2024 개정 한국점자규정 — exports: encode/translateToUnicode/translateToBrailleFont (NOT 'braillify'/'translate'; SPEC §14.9)
 
 interface BrailleOutput {
   unicodeText: string;   // UTF-8 점자 문자열 (U+2800–U+28FF) — 화면 표시용
@@ -475,6 +475,8 @@ interface DocentPlayerProps {
 
 ### 8.3 접근성 요구사항
 
+> **KWCAG ID 주의 (SPEC §14.10):** 아래 표의 검사항목 번호는 WCAG 번호가 아니라 **KWCAG 2.2 33개 표준 검사항목 ID**로 표기해야 한다 — '1.2.6 수어'·'4.1.3 상태 메시지'·'2.4.3 초점 순서' 등은 KWCAG 2.2 항목명/번호로 교정하고 CI lint가 인용 문자열을 검증한다.
+
 | 항목 | 구현 방법 | KWCAG 2.2 검사항목 |
 |---|---|---|
 | 음성 자동재생 방지 | MVP는 map-tap 수동 시작(autoPlay=false); 발전방향 자동트리거 추가 시 `prefers-reduced-motion` + 음소거 default + 재생 버튼 초점 적용 필수 | 2.1.2 (방해 금지) |
@@ -486,7 +488,7 @@ interface DocentPlayerProps {
 | 볼륨 슬라이더 | `role="slider"`, `aria-valuemin="0"` `aria-valuemax="100"` | 4.1.2 이름·역할·값 |
 | 언어 변경 | `<html lang="">` 동적 변경 | 3.1.1 페이지 언어 |
 | 초점 이동 | 채널 탭 전환 시 탭 패널로 초점 이동 | 2.4.3 초점 순서 |
-| AI 배지 스크린리더 | `<span aria-label="AI가 생성한 음성입니다">AI 음성 안내</span>` | 1.1.1 비텍스트 |
+| AI 배지 스크린리더 | `<span role="img" aria-label="AI 음성 안내">AI 음성 안내</span>` — accessible name이 보이는 라벨 포함 | KWCAG 2.5.3 (이름의 레이블 포함) |
 
 ### 8.4 DocentPlayer 상태 기계
 
@@ -517,14 +519,17 @@ interface DocentPageData {
   signItems: DocentSignItem[];
 }
 
-// 공개 read-model — 로그인 불필요
-const loadDocentData = unstable_cache(
-  async (poiId: string, locale: Locale, mode: DocentMode): Promise<DocentPageData> => {
-    // Supabase: docent_stories JOIN docent_assets WHERE published_at IS NOT NULL
-  },
-  ['docent-data'],
-  { tags: ['docent', 'poi'], revalidate: 3600 }
-);
+// 공개 read-model — 로그인 불필요. per-POI/locale 팩토리: tags가 poiId/locale을 포함해야
+// revalidateTag(`docent:${poiId}:${locale}`)로 POI별 무효화가 가능 (SPEC §14.5c, M-15).
+// 정적 ['docent','poi'] 태그는 POI별 무효화가 불가능했다.
+const loadDocentData = (poiId: string, locale: Locale, mode: DocentMode) =>
+  unstable_cache(
+    async (): Promise<DocentPageData> => {
+      // Supabase: docent_stories JOIN docent_assets WHERE published_at IS NOT NULL
+    },
+    ['docent-data', poiId, locale, mode],
+    { tags: [`docent:${poiId}:${locale}`], revalidate: 86400 }
+  )();
 ```
 
 ### 9.2 API 라우트
@@ -645,19 +650,11 @@ export async function generateStaticParams() {
 ## 14. "AI 음성 안내" 배지 규격
 
 ```typescript
-// apps/web/src/shared/components/AiBadge.tsx
-
-type AiBadgeVariant = 'audio' | 'translation' | 'route';
-
-const BADGE_LABELS: Record<AiBadgeVariant, string> = {
-  audio: 'AI 음성 안내',
-  translation: 'AI 번역',
-  route: 'AI 생성 코스',
-};
-
-interface AiBadgeProps {
-  variant: AiBadgeVariant;
-}
+// 단일 출처 = packages/ui/src/components/AiBadge.tsx (doc 11 §4.2; SPEC §14.10). 여기서 재정의 금지 — import 한다.
+import { AiBadge } from '@modu/ui';
+// variant = 'voice' | 'translation' | 'course'  (doc 06의 audio/route 아님), props { variant; locale? }
+// 매핑: F2 TTS → variant='voice', 자막 번역 → 'translation', 코스 → 'course'.
+// KWCAG 2.5.3: accessible name(aria-label)이 보이는 라벨('AI 음성 안내')을 포함.
 
 // AI 기본법(2026.1.22) 의무 표시
 // 위치: DocentHeader 우상단

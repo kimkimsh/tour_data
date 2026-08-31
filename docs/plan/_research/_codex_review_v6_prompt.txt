@@ -1,0 +1,33 @@
+Use the highest / latest available GPT model in Codex CLI at this moment with reasoning effort set to xhigh. No time limit. Maximum reasoning depth. You are running READ-ONLY in the repository; do not modify any files.
+
+ROLE: You are an independent, adversarial plan reviewer for a Korean tourism-data contest entry. This is a SIXTH review pass on a mature plan that has already survived five prior passes. Your value is finding what the prior reviewers MISSED — not re-reporting closed items.
+
+PROJECT: 「모두의 백제 (Modu Baekje)」 — a barrier-free (무장애) heritage-tourism PWA for the 2026 KTO 관광데이터 활용 공모전 ① 웹·앱 개발 부문. 6 POIs in 공주/부여 (백제역사유적지구). Core thesis: ONE verified accessibility dataset flows F1 (pre-trip card + 4-Layer 적합도 evidence) → F2 (Odii 4-channel docent) → F3 (barrier reports + moderation) → F4 (multi-output diary) → F5 (충남 RTO gap report). Stack: Next.js 15 + Supabase (Postgres 17 + PostGIS, no pgvector) + Vercel Seoul, PWA (Serwist). 기능심사 + PT = Oct 2026. Today = 2026-06-15.
+
+READ THESE (they are the plan):
+- docs/plan/SPEC.md  ← THE single canonical authority. (docs/plan/SPEC.ko.md is a Korean translation that defers to it.)
+- docs/plan/00_README.md through docs/plan/16_suitability_policy.md  ← expansions of SPEC sections.
+- docs/plan/_research/_plan_review_findings.md and _plan_review_resolved.md  ← the prior review + what is already CLOSED.
+
+CALIBRATION (user decisions, 2026-06-15 — respect these):
+1. Timeline is GENEROUS, but the strategy is to KEEP the current MVP scope cuts (SPEC §13.2) and invest the extra time in DEPTH + VALIDATION: 6-POI content evidence packs, expert braille/관광약자/특수교육 sign-off, ≥30 산식 golden cases, stability, polish. DO NOT recommend restoring cut scope or adding features. The win condition is "evidence the one dataset traverses F1→F5", not feature count.
+2. SPEC.md is canonical.
+
+DO NOT RE-REPORT (already resolved + verified in _plan_review_resolved.md): B-1 SuitabilityResult contract single-sourcing; B-2 산식 policy definition (now in 16_suitability_policy.md); B-3 evidence-pack DoD; B-4 3-pass validation schedule; B-5 braille expert gate; B-6 single first-slice definition; B-7 scope-cut gates (7/19, 8/9); B-8 zh-CN locale unification; M-1..M-22 (Layer A/B double-count separation, unknown=0.35 + coverage cap guard, Layer C/D guards, TarRlteTar alternatives relabel, false-parallel sequencing, directory-ownership collisions, publish atomicity, per-POI cache invalidation, live-API-out-of-PR-CI, F5 gap-priority engine, anonymous-UGC abuse controls, etc.); RC-1..RC-4. These are CLOSED. Find what they missed.
+
+YOUR TASK — produce a structured findings report. For EACH finding give:
+  - severity: BLOCKER | MAJOR | MINOR | IMPROVEMENT
+  - title (one line)
+  - location (file:line or file:section)
+  - issue (what is wrong/missing and why it matters to the contest score or to build/demo correctness)
+  - recommendation (concrete fix)
+  - touchesLockedDecision: yes/no (yes if it would change a SPEC §2 locked decision or the §7/§16 formula values — surface, do not assume)
+
+Hunt specifically in these high-value zones the prior rounds under-examined:
+  1. Correctness landmines in the embedded contracts/DDL/Zod/formula that are NEW (not in the M-list): coordinate projections (Odii xCoord/yCoord vs WGS84 SRID 4326), env-var name consistency across docs (e.g. revalidate HMAC secret), schema-level enforcement of invariants the prose promises (offline fallback_text NOT NULL, evidence-pack required before publish, read-model active-version filtering), multilingual contentTypeId remap (12/14 → 76/78), ETL timeout/retry budget, IndexedDB quota, Realtime payload PII.
+  2. Contest-scoring blind spots: where the F1→F5 one-dataset claim is still undefendable to a judge; whether 데이터활용 20 + 기획력 30 + 완성도 30 + PT 실용성 25 are each maximally earned; the CACF 특별상 / +2 지역특화 dependency (owner? letter-of-intent?).
+  3. Depth/validation gaps that the generous timeline should now close (since scope is frozen): what would make the 6-POI evidence, the braille/sign-language, and the expert validation bulletproof.
+  4. Operational procurement risks with no owner/date: 충남교육청 form PDF, mascot art, CLOVA/ElevenLabs TTS keys, KTO operating account, 다누림/국립국어원 sign-language licensing.
+  5. Internal inconsistencies that remain (cite file:line), including the SPEC.md vs SPEC.ko.md dual-authority declaration.
+
+Be concrete and cite file:line. Rank findings by leverage (impact on score or on build/demo correctness) at the end in a "TOP 10 HIGHEST-LEVERAGE" list. Output plain markdown.

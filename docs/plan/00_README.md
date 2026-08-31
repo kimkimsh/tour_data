@@ -48,6 +48,26 @@
 
 **핵심 규칙:** 계약(03 DB · 04 KTO · 12의 5 frozen contracts)이 green이 되기 전에는 어떤 feature 스트림도 시작하지 않는다. 각 스트림은 자기 소유 디렉터리에만 write 하고, 타 디렉터리는 계약 import(read-only)만 한다.
 
+### Day-1 셋업 런북 (DevEx · SPEC §14.10)
+
+새 스트림 오너(사람·에이전트)는 첫날 아래 순서로 부팅한다 — 이 런북이 없으면 18개 스트림 전부가 0시에 막힌다.
+
+```bash
+# 0) 사전 요구: Node 20(.nvmrc), pnpm, Supabase CLI, Docker
+nvm use                       # .nvmrc = 20
+pnpm install --frozen-lockfile
+cp .env.example .env.local    # KTO_SERVICE_KEY_DECODING · SUPABASE_* · ETL_HMAC_SECRET 등 채움
+supabase start && supabase db reset
+pnpm run seed                 # 데모 시드(공산성·부소산성)
+# 1) 첫 green 확인:
+pnpm run typecheck && pnpm --filter @modu/domain test   # 도메인 골든이 green 이어야 함
+```
+
+- **스크립트 매니페스트의 단일 권위 = `13` 부록 A(완전판)** — `etl:ingest`/`capture-fixtures`/`exports:update-golden`/`validate-content` 등 plan 어디서든 호출되는 스크립트를 전부 정의(발췌 금지). 오너 = C0.
+- **테스트 러너:** 도메인 = vitest, contract/exports/component = jest — 패키지별로 명시하고 각 config 오너를 둔다(SPEC §14.5g).
+- **첫 수직 슬라이스(SPEC §13.3) 픽스처 스펙**은 `12`의 "첫 슬라이스 픽스처" 절 참조(페르소나·예산, 3개 스텝, 1개 F5 갭, 기대 label 고정). HTML 다이어리 leg의 W1 프로듀서로 **CX `renderHtml` 최소본을 Window 1에 포함**한다.
+- 워크스페이스 스코프는 `@modu/*`로 통일(SPEC §14.5d).
+
 ---
 
 ## 잠금된 결정 로그 (Locked Decision Log)
@@ -109,7 +129,7 @@
 | 항목 | 값 |
 |---|---|
 | 방향성 | **APPROVED DIRECTION** (2026-06-14) — SPEC frozen, 결정 로그 §3 잠금 완료 |
-| **플랜-리뷰** | **plan-reviewed and revised 2026-06-14; build-ready pending policy expert sign-off + early validation** (see SPEC §13 + [16_suitability_policy.md](./16_suitability_policy.md)) |
+| **플랜-리뷰** | **v5 (2026-06-14) + v6 sixth-pass (2026-06-15, Claude 6-lens + Codex `gpt-5.5` 교차검증)**; build-ready pending policy expert sign-off + early validation (see SPEC §13·**§14** + [16_suitability_policy.md](./16_suitability_policy.md) + [`_research/_plan_review_v6_findings.md`](./_research/_plan_review_v6_findings.md)) |
 | 단계 | **빌드 단계 (build phase)** — C0 contracts + 첫 vertical slice 진행 중 (6/14–6/28) |
 | 빌드 종료 타깃 | **2026-09-30 RC** (feature freeze + PT 리허설) |
 | 기능심사 + PT | **2026년 10월** (1차 서면·기능심사 100 + 최종 PT 100) |
@@ -117,3 +137,5 @@
 | 즉시 주의 위험(HH) | R-D1(detailWithTour2 필드) · R-D4(serviceKey 인코딩) · R-D5(운영계정 지연) · R-F1(기능 과밀) |
 
 > **다음 게이트:** 5개 frozen contracts(DB·KTO·Domain·Design·Content)가 green이 되고 `공산성` 1 POI가 **F1→F5**(F1.A/D → 3단계 검증 경로 → HTML 다이어리 → F5 갭 1건, SPEC §13.3)를 관통하는 첫 수직 슬라이스가 CI green이면 horizontal 확장 개시.
+>
+> **v6 추가 게이트 (SPEC §14.11):** capability_code 단일 어휘 set-equality CI(§14.2) + contract 통합(§14.5)이 green이어야 스트림 시작; **§14.6 계보 exhibit(data passport)이 첫 슬라이스 수락 아티팩트**; **§14.8 hero-POI 현장 검증이 `supported` 시드보다 선행**.

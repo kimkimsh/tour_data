@@ -403,7 +403,7 @@ create index idx_poi_entrances_geom on poi_entrances using gist (location);
 create table accessibility_facts (
   id            uuid primary key default gen_random_uuid(),
   poi_id        uuid not null references pois(id) on delete cascade,
-  capability_code text not null,                -- 도메인 어휘(아래 capability catalog). 예: 'entry.wheelchair'
+  capability_code text not null,                -- 16 §2 canonical 어휘 (SPEC §14.2). 예: 'wheelchair_access' (NOT 'entry.wheelchair')
   status        capability_status not null,     -- supported | partial | unsupported | unknown
   absence_kind  absence_kind,                   -- status=unsupported/unknown 일 때만 의미. NULL=해당없음
   detail        text,                            -- 원문 설명(현장 확인 안내 등). 다국어는 별도 안 함(코어는 ko)
@@ -483,13 +483,13 @@ The ETL publish step writes the resolved winner back to `accessibility_facts.sou
 
 #### 3.5.2 capability catalog (도메인 어휘 ↔ KTO source_field 매핑)
 
-> `capability_code` 는 **도메인 상수**(`packages/domain/accessibility`)이며 DB는 자유 텍스트로 받되 카탈로그를 단일 진실원천으로 유지. detailWithTour2 필드 키는 **verify-at-build-time** (SPEC §11) — 아래는 가이드 v4.3 기준 매핑이며 빌드 probe 로 확정. 각 capability의 현장 검증 증거는 §3.5.1 `accessibility_evidence` 에서 관리한다.
+> `capability_code` 의 **단일 어휘 권위는 `16_suitability_policy.md §2`** (SPEC §14.2); `packages/domain/policy/capabilities.ts`가 그 export다. 아래 표의 코드는 **반드시 16 §2와 동일**해야 하며(`entry.wheelchair`류 변형 금지 → `wheelchair_access` 등) set-equality CI가 `{ETL}={16 §2}={domain}={F5}` 를 강제한다. detailWithTour2 필드 키는 **verify-at-build-time** (SPEC §11). 현장 검증 증거는 §3.5.1 `accessibility_evidence`.
 
 | capability_code | 도메인 의미 | source=`kto_with` source_field | Layer A 축(가중치) | critical 페르소나 |
 |---|---|---|---|---|
-| `entry.wheelchair` | 휠체어 진입 | `wheelchair` | entry(0.30) | wheelchair |
-| `entry.exit` | 출입구 단차 | `exit` | entry(0.30) | wheelchair |
-| `entry.elevator` | 엘리베이터 | `elevator` | entry(0.30) | wheelchair, senior |
+| `wheelchair_access` | 휠체어 진입 | `wheelchair` | entry(0.30) | P1a |
+| `entrance_step_free` | 출입구 단차 | `exit` | entry(0.30) | P1a |
+| `elevator` | 엘리베이터 | `elevator` | entry(0.30) | P1a, P1b |
 | `amenity.restroom` | 장애인 화장실 | `restroom` | amenities(0.15) | wheelchair |
 | `amenity.auditorium` | 객석/관람석 | `auditorium` | amenities(0.15) | — |
 | `amenity.room` | 편의 공간 | `room` | amenities(0.15) | — |

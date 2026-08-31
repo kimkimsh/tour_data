@@ -92,7 +92,7 @@ F1 적합도 결과 (suitability_score ≤ 49 또는 "정보 없음")
 CREATE TABLE accessibility_facts (
     id            bigserial PRIMARY KEY,
     poi_id        uuid        NOT NULL REFERENCES pois(id),
-    capability_code text      NOT NULL,   -- 'wheelchair'|'elevator'|'restroom'|...
+    capability_code text      NOT NULL,   -- 16 §2 canonical codes ('wheelchair_access'|'elevator'|'accessible_restroom'|…), raw KTO 필드명 아님 (SPEC §14.2)
     status        text        NOT NULL    -- 'supported'|'partial'|'unsupported'|'unknown'
                   CHECK (status IN ('supported','partial','unsupported','unknown')),
     detail        text,
@@ -120,15 +120,10 @@ capability_code 기준으로 POI × 필드 행렬을 집계하는 뷰. 갱신 �
 ```sql
 CREATE MATERIALIZED VIEW poi_completeness_mv AS
 WITH field_list AS (
-    -- 21개 detailWithTour2 핵심 필드 목록
-    SELECT unnest(ARRAY[
-        'parking','route','publictransport','ticketoffice','promotion',
-        'wheelchair','exit','elevator','restroom','auditorium','room','handicapetc',
-        'braileblock','helpdog','guidehuman','audioguide','bigprint',
-        'brailepromotion','guidesystem','blindhandicapetc',
-        'signguide','videoguide','hearingroom','hearinghandicapetc',
-        'stroller','lactationroom','babysparechair','infantsfamilyetc'
-    ]) AS capability_code
+    -- F5 completeness 분모 = F1이 점수화하는 capability 집합과 동일해야 한다 (AC-F5-06: F5 null == F1 정보없음; SPEC §14.7).
+    -- 16 §2 catalog의 canonical capability_code 만 사용(raw KTO 필드명 금지; SPEC §14.2);
+    -- 점수 비기여 4개 *etc(handicapetc/blindhandicapetc/hearinghandicapetc/infantsfamilyetc)는 분모에서 제외(detail 전용).
+    SELECT capability_code FROM scored_capability_codes  -- 16 §2에서 생성; set-equality CI가 {ETL}={16 §2}={domain}={F5} 강제
 ),
 poi_region AS (
     SELECT
@@ -238,7 +233,7 @@ CREATE TABLE gap_metric_snapshots (
     snapshot_date        date        NOT NULL,
     l_dong_signgu_cd     text        NOT NULL,
     poi_id               uuid        NOT NULL REFERENCES pois(id),
-    total_fields         integer     NOT NULL,   -- 28 (field_list 기준)
+    total_fields         integer     NOT NULL,   -- = F1 점수화 capability 수 (field_list 기준, *etc 제외; SPEC §14.7). AC-F5-06
     null_fields          integer     NOT NULL,   -- status='null'
     unknown_fields       integer     NOT NULL,   -- status='unknown'
     supported_fields     integer     NOT NULL,
@@ -274,12 +269,12 @@ CREATE TABLE rto_dashboard_snapshots (
 );
 
 COMMENT ON COLUMN rto_dashboard_snapshots.snapshot_label IS
-    'pt_demo_2026_10 라벨은 심사일 기준 고정 seed; live는 ETL이 덮어씀.';
+    'pt_demo_2026_10 라벨은 심사일 기준 고정 seed; live는 ETL이 덮어씀. 페이지는 라벨을 env/route-param으로 선택(하드코딩 ''live'' 금지) — 데모일 재배포 불필요 (SPEC §14.10).';
 
 CREATE INDEX ON rto_dashboard_snapshots (snapshot_label, snapshot_date);
 ```
 
-`payload_json` 구조 (MVP: 단일 갭 우선순위 리포트):
+`payload_json` 구조 (MVP: 단일 갭 우선순위 리포트). **아래 수치는 예시이며 골든 테스트로 생성한다 — 손계산 금지(F1과 동일 정책, SPEC §14.10); `total`은 F1 점수화 capability 수(*etc 제외).**
 
 ```jsonc
 {

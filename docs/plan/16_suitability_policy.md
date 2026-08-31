@@ -62,6 +62,8 @@ The worked example in `05 §4.5` MUST be generated from a golden test and inject
 
 Domain code is abstract (never a raw KTO field name → resolves the verify-at-build-time risk). `source_field` is the *hypothesis* to confirm against `detailWithTour2` guide v4.3 + a live probe before freezing.
 
+> **Single vocabulary authority (SPEC §14.2).** The `capability_code` strings in this table are THE canonical vocabulary. The ETL normalizer (`04`), DB catalog (`03`), F1 mapping (`05`), F5 field list (`09`), and tests (`13`) MUST use these exact strings — no `entry.wheelchair` / `MOBILITY_WHEELCHAIR_ENTRY` / `BF_BRAILLE_BLOCK` / raw-`wheelchair` variants. A CI **set-equality** test enforces `{ETL emits} = {this catalog} = {domain switches on} = {F5 reads}`, plus one contract test tracing a single capability KTO→F1→F3→F5 with the same code at every hop. No stream freezes (C0/C1/C2/C4) until both are green. The exported constant lives in `packages/domain/policy/capabilities.ts`.
+
 | capability_code | axis | persona relevance | source_field hypothesis (verify) |
 |---|---|---|---|
 | `entrance_step_free` | entry | P1a,P1b,P3 | `exit` / `wheelchair` |
@@ -183,7 +185,7 @@ D = weightedMean(per-fact freshness: ≤90d 1.00 / ≤365d 0.90 / >365d 0.75)   
 ```
 Approved UGC refreshes ONLY the related capability's date, not the POI's. **Guards (user-approved):**
 - **`evidenceConfidence` (0–100) is emitted separately** from `score` — staleness and `unknown` lower *confidence*, surfaced as a distinct "데이터 신뢰도" chip on the card, so old/missing data reads as *uncertainty*, not *unsuitability*.
-- **Coverage cap (M-2):** if `coverage < 0.65`, the label is capped at **'주의'** regardless of score (sparse data can never present as '방문가능'). `unknown` keeps its 0.35 value but cannot, via low coverage, produce a high-confidence high score.
+- **Coverage cap (M-2 · two-tier per SPEC §14.3):** when criticals are all known but `coverage < 0.65`, the label is capped at **'주의'** regardless of score (sparse data can never present as '방문가능'); this case does **not** become `정보없음` — that is reserved for a critical-`unknown` (§9 step 2). `unknown` keeps its 0.35 value but cannot, via low coverage, produce a high-confidence high score. §9 step 3 is the single place this cap is applied (resolves the prior §6-vs-§9 contradiction).
 
 ## 7. evidenceConfidence & coverage
 
@@ -203,8 +205,8 @@ Precedence when sources disagree on a capability status: **second-approved field
 
 Evaluate in this order; surface BOTH a known blocker and an evidence gap if both exist:
 1. **Known critical blocker first:** any selected-persona `critical` capability = `unsupported` → label **`대체추천`**, `score ≤ 49`, list it in `knownCriticalBlockers`.
-2. **Then evidence gap:** else if any selected-persona `critical` = `unknown` OR `coverage < 0.65` → label **`정보없음`** (현장 확인 필요), split absence reason (a) 본질 제약 / (b) 운영자 미입력.
-3. Else by score: `75–100 방문가능 · 50–74 주의 · 0–49 대체추천`.
+2. **Then critical-unknown gap:** else if any selected-persona `critical` = `unknown` → label **`정보없음`** (현장 확인 필요), split absence reason (a) 본질 제약 / (b) 운영자 미입력. (SPEC §14.3: low overall `coverage` alone no longer forces `정보없음` — it is handled by the §6 주의-cap in step 3.)
+3. Else by score: `75–100 방문가능 · 50–74 주의 · 0–49 대체추천` — **then apply the §6 coverage cap**: if `coverage < 0.65` (criticals all known) the label is capped at **`주의`** (never `방문가능`). This is the SPEC §14.3 two-tier resolution (critical-`unknown` ⇒ `정보없음`; criticals-known-but-sparse ⇒ `주의`-cap), making the label deterministic — exactly one label per input.
 4. `score < 70` → also populate `alternatives` (§10).
 Null capability ⇒ `unknown` + "정보 없음 — 현장 확인 필요"; **never infer a value.**
 
@@ -217,6 +219,6 @@ Null capability ⇒ `unknown` + "정보 없음 — 현장 확인 필요"; **neve
 
 ## 11. Golden cases & expert sign-off gate (B-2 / B-4)
 
-- `packages/domain/policy/__golden__/` holds **≥30 cases** covering: each persona alone; the D.1 multi-persona (P1a+P1b+P3); each forced-rule branch; coverage `<0.65`; Layer C boundary-flip (74↔75 guard); stale-data confidence; multi-source conflict; alternatives at `69/70`. Each case = `{input, expected SuitabilityResult}`, regenerated to feed the doc worked-example.
+- `packages/domain/policy/__golden__/` holds **≥30 cases** covering: each persona alone; the D.1 multi-persona (P1a+P1b+P3); each forced-rule branch; coverage `<0.65` (**two §14.3 fixtures — critical-`unknown` ⇒ `정보없음` vs criticals-known + coverage 0.64 ⇒ `주의`-cap — each asserting exactly one label**); Layer C boundary-flip (74↔75 guard); stale-data confidence; multi-source conflict; alternatives at `69/70`. Each case = `{input, expected SuitabilityResult}`, regenerated to feed the doc worked-example.
 - **Sign-off gate:** the v1 policy JSON (matrices, thresholds, tiers) must be reviewed and signed by a 관광약자 접근성 전문가 (per SPEC §11 "non-negotiable") **before** any consumer ships scores. Recorded in `15` validation schedule (July demo-pair pass). Until signed, the engine runs but renders a **"정책 검증 중 (β)"** badge.
 - Policy is **versioned** (`policyVersion` in every result); a policy change requires a new version + golden re-baseline.

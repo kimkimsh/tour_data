@@ -458,10 +458,10 @@ describe('KTO detailWithTour2 contract', () => {
     expect(typeof parsed.items[0].wheelchair).toBe('string');
   });
 
-  it('maps braileblock field to capability_code BF_BRAILLE_BLOCK', () => {
+  it('maps braileblock field to capability_code tactile_path (16 §2 canonical, SPEC §14.2)', () => {
     const parsed = parseDetailWithTour2Response(fixture);
     const fact = parsed.accessibilityFacts.find(
-      (f) => f.capabilityCode === 'BF_BRAILLE_BLOCK'
+      (f) => f.capabilityCode === 'tactile_path'
     );
     expect(fact).toBeDefined();
     expect(fact!.sourceField).toBe('braileblock');
@@ -598,7 +598,7 @@ describe('6-POI content package Zod validation', () => {
     it(`${id} has required accessibility facts with verified dates`, () => {
       const pkg = PoiContentPackageSchema.parse(data);
       const entryFact = pkg.accessibilityFacts.find(
-        (f) => f.capabilityCode === 'BF_ENTRY'
+        (f) => f.capabilityCode === 'entrance_step_free'
       );
       expect(entryFact).toBeDefined();
       expect(entryFact!.verifiedAt).toBeTruthy();
@@ -980,7 +980,9 @@ test('skip-link가 첫 번째 tab stop이고 동작함', async ({ page }) => {
 
 test.describe('Demo resilience — 심사일 API 장애 시나리오', () => {
   test('KTO API 장애 시 스냅샷 데이터로 서빙', async ({ page, context }) => {
-    // 모든 KTO API 호출 차단
+    // SPEC §14.10: 브라우저/RSC는 런타임 KTO를 호출하지 않으므로 'KTO 차단'만으로는 아무것도 증명 못 함(no-op).
+    // (a) 아래 라우트 차단 + 페이지가 apis.data.go.kr 로 0건 요청함을 함께 단언(no-runtime-KTO 회귀),
+    // (b) Supabase 읽기를 마지막 성공 publish(스냅샷)로 고정해 last-good-served 경로를 검증.
     await context.route('**/apis.data.go.kr/**', (route) => route.abort());
 
     await page.goto('/poi/gongsan');

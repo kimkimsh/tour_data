@@ -191,10 +191,10 @@
 | 단계 | 화면 / 액션 | 강조 포인트 |
 |---|---|---|
 | 6-a | 관리자 계정으로 탭 전환 → F5 CACF 대시보드 화면 | 충남 단일 RTO 직결 |
-| 6-b | 시군별 `detailWithTour2` 누락 히트맵: "공주 무장애 정보 미입력 12건 / 부여 9건" | DataLab + KorWithService2 갭 = RTO 핸드오프용 설계(designed for RTO handoff). CACF letter-of-intent 확보(7월 말 목표) 시에만 "B2G to CACF"로 표현 |
+| 6-b | **단일 GapPriorityTable**(히트맵 아님 — §13.2): POI별 `impact×severity×confidence×feasibility` 정렬 행 + **"검증 POI 수: 6 (전 시군 확장=발전방향)"** 분모 라벨. 시군 합산 단정("미입력 12건") 금지 (SPEC §14.7) | RTO 핸드오프용 설계; CACF LOI 확보(7월 말) 시에만 "B2G to CACF" |
 | 6-c | BF 인증 미보유 POI 강조 필터 → 개선 후보 리스트 | 시군 투자 우선순위 데이터 근거 |
-| 6-d | 방문자 추이 차트(DataLab) — "방문자 ≠ 관광객 (이동통신 기반 추정치)" 캐비엇 텍스트 항상 표시 | 데이터 한계 투명 공개 = 신뢰도 |
-| 6-e | F3 제보 빈도 히트맵: "부소산성 엘리베이터 제보 3건 이달" → 현장 검수 요청 생성 | F3 UGC → F5 환류 가시화 |
+| 6-d | DataLab "방문자≠관광객" **캐비엇 텍스트**(항상 표시) — 방문자 추이 *차트*는 §13.2에서 컷(발전방향); DataLab은 30일 예측 컨텍스트로만 | 데이터 한계 투명 공개 = 신뢰도 |
+| 6-e | F3 제보 수가 **같은 GapPriorityTable 행의 신호**로 반영("부소산성 엘리베이터: 제보 3 + 미입력") — 별도 히트맵 아님 | F3 UGC → F5 환류 가시화(단일 리포트 내) |
 
 **개발 전제 조건**:
 - `rto_dashboard_snapshots` 테이블: 미리 집계된 PT 재현 가능 뷰 (ETL 생성). 라이브 집계 쿼리 없음.
@@ -444,18 +444,18 @@ INSERT INTO admin_roles (user_id, role, granted_at) VALUES
           ▼
 ┌─────────────────────────────────────────────────┐
 │  accessibility_facts (poi_id='gongsanseong')     │
-│  capability_code: 'wheelchair_entry'             │
+│  capability_code: 'wheelchair_access' (16 §2)    │
 │  status: 'supported'                             │
-│  source_field: 'wheelchair'                      │
-│  verified_at: 2026-05-21                         │
+│  source_field:'wheelchair'·fact_id·evidence_id   │
+│  verified_at:2026-07(verify-then-seed §14.8)·v1  │
 └─────────┬───────────────────────────────────────┘
-          │ 동일 행이 5개 기능을 구동
-    ┌─────┼─────┬──────────┬──────────┐
-    ▼     ▼     ▼          ▼          ▼
-  F1.A  F1.B  F3 제보    F4 다이어리  F5 갭 리포트
+          │ 동일 fact_id가 F1–F5(F2 도슨트 포함) 전 기능 구동 — lineage manifest 전파(data passport, §14.6)
+    ┌─────┼─────┬───────┬──────────┬──────────┐
+    ▼     ▼     ▼       ▼          ▼          ▼
+  F1.A  F1.B  F2 도슨트 F3 제보  F4 다이어리  F5 갭 리포트
   점수   경로  입력란     동선 기록    누락 카운팅
   카드   안내  "여기      (접근성      (공주시
-  (판단)       휠체어     동선 첨부)   무장애 12건)
+  (판단)       휠체어     동선 첨부)   (6-POI 갭)
                불가 제보")
 ```
 

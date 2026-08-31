@@ -200,9 +200,12 @@ SPEC §9 timeline을 주차별 window + 목표 + 게이트로 확장. 각 window
 | C2 | KTO client transport + `detailWithTour2` 필드 검증(guide v4.3 + live probe) + 공산성 fixtures + bootstrap `ldongCode2`/`lclsSystmCode2` + **충남 공주 `lDong`/TatsCnctr `signguCd` probe (P0, SPEC §13.7)** | contract 테스트 fixtures로 green; lDong/signguCd probe 결과 기록 |
 | C3 | 토큰 + a11y primitives(SkipLink/RouteFocusReset/AriaLive/FocusTrapModal) + Storybook | addon-a11y green |
 | C4 | Content Zod schema + 공산성 1-POI evidence pack(SPEC §13.5, doc 16 §11) | validate-content green(1 POI, evidence pack DoD) |
-| I0 (slice owner) | 공산성 F1.A/D 카드 + evidence card → 3-step verified route → HTML diary → 1 F5 gap 을 한 E2E로 관통; slice fixtures 소유 | slice E2E green; axe 0 on slice routes |
+| I0 (slice owner) | 공산성 F1.A/D 카드 + evidence card → 3-step verified route → HTML diary → 1 F5 gap 을 한 E2E로 관통; **슬라이스 픽스처 스펙 소유**(페르소나 P1a+P1b+P3·반나절, **3개 명명 스텝**, **1개 F5 gap 행 + 시드 입력**, 기대 `SuitabilityResult.label` 고정; SPEC §14.10) | slice E2E green; axe 0 on slice routes |
+| CX (W1 최소본) | HTML diary leg의 프로듀서 — `renderHtml` 최소본만 W1 포함(전체 GPX/PDF/BRF 렌더러는 W2); I0가 import | `renderHtml` 호출로 슬라이스 HTML diary 생성 |
 
 **Window 1 종료 게이트 (vertical-slice-first 검증):** `typecheck + unit + @axe-core/playwright(core route) + core E2E(공산성 F1.A/D → 3-step route → HTML diary → 1 F5 gap)` 전부 green. 이 게이트를 통과하지 못하면 Window 2 수평 확장을 시작하지 않는다.
+
+> **DevEx (SPEC §14.10):** 스크립트 매니페스트의 단일 권위 = `13 부록 A`(완전판 — `etl:ingest`/`capture-fixtures`/`exports:update-golden`/`validate-content`/`start:test`↔`start:demo` 정의; 발췌 금지, 오너 C0). 테스트 러너는 **패키지별 명시**(도메인 vitest · contract/exports/component jest) + 각 config 오너. 워크스페이스 스코프 `@modu/*`. Day-1 셋업 런북은 `00_README` 참조.
 
 ### Window 2 — 6/29 ~ 7/19 · "6-POI 데이터 + F1.A/D + F1.B 공주 + F3 골격"
 

@@ -10,3 +10,7 @@ The post-revision recheck (`_plan_review_recheck.md`) flagged 4 residues. All fi
 | **RC-4** (first-slice framing) | 00 said slice traverses "F1→F4"; 01 used the two-POI framing | 00 → "F1→F5 (… F5 갭 1건)"; 01 → "공산성 단일 POI … SPEC §13.3". |
 
 Doc-13 property tests updated to the canonical contract (`layerA/B/C`, `axes[].rawScore`). Verified: the authoritative `interface SuitabilityResult` exists in `16` only; no `layerScores`/`axisContributions`/`alternativePois` in any doc; no `zh-Hans`; no `<75` alternatives threshold; no `F1→F4` first-slice. **The plan-review blockers (B-1…B-8) are closed.**
+
+---
+
+**v6 (2026-06-15):** A sixth review pass (Claude 6-lens + independent Codex `gpt-5.5`/`xhigh` + 8 live web re-verifications) ran on top of this. New findings + resolutions are recorded in [`_plan_review_v6_findings.md`](./_plan_review_v6_findings.md) (and Codex raw in `_codex_review_v6_raw.md`), authoritatively in **SPEC §14**. Two locked-decision adjudications applied: coverage<0.65 **two-tier label** (§14.3) and **anonymous-auth UGC allowed** (§14.4). Highest-leverage new fix: the `capability_code` single-vocabulary unification (§14.2) — propagated into docs 16/04/03/09/13.

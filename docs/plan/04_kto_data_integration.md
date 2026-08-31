@@ -107,7 +107,7 @@
 
 | op | 필수/핵심 params | 매핑 | gotcha |
 |---|---|---|---|
-| `storyLocationBasedList` | **`xCoord`,`yCoord`,`langCode`,`radius`(m)** | story→`docent_stories`(locale=langCode) · 오디오 URL→`docent_assets.audio` | **좌표가 `mapX/mapY` 아님 → `xCoord/yCoord`.** `langCode`=`ko`/`en`/`ja`/`zh-CN`(contentTypeId 언어매핑 없음) |
+| `storyLocationBasedList` | **`xCoord`,`yCoord`,`langCode`,`radius`(m)** | story→`docent_stories`(locale=langCode) · 오디오 URL→`docent_assets.audio` | **좌표가 `mapX/mapY` 아님 → `xCoord/yCoord`.** API `langCode` 실값=`ko`/`en`/`cn1`/`jp` — 앱 Locale `ja`/`zh-CN`을 그대로 보내면 빈 응답 → `ODII_LANGCODE_MAP {ja:jp, zh-CN:cn1}`로 변환 후 호출(SPEC §14.9); 좌표 CRS/축순서 v4.1 미확정→시드 전 검증; contentTypeId 언어매핑 없음 |
 | `storyBasedList` | `langCode` | 키워드/목록 story | — |
 | `themeBasedList` | `langCode` | `themeNm`(자체 스킴)별 테마 | **lclsSystm 미사용**, areaCode 미사용 |
 | `storySearchList`/`themeSearchList` | `keyword`,`langCode` | 키워드 검색 | `gate:0` 커버리지 probe 에 사용(GATE-5) |
@@ -122,7 +122,7 @@
 
 | 필수/핵심 params | 매핑 | gotcha |
 |---|---|---|
-| **`areaCd=34`(충남, legacy)** · `signguCd` · `tAtsNm`(관광지명) | 0–100 집중지수→`context_snapshots.crowd`(effective_period 부착) | **legacy 코드 전용**(lDong 미이전). `signguCd` 부여=`34800`, **공주=TBD** → `gate:0` GATE-3 에서 `한국관광공사_개방데이터_관광지_시군구_코드_정보_v1.0.xlsx` 대조 확정. **0–100 상대 지수, 실인원 아님** — UI 라벨 "혼잡도(상대)" |
+| **`areaCd=34`(충남, legacy)** · `signguCd` · `tAtsNm`(관광지명) | 0–100 집중지수→`context_snapshots.crowd`(effective_period 부착) | **legacy 코드 전용**(lDong 미이전). `signguCd` 부여=`34800`, **공주=TBD** → `gate:0` GATE-3 에서 `한국관광공사_개방데이터_관광지_시군구_코드_정보_v1.0.xlsx` 대조 확정. **0–100 상대 지수, 실인원 아님; 향후 30일 예측(forecast)** — UI 라벨 "예측 혼잡도(향후 30일)" + `context_snapshots.predicted=true` 플래그(SPEC §14.9) |
 
 ### 2.5 DataLabService — 관광 빅데이터 (F5 RTO 대시보드)
 
@@ -180,24 +180,27 @@
 // packages/kto-client/src/maps/detailWithTour.ts
 // Maps raw detailWithTour2 field keys (guide v4.3) to domain capability codes.
 // GATE-1 must confirm exact keys before this map is frozen.
+// capabilityCode = THE single vocabulary from 16_suitability_policy.md §2 (SPEC §14.2).
+// Import `CapabilityCode` from @modu/domain/policy/capabilities — never invent codes here.
 export const KTO_DETAILWITHTOUR_FIELD_MAP: ReadonlyArray<{
   sourceField: string;          // raw KTO key (e.g. "wheelchair")
-  capabilityCode: string;       // domain code (e.g. "MOBILITY_WHEELCHAIR_ENTRY")
+  capabilityCode: CapabilityCode; // canonical code from 16 §2 catalog
   category: 'mobility' | 'visual' | 'hearing' | 'family' | 'common';
 }> = [
-  { sourceField: 'wheelchair',   capabilityCode: 'MOBILITY_WHEELCHAIR_ENTRY', category: 'mobility' },
-  { sourceField: 'exit',         capabilityCode: 'MOBILITY_ENTRANCE_STEP',    category: 'mobility' },
-  { sourceField: 'elevator',     capabilityCode: 'MOBILITY_ELEVATOR',         category: 'mobility' },
-  { sourceField: 'restroom',     capabilityCode: 'MOBILITY_ACCESSIBLE_WC',    category: 'mobility' },
-  { sourceField: 'braileblock',  capabilityCode: 'VISUAL_TACTILE_PAVING',     category: 'visual' },
-  { sourceField: 'helpdog',      capabilityCode: 'VISUAL_GUIDE_DOG',          category: 'visual' },
-  { sourceField: 'audioguide',   capabilityCode: 'VISUAL_AUDIO_GUIDE',        category: 'visual' },
-  { sourceField: 'bigprint',     capabilityCode: 'VISUAL_LARGE_PRINT',        category: 'visual' },
-  { sourceField: 'signguide',    capabilityCode: 'HEARING_SIGN_GUIDE',        category: 'hearing' },
-  { sourceField: 'videoguide',   capabilityCode: 'HEARING_VIDEO_GUIDE',       category: 'hearing' },
-  { sourceField: 'stroller',     capabilityCode: 'FAMILY_STROLLER',           category: 'family' },
-  { sourceField: 'lactationroom',capabilityCode: 'FAMILY_NURSING_ROOM',       category: 'family' },
-  // … 나머지 9 필드 + 4 *etc(자유서술 → detail 컬럼) GATE-1 확정 후 추가
+  { sourceField: 'wheelchair',   capabilityCode: 'wheelchair_access',   category: 'mobility' },
+  { sourceField: 'exit',         capabilityCode: 'entrance_step_free',  category: 'mobility' },
+  { sourceField: 'elevator',     capabilityCode: 'elevator',            category: 'mobility' },
+  { sourceField: 'restroom',     capabilityCode: 'accessible_restroom', category: 'mobility' },
+  { sourceField: 'braileblock',  capabilityCode: 'tactile_path',        category: 'visual' },
+  { sourceField: 'helpdog',      capabilityCode: 'helpdog_ok',          category: 'visual' },
+  { sourceField: 'audioguide',   capabilityCode: 'audio_guide',         category: 'visual' },
+  { sourceField: 'bigprint',     capabilityCode: 'braille_print',       category: 'visual' },
+  { sourceField: 'signguide',    capabilityCode: 'sign_guide',          category: 'hearing' },
+  { sourceField: 'videoguide',   capabilityCode: 'video_caption',       category: 'hearing' },
+  { sourceField: 'stroller',     capabilityCode: 'stroller',            category: 'family' },
+  { sourceField: 'lactationroom',capabilityCode: 'nursing_room',        category: 'family' },
+  // … 나머지 capability_code 는 16 §2 카탈로그에서 가져온다 (코드 신규 작명 금지; 4 *etc → detail 컬럼).
+  // CI set-equality 테스트가 {ETL emits}={16 §2}={domain}={F5 reads} 를 강제 (SPEC §14.2).
 ];
 ```
 
@@ -318,12 +321,12 @@ export interface KtoClient {
   getPoiList(filter: PoiListFilter): Promise<PoiListItem[]>;          // areaBasedList2/Sync2
   getDetailCommon(contentId: string): Promise<PoiCommon>;
   getImages(contentId: string): Promise<PoiImage[]>;                  // detailImage2
-  getDocentStories(p: { xCoord: string; yCoord: string; langCode: Locale; radius: number }): Promise<DocentStory[]>; // Odii
+  getDocentStories(p: { xCoord: string; yCoord: string; odiiLangCode: 'ko'|'en'|'cn1'|'jp'; radius: number }): Promise<DocentStory[]>; // Odii; 호출부가 앱 Locale→odiiLangCode 변환(ODII_LANGCODE_MAP, SPEC §14.9)
   getCrowdIndex(p: { areaCd: string; signguCd: string; tAtsNm: string }): Promise<CrowdSnapshot>; // TatsCnctr
   getVisitorTrends(p: { startYmd: string; endYmd: string }): Promise<VisitorRow[]>; // DataLab
   getRelated(p: { baseYm: string; areaCd: string; signguCd: string }): Promise<RelatedPoi[]>;     // TarRlteTar1
   getGallery(keyword: string): Promise<GalleryPhoto[]>;              // PhotoGallery1
-  getMultilingual(p: { service: 'Eng'|'Jpn'|'Chs'|'Cht'; contentId: string }): Promise<LocalizedContent>;
+  getMultilingual(p: { service: 'Eng'|'Jpn'|'Chs'|'Cht'; contentId: string; korContentTypeId: 12|14|15|28|32|38 }): Promise<LocalizedContent>; // 12→76 / 14→78 / 15→85 … 순수 exhaustive mapper로 변환 후 호출(SPEC §14.9); 25 미지원
   // bootstrap-once
   fetchLDongCodes(lDongRegnCd?: string): Promise<CodeMapping[]>;     // ldongCode2
   fetchLclsSystmCodes(): Promise<CodeMapping[]>;                     // lclsSystmCode2
@@ -503,7 +506,7 @@ function combineLicense(sources: Kogl[]): { noCommercial: boolean; noDerivative:
 | ETL 4단계 + 증분 + HMAC revalidate | `packages/etl`, `scripts/{ingest,validate-content,publish}`, `.github/workflows/kto-etl.yml` | kto-client, DB |
 | contract tests | `tests/contract` | fixtures |
 
-**의존 그래프(SPEC §9):** `C0 → C1 → C2 → {F1-AD, F2, F5}`. C2 는 ETL 이 publish 하는 read-model 로 F1.A(무장애 카드)·F2(Odii 도슨트)·F5(RTO 대시보드)를 공급. 운영계정(≈100,000/일, 심사 1–3일 + 활용사례 URL) **조기 신청**(Oct 리뷰 한참 전). dev 1,000/op/일 은 하드 ceiling 으로 취급.
+**의존 그래프(SPEC §9):** `C0 → C1 → C2 → {F1-AD, F2, F5}`. C2 는 ETL 이 publish 하는 read-model 로 F1.A(무장애 카드)·F2(Odii 도슨트)·F5(RTO 대시보드)를 공급. 운영계정은 **수동 심의 승인**(자동 아님): 100,000/일은 광고 상한으로 **활용사례 URL 등록 + 별도 증액 요청**(순차 2회 심의, SLA 2–3일), **데이터셋(서비스)별 신청** → **조기 신청**(Oct 리뷰 한참 전, SPEC §14.9). dev 1,000/op/일 은 하드 ceiling 으로 취급.
 
 ---
 

@@ -47,12 +47,13 @@ CREATE TYPE absence_reason AS ENUM (
   'not_applicable' -- capability irrelevant to this POI type
 );
 
+-- DDL 단일 권위 = 03_data_model.md (SPEC §14.5: feature 문서는 테이블 재정의 금지·생성 타입 import). 아래는 참조 요약이며 03과 동일해야 함(schema-drift 테스트가 강제).
 CREATE TABLE accessibility_facts (
   id              uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   poi_id          uuid NOT NULL REFERENCES pois(id),
-  capability_code text NOT NULL,            -- e.g. 'entrance_step_free', 'braille_block', 'accessible_restroom'
+  capability_code text NOT NULL,            -- 16 §2 canonical: e.g. 'entrance_step_free','tactile_path','accessible_restroom' (SPEC §14.2)
   status          capability_status NOT NULL,
-  absence_reason  absence_reason,           -- non-null only when status IN ('unsupported','unknown')
+  absence_kind    absence_kind,             -- 03 단일 권위 enum('intrinsic'|'operator_missing'|'not_applicable'); 'absence_reason'/'unentered' 폐기 (SPEC §14.5f)
   detail          text,                     -- human-readable note (KO), nullable
   source          text NOT NULL,            -- 'KorWithService2' | 'BF인증' | 'UGC' | 'survey' | ...
   source_field    text,                     -- raw KTO key, e.g. 'wheelchair' (audit only; domain never reads this)
@@ -64,7 +65,7 @@ CREATE TABLE accessibility_facts (
 CREATE INDEX ON accessibility_facts (poi_id) WHERE published;
 ```
 
-**capability_code 표준 집합 (도메인 enum, 21 → 분류축):** `detailWithTour2` 21필드를 도메인 capability로 매핑. 정확한 KTO 필드 키는 **guide v4.3 검증 후 확정**(SPEC §11 verify-at-build-time, 미검증이면 `unknown`). 매핑 표는 §2.2.
+**capability_code 표준 집합 (도메인 enum; 단일 권위 = `16 §2`, SPEC §14.2 — 아래 표 코드는 16 §2와 동일해야 하며 set-equality CI가 강제):** `detailWithTour2` 21필드를 도메인 capability로 매핑. 정확한 KTO 필드 키는 **guide v4.3 검증 후 확정**(SPEC §11 verify-at-build-time, 미검증이면 `unknown`). 매핑 표는 §2.2.
 
 ### 1.2 출입구·인증·시설·맥락 (F1.A 보조 영역)
 
@@ -455,7 +456,7 @@ interface CalculateSuitabilityInput {
     segmentScores: number[];        // per-segment 0..1
     maxNoRestTravelMin: number;     // longest no-rest stretch
   } | null;
-  personaIds: PersonaId[];          // e.g. ['wheelchair','senior','family']
+  personaIds: PersonaId[];          // PersonaId='P1a'|'P1b'|'P2a'|'P2b'|'P3'|'P4' (16 §4.1; DB persona_code와 round-trip; SPEC §14.5f) — 'wheelchair'류 문자열 아님
   timeContext: {
     crowdIndex: number | null;      // 0..100 (TatsCnctr)
     weatherWarning: string | null;

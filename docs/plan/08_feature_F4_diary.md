@@ -98,7 +98,7 @@ export interface DiaryEntry {
   poiTitle: string;             // 오프라인 스냅샷
   visitedAt: string;            // ISO 8601
   personaIds: string[];         // 선택된 페르소나 코드
-  timeMode: TimeMode;           // '반나절'|'당일'|'1박2일'|'2박3일'
+  timeMode: TimeMode;           // '반나절'|'당일'|'1박2일' (MVP 3단; '2박3일'=발전방향)
   routeGuideVersion: string;    // route_guides.version 스냅샷
   steps: DiaryStep[];
   quizAnswers: QuizAnswer[];
@@ -142,7 +142,7 @@ export interface GpxWaypoint {
   ele: number | null;
 }
 
-export type TimeMode = '반나절' | '당일' | '1박2일' | '2박3일';
+export type TimeMode = '반나절' | '당일' | '1박2일'; // MVP 3단 (SPEC §13.2); '2박3일' = 발전방향 확장 상한
 ```
 
 ### 2.2 IndexedDB 스토어 정의
@@ -341,15 +341,18 @@ function tryFillField(form: PDFForm, fieldName: string, value: string, font: PDF
 #### 폰트 초기화 (exports/pdf/fonts.ts) — 한 번만 호출
 
 ```typescript
+import path from 'node:path';
 import { Font } from '@react-pdf/renderer';
 
 export function initKoreanFonts(): void {
   Font.register({
     family: 'Pretendard',
     fonts: [
-      { src: '/fonts/Pretendard-Regular.ttf', fontWeight: 400 },
-      { src: '/fonts/Pretendard-SemiBold.ttf', fontWeight: 600 },
-      { src: '/fonts/Pretendard-Bold.ttf', fontWeight: 700 },
+      // web-absolute '/fonts/..' throws ENOENT under renderToBuffer in a Node route → use cwd path (SPEC §14.9);
+      // also: outputFileTracingIncludes for content/fonts/**, preload Buffers before render, + Noto Sans KR fallback for Hanja (史).
+      { src: path.join(process.cwd(), 'content/fonts/Pretendard-Regular.ttf'), fontWeight: 400 },
+      { src: path.join(process.cwd(), 'content/fonts/Pretendard-SemiBold.ttf'), fontWeight: 600 },
+      { src: path.join(process.cwd(), 'content/fonts/Pretendard-Bold.ttf'), fontWeight: 700 },
     ],
   });
 
@@ -446,7 +449,7 @@ export async function buildRubricPdf(
 ```
 DiaryEntry
   → formatBrailleText(entry)           ← 평문 텍스트 정리 (이모지·특수문자 제거)
-  → braillify.translate(text)          ← [단계 1] Unicode 점자 문자열 (U+2800–U+28FF)
+  → translateToUnicode(text)           ← [단계 1] Unicode 점자 문자열 (U+2800–U+28FF)
                                             ※ 이 시점의 출력은 점자 디스플레이 렌더용이며,
                                                임베서 파일(.brf)이 아님
   → unicodeBrailleToAscii(unicode)     ← [단계 2] Braille ASCII(North American) 64조합으로 변환
@@ -459,7 +462,7 @@ DiaryEntry
 ```typescript
 // packages/exports/braille/BrailleBuilder.ts
 
-import { translate } from 'braillify';
+import { translateToUnicode } from 'braillify'; // braillify 2.0.1 export (NOT 'translate'); SPEC §14.9. Stage-2는 한국어-인지 transcriber + 명시적 target profile로 8점↔6점 손상 방지
 
 // Target: Index Braille Basic-D V5 (school/welfare standard embosser).
 const MAX_CELLS_PER_LINE = 40;   // adjust after confirming actual embosser spec (§15 OI)
@@ -472,7 +475,7 @@ export async function buildBrailleBrf(
 
   // Stage 1: Korean text → Unicode braille (U+2800–U+28FF) per 한국점자규정.
   // This is a display/screen-reader format, NOT yet a .brf file.
-  const unicodeBraille: string = translate(plainText);
+  const unicodeBraille: string = translateToUnicode(plainText);
 
   // Stage 2: Unicode braille → Braille ASCII (North American, 0x20–0x5F).
   // This is the embosser-compatible .brf encoding.
@@ -1152,7 +1155,7 @@ describe('학생용 PDF', () => {
   it('골든 파일 SHA-256과 일치한다 (결정적 빌드)', async () => {
     const result = await buildStudentPdf(sampleRequest);
     const buf = result.buffer as Buffer;
-    const hash = createHash('sha256').update(buf).digest('hex');
+    const hash = createHash('sha256').update(normalizePdfBytes(buf)).digest('hex'); // normalizePdfBytes: 고정 CreationDate/ModDate/Producer + ID 제거 (pdf-lib/react-pdf 기본 임베드로 인한 비결정성 제거; SPEC §14.10)
     const golden = readFileSync('tests/exports/golden/공산성_student.pdf.sha256', 'utf-8').trim();
     expect(hash).toBe(golden);
   });
@@ -1169,7 +1172,7 @@ describe('학생용 PDF', () => {
 
 | 채널 | 기준 | 검증 방법 |
 |---|---|---|
-| (a) 학생 PDF | 충남교육청 양식 필드 100% 채워짐; Pretendard TTF 임베드 확인; 한글 깨짐 0 | PDF 열기 + 폰트 추출 검사 |
+| (a) 학생 PDF | 충남교육청 양식 필드 100% 채워짐; Pretendard TTF 임베드 확인; 한글 깨짐 0; **한자 깨짐 0** (Pretendard 한자 미지원 → 史477 등은 '사적 제477호' 한글 표기 치환 또는 Noto Sans KR 폴백; SPEC §14.9) | PDF 열기 + 폰트 추출 검사 |
 | (b) 교사 루브릭 | 4×4 루브릭 표 정상 렌더; 학년 단원 매핑 정확; 1페이지 이내 | 시각 검수 |
 | (c) BRF (점자) | 줄 ≤40 cells; Form Feed 있음; Unicode 점자→Braille ASCII 2단계 변환; 전문가 대조 검수 미완료 시 UI 게이트 배너 표시; "BRF 지원" 클레임은 검수 완료 후만 허용 | 단위 테스트(줄 길이, contentType) + 전문가 대조 검수 통과 리포트 |
 | (d) 쉬운글 PDF | 글씨 ≥18pt; 픽토그램 있음; 1단계 1행동 레이아웃; 한글 깨짐 0 | 시각 검수 |
@@ -1233,7 +1236,7 @@ F4의 GPX(e)는 F1.B에서 큐레이션된 무장애 동선을 사용자가 다�
 
 ```jsonc
 {
-  "name": "@modu-baekje/exports",
+  "name": "@modu/exports",
   "private": true,
   "dependencies": {
     "pdf-lib": "^1.17.1",

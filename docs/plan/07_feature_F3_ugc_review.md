@@ -224,14 +224,11 @@ values (
 ```sql
 alter table public.barrier_reports enable row level security;
 
--- 익명 사용자(is_anonymous=true) 제보 원천 차단 (RESTRICTIVE = AND 결합)
-create policy "permanent users only: insert reports"
-on public.barrier_reports as restrictive for insert to authenticated
-with check (
-  (select (auth.jwt() ->> 'is_anonymous')::boolean) is not true
-);
+-- 익명 인증(Anonymous Auth) 사용자도 제보 가능 (SPEC §2.11 + §14.4, 사용자 결정 2026-06-15).
+-- 남용은 RESTRICTIVE 차단이 아니라 서버 레이트리밋·파일크기/MIME·중복해시·reporter-trust·관리자 검수/MFA·감사 보존으로 차단한다.
+-- (이전의 "permanent users only" RESTRICTIVE insert 정책은 제거됨.)
 
--- reporter 본인 INSERT
+-- reporter 본인 INSERT (익명·영구 인증 공통; authenticated 역할 = 익명 세션 포함)
 create policy "owner inserts own report"
 on public.barrier_reports for insert to authenticated
 with check ((select auth.uid()) = reporter_id);
@@ -320,7 +317,7 @@ on storage.objects for insert to authenticated
 with check (
   bucket_id = 'ugc-pending'
   and (storage.foldername(name))[1] = (select auth.uid())::text
-  and (select (auth.jwt() ->> 'is_anonymous')::boolean) is not true
+  -- 익명 인증 포함 (SPEC §14.4); 남용은 앱-레이어 가드(레이트리밋·MIME·크기)로 차단
 );
 
 -- ugc-pending: reporter 본인 + admin SELECT
@@ -459,7 +456,7 @@ export function scrubGpsCoordinates(
 
 /**
  * Persists a new BarrierReport + evidence paths in a single transaction.
- * Checks: (1) non-anonymous user, (2) GPS consent if coords provided,
+ * Checks: (1) authenticated session (anonymous-auth allowed per SPEC §14.4), (2) GPS consent if coords provided,
  * (3) 24h dedup, (4) trust score snapshot from reporter_trust_scores.
  * Returns the created report id.
  */
@@ -591,7 +588,7 @@ interface GpsConsentStepProps {
 // apps/web/src/app/api/reports/upload-url/route.ts (Route Handler, 서버 전용)
 
 export async function POST(req: Request): Promise<Response> {
-  // 1. 인증 사용자 확인 + 비익명 확인
+  // 1. 인증 세션 확인 (익명 인증 포함; SPEC §14.4) — 남용은 레이트리밋·MIME·파일크기로 차단
   // 2. supabaseAdmin.storage.from('ugc-pending').createSignedUploadUrl(path, { expiresIn: 300 })
   // 3. 반환: { signedUrl, path }  — service_role 키 클라이언트 미노출
 }
@@ -903,7 +900,7 @@ export function isDuplicateReport(
 | 승인 후 사진 | `ugc-approved` public 버킷으로 이동 — 개인 식별 정보 없는 장소 사진만 |
 | 국외이전 | 개인정보처리방침에 Vercel(미국 처리 가능), Supabase(서울/AWS) 처리위탁 명시 |
 | 동의 화면 | 앱 레벨 별도 동의 UI (위치정보법 동의 + PIPA 동의 분리된 체크박스) |
-| 익명 사용자 | `is_anonymous = true` 사용자는 RLS RESTRICTIVE 정책으로 제보 원천 차단 |
+| 익명 사용자 | `is_anonymous = true` 사용자도 제보 가능 (SPEC §14.4); 남용은 레이트리밋·MIME·중복해시·reporter-trust·관리자 검수로 차단 |
 
 ### 10.3 동의 체크박스 설계
 
@@ -1006,12 +1003,12 @@ refresh materialized view public.report_trends_mv;
 ### 13.2 RLS 정책 테스트 (`supabase/tests/`)
 
 ```sql
--- 익명 사용자 제보 거부 확인
+-- 익명 인증 사용자 제보 허용 확인 (SPEC §14.4); 세션 없는 비인증만 거부
 begin;
   set local role authenticated;
   set local request.jwt.claims to '{"sub":"anon-uuid","is_anonymous":true}';
   select count(*) from public.barrier_reports;  -- approved만 보여야 함
-  -- INSERT 시도 → permission denied 확인
+  -- 본인(reporter_id=auth.uid()) INSERT 성공 확인; 타인 reporter_id INSERT 거부 확인
 rollback;
 ```
 
@@ -1019,7 +1016,7 @@ rollback;
 
 | 시나리오 | 검증 |
 |---|---|
-| 비로그인 사용자: 제보 버튼 클릭 → 로그인 유도 | UX 처리 |
+| 세션 없는 사용자: 제보 버튼 클릭 → 익명 인증 세션 자동 생성 후 제보 진행(소셜 로그인 불필요, SPEC §14.4) | UX 처리 |
 | 로그인 사용자: 카테고리 선택 → 사진 업로드 → 제출 → pending 상태 확인 | 정상 제보 흐름 |
 | 24h 내 중복 제보 → 차단 메시지 | dedup |
 | 관리자: 검수 큐 접속 → 제보 상세 → 승인 → 알림 수신 | 전체 파이프라인 |
@@ -1031,7 +1028,7 @@ rollback;
 ## 14. 수락 기준 (Acceptance Criteria)
 
 ### AC-F3-01 제보 양식
-- [ ] 비익명(`is_anonymous=false`) 로그인 사용자만 제보 가능
+- [ ] 인증 세션(익명 인증 `is_anonymous=true` 포함, SPEC §14.4) 사용자가 본인 제보 가능; 세션이 없으면 익명 세션 자동 생성
 - [ ] 카테고리 선택 없이 제출 불가 (프런트 + 서버 동시 검증)
 - [ ] 자유 텍스트 500자 초과 시 저장 불가
 - [ ] GPS 동의 화면에 위치정보법 제9조의2 고지 문구 표시
@@ -1052,7 +1049,7 @@ rollback;
 - [ ] 승인 후 사진은 `ugc-approved` public 버킷으로 이동 후 `ugc-pending`에서 삭제
 
 ### AC-F3-04 RLS
-- [ ] 익명 사용자(`is_anonymous=true`)는 INSERT 불가 (`RESTRICTIVE` 정책으로 차단)
+- [ ] 익명 인증 사용자(`is_anonymous=true`)도 본인 제보 INSERT 가능 (SPEC §14.4); 남용은 레이트리밋·중복해시·reporter-trust·검수로 차단
 - [ ] anon 역할은 `approved` 상태 제보만 SELECT 가능
 - [ ] 비관리자 사용자는 타인의 `pending | rejected` 제보 SELECT 불가
 - [ ] `moderation_events`에 UPDATE / DELETE 불가

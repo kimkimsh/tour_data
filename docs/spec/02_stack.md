@@ -6,7 +6,7 @@
 
 | 계층 | 선택 | 버전 | 왜 |
 |---|---|---|---|
-| 프레임워크 | **Next.js (App Router)** | **16.3.x** | 2026-08 기준 Active LTS. `create-next-app`이 주는 기본값 |
+| 프레임워크 | **Next.js (App Router)** | **16.3.x** | 2026-08 기준 최신 안정 버전. `create-next-app`이 주는 기본값 |
 | UI 런타임 | React | 19.x | Next 16 동봉 |
 | 언어 | TypeScript | 5.x, `strict: true` | — |
 | Node | **Node.js 24 LTS** | 24.x | Vercel 신규 프로젝트 기본값. **Node 20은 2026-10-01 사용 중지** 예정이라 쓰면 안 된다 |
@@ -19,7 +19,7 @@
 | 폼 검증 / 스키마 | **Zod** | 4.x | API 응답 검증 + 콘텐츠 파일 검증 공용 |
 | 국제화 | **next-intl** | v3 | `app/[locale]` 라우팅, `ko`/`en` |
 | 테스트 (단위) | **Vitest** | — | `src/domain` 순수 함수 |
-| 테스트 (E2E·접근성) | **Playwright** + `@axe-core/playwright` | — | 골든 플로우 1개 + 접근성 스캔 |
+| 테스트 (E2E·접근성) | **Playwright** + `@axe-core/playwright` | — | 골든 플로우 1개 + 접근성 스캔. **`@axe-core/playwright`와 `axe-core`는 버전을 맞춰야 한다**(lockstep) — 어긋나면 규칙이 조용히 빠진다 |
 | 린트 | ESLint (`next/core-web-vitals`) + **`eslint-plugin-jsx-a11y`** | — | jsx-a11y 8개 규칙을 `error`로 승격 |
 | 폰트 | **Pretendard** (SIL OFL 1.1) + 시스템 한자 폴백 | — | 웹 폰트로만 사용. PDF 임베드 안 함 |
 
@@ -241,7 +241,7 @@ data_snapshots 읽기                  localStorage 에서 페르소나 읽기
 | 데이터 | 방식 | 갱신 |
 |---|---|---|
 | 스냅샷 `pois` `accessibility` `routes` `docent` `related` | 라우트 세그먼트 `export const revalidate = 3600` | 1시간 (안전망) + 수집 후 즉시 무효화 |
-| 스냅샷 `context` (혼잡도·방문자) | `export const revalidate = 1800` | 30분 |
+| 스냅샷 `context` (혼잡도·방문자) | `export const revalidate = 3600` | 1시간 (데이터 자체는 일 1회 갱신) |
 | **방문자 제보** | **캐시 금지.** `export const dynamic = 'force-dynamic'` 또는 클라이언트에서 조회 | 즉시 |
 | 여행 기록 | 브라우저 `localStorage` | 서버에 안 올림 |
 

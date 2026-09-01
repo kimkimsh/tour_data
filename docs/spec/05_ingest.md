@@ -13,6 +13,7 @@
 pnpm ingest                       # 전체 (스냅샷 6개 다 갱신)
 pnpm ingest --only=pois           # 단계별
 pnpm ingest --only=accessibility
+pnpm ingest --only=routes
 pnpm ingest --only=docent
 pnpm ingest --only=context
 pnpm ingest --only=related
@@ -21,7 +22,9 @@ pnpm ingest --dry-run             # 스냅샷을 쓰지 않고 결과만 출력
 
 **빌드도 배포도 하지 않는다.** `data_snapshots` 테이블의 행 몇 개를 갈아끼우고 캐시를 비울 뿐이다. 몇 초 안에 화면에 반영된다.
 
-GitHub Actions가 매일 KST 04:00(`0 19 * * *` UTC)에 전체를 돌리고, `context`만 1시간마다 따로 돌린다. 수동 실행(`workflow_dispatch`)도 열어 둔다.
+GitHub Actions가 매일 KST 04:00(`0 19 * * *` UTC)에 **전체를 한 번** 돌린다. 수동 실행(`workflow_dispatch`)도 열어 둔다.
+
+> **`context`를 시간마다 돌리지 않는 이유:** 집중률은 **향후 30일 예측치**(§2.4)이고 방문자 추이는 **약 4일 지연** 데이터다(§2.5). 둘 다 한 시간 사이에 바뀌는 값이 아니다. 시간당 수집은 호출만 24배로 늘리고 화면에 새 정보를 주지 않는다. 워크플로도 2개로 유지된다 ([`02_stack.md`](./02_stack.md) §6).
 
 ---
 
@@ -72,6 +75,10 @@ GitHub Actions는 수집 후 변경분을 커밋한다. 이게 기존 계획의 
 2. **쓰기 직전에 Zod로 검증한다.** 형태가 깨진 payload는 애초에 저장되지 않는다.
 3. **스냅샷끼리는 독립이다.** `docent` 수집이 실패해도 `pois`·`accessibility`는 이미 갱신됐고 둘 다 유효하다.
 4. **`resultCode 22`(일일 한도 초과)를 만나면 그 단계를 중단하고 아무것도 쓰지 않는다.** 다음 실행에서 재시도한다.
+4b. **재시도하는 코드와 즉시 중단하는 코드를 구분한다** ([`03_external_data.md`](./03_external_data.md) §1.5).
+   - 재시도(최대 3회, 지수 백오프): `02` DB 오류 · `04` HTTP 오류 · **`05` 서비스 연결 실패(타임아웃)** · `21` 일시 사용 불가 키 · `99` 기타
+   - 즉시 중단: `10` `11` `20` `30` `31` `32` — 전부 코드 버그나 키 문제다
+   - **`12`(오픈API 서비스 없음·폐기)** 를 만나면 그 오퍼레이션이 사라진 것이다. 재시도하지 않고 사람에게 알린다
 5. 실행 결과는 표준 출력과 GitHub Actions 로그에 남는다. 별도 실행 이력 테이블을 두지 않는다.
 
 **스테이징 테이블도, 버전 포인터 교체도, 원자 스왑 함수도 필요 없다.** "통째로 만들어서 한 번에 쓴다"가 같은 보장을 준다.
@@ -225,8 +232,10 @@ for each poi:
   GET JpnService2/detailCommon2?contentId=…       → 일문
   GET ChsService2/detailCommon2?contentId=…       → 중문 간체
 
-GET PhotoGalleryService1/galleryList1  (numOfRows=100, pageNo 1..48 전체)
-  → galSearchKeyword / galTitle 에 관광지명·'백제'·'공주'·'부여' 포함된 것만 필터
+GET PhotoGalleryService1/gallerySearchList1?keyword={관광지명}   (6콜)
+GET PhotoGalleryService1/gallerySearchList1?keyword=백제          (1콜)
+  → 결과를 합치고 galContentId 로 중복 제거
+  → 전수 페이징(48콜) 은 하지 않는다. 검색 오퍼레이션이 있다 (03 §2.7)
 
 content/facilities.json      → pois[].facilities
 content/certifications.json  → pois[].certifications
@@ -270,15 +279,24 @@ content/routes/*.json 을 읽어 Zod 검증 → 스냅샷 'routes'
 ### 5.4 docent
 
 ```
-for each poi (A등급 2곳 우선, 나머지도 시도):
-  GET Odii/themeSearchList?keyword={odiiKeyword}&langCode=ko
-  → 결과 중 좌표가 관광지 반경 1km 안인 것 선택 → tid, tlid
-  if 없으면:
-    GET Odii/storyLocationBasedList?mapX={lng}&mapY={lat}&radius=1000&langCode=ko
+# 1단계 — Odii 관광지 전수 열거 (키워드 추측을 쓰지 않는다)
+pageNo = 1
+loop:
+  GET Odii/themeBasedList?langCode=ko&numOfRows=100&pageNo={pageNo}
+  → 매뉴얼 예시의 totalCount 는 1,504. 약 16페이지면 전수
+  → 응답 좌표(경도/위도)가 우리 6곳 반경 1km 안인 것만 골라 tid, tlid 확보
 
+  ★ 전수 열거가 keyword 검색보다 결정적이다 (03 §2.3).
+    keyword 는 "'공산성'이라는 이름으로 등록됐는가"라는 가정이 필요하고,
+    전수 열거는 좌표로 매칭하므로 그 가정이 없다.
+
+# 2단계 — 이야기 목록
+for each 확보한 (tid, tlid):
   for langCode in [ko, en]:
     GET Odii/storyBasedList?tid=…&tlid=…&langCode={langCode}
     → title, script, audioUrl, imageUrl, playTime
+    → ★ 좌표는 addr1(경도)/addr2(위도) 로 온다. mapX/mapY 도 함께 읽어
+       먼저 값이 있는 쪽을 쓴다 (03 §2.3 · 11 P0-9 4번)
 
 content/docent-easy/{slug}.{locale}.md → easyScript (A등급 2곳만)
 
@@ -292,15 +310,35 @@ content/docent-easy/{slug}.{locale}.md → easyScript (A등급 2곳만)
 ### 5.5 context
 
 ```
-GET TatsCnctrRateService/tatsCnctrRateList?areaCd=44&signguCd=44150   (공주)
-GET TatsCnctrRateService/tatsCnctrRateList?areaCd=44&signguCd=44760   (부여)
+GET TatsCnctrRateService/tatsCnctrRateList?areaCd=44&signguCd=44150&numOfRows=100   (공주)
+GET TatsCnctrRateService/tatsCnctrRateList?areaCd=44&signguCd=44760&numOfRows=100   (부여)
+  → ★ numOfRows 를 반드시 준다. 응답이 관광지당 향후 30일 × 1행이라
+     기본값 10 이면 30일 중 10일만 온다 (03 §2.4)
   → tAtsNm 이 content/pois.json 의 tatsName 과 일치하는 행만
-  → context.crowd (isPredicted: true 고정)
+  → 관광지별로 baseYmd 가 오늘에 가장 가까운 행 1건을 골라 context.crowd
+     (isPredicted: true 고정)
 
-GET DataLabService/locgoRegnVisitrDDList?startYmd={오늘-11}&endYmd={오늘-4}
+for ymd in [오늘-11 .. 오늘-4]:            # ★ 하루씩 8회. 한 번에 8일을 부르지 않는다
+  pageNo = 1
+  loop:
+    GET DataLabService/locgoRegnVisitrDDList
+        ?startYmd={ymd}&endYmd={ymd}&numOfRows=1000&pageNo={pageNo}
+    → totalCount 를 보고 다 받을 때까지 pageNo 증가
   → 전국이 오므로 signguCode in ('44150','44760') 만 필터
-  → 8일치를 평균내어 context.visitors 에 dailyAverage 로 저장
-  → windowStart/windowEnd/days 를 함께 저장한다 (화면에 "최근 8일 일평균"으로 표기)
+
+  ★ 왜 하루씩 나누나: 지역 필터 파라미터가 없어서 전국이 온다.
+    기초 기준 하루 약 740행 × 3구분이므로 8일을 한 번에 부르면
+    numOfRows=1000 에서 잘리고, 정렬 순서에 따라 44150·44760 행이
+    응답에 아예 없을 수 있다 — 조용히 빈 결과가 된다 (03 §2.5)
+  → ★ touDivCd 로 한 번 더 거른다. 응답은 하루·시군구당 3행이다
+       ('1' 내국인 현지인 / '2' 내국인 외지인 / '3' 외국인)
+     거르지 않고 평균하면 행 3개를 하루 3일로 세어 3배 어긋난다 (03 §2.5)
+  → 우리가 쓰는 값: touDivCd 를 합산하지 않고 '2'(외지인) 만 쓴다
+       이유 — 관광 목적 방문에 가장 가까운 구분이고, 현지인 통행량이
+       유적지 혼잡도를 대표하지 않는다. 화면에 구분명을 함께 쓴다
+  → 8일치를 평균내어 context.visitors 에 dailyAverage 로 저장 (소수 유지)
+  → windowStart/windowEnd/days/touDivNm 을 함께 저장
+     (화면 표기: "최근 8일 일평균 · 내국인 외지인 기준")
 
 (선택) 기상청 단기예보 → context.weather
 

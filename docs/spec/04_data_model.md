@@ -83,12 +83,12 @@ create policy "snapshots public read" on data_snapshots
 | `accessibility` | 관광지별 항목 31개의 상태·원문·출처·확인일 | 1일 | ~50KB |
 | `routes` | 경로 안내 (A등급 2곳) | 콘텐츠 수정 시 | ~15KB |
 | `docent` | 도슨트 이야기 (제목·대본·오디오 URL) | 1일 | ~40KB |
-| `context` | 예측 혼잡도 · 방문자 추이 | **1시간** | ~10KB |
+| `context` | 예측 혼잡도 · 방문자 추이 | 1일 | ~10KB |
 | `related` | 연관 관광지 (접근성 미검증) | 1개월 | ~10KB |
 
 전부 합쳐 **200KB 미만**, gzip 후 40KB 수준. 페이지에 통째로 실어 보내도 된다.
 
-> **왜 6개로 나눴나:** 갱신 주기가 다르다. `context`만 1시간마다 갈아끼우고 나머지는 안 건드린다. 하나로 합치면 혼잡도 갱신 때마다 전체를 다시 쓰게 된다.
+> **왜 6개로 나눴나:** 갱신 사유가 다르다. `routes`는 콘텐츠 파일을 고칠 때만, `related`는 한 달에 한 번, 나머지는 하루 한 번이다. 하나로 합치면 한 곳을 고칠 때마다 전체를 다시 쓰게 되고 `git diff`가 매일 전면 변경으로 보인다.
 
 ### 3.3 payload 스키마 (`src/domain/snapshot-schema.ts`)
 
@@ -127,6 +127,9 @@ export const PoiSchema = z.object({
   media: z.array(z.object({
     url: z.string(),
     kind: z.enum(['photo', 'thumbnail', 'gallery']),
+    alt: z.string(),                       // KTO imgname / galTitle. 비면 '' 이 아니라 관광지명+순번
+                                           // ★ 스크린리더 사용자가 1급 대상인 서비스에서
+                                           //   KTO 가 주는 유일한 이미지 설명 필드다 (03 §2.2)
     licenseCode: z.string().nullable(),    // 'Type1' | 'Type3' | 'kogl1'
     attribution: z.string(),               // 화면에 그대로 출력할 완성된 문구
     noTransform: z.boolean(),              // Type3 → true. 최적화·리사이즈 금지
@@ -225,11 +228,13 @@ export const ContextPayload = z.object({
   visitors: z.array(z.object({
     signguCd5: z.string(),                 // '44150' | '44760'
     signguNm: z.string(),
+    touDivCd: z.enum(['1', '2', '3']),     // 1 현지인 / 2 외지인 / 3 외국인 (03 §2.5)
+    touDivNm: z.string(),                  // 화면에 구분을 함께 쓴다
     windowStart: z.string(),               // YYYYMMDD
     windowEnd: z.string(),
     days: z.number(),                      // 실제 집계 일수
-    dailyAverage: z.number(),
-    caveat: z.literal('방문자는 관광객과 동일하게 정의되지 않습니다'),
+    dailyAverage: z.number(),              // 소수. touNum 이 모형 추정치라 정수로 만들지 않는다
+    caveat: z.literal('방문자는 관광객과 동일하게 정의되지 않습니다 (출처: 한국관광 데이터랩)'),
   })),
   weather: z.array(z.object({
     signguCd5: z.string(),
@@ -428,6 +433,9 @@ create table barrier_reports (
   occurred_on  date,                     -- 사용자가 본 날짜
   detail       text check (char_length(detail) <= 500),
 
+  -- 방문자 신고 (사후 조치의 입력)
+  report_count  integer not null default 0,
+
   -- 사후 조치
   is_hidden     boolean not null default false,
   hidden_reason text,                    -- '욕설' | '허위' | '중복' | '개인정보 포함' …
@@ -438,10 +446,10 @@ create table barrier_reports (
 );
 create index on barrier_reports (poi_slug, created_at desc) where not is_hidden;
 create index on barrier_reports (reporter_id);
-create index on barrier_reports (created_at desc);   -- 관리자 목록
+create index on barrier_reports (report_count desc, created_at desc);  -- 관리자 목록: 신고 많은 것 먼저
 ```
 
-**사진 컬럼과 저장소 버킷이 없다.** 즉시 공개 모델에서는 초상권·개인정보 위험이 이득보다 크다 → [`01_scope.md`](./01_scope.md) §4.5.
+**사진 컬럼과 저장소 버킷이 없다.** 즉시 공개 모델에서는 초상권·개인정보 위험이 이득보다 크다 → [`01_scope.md`](./01_scope.md) §4.4 (4).
 
 **중복 방지:** 같은 사람이 같은 관광지·분류로 24시간 안에 다시 올리는 것을 막는다. **인덱스가 아니라 서버 코드에서 검사한다.**
 
@@ -479,6 +487,15 @@ create policy "reports admin reads all" on barrier_reports for select to authent
   using ((select is_admin()));
 create policy "reports admin hides" on barrier_reports for update to authenticated
   using ((select is_admin())) with check ((select is_admin()));
+
+-- 신고 카운터는 일반 사용자가 UPDATE 로 올릴 수 없다 (다른 컬럼까지 열리므로).
+-- service_role 로 도는 RPC 하나만 올린다.
+create or replace function flag_report(target uuid)
+returns void language sql security definer set search_path = '' as $$
+  update public.barrier_reports set report_count = report_count + 1 where id = target;
+$$;
+revoke all on function flag_report(uuid) from public;
+grant execute on function flag_report(uuid) to anon, authenticated;
 ```
 
 > 익명 인증 사용자도 Supabase에서는 `authenticated` 역할이다. 이번에는 "정회원만" 구분이 필요 없으므로 `RESTRICTIVE` 정책을 쓰지 않는다.
@@ -513,7 +530,7 @@ PostGIS가 필요 없다. `gen_random_uuid()`는 Supabase에 기본 활성화돼
 | 갭 리포트 집계 | SQL 뷰 | 코드 20줄 (6행이라 무관) | 코드 |
 | 반경 내 시설 | PostGIS `ST_DWithin` | 거리 함수 10줄 | 함수 |
 
-**바꾼 이유:** 데이터가 250행 미만이다. 이 규모에 스키마 설계·RLS·마이그레이션·뷰를 얹는 것은 비용이 이득보다 크다. 원래 설계는 기존 `docs/plan/`의 DB 중심 구조를 관성으로 이어받은 것이었다.
+**바꾼 이유:** 데이터가 250행 미만이다. 이 규모에 스키마 설계·RLS·마이그레이션·뷰를 얹는 것은 비용이 이득보다 크다. 원래 설계는 이전 기획의 DB 중심 구조를 관성으로 이어받은 것이었다.
 
 ### 부수 효과로 사라진 결함 4개
 
@@ -533,7 +550,7 @@ PostGIS가 필요 없다. `gen_random_uuid()`는 Supabase에 기본 활성화돼
 | `pois` `poi_i18n` `poi_media` `accessibility_facts` `poi_certifications` `nearby_facilities` `context_snapshots` `route_guides` `route_steps` `docent_stories` `itinerary_templates` `related_pois` `code_mappings` (13개 테이블) | 전부 `data_snapshots`의 payload로 들어갔다 |
 | `ingest_runs` `source_records` | 수집 결과와 원본은 `content/generated/`에 파일로 남기고 git이 이력을 관리한다 |
 | `poi_capability_resolved` `poi_completeness` (뷰 2개) | 출처 우선순위는 수집 시점에 적용(§4.3), 채움률 집계는 코드 20줄 |
-| `report_photos` + `report-photos` 저장소 버킷 | 제보 사진 제외 ([`01_scope.md`](./01_scope.md) §4.5) |
+| `report_photos` + `report-photos` 저장소 버킷 | 제보 사진 제외 ([`01_scope.md`](./01_scope.md) §4.4 (4)) |
 | `report_status` enum (`pending`/`approved`/`rejected`) | 즉시 공개 모델. `is_hidden` 불리언 하나면 된다 |
 | `reporter_trust_scores` | 제보자 풀이 없다 |
 | `moderation_events` `audit_events` | 숨김 이력은 `barrier_reports`의 4개 컬럼에, 사실 변경 이력은 `git log`에 |

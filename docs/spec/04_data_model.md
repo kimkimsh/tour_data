@@ -1,4 +1,8 @@
-# 04 — 데이터 모델 (스냅샷 6개 + 테이블 2개 + 콘텐츠 파일)
+# 04 — 데이터 모델 (테이블 3개 · 그중 스냅샷 1개에 6행 + 콘텐츠 파일)
+
+> **테이블 개수를 먼저 못 박는다.** 이 스펙이 만드는 테이블은 **3개**다 — `data_snapshots` · `admin_users` · `barrier_reports`.
+> 이 문서가 "테이블 2개"라고 말할 때는 **사용자가 쓰기하는 테이블 2개**(`admin_users` · `barrier_reports`)를 뜻하고, `data_snapshots`는 수집 스크립트만 쓰는 읽기 전용 테이블이라 따로 센다.
+> 앞 판은 이 구분 없이 "테이블 2개"라고만 써서 실제 개수와 어긋났다.
 
 > **이 문서는 2026-09-01에 크게 바뀌었다.** 원래는 관광지 데이터를 테이블 18개로 정규화했는데, 데이터가 **250행 미만**이라 스키마 설계·RLS·마이그레이션·뷰의 비용이 이득보다 컸다.
 > 지금은 **관광지 데이터를 통째로 `jsonb` 스냅샷 6개**에 넣고, DB 테이블은 **사용자가 쓰는 것 2개**만 둔다.
@@ -44,11 +48,11 @@
 | # | 원칙 | 어떻게 강제하나 |
 |---|---|---|
 | 1 | **도메인은 한국관광공사 필드명을 모른다** | 무장애 24항목이 `capabilityCode`로 정규화돼 스냅샷에 들어간다. 원래 필드명은 `sourceField` 값으로만 존재 |
-| 2 | **없음 ≠ 불가** | `status`에 `unknown`이 있고, `absenceKind`로 (가)본질 제약 / (나)운영자 미입력을 구분 |
+| 2 | **없음 ≠ 불가, 그리고 빈칸 ≠ 미입력** | `status`에 `unknown`이 있다. `absenceKind`는 **원인을 확인한 것만** 적고 기본값은 `null`이다 — 빈 응답에서 "담당자 미입력"을 추론하지 않는다 ([`05_ingest.md`](./05_ingest.md) §4.2) |
 | 3 | **모든 사실은 출처를 갖는다** | 모든 항목에 `source`·`sourceField`·`verifiedAt` 필수. Zod가 강제 |
 | 4 | **확인된 사실과 방문자 발언을 섞지 않는다** | 저장 위치가 다르고, 화면에서 분리하고, 점수에 안 들어간다 |
 | 5 | **읽을 때 검증한다** | 스냅샷을 읽을 때마다 Zod로 파싱한다. 형태가 깨지면 즉시 드러난다 |
-| 6 | **기본 차단(RLS)** | 테이블 2개 전부 RLS 활성화. 정책 없으면 아무도 못 읽는다 |
+| 6 | **기본 차단(RLS)** | 테이블 **3개 전부** RLS 활성화. 정책 없으면 아무도 못 읽는다 |
 
 **좌표:** 전부 WGS84 십진 도. 한국관광공사 `mapx`=경도(lng), `mapy`=위도(lat). JSON에는 `{ lat, lng }` **이름 있는 객체**로 저장한다 — 배열을 쓰면 순서를 뒤집는 실수가 난다.
 
@@ -80,7 +84,7 @@ create policy "snapshots public read" on data_snapshots
 | `key` | 내용 | 갱신 주기 | 대략 크기 |
 |---|---|---|---|
 | `pois` | 6곳 기본 정보 + 다국어 제목·개요 + 사진 + 인증 + 인근 시설 | 1일 | ~60KB |
-| `accessibility` | 관광지별 항목 31개의 상태·원문·출처·확인일 | 1일 | ~50KB |
+| `accessibility` | 관광지별 항목 32개의 상태·원문·출처·확인일 | 1일 | ~50KB |
 | `routes` | 경로 안내 (A등급 2곳) | 콘텐츠 수정 시 | ~15KB |
 | `docent` | 도슨트 이야기 (제목·대본·오디오 URL) | 1일 | ~40KB |
 | `context` | 예측 혼잡도 · 방문자 추이 | 1일 | ~10KB |
@@ -106,12 +110,12 @@ export const PoiSchema = z.object({
   contentTypeId: z.number(),               // 12 | 14
   depthTier: z.enum(['A', 'B']),
   coord: LatLng,
-  lDongRegnCd: z.string(),                 // '44'
-  lDongSignguCd: z.string(),               // '150' | '760'
-  signguCd5: z.string(),                   // '44150' | '44760'
+  lDongRegnCd: z.string(),                 // 2자리. 값은 content/pois.json 에만 있다
+  lDongSignguCd: z.string(),               // 3자리. 값은 content/pois.json 에만 있다
+  signguCd5: z.string(),                   // 5자리. 값은 content/pois.json 에만 있다
   lclsSystm3: z.string().nullable(),
   heritageLabel: z.string().nullable(),    // '사적 「공주 공산성」' — P0-7 확인 후. 불확실하면 null
-  ktoModifiedAt: z.string().nullable(),    // KTO modifiedtime → Layer D 신선도 기준
+  ktoModifiedAt: z.string().nullable(),    // KTO modifiedtime → 신선도 기준 (점수 아님, 06 §6.1)
 
   i18n: z.record(
     z.enum(['ko', 'en', 'ja', 'zh-CN']),
@@ -163,14 +167,19 @@ export const PoisPayload = z.array(PoiSchema);
 // ── key: 'accessibility' ───────────────────────────────────
 export const FactSchema = z.object({
   poiSlug: z.string(),
-  capabilityCode: z.string(),              // src/domain/capabilities.ts 의 31개 중 하나
+  capabilityCode: z.string(),              // src/domain/capabilities.ts 의 32개 중 하나
   status: z.enum(['supported', 'partial', 'unsupported', 'unknown']),
-  absenceKind: z.enum(['intrinsic', 'operator_missing', 'not_applicable']).nullable(),
+  absenceKind: z.enum(['intrinsic', 'operator_missing', 'not_applicable',
+                       'not_registered']).nullable(),
+                                           // ★ null 이 기본값이다 — '왜 비었는지 모른다'.
+                                           //   intrinsic·operator_missing 은 curated-facts.json 에
+                                           //   출처와 함께 명시된 것만 (05 §4.2)
   detail: z.string().nullable(),           // 한국관광공사 원문 그대로. 화면에 이 문장을 보여준다
   source: z.enum(['kto_with', 'curated', 'derived_route', 'derived_facility', 'tats', 'kma']),
   sourceField: z.string().nullable(),      // 'wheelchair' | 'braileblock' … 원래 필드명
-  verifiedAt: z.string().nullable(),       // Layer D 신선도 입력
-  isKtoScored: z.boolean(),                // 갭 리포트 분모(24개)에 들어가는가
+  verifiedAt: z.string().nullable(),       // 신선도 입력 → evidenceConfidence (점수 아님)
+  isKtoScored: z.boolean(),                // 갭 리포트 분모에 들어가는가.
+                                           // not_applicable 은 분모에서 빠지므로 24가 아닐 수 있다 (06 §3)
 });
 export const AccessibilityPayload = z.array(FactSchema);
 
@@ -222,11 +231,13 @@ export const ContextPayload = z.object({
   crowd: z.array(z.object({
     poiSlug: z.string(),
     baseYmd: z.string(),
-    rate: z.number(),                      // 0~100
+    rate: z.number(),                      // 단위·상한이 매뉴얼에 없다 (03 §2.4).
+                                           // 범위를 스키마로 강제하지 않고 원값을 그대로 담는다.
+                                           // 0~100 밖이면 crowd_forecast 를 unknown 으로 (05 §5.7)
     isPredicted: z.literal(true),          // ★ 항상 true. 예측치다 (03 §2.4)
   })),
   visitors: z.array(z.object({
-    signguCd5: z.string(),                 // '44150' | '44760'
+    signguCd5: z.string(),                 // 5자리. 값은 content/pois.json 에만 있다
     signguNm: z.string(),
     touDivCd: z.enum(['1', '2', '3']),     // 1 현지인 / 2 외지인 / 3 외국인 (03 §2.5)
     touDivNm: z.string(),                  // 화면에 구분을 함께 쓴다
@@ -390,7 +401,7 @@ curated  >  derived_route / derived_facility / tats / kma  >  kto_with
 
 ---
 
-## 5. 사용자 테이블 2개
+## 5. 사용자가 쓰기하는 테이블 2개 (전체 3개 중)
 
 ### 5.1 관리자
 
@@ -434,7 +445,8 @@ create table barrier_reports (
   detail       text check (char_length(detail) <= 500),
 
   -- 방문자 신고 (사후 조치의 입력)
-  report_count  integer not null default 0,
+  -- ★ 개수가 아니라 '신고가 들어왔는가' 하나다. 아래 §5.3의 이유 참조
+  flagged_at    timestamptz,
 
   -- 사후 조치
   is_hidden     boolean not null default false,
@@ -442,23 +454,38 @@ create table barrier_reports (
   hidden_by     uuid,
   hidden_at     timestamptz,
 
-  created_at   timestamptz not null default now()
+  created_at   timestamptz not null default now(),
+
+  -- ★ 중복 방지를 DB가 강제하기 위한 생성 열 (아래 §5.2 주 참조)
+  created_day  date generated always as ((created_at at time zone 'UTC')::date) stored
 );
 create index on barrier_reports (poi_slug, created_at desc) where not is_hidden;
 create index on barrier_reports (reporter_id);
-create index on barrier_reports (report_count desc, created_at desc);  -- 관리자 목록: 신고 많은 것 먼저
+-- 관리자 목록: 신고 들어온 것 먼저, 그다음 최신순
+create index on barrier_reports ((flagged_at is not null) desc, created_at desc);
+-- ★ 중복 방지: DB가 강제한다 (§5.2 아래 주)
+create unique index on barrier_reports (reporter_id, poi_slug, category, created_day);
 ```
 
 **사진 컬럼과 저장소 버킷이 없다.** 즉시 공개 모델에서는 초상권·개인정보 위험이 이득보다 크다 → [`01_scope.md`](./01_scope.md) §4.4 (4).
 
-**중복 방지:** 같은 사람이 같은 관광지·분류로 24시간 안에 다시 올리는 것을 막는다. **인덱스가 아니라 서버 코드에서 검사한다.**
+**중복 방지 — DB가 강제한다.**
+
+앞 판은 *"인덱스가 아니라 서버 코드에서 검사한다"* 였다. **그건 보장이 아니다** — 같은 사용자의 요청 두 개가 동시에 도착하면 둘 다 `select`를 통과한 뒤 둘 다 `insert`한다. 그런데 완료 기준([`07_screens.md`](./07_screens.md) S7)은 "중복 제보가 거부된다"고 **단언**한다. 코드로만 검사하면 그 단언이 경합에서 깨진다.
 
 ```sql
--- ★ 원래 계획은 이걸 부분 인덱스의 WHERE 절에 now() 를 써서 구현했는데,
---   PostgreSQL 은 인덱스 술어에 비-IMMUTABLE 함수를 허용하지 않아 DDL 자체가 실행되지 않는다.
---   아래 인덱스로 조회만 빠르게 하고, 판정은 애플리케이션이 한다.
-create index on barrier_reports (reporter_id, poi_slug, category, created_at desc);
+-- created_day 는 생성 열이다. (created_at at time zone 'UTC')::date 는 IMMUTABLE 이므로
+-- 인덱스에 쓸 수 있다 — 원래 막혔던 것은 now() 였고, 그건 조건절에 있었다.
+create unique index on barrier_reports (reporter_id, poi_slug, category, created_day);
 ```
+
+| | 앞 판 | 지금 |
+|---|---|---|
+| 창 | 정확히 24시간 | **UTC 기준 같은 날(달력일)** |
+| 보장 | 서버 코드 — 경합에서 깨진다 | **DB 유니크 제약 — 깨지지 않는다** |
+| 사용자에게 보이는 것 | — | 서버 코드가 **먼저** 확인해 친절한 문구를 준다. 경합으로 뚫려도 **DB가 두 번째를 거절**하고 같은 문구를 보여준다 |
+
+**대가:** 창이 "24시간"에서 "같은 날"로 바뀐다. 23:50에 올린 사람이 00:10에 다시 올릴 수 있다. **경계를 정확히 24시간으로 만드는 유일한 방법은 애플리케이션 검사이고, 그건 보장이 아니다.** 정확하지 않은 창을 DB가 지키는 쪽을 고른다 — 화면 문구도 **"같은 날에는 같은 제보를 한 번만 올릴 수 있습니다"** 로 사실대로 쓴다.
 
 ### 5.3 RLS
 
@@ -488,16 +515,29 @@ create policy "reports admin reads all" on barrier_reports for select to authent
 create policy "reports admin hides" on barrier_reports for update to authenticated
   using ((select is_admin())) with check ((select is_admin()));
 
--- 신고 카운터는 일반 사용자가 UPDATE 로 올릴 수 없다 (다른 컬럼까지 열리므로).
--- service_role 로 도는 RPC 하나만 올린다.
+-- 신고는 일반 사용자가 UPDATE 로 할 수 없다 (다른 컬럼까지 열리므로).
+-- security definer RPC 하나만 둔다.
+--
+-- ★ 카운터가 아니라 '처음 신고된 시각' 하나다. 이게 남용을 구조로 막는다.
+--   앞 판은 report_count = report_count + 1 이었고, anon 이 아무 report id 로
+--   무한히 호출할 수 있었다 — 한 사람이 신고 수를 부풀려 관리자가 읽는 순서를
+--   조작하고 정상 제보를 아래로 밀어낼 수 있었다.
+--   coalesce 로 '이미 값이 있으면 그대로' 두면 두 번째 호출부터 아무 일도 하지 않는다.
 create or replace function flag_report(target uuid)
 returns void language sql security definer set search_path = '' as $$
-  update public.barrier_reports set report_count = report_count + 1 where id = target;
+  update public.barrier_reports
+     set flagged_at = coalesce(flagged_at, now())
+   where id = target and not is_hidden;
 $$;
 revoke all on function flag_report(uuid) from public;
 grant execute on function flag_report(uuid) to anon, authenticated;
+
+-- 이 함수가 돌려주는 것이 없다는 것도 의도다. 호출자는 그 제보가
+-- 이미 신고된 상태였는지 알 수 없고, 알 필요도 없다.
 ```
 
+> **`flagged_at`은 공개 읽기 정책으로 노출된다.** 누가 신고했는지는 저장하지 않으므로(시각 하나뿐) 신고자 식별 위험이 없다. 카운터를 두거나 신고자 목록을 두면 그 순간 노출 대상이 된다 — 두지 않는 이유가 하나 더 있다.
+>
 > 익명 인증 사용자도 Supabase에서는 `authenticated` 역할이다. 이번에는 "정회원만" 구분이 필요 없으므로 `RESTRICTIVE` 정책을 쓰지 않는다.
 > RLS 정책이 참조하는 컬럼(`reporter_id`, `is_hidden`)에는 전부 인덱스를 걸었다.
 
@@ -516,10 +556,10 @@ PostGIS가 필요 없다. `gen_random_uuid()`는 Supabase에 기본 활성화돼
 
 ## 7. 왜 이렇게 바꿨나 — 대안 비교
 
-| | 원래 스펙 (테이블 18개) | **지금 (스냅샷 6 + 테이블 2)** | 순수 파일 `import` |
+| | 원래 스펙 (테이블 18개) | **지금 (테이블 3 · 스냅샷 6행)** | 순수 파일 `import` |
 |---|---|---|---|
 | 관광지 데이터 위치 | Supabase 테이블 15개 | **`data_snapshots` jsonb 6행** | 코드에 `import` |
-| 테이블 수 | 18 | **2** | 2 |
+| 테이블 수 | 18 | **3** (`data_snapshots` + 사용자 테이블 2) | 3 |
 | 마이그레이션 | 8 | **2** | 2 |
 | RLS 정책 | ~20 | **6** | 6 |
 | 뷰 | 2 | **0** (코드에서 병합) | 0 |

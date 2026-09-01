@@ -11,7 +11,7 @@
 | 언어 | TypeScript | 5.x, `strict: true` | — |
 | Node | **Node.js 24 LTS** | 24.x | Vercel 신규 프로젝트 기본값. **Node 20은 2026-10-01 사용 중지** 예정이라 쓰면 안 된다 |
 | 패키지 매니저 | **pnpm** | 9.x | `.npmrc`에 `node-linker=hoisted` 불필요, 기본 설정 사용 |
-| DB / 인증 | **Supabase** | Postgres 17 (**PostGIS 불필요**) | 리전 **`ap-northeast-2` (서울)** — 생성 후 변경 불가하므로 처음에 제대로 고른다. 테이블 2개 + `jsonb` 스냅샷뿐이라 공간 확장이 필요 없다 |
+| DB / 인증 | **Supabase** | Postgres 17 (**PostGIS 불필요**) | 리전 **`ap-northeast-2` (서울)** — 생성 후 변경 불가하므로 처음에 제대로 고른다. 테이블 3개 + `jsonb` 스냅샷뿐이라 공간 확장이 필요 없다 |
 | 호스팅 | **Vercel** | — | 리전 **`icn1` (서울)** 고정 |
 | 스타일 | **Tailwind CSS** | v4 | — |
 | UI 프리미티브 | **Radix UI** (필요한 것만 개별 설치) | — | 모달 포커스 트랩·탭·아코디언을 직접 구현하지 않는다. 접근성 버그의 최대 원천 |
@@ -71,8 +71,11 @@ modu-baekje/
 │  └─ check-contrast.ts             # 색상 토큰 대비율 검증 (빌드 전 실행)
 │
 ├─ tests/
-│  ├─ e2e/golden-flow.spec.ts       # 전체 흐름 1개
-│  └─ e2e/a11y.spec.ts              # axe 스캔
+│  └─ e2e/
+│     ├─ golden-flow.spec.ts        # 전체 흐름 1개
+│     ├─ a11y.spec.ts               # axe 스캔
+│     ├─ focus.spec.ts              # 포커스 관리 3건
+│     └─ offline.spec.ts            # 오프라인을 구현한 경우에만
 │
 └─ src/
    ├─ domain/                       # ★ 순수 TypeScript. next/react/supabase import 금지
@@ -189,7 +192,7 @@ pnpm supabase start           # 로컬 Postgres
 pnpm supabase db reset        # 마이그레이션 2개 + seed 적용
 
 # 3) P0 확인 탐침 — 이게 통과해야 나머지가 의미 있다
-pnpm probe                    # 11_open_items.md P0-1 ~ P0-6 자동 확인
+pnpm probe                    # 11_open_items.md P0 자동 9건 (P0-7 수동 · P0-8 해소)
 
 # 4) 데이터 수집
 pnpm validate:content         # content/*.json 스키마 검증
@@ -206,7 +209,7 @@ pnpm dev                      # http://localhost:3000
 {
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/check-contrast.ts && next build",
+    "build": "tsx scripts/check-contrast.ts && next build",   // 다른 스크립트와 같은 실행기를 쓴다
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",       // Next 16 에서 `next lint` 는 제거됐다
@@ -276,4 +279,4 @@ data_snapshots 읽기                  localStorage 에서 페르소나 읽기
 | `.github/workflows/ci.yml` | push / PR | `pnpm typecheck && pnpm lint && pnpm test && pnpm build` — **단일 잡** |
 | `.github/workflows/ingest.yml` | `schedule` (KST 04:00 = UTC `0 19 * * *`) + `workflow_dispatch` | `pnpm ingest` 실행 후 재검증 호출 |
 
-E2E와 접근성 스캔은 CI에 넣지 않고 로컬에서 필요할 때 돌린다. 이유는 [`09_test_and_ci.md`](./09_test_and_ci.md) §4.
+E2E와 접근성 스캔은 CI에 넣지 않고 로컬에서 필요할 때 돌린다. 이유는 [`09_test_and_ci.md`](./09_test_and_ci.md) §5·§6. (앞 판은 §4를 가리켰는데 그 절은 콘텐츠 검증이다)

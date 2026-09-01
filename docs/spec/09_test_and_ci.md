@@ -9,27 +9,28 @@
 
 | 종류 | 도구 | 개수 | 어디서 |
 |---|---|---|---|
-| 도메인 골든 | Vitest | **23** | CI |
+| 도메인 골든 | Vitest | **24** | CI |
 | 도메인 성질(property) | Vitest | **8** | CI |
 | 콘텐츠 검증 | Zod 스크립트 | 파일 수만큼 | CI |
-| E2E + 접근성 | Playwright + axe | **4** | 로컬 (필요할 때) |
+| E2E + 접근성 | Playwright + axe | **스펙 파일 3개** (+오프라인 1개는 그 기능을 만든 경우에만) | 로컬 (필요할 때) |
 
 ---
 
-## 2. 도메인 골든 테스트 (23건)
+## 2. 도메인 골든 테스트 (24건)
 
-목록은 [`06_suitability.md`](./06_suitability.md) §8. 요약하면 페르소나 5종 각각 + 다중 선택 + 강제 규칙 4분기 + 경계값 7건 + 결정성 1건 + 아래 6건.
+목록은 [`06_suitability.md`](./06_suitability.md) §8 — 그 표의 **18건** + 아래 **6건** = **24건**. 18건의 내역은 페르소나 5종 각각(5) + 다중 선택(1) + 강제 규칙 4분기(4) + 경계·계수 7건 + 결정성(1)이다.
+> 앞 판은 이 줄에서 "경계값 7건"이라고 세면서 합계는 23이라고 적어 산수가 어긋났다. **5+1+4+7+1 = 18**이다.
 
 **이전 기획의 30건 목록에서 살려 온 6건** — §8의 17건이 덮지 않는 분기다.
 
 | # | 이름 | 검증하는 것 |
 |---|---|---|
 | 18 | `zero-score-clamp` | 필수 전부 `unsupported` → `score`가 음수로 가지 않고 0에서 멈춘다 |
-| 19 | `all-partial` | 전 항목 `partial`(0.50) → 점수가 중간대에 앉고 라벨이 `주의` |
+| 19 | `all-partial` | 전 항목 `partial`(0.50), `C=1.00`·`D=1.00` → `A=0.500`, `B=0.875`, **점수 44**, 라벨 `주의`. **44는 하위 구간이지만 확인된 `unsupported`가 없으므로 `대체추천`이 아니다** ([`06_suitability.md`](./06_suitability.md) §6.4 규칙 3) |
 | 20 | **`critical-partial-not-blocked`** | 필수 항목이 `partial`이면 §6.4 규칙 1이 **발동하지 않는다** ("일부 가능"은 "불가"가 아니다). 이 한 건이 규칙 1의 경계를 고정한다 |
 | 21 | `all-unknown-P0` | 조건 미선택(P0) + 전 항목 `unknown` → `coverage = 0`, 계산이 0으로 나누지 않는다 |
 | 22 | `no-certifications` | `certifications` 빈 배열 → `C = 1.00`, 예외 없음 |
-| 23 | `boundary-74-75` | 점수 74와 75에서 라벨이 `주의`↔`방문가능`으로 정확히 갈린다 |
+| 23 | `boundary-74-75` | 점수 74와 75에서 라벨이 `주의`↔`방문가능`으로 정확히 갈린다. **입력을 손으로 만들지 않는다** — 골든 생성기가 `A`를 이분 탐색해 `round(100·A·B·C·D)`가 정확히 74·75가 되는 두 입력을 찾아 파일에 박는다. 4a·4b가 발동하지 않는 조건(필수 전부 known, `coverage ≥ 0.65`)을 함께 만족시킨다 |
 
 > 20번이 가장 중요하다. "필수 항목이 안 되는 게 확실하면 대체추천"이라는 규칙은 `unsupported`에만 적용되는데, `partial`도 걸리게 짜면 **부분적으로 가능한 곳이 전부 '다른 곳 권장'으로 바뀐다.**
 
@@ -57,8 +58,8 @@ src/domain/__tests__/__golden__/p1a-all-supported.json
 | 3 | `0.75 ≤ layerB ≤ 1.00` |
 | 4 | 선택 페르소나의 critical 항목에 `unsupported`가 하나라도 있으면 → `score ≤ 49` **그리고** `label === '대체추천'` |
 | 5 | 페르소나를 여러 개 고르면, 결과의 `layerB` ≤ 각각 단독으로 계산했을 때의 `layerB` 최솟값 |
-| 6 | 입력에 라벨은 **정확히 1개**만 결정된다 (모든 분기를 다 돌려도 겹치지 않음) |
-| 7 | `evidenceConfidence`가 `score` 계산에 영향을 주지 않는다 (신선도만 바꿔도 `layerA`·`layerB`·`layerC`가 불변) |
+| 6 | **라벨 규칙의 발동 이유가 결과와 일치한다** — `knownCriticalBlockers`가 비어 있지 않으면 라벨은 `대체추천`이고, 비어 있으면 라벨은 `대체추천`이 **아니다**. (앞 판은 "라벨은 정확히 1개"였는데, 반환 타입이 스칼라 하나라 **어떤 구현에서도 참이어서 실패할 수 없었다**) |
+| 7 | **신선도(`verifiedAt`)만 바꾸면 `score`와 `label`이 완전히 불변이고 `evidenceConfidence`만 바뀐다.** 이게 §6.3의 선언을 검사하는 성질이다 — **`D`가 식에 있던 앞 판에서는 이 성질이 거짓이었고, 그래서 검사가 "A·B·C 불변"이라는 자명한 형태로 약해져 있었다** ([`06_suitability.md`](./06_suitability.md) §1 · DEC-9) |
 | 8 | 같은 입력 100회 → 100회 동일 출력 |
 
 **4번과 6번이 핵심이다.** 기존 스펙에서 라벨 규칙이 두 곳에 서로 다르게 적혀 있어 같은 입력에 두 라벨이 나올 수 있었다.
@@ -75,21 +76,34 @@ src/domain/__tests__/__golden__/p1a-all-supported.json
 | 스냅샷을 읽을 때 Zod 파싱이 통과한다 | 데이터 모델의 정의가 Zod 스키마이므로 **이게 스키마 검증 그 자체다** ([`04_data_model.md`](./04_data_model.md) §3.3) |
 | `facilities.json` / `certifications.json`도 동일 | 위와 동일 |
 | `capabilityCode`가 `src/domain/capabilities.ts`의 코드 목록에 있다 | 오타로 조용히 무시되는 것 방지 |
-| `routes/*.json`의 `slopeNote`에 `%` 나 숫자+`도` 가 없다 | **재지 않은 경사도를 측정값처럼 쓰는 것 방지** ([`04_data_model.md`](./04_data_model.md) §4.4) |
+| `routes/*.json`의 `slopeNote`가 **허용 목록 안의 값과 정확히 일치**한다 — `평탄` · `완만한 오르막` · `완만한 내리막` · `가파른 구간 있음` · `계단 있음` · `단차 있음` (없으면 `null`) | **재지 않은 경사도를 측정값처럼 쓰는 것 방지** ([`04_data_model.md`](./04_data_model.md) §4.4). **금지 문자 목록(`%`·숫자+`도`)은 쓰지 않는다** — `1:12`·`0.08`·`8°`·`8.5 퍼센트`가 전부 통과해 버린다. **막을 것을 세는 대신 허용할 것을 세는 쪽이 빈틈이 없다** |
 | `routes/*.json`의 `evidenceLevel`이 `desk`인데 `evidenceNote`가 비어 있으면 실패 | 근거 수준을 밝히지 않은 채 넘어가는 것 방지 |
-| `pois.json`의 `ktoContentId`가 전부 채워져 있다 | 임시값으로 배포되는 것 방지 |
+| `pois.json`의 `ktoContentId`가 **빈 문자열이 아니다** | **빈 ID로 배포되는 것 방지.** 값이 *맞는지*는 이 검사가 알 수 없다 — 그건 P0-1 탐침 결과와 대조해야 하고, `_probe-results.md`의 값과 `pois.json`의 값이 같은지는 **사람이 확인한다**([`11_open_items.md`](./11_open_items.md) P0-1). "임시값 방지"라고 쓰면 이 검사가 하지 않는 일을 한다고 말하는 것이 된다 |
 | `itineraries.json`의 `stayMinutes` 길이 == `orderedPoiSlugs` 길이, `transferMinutes` == 길이−1 | 코스 계산이 조용히 깨지는 것 방지 |
 
-**하드코딩 금지 검사도 여기서 한다:**
-```bash
-# scripts/validate-content.ts 안에서
-grep -rn "44150\|44760" src/ --include="*.ts" --include="*.tsx"
-#   → 코드 어디에서든 나오면 실패. 이 값들은 content/pois.json 에만 있어야 한다
-```
+### 4b. 하드코딩 금지 grep 검사는 만들지 않는다 — 만들 수 없다
+
+앞 판은 시군구 코드를 코드에 박는 것을 막으려고 `grep -rn "44150\|44760" src/`를 `pnpm validate:content` 안에 두었다. **이 검사는 성립하지 않는다.**
+
+| 시도 | 왜 안 되나 |
+|---|---|
+| `src/` 만 본다 | 코드를 하드코딩하기 가장 쉬운 곳은 **수집 스크립트**(`scripts/ingest.ts`)이고 그건 검사 범위 밖이다. **오늘 데이터에서 빨간불이 될 수 없다** |
+| `scripts/` 를 포함한다 | **검사 스크립트 자신이 `scripts/` 안에 있다.** 패턴 문자열 `"44150\|44760"`이 자기 파일에서 매칭되어 **항상 실패한다.** CI가 영구히 빨간불이 된다 |
+| 자기 파일만 제외한다 | 이제 그 파일에는 무엇을 박아도 통과한다. **가장 그럴듯한 위반 장소가 유일한 면제 구역이 된다** |
+| 주석을 제외한다 | TypeScript 파서가 필요해진다. 검사 하나에 파서를 들이는 비용이 이득을 넘는다 |
+
+**그래서 지운다 — 끄지 않고 지운다.** 대신 남는 것:
+
+- **값이 사는 곳은 `content/pois.json` 하나다** ([`05_ingest.md`](./05_ingest.md) §5.0). Zod 스키마가 그 파일에 값이 있는지 검사한다.
+- 수집·화면이 그 값을 **읽어 쓰는지**는 `signguCd5`를 인자로 받는 함수 서명이 강제한다 — 상수를 박으면 인자가 쓰이지 않고, 그건 `pnpm lint`의 미사용 변수 규칙이 잡는다.
+
+> **이게 "검사를 포기한 것"이 아니라 "검사할 수 없는 것을 검사하는 척하지 않는 것"이다.** 켜 두고 통과만 하는 검사는 없는 것보다 나쁘고, 켜 두고 항상 실패하는 검사는 그보다 더 나쁘다.
 
 ---
 
-## 5. E2E (4건, 로컬)
+## 5. E2E (스펙 파일 3개 + 조건부 1개, 로컬)
+
+**필수 3개** — `golden-flow.spec.ts` · `a11y.spec.ts` · `focus.spec.ts`. **조건부 1개** — `offline.spec.ts`는 오프라인 지원을 구현한 경우에만 존재한다([`01_scope.md`](./01_scope.md) §5). 폴더 구조는 [`02_stack.md`](./02_stack.md) §2가 같은 목록을 든다.
 
 `pnpm e2e`. CI에는 넣지 않는다 — 브라우저 설치·실행이 CI 시간의 대부분을 먹고, 혼자 개발하면 로컬에서 바로 돌리는 게 빠르다.
 
@@ -104,15 +118,20 @@ grep -rn "44150\|44760" src/ --include="*.ts" --include="*.tsx"
 4.  목록에 6곳이 뜨고 첫 카드에 라벨 배지가 있다
 5.  공산성 클릭
 6.  ① 판정 요약에 라벨과 (정보없음이 아니면) 점수가 있다
-7.  ③ 무장애 정보에 24개 항목이 있고, 그중 하나에 KTO 원문과 필드명이 보인다
-8.  ④ '이 점수가 나온 계산' 펼치기 → A/B/C/D 4개 값이 전부 있다
+7.  ③ 에 32개 항목이 있고(KTO 24 + 파생 8), KTO 항목 하나에 원문과 필드명이,
+    파생 항목 하나에 계산 근거가 보인다.
+    그리고 '정보 없음 n건 / N건' 라벨에 '(한국관광공사 항목 기준)'이 붙어 있다
+    (N = ktoTotalCount. 24 를 테스트에 적지 않고 화면에서 읽어 쓴다)
+8.  ④ '이 점수가 나온 계산' 펼치기 → A·B·C 3개 값이 전부 있고,
+    데이터 신뢰도가 점수와 **분리된 자리**에 있다
 9.  [경로 안내 보기] → 근거 수준 경고가 보이고 단계가 5개 이상
 10. [GPX 내려받기] → 파일이 받아진다
 11. [도슨트 듣기] → 대본이 화면에 보인다
 12. /ko/diary 에서 공산성을 추가하고 [인쇄용 페이지 열기] → 출처 문구가 있다
 13. /ko/gap-report → 공산성의 '정보 없음' 개수가 7단계에서 읽어 둔 값과 같다 (숫자를 테스트에 적지 않고 두 화면에서 읽어 비교한다)
 14. 페이지 전체에서 apis.data.go.kr 로 나간 요청이 0건
-15. 페이지 전체에서 navigator.geolocation 이 호출되지 않았다
+15. 페이지 전체에서 navigator.geolocation 의 getCurrentPosition·watchPosition
+    **둘 다** 호출되지 않았다
 16. 조건을 '청각'으로 바꾸면 목록의 라벨과 순서가 실제로 바뀐다
     (점수를 브라우저에서 계산하므로 캐시된 HTML이어도 바뀌어야 한다)
 17. /ko/report 에서 제보를 올리면 즉시 /ko/places/gongsanseong 의 ⑨에 나타난다
@@ -129,21 +148,31 @@ grep -rn "44150\|44760" src/ --include="*.ts" --include="*.tsx"
 const ktoCalls: string[] = [];
 page.on('request', r => { if (r.url().includes('apis.data.go.kr')) ktoCalls.push(r.url()); });
 await page.addInitScript(() => {
-  (window as any).__geoCalled = false;
-  const orig = navigator.geolocation?.getCurrentPosition;
-  if (orig) navigator.geolocation.getCurrentPosition =
-    function (...a: any[]) { (window as any).__geoCalled = true; return orig.apply(this, a as any); };
+  (window as any).__geoCalls = [] as string[];
+  const g = navigator.geolocation;
+  if (!g) return;
+  // ★ 두 메서드를 다 감싼다. getCurrentPosition 만 감싸면
+  //   watchPosition 으로 좌표를 계속 받아도 검사가 통과한다 —
+  //   위치정보법 비수집 주장이 이 검사에 걸려 있으므로 빠뜨릴 수 없다.
+  for (const name of ['getCurrentPosition', 'watchPosition'] as const) {
+    const orig = (g as any)[name];
+    if (typeof orig !== 'function') continue;
+    (g as any)[name] = function (...a: any[]) {
+      (window as any).__geoCalls.push(name);
+      return orig.apply(this, a);
+    };
+  }
 });
 // … 시나리오 실행 후
 expect(ktoCalls).toEqual([]);
-expect(await page.evaluate(() => (window as any).__geoCalled)).toBe(false);
+expect(await page.evaluate(() => (window as any).__geoCalls)).toEqual([]);
 ```
 
 > 기존 스펙은 브라우저에서 `apis.data.go.kr` 요청을 **차단**해서 "스냅샷으로 동작함"을 증명하려 했다. 브라우저가 원래 그 주소를 부르지 않으므로 **아무것도 증명하지 못한다.** 차단이 아니라 **요청이 0건인지 세는 것**이 맞다.
 
 ### 5.2 `a11y.spec.ts` — axe 스캔
 
-핵심 5개 경로에서 위반 0건. `.map-canvas`는 제외하고 수동 점검으로 대체한다.
+**핵심 6개 경로**에서 위반 0건. 경로 목록의 단일 권위는 [`08_accessibility_legal.md`](./08_accessibility_legal.md) §1.3이다 — **여기에 개수를 다시 쓰지 않는다.** `.map-canvas`는 제외하고 수동 점검으로 대체한다.
 
 ### 5.3 `focus.spec.ts` — 포커스 관리 3건
 
@@ -196,10 +225,22 @@ jobs:
       - run: pnpm lint
       - run: pnpm validate:content
       - run: pnpm test
-      - run: pnpm build
+      - run: pnpm build          # ← 아래 주를 반드시 지킨다
 ```
 
 **전부 하나의 잡에서 순서대로 돈다.** 잡 사이에 산출물을 주고받으면 디버깅 시간이 절약 시간보다 크다.
+
+> **★ `pnpm build`가 CI에서 통과하려면 관광지 페이지가 빌드 시점에 Supabase를 읽지 않아야 한다.** [`04_data_model.md`](./04_data_model.md) §3.4의 `readSnapshot()`은 `.single()`로 행 하나를 **요구**하므로, 빌드 중에 실행되면 CI에는 Supabase 키도 마이그레이션도 시드도 없어서 **빌드가 깨진다.**
+>
+> **그래서 스냅샷을 읽는 라우트는 빌드 시점에 실행되지 않게 한다:**
+> ```ts
+> // 스냅샷을 읽는 모든 page.tsx
+> export const revalidate = 3600;
+> export const dynamic = 'force-dynamic';   // ← 빌드 때 프리렌더하지 않는다
+> ```
+> 첫 요청에서 렌더되고 그 결과가 1시간 캐시된다. **모든 방문자에게 같은 HTML**이라는 성질은 그대로이므로 §3.5의 캐시 설계가 유지된다.
+>
+> **CI에 로컬 Supabase를 띄우지 않는다.** 그러면 잡 하나가 Docker·마이그레이션·시드까지 갖게 되고, 얻는 것은 "빌드가 되는지"뿐이다. **프리렌더를 끄는 한 줄이 같은 결과를 준다.**
 
 수집 워크플로는 별도 (`ingest.yml`) — [`02_stack.md`](./02_stack.md) §6.
 
@@ -212,9 +253,9 @@ CI가 아니라 **사람이 한 번 훑는 목록**이다. 자동화하지 않�
 | # | 확인 | 근거 문서 |
 |---|---|---|
 | 1 | `pnpm typecheck && pnpm lint && pnpm test && pnpm build` 전부 통과 | — |
-| 2 | `pnpm e2e` 4건 전부 통과 (골든 플로우 포함) | §5 |
+| 2 | `pnpm e2e` — 필수 3개 전부 통과 (골든 플로우 포함). 오프라인을 구현했으면 4개 | §5 |
 | 3 | NVDA 수동 과업 A·B·C 완료 (점자 디스플레이 지원 확인 포함) | [`08`](./08_accessibility_legal.md) §1.1b·§1.4 |
-| 4 | Lighthouse 접근성 점수 확인 (스크린샷 보관) | §1.3 |
+| 4 | Lighthouse 접근성 점수 확인 (스크린샷 보관) | [`08`](./08_accessibility_legal.md) §1.3 |
 | 5 | `/privacy` · `/credits` 페이지가 실제 내용으로 채워져 있다 | [`08`](./08_accessibility_legal.md) §2, §3 |
 | 6 | 푸터 출처 문구가 전 페이지에 있다 | [`08`](./08_accessibility_legal.md) §3.3 |
 | 7 | Type3 이미지가 원본 그대로 렌더링된다 (최적화 미적용 확인) | [`08`](./08_accessibility_legal.md) §3.2 |

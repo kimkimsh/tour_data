@@ -1,0 +1,78 @@
+{
+  "poiSlug": "gongsanseong",
+  "title": "금서루 진입 — 공북루·쌍수정 방향",
+  "entranceName": "금서루 (서문)",
+  "personaFlags": ["P1a", "P1b", "P3"],
+  "totalDistanceM": null,
+  "totalMinutes": null,
+  "evidenceLevel": "desk",
+  "evidenceNote": "공주시 공식 안내와 한국관광공사 열린관광 모두의 여행 페이지(2026-07-03 수정), 공주시 공식 리플렛 지도를 근거로 작성했다. 현장 실측은 하지 않았고 구간별 거리와 좌표는 측정하지 않아 비워 두었다. 이 경로는 「휠체어 이용자는 금서루에서 공북루 방향, 금서루에서 쌍수정 방향까지 산책하듯 이동할 수 있다」는 공개 문장 하나에 근거한다 — 공산성 전체 순환 코스가 아니다.",
+  "checkedAt": "2026-09-02",
+  "steps": [
+    {
+      "seq": 1,
+      "action": "enter",
+      "title": "매표소 주차장에서 시작합니다",
+      "easyText": "장애인 주차구역은 매표소 주차장에 2칸 있습니다.",
+      "detail": "방문자센터 주차장에도 1칸이 있지만 평시에는 열지 않고 미리 연락해야 합니다. 매표소 041-840-2265. 일반 주차는 승용차와 버스 모두 무료입니다.",
+      "distanceM": null,
+      "surface": "포장",
+      "slopeNote": "평탄",
+      "hazard": null,
+      "photoUrl": null,
+      "coord": { "lat": 36.4629499677019, "lng": 127.126790610397 }
+    },
+    {
+      "seq": 2,
+      "action": "restroom",
+      "title": "올라가기 전에 화장실을 씁니다",
+      "easyText": "장애인 화장실은 안내소 옆과 금서루 아래에 있습니다.",
+      "detail": "성벽길에 올라가면 화장실이 확인된 지점이 없습니다. 여기서 쓰고 올라가는 편이 낫습니다.",
+      "distanceM": null,
+      "surface": "포장",
+      "slopeNote": "평탄",
+      "hazard": null,
+      "photoUrl": null,
+      "coord": null
+    },
+    {
+      "seq": 3,
+      "action": "enter",
+      "title": "금서루로 들어갑니다",
+      "easyText": "출입구까지 경사로가 있습니다.",
+      "detail": "공산성의 네 문 가운데 서문인 금서루가 대표문이고, 매표소와 방문자센터가 여기 있습니다. 경사로로 이루어져 있지만 흙 구간과 일부 접근이 어려운 구간이 섞여 있다고 안내돼 있습니다.",
+      "distanceM": null,
+      "surface": "포장과 흙 구간이 섞여 있습니다",
+      "slopeNote": "완만한 오르막",
+      "hazard": null,
+      "photoUrl": null,
+      "coord": null
+    },
+    {
+      "seq": 4,
+      "action": "move",
+      "title": "금서루에서 공북루 방향으로 갑니다",
+      "easyText": "이 방향은 산책하듯 갈 수 있는 구간입니다.",
+      "detail": "공식 관람코스 02번(30분)의 앞부분에 해당합니다. 성벽 총길이는 2,660m이고 이 구간은 그중 일부입니다.",
+      "distanceM": null,
+      "surface": "포장과 흙 구간이 섞여 있습니다",
+      "slopeNote": "완만한 오르막",
+      "hazard": "성벽길 한쪽이 절벽입니다. 길 가장자리에서 떨어져 이동하세요.",
+      "photoUrl": null,
+      "coord": null
+    },
+    {
+      "seq": 5,
+      "action": "rest",
+      "title": "쌍수정 방향에서 쉽니다",
+      "easyText": "쌍수정 사적비 옆에 쉼터와 수유실이 있습니다.",
+      "detail": "금서루에서 쌍수정 방향도 같은 방식으로 갈 수 있습니다. 성벽 둘레길 중간에 벤치가 있습니다.",
+      "distanceM": null,
+      "surface": "포장과 흙 구간이 섞여 있습니다",
+      "slopeNote": "완만한 오르막",
+      "hazard": "이 두 방향 밖의 성벽길은 경사가 매우 높아 휠체어로는 접근 자체가 어렵습니다. 연지에는 바닥까지 내려가는 계단이 있습니다.",
+      "photoUrl": null,
+      "coord": null
+    }
+  ]
+}

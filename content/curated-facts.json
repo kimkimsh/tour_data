@@ -1,0 +1,439 @@
+[
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "parking",
+    "status": "supported",
+    "detail": "장애인 주차장 있음(매표소주차장 2대, 방문자센터 1대). 방문자센터 주차장은 평시 개방하지 않고 사전 연락 필요.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de (열린관광 모두의 여행, 페이지 수정일 2026-07-03)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "access_route",
+    "status": "supported",
+    "detail": "출입구까지 경사로가 설치되어 있음",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de (열린관광 모두의 여행, 페이지 수정일 2026-07-03)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "entrance_passage",
+    "status": "partial",
+    "detail": "경사로로 이루어져 있으나 흙구간 및 일부구간 접근 어려움",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de (열린관광 모두의 여행, 페이지 수정일 2026-07-03)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "restroom",
+    "status": "supported",
+    "detail": "장애인 화장실 있음(안내소 옆, 금서루 아래)",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de (열린관광 모두의 여행, 페이지 수정일 2026-07-03)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "detail": "휠체어 이용자의 경우 금서루에서 공북루 방향, 금서루에서 쌍수정 방향까지 산책하듯 이동할 수 있는 구간. 이외의 경로는 접근 자체가 어렵거나 경사도가 매우 높음.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de (지체장애 기타상세 원문. 원문에 「휠처」 오타가 있어 표기만 바로잡았다)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "nursing_room",
+    "status": "supported",
+    "detail": "쌍수정 사적비 옆에 관광객 쉼터와 수유실이 있다",
+    "source": "https://cyber.gongju.go.kr/onnuri/sub05_01_05.do (공주시 사이버공주)",
+    "checkedAt": "2026-09-02"
+  },
+
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "parking",
+    "status": "supported",
+    "detail": "장애인 전용 주차구역 있음(미세먼지 쉼터 앞쪽/2개). 2023년 열린관광지 사업으로 보행안전통로·경사로·입식표지판을 함께 정비했다.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 (페이지 수정일 2025-11-21) · https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "access_route",
+    "status": "supported",
+    "detail": "출입구까지 턱이 없어 휠체어 접근 가능함. 매표소 앞 무장애 보행로를 재정비하고 음성 신호장치를 설치했다.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 · https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "entrance_passage",
+    "status": "supported",
+    "detail": "주출입구는 턱이 없어 휠체어 접근 가능함",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 (페이지 수정일 2025-11-21)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "wheelchair",
+    "status": "supported",
+    "detail": "휠체어 대여 가능함(4대/관광안내소)",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 (페이지 수정일 2025-11-21)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "restroom",
+    "status": "supported",
+    "detail": "장애인 전용 화장실 있음(입구, 휴식광장). 출입문 점자표지판과 점형블록, 대변기 등받이·세면대 손잡이·비상호출벨·영유아거치대를 「장애인등편의법」 기준으로 설치했다.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 · https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "stroller",
+    "status": "supported",
+    "detail": "유모차 대여 가능함 (2대)",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 (페이지 수정일 2025-11-21)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "nursing_room",
+    "status": "supported",
+    "detail": "수유실(고분군 쉼터)",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e (열린관광지 조성내역)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "braille_block",
+    "status": "supported",
+    "detail": "화장실 출입문 점자표지판 및 점형블록 설치",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e (열린관광지 조성내역)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "braille_promotion",
+    "status": "supported",
+    "detail": "촉지음성종합관광안내판 및 현판 설치. 관광안내소 경사로 옆 핸드레일 및 점자표지판 설치.",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e (열린관광지 조성내역)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "audio_guide",
+    "status": "supported",
+    "detail": "관광지 음성해설 오디(Odii) 제공. 매표소 앞 음성 신호장치 설치.",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e (무장애 관광지 정보 · 조성내역)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "detail": "무령왕릉과 왕릉원 내 일부 보행로는 동행자 동반 필요",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e (무장애 관광지 정보 원문)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "elevator",
+    "status": "unknown",
+    "detail": "인접 시설인 웅진백제역사관에 엘리베이터가 있다(운영 10:00~17:00, 041-840-2226). 왕릉원 본체의 엘리베이터 유무는 확인되지 않았다.",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e — 별개 시설의 시설을 이 관광지의 것으로 올리지 않는다",
+    "checkedAt": "2026-09-02"
+  },
+
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "parking",
+    "status": "supported",
+    "detail": "장애인 주차장 있음. 전체 주차 승용차 96대, 버스 21대.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05) · https://gongju.museum.go.kr/kor/sub01_01_02.do",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "access_route",
+    "status": "supported",
+    "detail": "출입구까지 경사로가 설치되어 있음",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "entrance_passage",
+    "status": "supported",
+    "detail": "주출입구는 경사로가 있어 휠체어 접근 가능함",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "elevator",
+    "status": "supported",
+    "detail": "엘리베이터 있음",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "restroom",
+    "status": "supported",
+    "detail": "장애인 화장실 있음. 다만 박물관 자체 시설배치도에는 장애인 화장실 표기가 없고 일반 화장실만 있다.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d · 배치도 https://gongju.museum.go.kr/kor/sub01_01_02.do",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "audio_guide",
+    "status": "supported",
+    "detail": "음성안내어플 제공",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "wheelchair",
+    "status": "supported",
+    "detail": "대여가능(2대)",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "stroller",
+    "status": "supported",
+    "detail": "대여가능(4대/24개월 미만)",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "nursing_room",
+    "status": "supported",
+    "detail": "수유실 있음",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
+    "checkedAt": "2026-09-02"
+  },
+
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "parking",
+    "status": "supported",
+    "detail": "장애인 주차장 최소 6칸 있음(주차장이 3군데 있는데 1군데당 장애인주차장 최소 2칸). 전차량 무료.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c (페이지 수정일 2026-02-09) · https://www.buyeo.go.kr/html/heritage/sub2/sub2_0201.html",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "access_route",
+    "status": "supported",
+    "detail": "주출입구는 경사로가 있어 휠체어 접근 가능함. 단차없는 출입구(경사로 있음).",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c · https://www.buyeo.go.kr/html/tour/info/info_010101.html",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "restroom",
+    "status": "supported",
+    "detail": "장애인 화장실 있음(주차장 안쪽)",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c (페이지 수정일 2026-02-09)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "wheelchair",
+    "status": "supported",
+    "detail": "휠체어 대여 가능. 매표소(정문, 구문).",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여군 편의시설 표) · https://www.buyeo.go.kr/html/heritage/sub2/sub2_0201.html",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "stroller",
+    "status": "supported",
+    "detail": "유모차 대여 가능",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여군 편의시설 표)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "elevator",
+    "status": "unsupported",
+    "detail": "부여군 편의시설 표의 「장애인 전용 엘리베이터」 항목이 「없음」이다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여군 편의시설 표 — 6곳 중 항목별 있음/없음을 명시하는 유일한 출처)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "braille_block",
+    "status": "unsupported",
+    "detail": "부여군 편의시설 표의 「시각장애인 편의 서비스(점자블록 등)」 항목이 「없음」이다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여군 편의시설 표)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "nursing_room",
+    "status": "unsupported",
+    "detail": "부여군 편의시설 표의 「수유실 유무」 항목이 「없음」이다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여군 편의시설 표)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "detail": "낙화암, 고란사 가는 길은 경사가 심한 돌길이라 휠체어와 유모차 진입 어려움. 부여군 공식 관람코스 3종이 모두 낙화암·고란사를 지난다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html · https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c (두 출처가 같은 문장을 쓴다)",
+    "checkedAt": "2026-09-02"
+  },
+
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "parking",
+    "status": "supported",
+    "detail": "장애인 전용 주차구역 있음(무장애 여행기사는 4면으로 적는다). 전차량 무료.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=3ad56277-1887-4fe5-b7fe-7e8a62f8bb5b (페이지 수정일 2026-06-01) · https://www.buyeo.go.kr/html/tour/info/info_010102.html",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "access_route",
+    "status": "supported",
+    "detail": "단차없는 출입구(경사로 있음)",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010102.html (부여군 편의시설 표)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "restroom",
+    "status": "supported",
+    "detail": "장애인 전용 화장실 있음. 주차장과 박물관 외부, 내부 세 곳.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=3ad56277-1887-4fe5-b7fe-7e8a62f8bb5b · access.visitkorea 무장애 여행기사",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "elevator",
+    "status": "partial",
+    "detail": "두 공식 출처가 다르다. 부여군 편의시설 표는 「장애인 전용 엘리베이터: 있음」이라 적고, 한국관광공사 무장애 여행기사는 「정림사지박물관에는 1, 2층 사이에 엘리베이터가 없으나 휠체어 전용 리프트가 준비되어 있다」고 적는다. 리프트는 엘리베이터가 아니므로 방문 전 확인이 필요하다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010102.html (있음) · access.visitkorea 무장애 여행기사 (없음 + 휠체어 리프트) — 두 문장을 그대로 병기한다",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "braille_block",
+    "status": "supported",
+    "detail": "부여군 편의시설 표의 「시각장애인 편의 서비스(점자블록 등)」 항목이 「있음」이다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010102.html (부여군 편의시설 표)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "wheelchair",
+    "status": "supported",
+    "detail": "휠체어 대여 가능. 매표소.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010102.html (부여군 편의시설 표)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "stroller",
+    "status": "supported",
+    "detail": "유모차 대여 가능",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010102.html (부여군 편의시설 표) · https://www.buyeo.go.kr/html/heritage/sub2/sub2_0202.html",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "nursing_room",
+    "status": "supported",
+    "detail": "부여군 편의시설 표의 「수유실 유무」 항목이 「있음」이다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010102.html (부여군 편의시설 표)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "detail": "주차장에서 진입로를 거쳐 5층석탑, 석불좌상, 절터 등이 있는 야외 구역과 정림사지박물관 실내 구역 모두 휠체어 진행이 쉽다. 다만 박석이 깔려있어 다소 지나기 불편하다.",
+    "source": "access.visitkorea 무장애 여행기사 (관광지 상세 페이지가 아니라 기사 본문이 출처다)",
+    "checkedAt": "2026-09-02"
+  },
+
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "parking",
+    "status": "supported",
+    "detail": "장애인 주차장 있음(4대). 전체 소형 82대, 대형 29대, 전기차 충전 2면. 관람시간 내 무료.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=a8f5739d-84fa-47b7-801a-9c8292ccc7f1 (페이지 수정일 2026-07-21) · https://buyeo.museum.go.kr/content.do?key=2304170003",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "access_route",
+    "status": "supported",
+    "detail": "출입구까지 경사로가 설치되어 있음",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=a8f5739d-84fa-47b7-801a-9c8292ccc7f1 (페이지 수정일 2026-07-21)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "restroom",
+    "status": "supported",
+    "detail": "장애인 화장실 있음",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=a8f5739d-84fa-47b7-801a-9c8292ccc7f1 (페이지 수정일 2026-07-21)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "stroller",
+    "status": "supported",
+    "detail": "전시관 내에 유모차 4대 보유",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=a8f5739d-84fa-47b7-801a-9c8292ccc7f1 (페이지 수정일 2026-07-21)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "nursing_room",
+    "status": "supported",
+    "detail": "수유실 있음",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=a8f5739d-84fa-47b7-801a-9c8292ccc7f1 (페이지 수정일 2026-07-21)",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "sign_guide",
+    "status": "partial",
+    "detail": "스마트 키오스크 2대(상설전시관 중앙 로비·어린이박물관 로비)에서 수어 검색 기능과 주요 전시품의 수어 아바타·수어 영상을 제공한다. 관 전체가 아니라 로비 2대에 한정된다.",
+    "source": "국립중앙박물관 보도자료 「국립부여박물관 수어 전시 안내 서비스 개시」 2024-03-28 https://www.museum.go.kr/site/main/archive/post/article_19740",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "braille_promotion",
+    "status": "partial",
+    "detail": "스마트 키오스크에서 점자가 출력된다. 상설전시관 중앙 로비와 어린이박물관 로비 2대에 한정된다.",
+    "source": "국립중앙박물관 보도자료 2024-03-28 https://www.museum.go.kr/site/main/archive/post/article_19740",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "big_print",
+    "status": "partial",
+    "detail": "스마트 키오스크의 화면 글씨 확대와 색상 고대비 화면. 인쇄 홍보물의 큰 활자 여부는 확인되지 않았다.",
+    "source": "국립중앙박물관 보도자료 2024-03-28 https://www.museum.go.kr/site/main/archive/post/article_19740",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "audio_guide",
+    "status": "supported",
+    "detail": "국립박물관 통합 「전시안내」 앱의 소속박물관 목록에 부여가 포함된다. 개인 이어폰 지참이 필요하다.",
+    "source": "https://www.museum.go.kr/MUSEUM/contents/M0102010400.do",
+    "checkedAt": "2026-09-02"
+  }
+]

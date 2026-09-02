@@ -1,0 +1,82 @@
+[
+  {
+    "id": "fire-119",
+    "labelKo": "119 소방·구급",
+    "labelEn": "119 Fire and ambulance",
+    "tel": "119",
+    "cityKo": null,
+    "note": "음성 통화가 어려우면 문자(119로 전송, 사진·동영상 첨부 가능), 영상통화, 119신고 앱, 인터넷(www.119.go.kr)으로도 신고할 수 있습니다.",
+    "sourceNote": "다매체 신고 4가지 방식 — 대한민국 정책브리핑 2023-10-27 https://www.korea.kr/news/policyNewsView.do?newsId=148921861",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "id": "tourism-1330",
+    "labelKo": "1330 관광통역안내",
+    "labelEn": "1330 Korea Travel Hotline",
+    "tel": "1330",
+    "cityKo": null,
+    "note": "한국관광공사 운영. 전국 관광안내·통역·관광불편신고를 24시간 상담합니다. 지역번호 없이 1330.",
+    "sourceNote": "한국관광공사 자주 묻는 질문 https://knto.or.kr/customerFaq?srchCtgry=1 — 지원 언어 개수는 이 페이지에 없어 적지 않는다",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "id": "consular-domestic",
+    "labelKo": "외교부 영사안전콜센터 (국내)",
+    "labelEn": "Consular Safety Call Center (from Korea)",
+    "tel": "02-3210-0404",
+    "cityKo": null,
+    "note": "연중무휴 24시간. 유료입니다. ARS 1번 사건·사고, 2번 외국어 통역, 3번 여권, 4번 입국 허가요건. 통역은 영어·중국어·일본어·베트남어·프랑스어·러시아어·스페인어 7개 언어.",
+    "sourceNote": "외교부 해외안전여행 콜센터 이용안내 https://0404.go.kr/bbs/contsPst/MST0000000000105/5/detail — 현재 공식 명칭은 「영사안전콜센터」이며 「영사콜센터」는 구 명칭이다",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "id": "consular-overseas",
+    "labelKo": "외교부 영사안전콜센터 (해외에서)",
+    "labelEn": "Consular Safety Call Center (from abroad)",
+    "tel": "+82-2-3210-0404",
+    "cityKo": null,
+    "note": "연중무휴 24시간. 유료입니다. 무료전화앱, 카카오톡·위챗·라인 상담도 있습니다.",
+    "sourceNote": "외교부 해외안전여행 콜센터 이용안내 https://0404.go.kr/bbs/contsPst/MST0000000000105/5/detail",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "id": "call-taxi-chungnam",
+    "labelKo": "충남광역이동지원센터 (장애인콜택시)",
+    "labelEn": "Chungnam Accessible Taxi Center",
+    "tel": "1644-5588",
+    "cityKo": null,
+    "note": "연중무휴 24시간 운행. 공주시·부여군 모두 이 번호로 예약합니다.",
+    "sourceNote": "https://www.16445588.or.kr/ — 공주시청·충남광역·공공데이터포털·열린관광 네 출처가 모두 이 번호를 확인한다",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "id": "call-taxi-buyeo",
+    "labelKo": "부여군 교통약자이동지원센터",
+    "labelEn": "Buyeo Accessible Transport Center",
+    "tel": "041-836-2155",
+    "cityKo": "부여군",
+    "note": "충남지체장애인협회 부여군지부 운영. 차량 9대. 평일 08:00~22:00, 주말·공휴일 09:00~18:00. 관외 운행은 08~18시.",
+    "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준)과 공공데이터포털 15028207이 같은 번호를 확인한다",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "id": "er-gongju",
+    "labelKo": "충청남도 공주의료원 응급실",
+    "labelEn": "Gongju Medical Center Emergency Room",
+    "tel": "041-962-1365",
+    "cityKo": "공주시",
+    "note": "충청남도 공주시 무령로 77. 지역응급의료기관. 연중 24시간 야간콜제 운영.",
+    "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom",
+    "checkedAt": "2026-09-02"
+  },
+  {
+    "id": "er-buyeo",
+    "labelKo": "건양대학교 부여병원 응급실",
+    "labelEn": "Konyang University Buyeo Hospital Emergency Room",
+    "tel": "041-837-1200",
+    "cityKo": "부여군",
+    "note": "충남 부여군 부여읍 계백로 200. 지역응급의료기관. 응급실 365일 24시간. 부여지역 유일의 응급실 운영 병원입니다.",
+    "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do — 병원 푸터의 042 번호는 대전 본원 응급센터이므로 쓰지 않는다",
+    "checkedAt": "2026-09-02"
+  }
+]

@@ -1,0 +1,455 @@
+[
+  {
+    "slug": "gongsanseong",
+    "ktoContentId": "UNRESOLVED",
+    "contentTypeId": 12,
+    "depthTier": "A",
+    "coord": {
+      "lat": 36.4629499677019,
+      "lng": 127.126790610397
+    },
+    "lDongRegnCd": "44",
+    "lDongSignguCd": "150",
+    "signguCd5": "44150",
+    "lclsSystm3": "HS010200",
+    "cityKo": "공주시",
+    "cityEn": "Gongju",
+    "heritageLabel": "사적 「공주 공산성」",
+    "isUnescoComponent": true,
+    "unescoComponentNote": null,
+    "ktoModifiedAt": null,
+    "i18n": {
+      "ko": {
+        "title": "공산성",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      },
+      "en": {
+        "title": "Gongsanseong Fortress",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      }
+    },
+    "media": [],
+    "certifications": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "충청남도 공주의료원 응급실",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-962-1365",
+        "detail": "충청남도 공주시 무령로 77 · 지역응급의료기관 · 연중 24시간 야간콜제 운영 · 응급실 직통 041-962-1365 / 041-962-1366",
+        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom — 좌표는 공식 출처에서 확인하지 못해 비웠다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 화장실 (안내소 옆, 금서루 아래)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "안내소 옆, 금서루 아래",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "충남광역이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "1644-5588",
+        "detail": "연중무휴 24시간 운행. 공주시 지역번호는 두 공식 출처가 041-852-5858과 041-881-7632로 갈려 있어 확인 전까지 싣지 않는다.",
+        "sourceNote": "https://www.16445588.or.kr/",
+        "checkedAt": "2026-09-02"
+      }
+    ],
+    "etcNotes": []
+  },
+  {
+    "slug": "muryeong-royal-tombs",
+    "ktoContentId": "UNRESOLVED",
+    "contentTypeId": 12,
+    "depthTier": "B",
+    "coord": {
+      "lat": 36.46052611578204,
+      "lng": 127.11250769165848
+    },
+    "lDongRegnCd": "44",
+    "lDongSignguCd": "150",
+    "signguCd5": "44150",
+    "lclsSystm3": "HS010800",
+    "cityKo": "공주시",
+    "cityEn": "Gongju",
+    "heritageLabel": "사적 「공주 무령왕릉과 왕릉원」",
+    "isUnescoComponent": true,
+    "unescoComponentNote": "2021-09-17 관보 고시로 「공주 송산리 고분군」에서 개칭됐다. 확장 목록에 옛 이름을 다시 쓰면 같은 곳을 두 번 세게 된다.",
+    "ktoModifiedAt": null,
+    "i18n": {
+      "ko": {
+        "title": "무령왕릉과 왕릉원",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      },
+      "en": {
+        "title": "Royal Tomb of King Muryeong and Tombs",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      }
+    },
+    "media": [],
+    "certifications": [
+      {
+        "grade": "open_tourism",
+        "validUntil": null,
+        "sourceNote": "2023년 열린관광지 지정 · 한국관광공사 https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e · 선정 보도자료 https://knto.or.kr/pressRelease/446743 (2022-11-29) · 6곳 중 열린관광지 배지가 붙은 유일한 곳이며 전국 연도별 지정 목록 전수 확인",
+        "checkedAt": "2026-09-02"
+      }
+    ],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "충청남도 공주의료원 응급실",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-962-1365",
+        "detail": "충청남도 공주시 무령로 77 · 지역응급의료기관 · 연중 24시간 야간콜제 운영",
+        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom — 좌표는 공식 출처에서 확인하지 못해 비웠다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "aed",
+        "name": "웅진백제역사문화관 (해설사 데스크 옆)",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-856-0331",
+        "detail": "충청남도 공주시 왕릉로 37 — 관광지 주소와 같다",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 https://www.e-gen.or.kr/egen/search_aed.do — 좌표는 결과 화면에 지도 마커로만 표시돼 얻지 못했다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 화장실 (입구, 휴식광장)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "무령왕릉과 왕릉원 입구 화장실 · 무령왕릉과 왕릉원 내 휴식광장 화장실",
+        "sourceNote": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "충남광역이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "1644-5588",
+        "detail": "연중무휴 24시간 운행",
+        "sourceNote": "https://www.16445588.or.kr/",
+        "checkedAt": "2026-09-02"
+      }
+    ],
+    "etcNotes": []
+  },
+  {
+    "slug": "gongju-national-museum",
+    "ktoContentId": "UNRESOLVED",
+    "contentTypeId": 14,
+    "depthTier": "B",
+    "coord": {
+      "lat": 36.466521870854514,
+      "lng": 127.11004240025987
+    },
+    "lDongRegnCd": "44",
+    "lDongSignguCd": "150",
+    "signguCd5": "44150",
+    "lclsSystm3": "VE070100",
+    "cityKo": "공주시",
+    "cityEn": "Gongju",
+    "heritageLabel": null,
+    "isUnescoComponent": false,
+    "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
+    "ktoModifiedAt": null,
+    "i18n": {
+      "ko": {
+        "title": "국립공주박물관",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      },
+      "en": {
+        "title": "Gongju National Museum",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      }
+    },
+    "media": [],
+    "certifications": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "충청남도 공주의료원 응급실",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-962-1365",
+        "detail": "충청남도 공주시 무령로 77 · 지역응급의료기관 · 연중 24시간 야간콜제 운영",
+        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom — 좌표는 공식 출처에서 확인하지 못해 비웠다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "충남광역이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "1644-5588",
+        "detail": "연중무휴 24시간 운행",
+        "sourceNote": "https://www.16445588.or.kr/",
+        "checkedAt": "2026-09-02"
+      }
+    ],
+    "etcNotes": []
+  },
+  {
+    "slug": "busosanseong",
+    "ktoContentId": "UNRESOLVED",
+    "contentTypeId": 12,
+    "depthTier": "A",
+    "coord": {
+      "lat": 36.2854842254116,
+      "lng": 126.913349221455
+    },
+    "lDongRegnCd": "44",
+    "lDongSignguCd": "760",
+    "signguCd5": "44760",
+    "lclsSystm3": "HS010200",
+    "cityKo": "부여군",
+    "cityEn": "Buyeo",
+    "heritageLabel": "사적 「부여 부소산성」",
+    "isUnescoComponent": true,
+    "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고 우리가 다루는 것은 그중 부소산성이다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있다.",
+    "ktoModifiedAt": null,
+    "i18n": {
+      "ko": {
+        "title": "부소산성",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      },
+      "en": {
+        "title": "Busosanseong Fortress",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      }
+    },
+    "media": [],
+    "certifications": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관(2007-09 지정) · 응급실 365일 24시간 연중 무휴 · 부여지역 유일의 응급실 운영 병원",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do — 병원 푸터의 042 번호는 대전 본원이므로 쓰지 않는다. 좌표는 얻지 못했다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 화장실 (주차장 안쪽)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "주차장 안쪽",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 광역 예약은 1644-5588",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · data.go.kr 15028207",
+        "checkedAt": "2026-09-02"
+      }
+    ],
+    "etcNotes": []
+  },
+  {
+    "slug": "jeongnimsaji",
+    "ktoContentId": "UNRESOLVED",
+    "contentTypeId": 12,
+    "depthTier": "B",
+    "coord": {
+      "lat": 36.2796849209123,
+      "lng": 126.913246608324
+    },
+    "lDongRegnCd": "44",
+    "lDongSignguCd": "760",
+    "signguCd5": "44760",
+    "lclsSystm3": "HS010700",
+    "cityKo": "부여군",
+    "cityEn": "Buyeo",
+    "heritageLabel": "사적 「부여 정림사지」",
+    "isUnescoComponent": true,
+    "unescoComponentNote": null,
+    "ktoModifiedAt": null,
+    "i18n": {
+      "ko": {
+        "title": "정림사지",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      },
+      "en": {
+        "title": "Jeongnimsa Temple Site",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      }
+    },
+    "media": [],
+    "certifications": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 응급실 365일 24시간 연중 무휴",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do — 좌표는 얻지 못했다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "aed",
+        "name": "정림사지박물관 로비",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-832-2721",
+        "detail": "충청남도 부여군 부여읍 정림로 83",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 — 좌표는 지도 마커로만 표시돼 얻지 못했다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 화장실 (주차장 · 박물관 외부 · 박물관 내부)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "주차장과 박물관 외부, 내부 세 곳",
+        "sourceNote": "https://access.visitkorea.or.kr 무장애 여행기사 — 관광지 상세 페이지가 아니라 기사 본문이 출처다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 광역 예약은 1644-5588",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준)",
+        "checkedAt": "2026-09-02"
+      }
+    ],
+    "etcNotes": []
+  },
+  {
+    "slug": "buyeo-national-museum",
+    "ktoContentId": "UNRESOLVED",
+    "contentTypeId": 14,
+    "depthTier": "B",
+    "coord": {
+      "lat": 36.2763354234101,
+      "lng": 126.918948928223
+    },
+    "lDongRegnCd": "44",
+    "lDongSignguCd": "760",
+    "signguCd5": "44760",
+    "lclsSystm3": "VE070100",
+    "cityKo": "부여군",
+    "cityEn": "Buyeo",
+    "heritageLabel": null,
+    "isUnescoComponent": false,
+    "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
+    "ktoModifiedAt": null,
+    "i18n": {
+      "ko": {
+        "title": "국립부여박물관",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      },
+      "en": {
+        "title": "Buyeo National Museum",
+        "overview": null,
+        "addr": null,
+        "tel": null,
+        "homepage": null
+      }
+    },
+    "media": [],
+    "certifications": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 응급실 365일 24시간 연중 무휴",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do — 좌표는 얻지 못했다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "aed",
+        "name": "어린이박물관",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-830-8412",
+        "detail": "충청남도 부여군 부여읍 금성로 5 — 관광지 주소와 같다",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 — 좌표는 지도 마커로만 표시돼 얻지 못했다",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "parking",
+        "name": "국립부여박물관 주차장",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "관람시간 내 무료 · 소형 82대, 대형 29대 · 전기차 충전 2면",
+        "sourceNote": "https://buyeo.museum.go.kr/content.do?key=2304170003",
+        "checkedAt": "2026-09-02"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 광역 예약은 1644-5588",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준)",
+        "checkedAt": "2026-09-02"
+      }
+    ],
+    "etcNotes": []
+  }
+]

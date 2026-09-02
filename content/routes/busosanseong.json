@@ -1,0 +1,78 @@
+{
+  "poiSlug": "busosanseong",
+  "title": "부소산문 진입 — 삼충사 방향",
+  "entranceName": "부소산문 (정문)",
+  "personaFlags": ["P1a", "P1b", "P3"],
+  "totalDistanceM": null,
+  "totalMinutes": null,
+  "evidenceLevel": "desk",
+  "evidenceNote": "부여군 공식 편의시설 표와 관람 안내, 한국관광공사 열린관광 모두의 여행 페이지(2026-02-09 수정), 부여군 공식 리플렛 지도, 충청남도 관광 기사를 근거로 작성했다. 현장 실측은 하지 않았고 구간별 거리와 좌표는 측정하지 않아 비워 두었다. 부여군 공식 관람코스 3종은 모두 낙화암·고란사를 지나는데 그 구간이 「경사가 심한 돌길이라 휠체어와 유모차 진입 어려움」이라고 안내돼 있어, 이 경로는 그 분기점에서 끊었다.",
+  "checkedAt": "2026-09-02",
+  "steps": [
+    {
+      "seq": 1,
+      "action": "enter",
+      "title": "주차장에서 시작합니다",
+      "easyText": "주차장은 세 군데 있고, 한 군데마다 장애인 주차구역이 최소 2칸씩 있습니다.",
+      "detail": "정문 쪽 주차장 주소는 부여읍 성왕로 247-9입니다. 주차비는 전차량 무료이고, 관광버스를 댈 공간이 따로 있습니다.",
+      "distanceM": null,
+      "surface": "포장",
+      "slopeNote": "평탄",
+      "hazard": null,
+      "photoUrl": null,
+      "coord": { "lat": 36.2854842254116, "lng": 126.913349221455 }
+    },
+    {
+      "seq": 2,
+      "action": "restroom",
+      "title": "주차장 안쪽에서 화장실을 씁니다",
+      "easyText": "장애인 화장실은 주차장 안쪽에 있습니다.",
+      "detail": "산성 안쪽 화장실은 리플렛 지도의 기호로만 확인했고 문장으로 안내된 위치가 없습니다.",
+      "distanceM": null,
+      "surface": "포장",
+      "slopeNote": "평탄",
+      "hazard": null,
+      "photoUrl": null,
+      "coord": null
+    },
+    {
+      "seq": 3,
+      "action": "enter",
+      "title": "부소산문 매표소를 지납니다",
+      "easyText": "매표소에서 휠체어와 유모차를 빌릴 수 있습니다.",
+      "detail": "매표소는 정문과 구문 두 곳입니다. 부소산문 041-830-2884, 구문 041-830-2885. 만 6세 이하·65세 이상·장애인·부여군민은 무료입니다. 주출입구는 경사로가 있어 휠체어 접근이 가능합니다.",
+      "distanceM": null,
+      "surface": "포장",
+      "slopeNote": "완만한 오르막",
+      "hazard": null,
+      "photoUrl": null,
+      "coord": null
+    },
+    {
+      "seq": 4,
+      "action": "move",
+      "title": "삼충사 방향 숲길로 갑니다",
+      "easyText": "숲 사이로 난 길을 따라 완만하게 오르내립니다.",
+      "detail": "부소산은 해발 106m이고 성벽 총길이는 약 2.5km입니다. 이 구간의 노면 재질(포장·흙·자갈)은 공개 자료에서 확인하지 못했습니다.",
+      "distanceM": null,
+      "surface": null,
+      "slopeNote": "완만한 오르막",
+      "hazard": null,
+      "photoUrl": null,
+      "coord": null
+    },
+    {
+      "seq": 5,
+      "action": "caution",
+      "title": "낙화암·고란사 갈림길에서 멈춥니다",
+      "easyText": "여기부터는 휠체어와 유아차로 갈 수 없습니다.",
+      "detail": "낙화암과 고란사 가는 길은 경사가 심한 돌길입니다. 부여군과 한국관광공사가 같은 문장으로 안내하고 있습니다. 부소산의 동쪽과 북쪽은 가파르고 백마강과 맞닿아 있습니다. 되돌아 나오는 길은 올라온 길과 같습니다.",
+      "distanceM": null,
+      "surface": "돌길",
+      "slopeNote": "가파른 구간 있음",
+      "hazard": "휠체어와 유아차는 이 지점에서 되돌아 나오세요. 부여군 공식 관람코스 3종이 모두 이 구간을 지나므로, 안내된 코스를 그대로 따라갈 수는 없습니다.",
+      "photoUrl": null,
+      "coord": null
+    }
+  ]
+}

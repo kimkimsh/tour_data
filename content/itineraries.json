@@ -1,0 +1,44 @@
+[
+  {
+    "id": "gongju-half-day",
+    "budgetMode": "half_day",
+    "titleKo": "공주 반나절 — 공산성 중심",
+    "titleEn": "Half a day in Gongju — around Gongsanseong",
+    "orderedPoiSlugs": ["gongsanseong", "gongju-national-museum"],
+    "stayMinutes": [90, 60],
+    "transferMinutes": [20],
+    "note": "체류·이동 시간은 관광지 공식 안내의 관람 소요시간과 지도 앱 자동차 경로를 근거로 우리가 잡은 값입니다. 현장 실측은 하지 않았습니다."
+  },
+  {
+    "id": "gongju-buyeo-full-day",
+    "budgetMode": "full_day",
+    "titleKo": "공주·부여 당일 — 웅진에서 사비로",
+    "titleEn": "One day across Gongju and Buyeo — Ungjin to Sabi",
+    "orderedPoiSlugs": [
+      "gongsanseong",
+      "gongju-national-museum",
+      "busosanseong",
+      "jeongnimsaji"
+    ],
+    "stayMinutes": [90, 60, 80, 40],
+    "transferMinutes": [20, 50, 15],
+    "note": "공주에서 부여로 넘어가는 구간이 50분입니다. 오래 걷기 어려운 분과 함께라면 이 구간에서 한 번 쉬는 것을 전제로 보십시오."
+  },
+  {
+    "id": "gongju-buyeo-two-days",
+    "budgetMode": "two_days",
+    "titleKo": "1박 2일 — 공주 3곳, 부여 3곳",
+    "titleEn": "Two days — three sites in Gongju, three in Buyeo",
+    "orderedPoiSlugs": [
+      "gongsanseong",
+      "muryeong-royal-tombs",
+      "gongju-national-museum",
+      "busosanseong",
+      "jeongnimsaji",
+      "buyeo-national-museum"
+    ],
+    "stayMinutes": [90, 60, 60, 80, 40, 60],
+    "transferMinutes": [15, 10, 60, 15, 10],
+    "note": "1일차는 공주 3곳, 2일차는 부여 3곳입니다. 세 번째와 네 번째 사이의 60분이 숙박을 끼는 이동 구간입니다."
+  }
+]

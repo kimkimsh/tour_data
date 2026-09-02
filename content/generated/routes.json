@@ -1,0 +1,172 @@
+[
+  {
+    "poiSlug": "gongsanseong",
+    "title": "금서루 진입 — 공북루·쌍수정 방향",
+    "entranceName": "금서루 (서문)",
+    "personaFlags": [
+      "P1a",
+      "P1b",
+      "P3"
+    ],
+    "totalDistanceM": null,
+    "totalMinutes": null,
+    "evidenceLevel": "desk",
+    "evidenceNote": "공주시 공식 안내와 한국관광공사 열린관광 모두의 여행 페이지(2026-07-03 수정), 공주시 공식 리플렛 지도를 근거로 작성했다. 현장 실측은 하지 않았고 구간별 거리와 좌표는 측정하지 않아 비워 두었다. 이 경로는 「휠체어 이용자는 금서루에서 공북루 방향, 금서루에서 쌍수정 방향까지 산책하듯 이동할 수 있다」는 공개 문장 하나에 근거한다 — 공산성 전체 순환 코스가 아니다.",
+    "checkedAt": "2026-09-02",
+    "steps": [
+      {
+        "seq": 1,
+        "action": "enter",
+        "title": "매표소 주차장에서 시작합니다",
+        "easyText": "장애인 주차구역은 매표소 주차장에 2칸 있습니다.",
+        "detail": "방문자센터 주차장에도 1칸이 있지만 평시에는 열지 않고 미리 연락해야 합니다. 매표소 041-840-2265. 일반 주차는 승용차와 버스 모두 무료입니다.",
+        "distanceM": null,
+        "surface": "포장",
+        "slopeNote": "평탄",
+        "hazard": null,
+        "photoUrl": null,
+        "coord": {
+          "lat": 36.4629499677019,
+          "lng": 127.126790610397
+        }
+      },
+      {
+        "seq": 2,
+        "action": "restroom",
+        "title": "올라가기 전에 화장실을 씁니다",
+        "easyText": "장애인 화장실은 안내소 옆과 금서루 아래에 있습니다.",
+        "detail": "성벽길에 올라가면 화장실이 확인된 지점이 없습니다. 여기서 쓰고 올라가는 편이 낫습니다.",
+        "distanceM": null,
+        "surface": "포장",
+        "slopeNote": "평탄",
+        "hazard": null,
+        "photoUrl": null,
+        "coord": null
+      },
+      {
+        "seq": 3,
+        "action": "enter",
+        "title": "금서루로 들어갑니다",
+        "easyText": "출입구까지 경사로가 있습니다.",
+        "detail": "공산성의 네 문 가운데 서문인 금서루가 대표문이고, 매표소와 방문자센터가 여기 있습니다. 경사로로 이루어져 있지만 흙 구간과 일부 접근이 어려운 구간이 섞여 있다고 안내돼 있습니다.",
+        "distanceM": null,
+        "surface": "포장과 흙 구간이 섞여 있습니다",
+        "slopeNote": "완만한 오르막",
+        "hazard": null,
+        "photoUrl": null,
+        "coord": null
+      },
+      {
+        "seq": 4,
+        "action": "move",
+        "title": "금서루에서 공북루 방향으로 갑니다",
+        "easyText": "이 방향은 산책하듯 갈 수 있는 구간입니다.",
+        "detail": "공식 관람코스 02번(30분)의 앞부분에 해당합니다. 성벽 총길이는 2,660m이고 이 구간은 그중 일부입니다.",
+        "distanceM": null,
+        "surface": "포장과 흙 구간이 섞여 있습니다",
+        "slopeNote": "완만한 오르막",
+        "hazard": "성벽길 한쪽이 절벽입니다. 길 가장자리에서 떨어져 이동하세요.",
+        "photoUrl": null,
+        "coord": null
+      },
+      {
+        "seq": 5,
+        "action": "rest",
+        "title": "쌍수정 방향에서 쉽니다",
+        "easyText": "쌍수정 사적비 옆에 쉼터와 수유실이 있습니다.",
+        "detail": "금서루에서 쌍수정 방향도 같은 방식으로 갈 수 있습니다. 성벽 둘레길 중간에 벤치가 있습니다.",
+        "distanceM": null,
+        "surface": "포장과 흙 구간이 섞여 있습니다",
+        "slopeNote": "완만한 오르막",
+        "hazard": "이 두 방향 밖의 성벽길은 경사가 매우 높아 휠체어로는 접근 자체가 어렵습니다. 연지에는 바닥까지 내려가는 계단이 있습니다.",
+        "photoUrl": null,
+        "coord": null
+      }
+    ]
+  },
+  {
+    "poiSlug": "busosanseong",
+    "title": "부소산문 진입 — 삼충사 방향",
+    "entranceName": "부소산문 (정문)",
+    "personaFlags": [
+      "P1a",
+      "P1b",
+      "P3"
+    ],
+    "totalDistanceM": null,
+    "totalMinutes": null,
+    "evidenceLevel": "desk",
+    "evidenceNote": "부여군 공식 편의시설 표와 관람 안내, 한국관광공사 열린관광 모두의 여행 페이지(2026-02-09 수정), 부여군 공식 리플렛 지도, 충청남도 관광 기사를 근거로 작성했다. 현장 실측은 하지 않았고 구간별 거리와 좌표는 측정하지 않아 비워 두었다. 부여군 공식 관람코스 3종은 모두 낙화암·고란사를 지나는데 그 구간이 「경사가 심한 돌길이라 휠체어와 유모차 진입 어려움」이라고 안내돼 있어, 이 경로는 그 분기점에서 끊었다.",
+    "checkedAt": "2026-09-02",
+    "steps": [
+      {
+        "seq": 1,
+        "action": "enter",
+        "title": "주차장에서 시작합니다",
+        "easyText": "주차장은 세 군데 있고, 한 군데마다 장애인 주차구역이 최소 2칸씩 있습니다.",
+        "detail": "정문 쪽 주차장 주소는 부여읍 성왕로 247-9입니다. 주차비는 전차량 무료이고, 관광버스를 댈 공간이 따로 있습니다.",
+        "distanceM": null,
+        "surface": "포장",
+        "slopeNote": "평탄",
+        "hazard": null,
+        "photoUrl": null,
+        "coord": {
+          "lat": 36.2854842254116,
+          "lng": 126.913349221455
+        }
+      },
+      {
+        "seq": 2,
+        "action": "restroom",
+        "title": "주차장 안쪽에서 화장실을 씁니다",
+        "easyText": "장애인 화장실은 주차장 안쪽에 있습니다.",
+        "detail": "산성 안쪽 화장실은 리플렛 지도의 기호로만 확인했고 문장으로 안내된 위치가 없습니다.",
+        "distanceM": null,
+        "surface": "포장",
+        "slopeNote": "평탄",
+        "hazard": null,
+        "photoUrl": null,
+        "coord": null
+      },
+      {
+        "seq": 3,
+        "action": "enter",
+        "title": "부소산문 매표소를 지납니다",
+        "easyText": "매표소에서 휠체어와 유모차를 빌릴 수 있습니다.",
+        "detail": "매표소는 정문과 구문 두 곳입니다. 부소산문 041-830-2884, 구문 041-830-2885. 만 6세 이하·65세 이상·장애인·부여군민은 무료입니다. 주출입구는 경사로가 있어 휠체어 접근이 가능합니다.",
+        "distanceM": null,
+        "surface": "포장",
+        "slopeNote": "완만한 오르막",
+        "hazard": null,
+        "photoUrl": null,
+        "coord": null
+      },
+      {
+        "seq": 4,
+        "action": "move",
+        "title": "삼충사 방향 숲길로 갑니다",
+        "easyText": "숲 사이로 난 길을 따라 완만하게 오르내립니다.",
+        "detail": "부소산은 해발 106m이고 성벽 총길이는 약 2.5km입니다. 이 구간의 노면 재질(포장·흙·자갈)은 공개 자료에서 확인하지 못했습니다.",
+        "distanceM": null,
+        "surface": null,
+        "slopeNote": "완만한 오르막",
+        "hazard": null,
+        "photoUrl": null,
+        "coord": null
+      },
+      {
+        "seq": 5,
+        "action": "caution",
+        "title": "낙화암·고란사 갈림길에서 멈춥니다",
+        "easyText": "여기부터는 휠체어와 유아차로 갈 수 없습니다.",
+        "detail": "낙화암과 고란사 가는 길은 경사가 심한 돌길입니다. 부여군과 한국관광공사가 같은 문장으로 안내하고 있습니다. 부소산의 동쪽과 북쪽은 가파르고 백마강과 맞닿아 있습니다. 되돌아 나오는 길은 올라온 길과 같습니다.",
+        "distanceM": null,
+        "surface": "돌길",
+        "slopeNote": "가파른 구간 있음",
+        "hazard": "휠체어와 유아차는 이 지점에서 되돌아 나오세요. 부여군 공식 관람코스 3종이 모두 이 구간을 지나므로, 안내된 코스를 그대로 따라갈 수는 없습니다.",
+        "photoUrl": null,
+        "coord": null
+      }
+    ]
+  }
+]

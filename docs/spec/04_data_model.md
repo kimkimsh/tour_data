@@ -462,7 +462,13 @@ create table barrier_reports (
 create index on barrier_reports (poi_slug, created_at desc) where not is_hidden;
 create index on barrier_reports (reporter_id);
 -- 관리자 목록: 신고 들어온 것 먼저, 그다음 최신순
-create index on barrier_reports ((flagged_at is not null) desc, created_at desc);
+-- S8 화면이 실제로 보내는 정렬과 같은 식이어야 한다. `(flagged_at is not null) desc,
+-- created_at desc`는 프로즈로는 같게 읽히지만 다른 정렬이다 — 신고된 묶음을 등록일로
+-- 정렬한다. 화면은 신고 시각 순으로 정렬한다. 5005행 실측: 전자는 화면 질의를
+-- `Sort -> Seq Scan`에 남기고, 후자는 Sort 없는 Index Scan을 준다.
+-- `nulls last`는 장식이 아니다 — 내림차순 btree에서 null이 먼저 오므로, 빼면 신고되지
+-- 않은 제보가 전부 앞에 온다.
+create index on barrier_reports (flagged_at desc nulls last, created_at desc);
 -- ★ 중복 방지: DB가 강제한다 (§5.2 아래 주)
 create unique index on barrier_reports (reporter_id, poi_slug, category, created_day);
 ```
@@ -536,7 +542,54 @@ grant execute on function flag_report(uuid) to anon, authenticated;
 -- 이미 신고된 상태였는지 알 수 없고, 알 필요도 없다.
 ```
 
-> **`flagged_at`은 공개 읽기 정책으로 노출된다.** 누가 신고했는지는 저장하지 않으므로(시각 하나뿐) 신고자 식별 위험이 없다. 카운터를 두거나 신고자 목록을 두면 그 순간 노출 대상이 된다 — 두지 않는 이유가 하나 더 있다.
+### 5.4 컬럼 단위 권한 — RLS만으로는 막을 수 없는 것
+
+RLS는 **어떤 행**을 쓸 수 있는지만 정한다. **어떤 컬럼**을 쓸 수 있는지는 정하지 못한다. 위의 insert 정책은 "이 행이 호출자 소유인가"만 확인하므로, `created_at`을 임의 날짜로 넣으면 `created_day`가 달라지고 하루 1건 unique 인덱스를 그대로 통과한다. 날짜를 N개 쓰면 같은 (관광지, 분류)에 공개 제보 N건이 만들어진다. 같은 구멍으로 insert 시점에 `flagged_at`, `hidden_reason`, `hidden_by`도 미리 채울 수 있다.
+
+Supabase는 `public` 스키마의 새 테이블에 `anon`/`authenticated`에게 ALL을 준다. 따라서 **넓히지 않는 것으로는 부족하고, 명시적으로 좁혀야 한다.**
+
+```sql
+-- revoke all, 이름 열거가 아니다. Postgres 17에서 `grant all`은 여덟 개(`arwdDxtm`)이고
+-- 여덟 번째 MAINTAIN(VACUUM FULL·CLUSTER·REINDEX·LOCK — 전부 ACCESS EXCLUSIVE 락을
+-- 잡고 RLS는 하나도 보지 않는다)이 17에서 새로 생겼다. 열거식은 작성 시점의 Postgres를
+-- 영원히 가정하고, 다음 버전이 또 하나를 추가하면 그날부터 조용히 샌다.
+--
+-- 순서가 중요하고, 어기면 조용히 깨진다: `revoke all`은 컬럼 grant까지 지운다.
+revoke all on barrier_reports from anon, authenticated;
+revoke all on admin_users     from anon, authenticated;
+
+-- 읽기도 컬럼 단위다. 테이블 전체 SELECT를 주면 PostgREST가 `?select=*`로 모든 컬럼을
+-- 공개한다 — 방문자별 익명 식별자 reporter_id와, 「이미 신고됐는지 알 수 없게」가 설계
+-- 목적인 flagged_at까지. RLS는 영향받지 않는다: 정책 표현식은 호출자의 컬럼 권한을
+-- 따르지 않으므로, is_hidden을 select할 수 없는 호출자에게도 `not is_hidden`이 걸린다.
+grant select (id, poi_slug, category, occurred_on, detail, created_at)
+  on barrier_reports to anon;
+grant select (id, poi_slug, category, occurred_on, detail, created_at,
+              flagged_at, is_hidden, hidden_reason)
+  on barrier_reports to authenticated;
+grant select on admin_users to authenticated;
+
+-- S7 폼이 실제로 보내는 5개 컬럼. id·created_at·created_day와 모든 조치 컬럼은 DB 몫이다.
+grant insert (reporter_id, poi_slug, category, occurred_on, detail)
+  on barrier_reports to authenticated;
+
+-- 조치 컬럼 4개만. RLS가 관리자로 제한하는 것과 별개로, 관리자가 방문자 제보의
+-- 본문을 조용히 고칠 수 없게 한다 — 숨기는 권한과 고치는 권한은 다른 권한이다.
+grant update (is_hidden, hidden_reason, hidden_by, hidden_at)
+  on barrier_reports to authenticated;
+```
+
+`data_snapshots`도 같은 이유로 읽기 전용으로 좁힌다(`001_snapshots.sql` 말미). `service_role`은 회수 대상에 없으므로 ingest와 `createAdminClient()`는 그대로 동작한다.
+
+**검증** — Postgres 17.11에 Supabase 기본 권한(`alter default privileges … grant all on tables to postgres, anon, authenticated, service_role`)까지 재현한 뒤 확인했다. FUNCTIONS 기본 권한이 있는 DB와 없는 DB 양쪽에서 돌렸다.
+
+grant 블록을 지운 대조군에서는 같은 호출자가 하루 1건 인덱스를 우회해 **공개 제보 4건**을 만들었고(`created_day` 2020-01-01 / 01-02 / 01-03 / 2026-09-02, 그중 하나는 `flagged_at`까지 스스로 세팅), 블록을 넣으면 전부 `permission denied for table barrier_reports`로 막힌다.
+
+권한 8종 × 역할 3 × 테이블 3 = 27칸을 `has_table_privilege`로 훑어, `anon`/`authenticated`가 `SELECT` 외에 전부 `f`이고 `service_role`이 전부 `t`임을 확인했다. **`information_schema.table_privileges`로는 이 검사를 쓸 수 없다** — MAINTAIN이 SQL 표준 밖이라 그 뷰가 7행만 돌려준다.
+
+정상 경로는 모두 통과: 5컬럼 insert, 관리자의 4컬럼 update(`returning id` 1행)와 숨김 해제, 비관리자의 같은 update(`(0 rows)` — 권한이 아니라 RLS가 거부), `anon`의 `flag_report`, 관리자의 `admin_users` 자기 행 읽기, `service_role`의 만료 제보 삭제.
+
+> **`flagged_at`은 이제 `anon` 권한 밖이다.** `/api/reports`가 이 컬럼을 select하지 않는 것만으로는 부족했다 — PostgREST가 테이블을 공개하므로 `?select=*`로 그냥 물어보면 됐다. 같은 이유로 `reporter_id`도 뺐다: 방문자별 익명 식별자이고, 그것으로 한 세션의 모든 제보를 묶을 수 있다. 누가 신고했는지는 애초에 저장하지 않는다(시각 하나뿐). 카운터를 두거나 신고자 목록을 두면 그 순간 노출 대상이 된다 — 두지 않는 이유가 하나 더 있다.
 >
 > 익명 인증 사용자도 Supabase에서는 `authenticated` 역할이다. 이번에는 "정회원만" 구분이 필요 없으므로 `RESTRICTIVE` 정책을 쓰지 않는다.
 > RLS 정책이 참조하는 컬럼(`reporter_id`, `is_hidden`)에는 전부 인덱스를 걸었다.

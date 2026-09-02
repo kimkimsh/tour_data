@@ -1,0 +1,543 @@
+{
+  "name": "critical-partial-not-blocked",
+  "input": {
+    "facts": [
+      {
+        "capabilityCode": "access_route",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "entrance_passage",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "wheelchair",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "elevator",
+        "status": "partial",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "ticket_office",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "help_dog",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "public_transport",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "braille_block",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "guide_system",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "path_continuity",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "restroom",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "parking",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "stroller",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "nursing_room",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "baby_chair",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "room",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "hearing_room",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "audio_guide",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "big_print",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "braille_promotion",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "promotion_material",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "guide_human",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "sign_guide",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "video_caption",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "visual_alarm",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "auditorium",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "kto_with",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": true
+      },
+      {
+        "capabilityCode": "rest_seating",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "shade_indoor",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "crowd_forecast",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "weather_warning",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "emergency_distance",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "aed_distance",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      }
+    ],
+    "personaIds": [
+      "P1a"
+    ],
+    "cognitiveOption": false,
+    "certifications": [],
+    "calculationDate": "2026-09-20",
+    "scoredAlternatives": []
+  },
+  "expected": {
+    "score": 97,
+    "label": "방문가능",
+    "layerA": 0.9750000000000003,
+    "layerB": 0.9910714285714286,
+    "layerC": 1,
+    "axes": [
+      {
+        "axis": "entry",
+        "labelKo": "진입",
+        "labelEn": "Entry",
+        "weight": 0.30000000000000004,
+        "rawScore": 0.9166666666666666,
+        "weighted": 0.275,
+        "knownCount": 6,
+        "totalCount": 6
+      },
+      {
+        "axis": "continuity",
+        "labelKo": "이동",
+        "labelEn": "Movement",
+        "weight": 0.18000000000000002,
+        "rawScore": 1,
+        "weighted": 0.18000000000000002,
+        "knownCount": 4,
+        "totalCount": 4
+      },
+      {
+        "axis": "facility",
+        "labelKo": "편의시설",
+        "labelEn": "Facilities",
+        "weight": 0.18000000000000002,
+        "rawScore": 1,
+        "weighted": 0.18000000000000002,
+        "knownCount": 7,
+        "totalCount": 7
+      },
+      {
+        "axis": "information",
+        "labelKo": "정보안내",
+        "labelEn": "Information",
+        "weight": 0.14000000000000004,
+        "rawScore": 1,
+        "weighted": 0.14000000000000004,
+        "knownCount": 8,
+        "totalCount": 8
+      },
+      {
+        "axis": "rest",
+        "labelKo": "휴식",
+        "labelEn": "Rest",
+        "weight": 0.10000000000000003,
+        "rawScore": 1,
+        "weighted": 0.10000000000000003,
+        "knownCount": 3,
+        "totalCount": 3
+      },
+      {
+        "axis": "context",
+        "labelKo": "상황",
+        "labelEn": "Conditions",
+        "weight": 0.10000000000000003,
+        "rawScore": 1,
+        "weighted": 0.10000000000000003,
+        "knownCount": 4,
+        "totalCount": 4
+      }
+    ],
+    "freshness": 1,
+    "coverage": 1,
+    "evidenceConfidence": 100,
+    "knownCriticalBlockers": [],
+    "unknownCriticals": [],
+    "deductions": [],
+    "alternatives": [],
+    "ktoUnknownCount": 0,
+    "ktoTotalCount": 24,
+    "dataDates": [
+      {
+        "capabilityCode": "access_route",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "entrance_passage",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "wheelchair",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "elevator",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "ticket_office",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "help_dog",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "public_transport",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "braille_block",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "guide_system",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "path_continuity",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "restroom",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "parking",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "stroller",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "nursing_room",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "baby_chair",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "room",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "hearing_room",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "audio_guide",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "big_print",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "braille_promotion",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "promotion_material",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "guide_human",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "sign_guide",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "video_caption",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "visual_alarm",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "auditorium",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "rest_seating",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "shade_indoor",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "crowd_forecast",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "weather_warning",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "emergency_distance",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "aed_distance",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      }
+    ],
+    "policyVersion": "suitability-v4"
+  }
+}

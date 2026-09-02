@@ -1,0 +1,38 @@
+name: ci
+
+# One job, in order. Passing artefacts between jobs costs more debugging time than
+# the parallelism saves at this size.
+#
+# `pnpm validate:content` is expected to FAIL until the KTO service key exists: it
+# refuses a place whose ktoContentId has not been confirmed by a real call, because
+# an unconfirmed id silently collects another place's accessibility data. That red
+# build is the correct report of the project's state, not a broken pipeline.
+#
+# E2E and the axe scan are not here. They need a browser download and most of the
+# run time, and answer too late to steer the edit that prompted them.
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm validate:content
+      - run: pnpm test
+      # build:fixtures, not build. The build reads content/generated/*.json rather
+      # than the database, so it needs no secrets — but src/lib/data.ts refuses that
+      # fallback in a production build unless MODU_DATA_SOURCE names it, which is what
+      # stops a deployment that lost its Supabase variables from serving example data
+      # as though it were collected. CI says it out loud; a deployment must not.
+      - run: pnpm build:fixtures
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm e2e

@@ -1,0 +1,54 @@
+{
+  "name": "modu-baekje",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "tsx scripts/check-contrast.ts && next build",
+    "start": "next start",
+    "build:fixtures": "MODU_DATA_SOURCE=fixtures pnpm build",
+    "start:fixtures": "MODU_DATA_SOURCE=fixtures next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "probe": "tsx scripts/probe.ts",
+    "ingest": "tsx scripts/ingest.ts",
+    "validate:content": "tsx scripts/validate-content.ts",
+    "check:contrast": "tsx scripts/check-contrast.ts",
+    "seed:fixtures": "tsx scripts/seed-fixtures.ts",
+    "supabase": "supabase"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.5",
+    "@supabase/supabase-js": "^2.112.4",
+    "next": "16.3.4",
+    "next-intl": "^4.14.2",
+    "radix-ui": "^1.6.7",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "^1.62.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.4",
+    "axe-core": "4.13.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.3.4",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "fast-check": "^4.9.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
+    "typescript": "5.9.3",
+    "vitest": "^4.1.11"
+  }
+}

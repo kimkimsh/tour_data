@@ -1,0 +1,38 @@
+# Not a monorepo declaration. pnpm 11 reads its build and supply-chain policy from
+# this file and created it on first install.
+
+# These four ship platform binaries and do not work without their install script.
+# Listed one by one rather than allowing every package's scripts to run.
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+  unrs-resolver: true
+
+# pnpm refuses a package published within the last day, which is a defence against a
+# compromised release being installed before anyone notices. Next 16.3.4 and
+# next-intl 4.14.2 are both inside that window, and they are the versions this
+# project is pinned to, so each one is excused by name.
+#
+# Delete an entry once its package is older than the cutoff. Leaving the list to
+# grow turns a real check into a permanent exemption.
+minimumReleaseAgeExclude:
+  - '@eloqnt/config@0.1.0'
+  - '@eloqnt/format-json@0.1.0'
+  - '@eloqnt/format-po@0.1.0'
+  - '@next/env@16.3.4'
+  - '@next/eslint-plugin-next@16.3.4'
+  - '@next/swc-darwin-arm64@16.3.4'
+  - '@next/swc-darwin-x64@16.3.4'
+  - '@next/swc-linux-arm64-gnu@16.3.4'
+  - '@next/swc-linux-arm64-musl@16.3.4'
+  - '@next/swc-linux-x64-gnu@16.3.4'
+  - '@next/swc-linux-x64-musl@16.3.4'
+  - '@next/swc-win32-arm64-msvc@16.3.4'
+  - '@next/swc-win32-x64-msvc@16.3.4'
+  - eslint-config-next@16.3.4
+  - icu-minify@4.14.2
+  - next-intl-swc-plugin-extractor@4.14.2
+  - next-intl@4.14.2
+  - next@16.3.4
+  - use-intl@4.14.2

@@ -19,5 +19,31 @@ Thumbs.db
 __pycache__/
 *.pyc
 *.pyo
-.env
 .ipynb_checkpoints/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+next-env.d.ts
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Environment — .env.example is tracked, real values never are
+.env
+.env.local
+.env.*.local
+
+# Test artefacts
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Supabase local stack
+supabase/.branches/
+supabase/.temp/
+
+# Tool artefacts (Claude Code plugins)
+.playwright-mcp/
+.impeccable/

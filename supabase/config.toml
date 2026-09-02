@@ -1,0 +1,11 @@
+project_id = "modu-baekje"
+
+[db]
+# Pinned to the hosted project's version (docs/spec/02_stack.md §1) so a migration
+# that only works on an older local Postgres cannot pass here and fail on deploy.
+major_version = 17
+
+[auth]
+# S7 signs the visitor in anonymously and uses that uid as reporter_id. Off by
+# default locally, which would make reporting work in production and 422 locally.
+enable_anonymous_sign_ins = true

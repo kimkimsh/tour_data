@@ -24,7 +24,7 @@
     "print": "Print",
     "openDetail": "Open details",
     "openRouteGuide": "Open route guide",
-    "openDocent": "Listen to the audio guide",
+    "openDocent": "Listen to the audio tour",
     "openReport": "Report a condition",
     "showMore": "Expand",
     "showLess": "Collapse",
@@ -56,10 +56,10 @@
       "loadFailedBody": "Please try again in a moment."
     },
     "status": {
-      "supported": "Confirmed",
+      "supported": "Available",
       "partial": "Partly available",
       "unsupported": "Not available",
-      "unknown": "Unknown"
+      "unknown": "Not known"
     },
     "label": {
       "방문가능": "You can visit",
@@ -77,7 +77,7 @@
     "honesty": {
       "routeEvidence": "This route was written from public records, official photographs and satellite imagery. Nothing was measured on site.",
       "formula": "Formula version {version} · not reviewed by an accessibility specialist",
-      "crowd": "Forecast crowding (next 30 days) — not current crowding",
+      "crowd": "Expected crowds over the next 30 days — not how busy it is right now.",
       "visitors": "Visitors are not defined the same way as tourists (source: Korea Tourism Data Lab)",
       "gapScope": "This report covers {count} places. The same method extends to every city and county.",
       "related": "How this list defines relatedness is not published, and its accessibility has not been checked.",
@@ -149,7 +149,7 @@
     "confidence": "Data confidence {value}%",
     "confidenceHint": "A different number from the score. It says how much there is to judge on.",
     "conditions": "Conditions",
-    "confirmedItems": "Confirmed",
+    "confirmedItems": "Available",
     "needCheckItems": "Check",
     "openCalc": "See how this score was calculated",
     "axisTable": "Contribution by axis",
@@ -233,9 +233,9 @@
     "noneHint": "Route guides are written by hand, one place at a time. They are never generated."
   },
   "docent": {
-    "metaTitle": "Audio guide",
-    "eyebrow": "Audio guide",
-    "title": "{place} audio guide",
+    "metaTitle": "Audio tour",
+    "eyebrow": "Audio tour",
+    "title": "{place} audio tour",
     "language": "Language",
     "mode": "Mode",
     "modeOriginal": "Original",
@@ -250,8 +250,8 @@
     "stopSpeak": "Stop reading",
     "ttsBadge": "Device speech synthesis",
     "ttsBadgeLabel": "Read aloud by device speech synthesis",
-    "source": "Source: Korea Tourism Organization Odii audio guide",
-    "none": "No audio guide is provided for this place.",
+    "source": "Source: Korea Tourism Organization Odii audio tour",
+    "none": "No audio tour is provided for this place.",
     "noneHint": "The Korea Heritage Service portal publishes official commentary."
   },
   "report": {
@@ -377,8 +377,8 @@
     "fillHeader": {
       "place": "Place",
       "kto": "Filled by KTO",
-      "curated": "Confirmed by us",
-      "unknown": "Unknown",
+      "curated": "Filled by us",
+      "unknown": "Not known",
       "total": "Items"
     },
     "fillNote": "The first two columns are separate because merging them would raise the “municipal improvement” figure every time we fill a cell ourselves. Only the change in “Filled by KTO” can be read as handover progress.",
@@ -390,13 +390,14 @@
       "place": "Place",
       "capability": "Item",
       "cause": "Cause",
-      "priority": "Priority"
+      "priority": "Priority",
+      "status": "Status"
     },
     "causeLegendTitle": "Cause column",
     "causeLegend": {
       "unknown": "Cause not established — the cell is blank. Checking it is the first task.",
-      "operator": "Not entered (established) — confirmed with the responsible office.",
-      "intrinsic": "Structural constraint (established) — hard to install without altering the protected site."
+      "operator": "Not entered by the operator — confirmed with the responsible office.",
+      "intrinsic": "Structural constraint — hard to install without altering the protected site."
     },
     "causeNote": "The cause column states only what we know. An empty response is never read as “the operator did not fill it in”. The column exists so that the officer receiving this report cannot refute its first line.",
     "visitorsTitle": "Visitor trend (for reference)",

@@ -23,43 +23,43 @@ export interface Capability {
 
 export const CAPABILITIES: readonly Capability[] = [
   // entry
-  { code: 'access_route', ktoField: 'route', labelKo: '접근로', labelEn: 'Approach route', axis: 'entry' },
-  { code: 'entrance_passage', ktoField: 'exit', labelKo: '출입통로', labelEn: 'Entrance passage', axis: 'entry' },
-  { code: 'wheelchair', ktoField: 'wheelchair', labelKo: '휠체어', labelEn: 'Wheelchair', axis: 'entry' },
+  { code: 'access_route', ktoField: 'route', labelKo: '접근로', labelEn: 'Route to entrance', axis: 'entry' },
+  { code: 'entrance_passage', ktoField: 'exit', labelKo: '출입통로', labelEn: 'Entrance', axis: 'entry' },
+  { code: 'wheelchair', ktoField: 'wheelchair', labelKo: '휠체어', labelEn: 'Wheelchair rental', axis: 'entry' },
   { code: 'elevator', ktoField: 'elevator', labelKo: '엘리베이터', labelEn: 'Elevator', axis: 'entry' },
   { code: 'ticket_office', ktoField: 'ticketoffice', labelKo: '매표소', labelEn: 'Ticket office', axis: 'entry' },
-  { code: 'help_dog', ktoField: 'helpdog', labelKo: '보조견 동반', labelEn: 'Guide dog access', axis: 'entry' },
+  { code: 'help_dog', ktoField: 'helpdog', labelKo: '보조견 동반', labelEn: 'Assistance dogs', axis: 'entry' },
   // continuity
   { code: 'public_transport', ktoField: 'publictransport', labelKo: '대중교통', labelEn: 'Public transport', axis: 'continuity' },
   { code: 'braille_block', ktoField: 'braileblock', labelKo: '점자블록', labelEn: 'Tactile paving', axis: 'continuity' },
-  { code: 'guide_system', ktoField: 'guidesystem', labelKo: '유도 안내 설비', labelEn: 'Wayfinding system', axis: 'continuity' },
-  { code: 'path_continuity', ktoField: null, labelKo: '경로 연속성', labelEn: 'Path continuity', axis: 'continuity' },
+  { code: 'guide_system', ktoField: 'guidesystem', labelKo: '유도 안내 설비', labelEn: 'Wayfinding signage', axis: 'continuity' },
+  { code: 'path_continuity', ktoField: null, labelKo: '경로 연속성', labelEn: 'Route continuity', axis: 'continuity' },
   // facility
-  { code: 'restroom', ktoField: 'restroom', labelKo: '화장실', labelEn: 'Accessible restroom', axis: 'facility' },
-  { code: 'parking', ktoField: 'parking', labelKo: '주차', labelEn: 'Parking', axis: 'facility' },
+  { code: 'restroom', ktoField: 'restroom', labelKo: '화장실', labelEn: 'Accessible toilet', axis: 'facility' },
+  { code: 'parking', ktoField: 'parking', labelKo: '주차', labelEn: 'Accessible parking', axis: 'facility' },
   { code: 'stroller', ktoField: 'stroller', labelKo: '유모차', labelEn: 'Stroller rental', axis: 'facility' },
-  { code: 'nursing_room', ktoField: 'lactationroom', labelKo: '수유실', labelEn: 'Nursing room', axis: 'facility' },
-  { code: 'baby_chair', ktoField: 'babysparechair', labelKo: '유아용 보조의자', labelEn: 'Infant seat', axis: 'facility' },
-  { code: 'room', ktoField: 'room', labelKo: '객실', labelEn: 'Accessible room', axis: 'facility' },
-  { code: 'hearing_room', ktoField: 'hearingroom', labelKo: '객실(청각)', labelEn: 'Room for deaf guests', axis: 'facility' },
+  { code: 'nursing_room', ktoField: 'lactationroom', labelKo: '수유실', labelEn: 'Baby feeding room', axis: 'facility' },
+  { code: 'baby_chair', ktoField: 'babysparechair', labelKo: '유아용 보조의자', labelEn: 'High chair', axis: 'facility' },
+  { code: 'room', ktoField: 'room', labelKo: '객실', labelEn: 'Wheelchair-accessible room', axis: 'facility' },
+  { code: 'hearing_room', ktoField: 'hearingroom', labelKo: '객실(청각)', labelEn: 'Hearing-accessible room', axis: 'facility' },
   // information
   { code: 'audio_guide', ktoField: 'audioguide', labelKo: '오디오 가이드', labelEn: 'Audio guide', axis: 'information' },
-  { code: 'big_print', ktoField: 'bigprint', labelKo: '큰 활자 홍보물', labelEn: 'Large-print material', axis: 'information' },
-  { code: 'braille_promotion', ktoField: 'brailepromotion', labelKo: '점자 홍보물·표지', labelEn: 'Braille material and signage', axis: 'information' },
-  { code: 'promotion_material', ktoField: 'promotion', labelKo: '홍보물', labelEn: 'Printed material', axis: 'information' },
+  { code: 'big_print', ktoField: 'bigprint', labelKo: '큰 활자 홍보물', labelEn: 'Large print information', axis: 'information' },
+  { code: 'braille_promotion', ktoField: 'brailepromotion', labelKo: '점자 홍보물·표지', labelEn: 'Braille information and signage', axis: 'information' },
+  { code: 'promotion_material', ktoField: 'promotion', labelKo: '홍보물', labelEn: 'Printed information', axis: 'information' },
   { code: 'guide_human', ktoField: 'guidehuman', labelKo: '안내요원', labelEn: 'Staff assistance', axis: 'information' },
-  { code: 'sign_guide', ktoField: 'signguide', labelKo: '수화 안내', labelEn: 'Sign-language guidance', axis: 'information' },
-  { code: 'video_caption', ktoField: 'videoguide', labelKo: '자막 영상 안내', labelEn: 'Captioned video guide', axis: 'information' },
+  { code: 'sign_guide', ktoField: 'signguide', labelKo: '수화 안내', labelEn: 'Korean Sign Language (KSL)', axis: 'information' },
+  { code: 'video_caption', ktoField: 'videoguide', labelKo: '자막 영상 안내', labelEn: 'Captioned video', axis: 'information' },
   { code: 'visual_alarm', ktoField: null, labelKo: '시각 경보기', labelEn: 'Visual fire alarm', axis: 'information' },
   // rest
   { code: 'auditorium', ktoField: 'auditorium', labelKo: '관람석', labelEn: 'Accessible seating', axis: 'rest' },
   { code: 'rest_seating', ktoField: null, labelKo: '휴식 좌석', labelEn: 'Rest seating', axis: 'rest' },
   { code: 'shade_indoor', ktoField: null, labelKo: '그늘·실내 휴게', labelEn: 'Shade or indoor rest', axis: 'rest' },
   // context
-  { code: 'crowd_forecast', ktoField: null, labelKo: '예측 혼잡도', labelEn: 'Forecast crowding', axis: 'context' },
+  { code: 'crowd_forecast', ktoField: null, labelKo: '예측 혼잡도', labelEn: 'Expected crowds', axis: 'context' },
   { code: 'weather_warning', ktoField: null, labelKo: '기상 특보', labelEn: 'Weather warning', axis: 'context' },
-  { code: 'emergency_distance', ktoField: null, labelKo: '응급실 거리', labelEn: 'Distance to emergency room', axis: 'context' },
-  { code: 'aed_distance', ktoField: null, labelKo: '자동심장충격기 거리', labelEn: 'Distance to AED', axis: 'context' },
+  { code: 'emergency_distance', ktoField: null, labelKo: '응급실 거리', labelEn: 'Nearest emergency department', axis: 'context' },
+  { code: 'aed_distance', ktoField: null, labelKo: '자동심장충격기 거리', labelEn: 'Nearest defibrillator (AED)', axis: 'context' },
 ] as const;
 
 export type CapabilityCode = (typeof CAPABILITIES)[number]['code'];

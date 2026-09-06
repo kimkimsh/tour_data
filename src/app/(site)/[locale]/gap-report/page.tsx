@@ -129,7 +129,10 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
                   <th scope="col">{t('priorityHeader.rank')}</th>
                   <th scope="col">{t('priorityHeader.place')}</th>
                   <th scope="col">{t('priorityHeader.capability')}</th>
-                  <th scope="col">{tc('status.unknown')}</th>
+                  {/* "Status", not a status value. This read `tc('status.unknown')`
+                      because priorityHeader had no status key, so a screen reader
+                      announced each cell as "Unknown, No information". */}
+                  <th scope="col">{t('priorityHeader.status')}</th>
                   <th scope="col">{t('priorityHeader.cause')}</th>
                   <th scope="col">{t('priorityHeader.priority')}</th>
                 </tr>

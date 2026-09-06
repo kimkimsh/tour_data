@@ -92,6 +92,20 @@
 
 ---
 
+**검토 결과 (2026-09-07, 결정 5):** 32개 중 **20개를 고쳤다.** ADA 2010 Standards, ISO 21542:2021, VisitEngland Key Accessibility Features(2024), Assistance Dogs International, RNIB·NAD 표기 지침에 대고 확인했다.
+
+가장 컸던 셋:
+
+- **`help_dog` `Guide dog access` → `Assistance dogs`.** 보조견은 안내견·청도견·지체장애 보조견을 다 포함하는데 `guide dog`은 시각장애만이다. **`service animal`은 함정이다** — Assistance Dogs International 정의에서 service dog은 *시각·청각장애를 제외한* 부분집합이라, 국제 독자에게는 「안내견은 안 된다」로 읽힌다. ISO 21542 §10.12도 "guide and other assistance dogs"다
+- **`wheelchair` `Wheelchair` → `Wheelchair rental`.** 영어가 아니라 **데이터가 틀렸던 것**이다. 이 KTO 필드는 `휠체어대여`(`03_external_data.md` §2.9)인데, 목록에서 홀로 선 `Wheelchair`는 「이곳이 휠체어로 접근 가능한가」로 읽힌다 — 데이터가 뒷받침하지 않는 훨씬 큰 주장이다
+- **`hearing_room` `Room for deaf guests` → `Hearing-accessible room`.** 난청 방문자를 배제하는 표현이었고(그쪽이 더 많다), 시설이 아니라 사람을 이름 붙인다. Marriott·Hilton·IHG가 전부 "Hearing Accessible"을 쓴다. 짝이 되는 `room`도 `Wheelchair-accessible room`으로 바꿔 둘이 구분되게 했다
+
+**일부러 안 바꾼 것 둘.** `elevator`는 ISO가 `lift`를 앞세우지만 **한국 현장 표지판이 ELEVATOR**라 그대로 뒀다 — 찾아 다녀야 하는 단어는 표지판과 맞는 편이 낫다. `stroller`도 인천공항·서울 다누림이 공식 영문에서 쓰는 말이라 유지했다.
+
+**상태 단어도 축을 갈랐다.** `Confirmed / Partly available / Not available / No information` → **`Available / Partly available / Not available / Not known`**. 앞의 셋은 시설을, 마지막은 우리 정보를 말한다. 영국 정부 통계 표기 지침이 "not available"을 **자료 없음**의 뜻으로 쓰기 때문에, `Not available`과 `No information`이 같은 말로 읽히고 있었다 — 한국어(`이용 불가` / `정보 없음`)에는 없던 혼동이다.
+
+원인 단어에서는 `(confirmed)`를 뺐다. 내부 기록 용어가 화면에 샌 것이고, 상태 단어 `Confirmed`와 충돌했으며, 같은 개념을 범례에서는 `(established)`로 쓰고 있었다.
+
 ## D-8. 스냅샷 `pois`에 필드 4개를 추가했다
 
 **스펙:** `04_data_model.md` §3.3 `PoiSchema`

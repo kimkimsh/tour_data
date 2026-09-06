@@ -390,7 +390,8 @@
       "place": "관광지",
       "capability": "항목",
       "cause": "원인",
-      "priority": "우선순위"
+      "priority": "우선순위",
+      "status": "상태"
     },
     "causeLegendTitle": "원인 표기",
     "causeLegend": {

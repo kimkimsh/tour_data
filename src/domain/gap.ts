@@ -169,11 +169,21 @@ const STATUS_LABEL_KO: Record<SuitabilityFactInput['status'], string> = {
   unknown: '정보 없음',
 };
 
+/**
+ * Must stay identical to common.status.* in messages/en.json — the same four states
+ * are rendered from both, on screens a reader moves between. They disagreed:
+ * `unknown` was "No information" here and "Unknown" there.
+ *
+ * The set separates two axes on purpose. Available / Partly available / Not available
+ * describe the facility; "Not known" describes our information. "Not available" and
+ * "No information" both start with a negation and read as synonyms, which is the one
+ * confusion the Korean (이용 불가 / 정보 없음) never had.
+ */
 const STATUS_LABEL_EN: Record<SuitabilityFactInput['status'], string> = {
-  supported: 'Confirmed',
+  supported: 'Available',
   partial: 'Partly available',
   unsupported: 'Not available',
-  unknown: 'No information',
+  unknown: 'Not known',
 };
 
 const ABSENCE_LABEL_KO: Record<string, string> = {
@@ -188,11 +198,17 @@ export function absenceLabelKo(absenceKind: SuitabilityFactInput['absenceKind'])
   return ABSENCE_LABEL_KO[absenceKind] ?? '원인 미확인';
 }
 
+/**
+ * No "(confirmed)" suffix. It was internal provenance leaking into the UI, it
+ * collided with "Confirmed" as a status word, and the legend in messages/en.json
+ * spelled the same idea "(established)" — one concept, two English words, both on the
+ * same screen.
+ */
 const ABSENCE_LABEL_EN: Record<string, string> = {
-  intrinsic: 'Structural constraint (confirmed)',
-  operator_missing: 'Not entered (confirmed)',
+  intrinsic: 'Structural constraint',
+  operator_missing: 'Not entered by the operator',
   not_applicable: 'Not applicable',
-  not_registered: 'Not in the dataset',
+  not_registered: 'Not in the source data',
 };
 
 export function statusLabelKo(status: SuitabilityFactInput['status']): string {

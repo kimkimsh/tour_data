@@ -15,7 +15,7 @@
 | `06_suitability.md` | 적합도 산식 · 페르소나 매트릭스 · 라벨 규칙 · 코스 계산 · 골든 24건 | `src/domain/{types,capabilities,personas,suitability,scoreboard,itinerary}.ts` + `__tests__/` | **완료.** 골든 27 + 성질 8 + `resolveStatus` 실문장 42, 전부 통과 |
 | `07_screens.md` | 화면 S1~S10 + `/credits` + `/privacy` | `src/app/(site)/`, `src/app/(admin)/`, `src/app/(print)/` | **완료** (지도 제외 — DEC-2 기본값) |
 | `08_accessibility_legal.md` | KWCAG 구현 항목 · 개인정보 처리방침 · 공공누리 표기 · AI 표시 | `src/app/globals.css`, `src/components/a11y/`, `/privacy`, `/credits` | **완료** (페이지 번호는 브라우저 미지원 → [02](./02_spec_corrections.md) K) |
-| `09_test_and_ci.md` | 골든 24 · 성질 8 · 콘텐츠 검증 · E2E 3 · CI 잡 1개 | `src/domain/__tests__/`, `src/i18n/messages.test.ts`, `scripts/validate-content.ts`, `tests/e2e/`, `.github/workflows/ci.yml` | **완료.** 단위 107건 + E2E 24건 통과. axe 스캔은 스펙의 6경로에서 17경로로 늘렸다 |
+| `09_test_and_ci.md` | 골든 24 · 성질 8 · 콘텐츠 검증 · E2E 3 · CI 잡 1개 | `src/domain/__tests__/`, `src/i18n/messages.test.ts`, `scripts/validate-content.ts`, `tests/e2e/`, `.github/workflows/ci.yml` | **완료.** 단위 119건 + E2E 24건 통과. axe 스캔은 스펙의 6경로에서 17경로로 늘렸다 |
 | `10_build_order.md` | 주차별 순서 | — | Day 1~2의 탐침이 막혀 있다 → [04](./04_open_items.md) |
 | `11_open_items.md` | P0 11건 · 결정 항목 · 위험 | `scripts/probe.ts`가 자동 9건을 구현 | **미실행** |
 | `12_judging_and_demo.md` | 배점 ↔ 화면 매핑 | 화면이 그 매핑을 이행한다 | 아래 §5 |
@@ -59,6 +59,7 @@
 | 제보 분류 8개의 두 사본이 같다 | `validate-content.ts`가 마이그레이션 SQL의 enum을 파싱해 대조 | 프로덕션 insert 실패 |
 | 무장애 필드 28개의 두 사본이 같다 | `src/lib/kto/field-names.test.ts` | 철자 하나 때문에 항목이 영원히 비는 것 |
 | 두 로케일의 메시지 키·자리표시자·배열 길이가 같다 | `src/i18n/messages.test.ts` | 화면에 문장 대신 `place.score` 같은 키 이름이 찍히는 것 — next-intl은 던지지 않는다 |
+| 기상특보 문구가 안전한 쪽으로 읽힌다 | `src/lib/kma/warnings.test.ts` | 확인 실패를 「특보 없음」으로 바꾸는 것 — 무장애 서비스에서 거짓 이상 없음은 안전 실패다 |
 | 한국어 문장 42개가 맞는 상태로 판정된다 | `src/domain/__tests__/resolve-status.test.ts` | 확인된 장벽이 「모름」으로, 계단이 「엘리베이터 있음」으로 판정되는 것 — 골든 케이스는 상태를 직접 받으므로 이 단계를 보지 못한다 |
 | 파생 항목은 `critical`이 될 수 없다 | `assertPersonaMatrix()` (골든 스위트가 호출) | 거의 모든 관광지가 「정보없음」이 되는 것 |
 | 같은 날 중복 제보가 거부된다 | DB 유니크 인덱스 (앱 검사가 아니다) | 동시 요청에서 뚫리는 것 |

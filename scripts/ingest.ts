@@ -72,6 +72,7 @@ import {
   type KtoResult,
 } from '../src/lib/kto/transport';
 import { ktoTimestampToIsoDate, readStoryCoord, readThemeCoord } from '../src/lib/kto/schemas';
+import { getWeatherWarnings, kmaRegionFor, readWarningFor } from '../src/lib/kma/warnings';
 import { UNRESOLVED_CONTENT_ID } from './validate-content';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -135,6 +136,26 @@ function abortOnQuota(result: KtoResult | KtoPagesResult, where: string): void {
 function exit(message: string): never {
   console.error(`ingest: ${message}`);
   process.exit(1);
+}
+
+/**
+ * Today in Asia/Seoul, as YYYY-MM-DD.
+ *
+ * Not `new Date().toISOString().slice(0, 10)`. This runs on GitHub Actions and Vercel,
+ * both UTC, so between 00:00 and 09:00 KST that expression names yesterday — the visitor
+ * is standing in Korea and every date this pipeline writes is a Korean date. The
+ * database already had this right (barrier_reports.created_day is generated `at time
+ * zone 'Asia/Seoul'`); the TypeScript side did not.
+ *
+ * en-CA because it formats as YYYY-MM-DD.
+ */
+function seoulToday(): string {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+}
+
+/** The same instant as YYYYMMDD, which is what the KTO date parameters take. */
+function seoulTodayCompact(): string {
+  return seoulToday().replace(/-/g, '');
 }
 
 function warn(message: string): void {
@@ -507,7 +528,7 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
   // The window ends at the most recent day the API actually answers for, found by
   // walking back from today. The delay is measured, never assumed: a hard-coded
   // "four days" wastes a call when the delay is five and drops a day when it is three.
-  const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const today = seoulTodayCompact();
   let endYmd: string | null = null;
   for (let back = 0; back < 14 && endYmd === null; back += 1) {
     const candidate = ymdMinus(today, back);
@@ -566,12 +587,20 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
     }
   }
 
+  const weather = await buildWeather(pois);
+
   const payload = ContextPayload.parse({
     crowd,
     visitors,
+    weather,
     fetchedAt: new Date().toISOString(),
   });
-  await publish('context', payload, crowd.length + visitors.length, '한국관광공사 TatsCnctrRateService + DataLabService');
+  await publish(
+    'context',
+    payload,
+    crowd.length + visitors.length + weather.length,
+    '한국관광공사 TatsCnctrRateService + DataLabService + 기상청 WthrWrnInfoService',
+  );
 }
 
 // ── stage 4: accessibility ─────────────────────────────────────────────────────
@@ -593,10 +622,6 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
 
   if (!routes) warn('routes snapshot missing: path_continuity will be unknown');
   if (!context) warn('context snapshot missing: crowd_forecast will be unknown');
-  // Said on every run, not only when the context snapshot is absent: buildContext
-  // writes crowd and visitors and nothing else, so this capability is unknown at every
-  // place until a weather source is added.
-  warn('no weather source is wired: weather_warning is unknown for every place');
   if (!poisSnapshot) warn('pois snapshot missing: the distance capabilities will be unknown');
 
   const facts: Fact[] = [];
@@ -665,15 +690,19 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
           }
       : null);
 
-    // There is no KMA call anywhere in this repo, so context.weather is never
-    // populated and this is always unknown. The branch is kept because the payload
-    // shape allows the field and a future stage would fill it — but the operator is
-    // told once per run rather than left to infer it from a permanently blank column.
+    // Reads the state, never infers it from an empty field. A missing row and a row
+    // saying "could not check" both land on unknown; only an explicit `none` is an
+    // all-clear. push(..., null) is what produces unknown, so the unknown branch has to
+    // stay a branch rather than a fallthrough.
     const weatherRow = context?.weather?.find((w) => w.signguCd5 === poi.signguCd5);
-    push(facts, poi.slug, 'weather_warning', weatherRow
+    push(facts, poi.slug, 'weather_warning', weatherRow && weatherRow.state !== 'unknown'
       ? {
-          status: weatherRow.warning === null ? 'supported' : 'unsupported',
-          detail: weatherRow.warning,
+          status: weatherRow.state === 'none' ? 'supported' : 'unsupported',
+          detail:
+            weatherRow.state === 'none'
+              ? `발효 중인 기상 특보가 없습니다 (${weatherRow.checkedAt} 확인` +
+                `${weatherRow.scope === 'province' ? ', 도 단위 조회' : ''})`
+              : weatherRow.warning,
           source: 'kma',
         }
       : null);
@@ -726,7 +755,7 @@ function push(
     detail: value?.detail ?? null,
     source: value?.source ?? 'derived_facility',
     sourceField: null,
-    verifiedAt: value ? new Date().toISOString().slice(0, 10) : null,
+    verifiedAt: value ? seoulToday() : null,
     isKtoScored: false,
   });
 }
@@ -777,6 +806,53 @@ function applyCurated(facts: Fact[], curated: CuratedFact[]): Fact[] {
     });
   }
   return [...byKey.values()];
+}
+
+/**
+ * One 특보현황 call for the whole country, then one read per district.
+ *
+ * Every failure path lands on `unknown` with a reason rather than on `none`. A false
+ * all-clear is the one output of this stage that could get somebody hurt, so there is
+ * no branch that produces `none` without a successful fetch and an unambiguous read.
+ */
+async function buildWeather(
+  pois: PoiInput[],
+): Promise<NonNullable<z.infer<typeof ContextPayload>['weather']>> {
+  const checkedAt = seoulToday();
+  const districts = Array.from(
+    new Map(pois.map((poi) => [poi.signguCd5, poi])).values(),
+  );
+
+  const status = await getWeatherWarnings();
+  if (!status.ok || status.t6 === null) {
+    warn(`weather warnings unavailable — ${status.message ?? 'no t6'}; every place stays unknown`);
+    return districts.map((poi) => ({
+      signguCd5: poi.signguCd5,
+      state: 'unknown' as const,
+      warning: null,
+      scope: 'district' as const,
+      unknownReason: `기상특보를 조회하지 못했습니다: ${status.message ?? 'no t6'}`,
+      checkedAt,
+    }));
+  }
+
+  return districts.map((poi) => {
+    const region = kmaRegionFor(poi.lDongRegnCd, poi.cityKo);
+    if (region === null) {
+      warn(`no KMA region names for lDongRegnCd ${poi.lDongRegnCd} (${poi.cityKo})`);
+      return {
+        signguCd5: poi.signguCd5,
+        state: 'unknown' as const,
+        warning: null,
+        scope: 'province' as const,
+        unknownReason: `기상청 특보 문구에서 ${poi.cityKo}를 찾는 방법이 등록돼 있지 않습니다`,
+        checkedAt,
+      };
+    }
+    const read = readWarningFor(status.t6!, region);
+    if (read.state === 'unknown') warn(`weather for ${poi.cityKo}: ${read.unknownReason}`);
+    return { signguCd5: poi.signguCd5, ...read, checkedAt };
+  });
 }
 
 // ── stage 5: docent ────────────────────────────────────────────────────────────

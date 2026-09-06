@@ -328,7 +328,7 @@ color:var(--color-state-ok) ×4                 상태 단어가 텍스트용 �
 ```
 pnpm typecheck        오류 0
 pnpm lint             문제 0
-pnpm test             107 통과 / 5 파일
+pnpm test             107 통과 / 5 파일   ← 이 라운드 종료 시점. 이후 119로 (07번 §6)
 check-contrast        58 pairs, 36 tokens mirrored
 pnpm build:fixtures   성공, 스냅샷 라우트 전부 ● (SSG)
 pnpm e2e              24 통과 (axe 17경로 + 포커스 4 + 골든 3)

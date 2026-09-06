@@ -231,8 +231,34 @@ export const ContextPayload = z.object({
       caveat: z.literal(VISITOR_CAVEAT),
     }),
   ),
+  /**
+   * Three states, named. `warning: null` used to mean both "no warning is in force"
+   * and "we could not find out", and for a barrier-free service those are not the same
+   * answer — a false all-clear sends someone out in a heat warning.
+   *
+   * The distinction is not hypothetical here. KMA's 특보현황 data is deleted after
+   * seven days and the code lookup is capped at six days back, so a 폭염경보 running
+   * longer than six days disappears from the structured feed entirely. 공주 and 부여 in
+   * July and August is where that happens, which is exactly when it matters.
+   *
+   * `scope` records what the answer actually covers, because KMA's 특보구역 can be
+   * coarser than a 시군구: a province-wide answer must not be presented as a check on
+   * this district.
+   */
   weather: z
-    .array(z.object({ signguCd5: z.string(), warning: z.string().nullable() }))
+    .array(
+      z.object({
+        signguCd5: z.string(),
+        state: z.enum(['none', 'in_force', 'unknown']),
+        /** The bulletin text, when one is in force. Shown verbatim, never summarised. */
+        warning: z.string().nullable(),
+        /** Which area the answer is really about. */
+        scope: z.enum(['district', 'province']),
+        /** Why, when state is unknown. Printed in the gap report, not swallowed. */
+        unknownReason: z.string().nullable(),
+        checkedAt: z.iso.date(),
+      }),
+    )
     .optional(),
   fetchedAt: z.string(),
 });

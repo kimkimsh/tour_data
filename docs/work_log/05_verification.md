@@ -10,7 +10,7 @@
 |---|---|
 | `pnpm typecheck` | 오류 0. TypeScript 5.9.3, `strict: true`, `noUncheckedIndexedAccess: true` |
 | `pnpm lint` | 문제 0. ESLint 9.39.5 + `eslint-config-next` 16.3.4 flat config |
-| `pnpm test` | **107 통과 / 5 파일.** 골든 27 + 성질 8 + 카탈로그 불변식 3 + KTO 필드명 미러 3 + 산식 성질 단정 19 + **`resolveStatus` 실문장 42** + **메시지 파일 대칭 5** |
+| `pnpm test` | **119 통과 / 6 파일.** 골든 27 + 성질 8 + 카탈로그 불변식 3 + KTO 필드명 미러 3 + 산식 성질 단정 19 + **`resolveStatus` 실문장 42** + **메시지 파일 대칭 5** + **기상특보 문구 파서 16** (Layer C 4건은 규칙과 함께 삭제) |
 | `pnpm exec tsx scripts/check-contrast.ts` | `contrast check passed: 58 pairs, 36 tokens mirrored` |
 | `pnpm build:fixtures` | 성공. 전 라우트가 `● (SSG)` 또는 `ƒ (Dynamic)`로 나온다 — 스냅샷 라우트에 `force-dynamic`이 없다 |
 | `pnpm e2e` | **24 통과.** axe 17경로 + 포커스 4 + 골든 플로우 3 |

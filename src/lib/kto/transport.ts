@@ -20,7 +20,22 @@
  * own messages; a full URL must never reach stdout because the key sits in it.
  */
 
-const GATEWAY_BASE = 'https://apis.data.go.kr/B551011';
+const GATEWAY_BASE = 'https://apis.data.go.kr';
+
+/**
+ * The organisation segment of the path. Every provider on this gateway gets one, and
+ * everything below it — the key parameter, the resultCode envelope, the XML-or-JSON
+ * ambiguity, the retry rules — behaves identically, which is why one transport serves
+ * both.
+ */
+export const ORG = {
+  /** 한국관광공사 */
+  kto: 'B551011',
+  /** 기상청 */
+  kma: '1360000',
+} as const;
+
+export type OrgCode = (typeof ORG)[keyof typeof ORG];
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 const MAX_ATTEMPTS = 3;
@@ -195,18 +210,31 @@ function toCount(value: unknown): number {
   return 0;
 }
 
-function buildUrl(serviceId: string, operation: string, params: KtoParams): string {
+function buildUrl(
+  org: OrgCode,
+  serviceId: string,
+  operation: string,
+  params: KtoParams,
+): string {
   const search = new URLSearchParams();
   // Raw, not pre-encoded: URLSearchParams encodes exactly once. See the file header.
   search.set('serviceKey', requireServiceKey());
-  search.set('MobileOS', 'ETC');
-  search.set('MobileApp', 'ModuBaekje');
-  search.set('_type', 'json');
+  if (org === ORG.kto) {
+    // KTO-only. The gateway drops unknown parameters silently rather than rejecting
+    // them, so sending these to another provider would not error — it would just be
+    // noise in a URL that already has to be read in a log.
+    search.set('MobileOS', 'ETC');
+    search.set('MobileApp', 'ModuBaekje');
+    search.set('_type', 'json');
+  } else {
+    // Same request, different provider's spelling for it.
+    search.set('dataType', 'JSON');
+  }
   for (const [name, value] of Object.entries(params)) {
     if (value === undefined) continue;
     search.set(name, String(value));
   }
-  return `${GATEWAY_BASE}/${serviceId}/${operation}?${search.toString()}`;
+  return `${GATEWAY_BASE}/${org}/${serviceId}/${operation}?${search.toString()}`;
 }
 
 function clipBody(body: string): string {
@@ -298,6 +326,7 @@ function sleep(ms: number): Promise<void> {
 }
 
 async function attemptOnce(
+  org: OrgCode,
   serviceId: string,
   operation: string,
   params: KtoParams,
@@ -309,7 +338,7 @@ async function attemptOnce(
   try {
     // There is no default fetch timeout. Without this an unresponsive gateway hangs the
     // whole ingest run instead of failing one call.
-    response = await fetch(buildUrl(serviceId, operation, params), {
+    response = await fetch(buildUrl(org, serviceId, operation, params), {
       signal: AbortSignal.timeout(timeoutMs),
       headers: { accept: 'application/json' },
     });
@@ -410,6 +439,17 @@ export async function ktoRequest(
   params: KtoParams = {},
   options: KtoRequestOptions = {},
 ): Promise<KtoResult> {
+  return gatewayRequest(ORG.kto, serviceId, operation, params, options);
+}
+
+/** Same gateway, another provider's organisation segment. See ORG. */
+export async function gatewayRequest(
+  org: OrgCode,
+  serviceId: string,
+  operation: string,
+  params: KtoParams = {},
+  options: KtoRequestOptions = {},
+): Promise<KtoResult> {
   const maxAttempts = Math.max(1, options.maxAttempts ?? MAX_ATTEMPTS);
   const timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const call = describeCall(serviceId, operation, params);
@@ -422,7 +462,7 @@ export async function ktoRequest(
     rawBody: '',
   };
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
-    const result = await attemptOnce(serviceId, operation, params, timeoutMs, call);
+    const result = await attemptOnce(org, serviceId, operation, params, timeoutMs, call);
     if (result.ok) return result;
     if (!isRetryable(result)) return result;
     failure = result;

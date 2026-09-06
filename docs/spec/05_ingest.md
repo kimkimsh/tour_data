@@ -447,7 +447,7 @@ for each poi (6곳):
 | `shade_indoor` | `curated-facts.json` | `curated` | `unknown` |
 | `visual_alarm` | `curated-facts.json` — 관광지 공식 홈페이지·시설 안내 조사 | `curated` | `unknown` |
 | `crowd_forecast` | `rate ≤ 40` → `supported` · `40 < rate ≤ 70` → `partial` · `70 < rate ≤ 100` → `unsupported` · **그 밖(0 미만·100 초과)** → `unknown`. 아래 주 | `tats` | `unknown` |
-| `weather_warning` | 특보 없음 `supported` / 발효 `unsupported` | `kma` | `unknown` |
+| `weather_warning` | `state='none'` → `supported` / `state='in_force'` → `unsupported` / `state='unknown'` 또는 행 없음 → `unknown` | `kma` | `unknown` |
 | `emergency_distance` | 가장 가까운 `kind='hospital'`까지 ≤500m `supported` / ≤1km `partial` / 초과 `unsupported` | `derived_facility` | `unknown` |
 | `aed_distance` | 가장 가까운 `kind='aed'`까지 ≤300m `supported` / ≤1km `partial` / 초과 `unsupported` | `derived_facility` | `unknown` |
 

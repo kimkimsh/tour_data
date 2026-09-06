@@ -75,7 +75,6 @@ export default async function PlacePage({
     unescoComponentNote: p.unescoComponentNote,
     hasRoute: routes.some((route) => route.poiSlug === p.slug),
     hasDocent: docent.some((story) => story.poiSlug === p.slug),
-    certifications: p.certifications.map((c) => ({ grade: c.grade, validUntil: c.validUntil })),
   }));
 
   const crowd = contextResult.ok
@@ -95,6 +94,20 @@ export default async function PlacePage({
           {poi.isUnescoComponent ? tp('componentSite') : tp('adjacentSite')}
           {poi.unescoComponentNote ? ` — ${poi.unescoComponentNote}` : ''}
         </p>
+        {/* Shown as a fact, not folded into the score. v5 dropped the certification
+            bonus because it reached one place in six and every other certification
+            found belonged to an ancillary building — but the designation itself is
+            verified and worth a visitor's attention, so it says so and cites itself. */}
+        {poi.certifications.length > 0 ? (
+          <ul className="mt-1 grid gap-1">
+            {poi.certifications.map((cert) => (
+              <li key={`${cert.grade}-${cert.sourceNote}`} className="text-[0.95rem]">
+                <span className="badge badge--visitable">{tc(`certification.${cert.grade}`)}</span>
+                <span className="evidence__provenance ml-2">{cert.sourceNote}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
         {i18n?.overview ? (
           <p className="mt-2 max-w-[var(--container-prose)]">{i18n.overview}</p>
         ) : null}

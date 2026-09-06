@@ -46,7 +46,7 @@ export function VerdictPanel({
   const board = useMemo(() => {
     if (!loaded || today === null) return null;
     return buildScoreboard({
-      pois: places.map((p) => ({ slug: p.slug, title: p.title, certifications: p.certifications })),
+      pois: places.map((p) => ({ slug: p.slug, title: p.title })),
       factsByPoi,
       personaIds: conditions.personaIds,
       cognitiveOption: conditions.cognitiveOption,
@@ -258,18 +258,12 @@ function CalculationDisclosure({
         <dl className="grid gap-1 sm:grid-cols-[12rem_1fr]">
           <dt className="font-bold">{t('layerB')}</dt>
           <dd className="tabular">{result.layerB.toFixed(3)}</dd>
-          <dt className="font-bold">{t('layerC')}</dt>
-          <dd className="tabular">
-            {result.layerC.toFixed(3)}
-            {result.layerC === 1 ? ` — ${t('layerCNone')}` : ''}
-          </dd>
         </dl>
 
         <p className="text-[1.02rem] font-bold">
           {t('scoreFormula', {
             a: result.layerA.toFixed(3),
             b: result.layerB.toFixed(3),
-            c: result.layerC.toFixed(3),
             score: result.score,
           })}
         </p>

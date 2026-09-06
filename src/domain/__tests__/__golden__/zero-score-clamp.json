@@ -295,7 +295,6 @@
       "P1a"
     ],
     "cognitiveOption": false,
-    "certifications": [],
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
@@ -304,7 +303,6 @@
     "label": "대체추천",
     "layerA": 0,
     "layerB": 0.75,
-    "layerC": 1,
     "axes": [
       {
         "axis": "entry",
@@ -737,6 +735,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v4"
+    "policyVersion": "suitability-v5"
   }
 }

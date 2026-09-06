@@ -293,7 +293,6 @@
     ],
     "personaIds": [],
     "cognitiveOption": false,
-    "certifications": [],
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
@@ -302,7 +301,6 @@
     "label": "주의",
     "layerA": 0.7914285714285717,
     "layerB": 0.9296875,
-    "layerC": 1,
     "axes": [
       {
         "axis": "entry",
@@ -536,6 +534,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v4"
+    "policyVersion": "suitability-v5"
   }
 }

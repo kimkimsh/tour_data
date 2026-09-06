@@ -40,7 +40,6 @@ export function PlaceList({
         pois: places.map((p) => ({
           slug: p.slug,
           title: p.title,
-          certifications: p.certifications,
         })),
         factsByPoi,
         personaIds: conditions.personaIds,

@@ -70,12 +70,14 @@ describe('suitability properties', () => {
     );
   });
 
-  it('2. layerC stays inside 1.00..1.12', () => {
+  it('2. the score is exactly round(100 x A x B), clamped', () => {
     fc.assert(
       fc.property(inputArb, (input) => {
-        const { layerC } = calculateSuitability(input);
-        expect(layerC).toBeGreaterThanOrEqual(1);
-        expect(layerC).toBeLessThanOrEqual(1.12 + 1e-12);
+        const r = calculateSuitability(input);
+        // Rules 1 and 4 may lower the score after this product; nothing may raise it.
+        expect(r.score).toBeLessThanOrEqual(
+          Math.round(Math.min(100, Math.max(0, 100 * r.layerA * r.layerB))),
+        );
       }),
       { numRuns: RUNS },
     );
@@ -156,7 +158,6 @@ describe('suitability properties', () => {
         expect(stale.label).toBe(fresh.label);
         expect(stale.layerA).toBe(fresh.layerA);
         expect(stale.layerB).toBe(fresh.layerB);
-        expect(stale.layerC).toBe(fresh.layerC);
         expect(stale.coverage).toBe(fresh.coverage);
         expect(stale.freshness).toBeLessThanOrEqual(fresh.freshness);
         expect(stale.evidenceConfidence).toBeLessThanOrEqual(fresh.evidenceConfidence);

@@ -14,7 +14,15 @@ import {
 import { CAPABILITIES } from './capabilities';
 import { GRADE_WEIGHT, criticalCodesFor, gradeFor, relevantCodesFor } from './personas';
 
-export const POLICY_VERSION = 'suitability-v4';
+/**
+ * v5 drops the certification layer. v4's score was A x B x C, where C was a bonus of
+ * up to 12% for a barrier-free certification. It reached one place in six, and every
+ * other certification found belonged to an ancillary building — a visitor centre, a
+ * toilet block — so applying it would have credited a site for a building's award.
+ * The score is A x B now, and a certification is shown as a fact rather than added to
+ * a number (docs/work_log/04_open_items.md, decision 3).
+ */
+export const POLICY_VERSION = 'suitability-v5';
 
 /** docs/spec/06_suitability.md section 3. Sums to 1.00. */
 export const AXIS_WEIGHT: Record<Axis, number> = {
@@ -47,14 +55,6 @@ export const STATUS_VALUE: Record<CapabilityStatus, number> = {
   unknown: 0.35,
 };
 
-const CERTIFICATION_BONUS: Record<string, number> = {
-  bf_preliminary: 0.02,
-  bf_general: 0.05,
-  bf_excellent: 0.08,
-  open_tourism: 0.04,
-};
-
-const CERTIFICATION_CAP = 0.12;
 const VISITABLE_THRESHOLD = 75;
 const COVERAGE_CAP_THRESHOLD = 0.65;
 const BLOCKED_SCORE_CEILING = 49;
@@ -178,23 +178,6 @@ function computeFreshness(facts: NormalisedFact[], calculationDate: string): num
   return total / dated.length;
 }
 
-function computeLayerC(
-  certifications: SuitabilityInput['certifications'],
-  calculationDate: string,
-): number {
-  const bonus = certifications.reduce((sum, cert) => {
-    // An unparseable expiry is treated as expired. daysBetween returns +Infinity for
-    // one, which is not < 0, so a lapsed certification with a malformed date would
-    // otherwise keep paying out its bonus forever.
-    if (cert.validUntil !== null) {
-      const remaining = daysBetween(calculationDate, cert.validUntil);
-      if (remaining < 0 || !Number.isFinite(remaining)) return sum;
-    }
-    return sum + (CERTIFICATION_BONUS[cert.grade] ?? 0);
-  }, 0);
-  return 1 + Math.min(CERTIFICATION_CAP, bonus);
-}
-
 function clampScore(value: number): number {
   return Math.round(Math.min(100, Math.max(0, value)));
 }
@@ -246,12 +229,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
   // must not paper over a wheelchair barrier.
   const layerB = 0.75 + 0.25 * Math.min(...fits);
 
-  const layerC = computeLayerC(input.certifications, input.calculationDate);
-
-  const scoreWithCertification = clampScore(100 * layerA * layerB * layerC);
-  // Band is read from the C = 1.00 score, which is what stops a certification
-  // from lifting a POI across a label boundary (section 5 guard).
-  const scoreWithoutCertification = clampScore(100 * layerA * layerB);
+  const score0 = clampScore(100 * layerA * layerB);
 
   const freshness = computeFreshness(facts, input.calculationDate);
 
@@ -275,7 +253,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     .filter((f) => f.status === 'unknown')
     .map((f) => f.capabilityCode);
 
-  let score = scoreWithCertification;
+  let score = score0;
   let label: SuitabilityLabel;
 
   if (knownCriticalBlockers.length > 0) {
@@ -291,7 +269,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     // to give. The second arm covers P0, which has no critical set at all.
     label = '정보없음';
   } else {
-    label = scoreWithoutCertification >= VISITABLE_THRESHOLD ? '방문가능' : '주의';
+    label = score0 >= VISITABLE_THRESHOLD ? '방문가능' : '주의';
     // Rule 4. The cap only ever lowers a visitable verdict to a caution verdict.
     if (unknownCriticals.length > 0 || coverage < COVERAGE_CAP_THRESHOLD) {
       label = '주의';
@@ -303,7 +281,6 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     label,
     layerA,
     layerB,
-    layerC,
     axes,
     freshness,
     coverage,

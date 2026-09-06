@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Eyebrow } from '@/components/Eyebrow';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
+import { createBrowserClient } from '@/lib/supabase/browser';
 import type { ReportCategory } from '@/domain/types';
 
 interface ReportRow {
@@ -46,14 +47,33 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
     };
   }, [poiSlug]);
 
+  /**
+   * The session is created here rather than at page load, the same way the report form
+   * does it: an anonymous user row should exist because somebody chose to act, not
+   * because somebody opened a page. flag_report is granted to `authenticated` only, so
+   * without this the route answers 401.
+   */
   const flag = async (id: string) => {
-    await fetch('/api/report/flag', {
+    const supabase = createBrowserClient();
+    const { data: session } = await supabase.auth.getSession();
+    if (!session.session) {
+      const { error } = await supabase.auth.signInAnonymously();
+      if (error) {
+        setAnnouncement(`${t('reportFlagFailed')} (${new Date().toLocaleTimeString()})`);
+        return;
+      }
+    }
+
+    const response = await fetch('/api/report/flag', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ id }),
     });
     // The text has to change for the region to announce again on a second flag.
-    setAnnouncement(`${t('reportFlagged')} (${new Date().toLocaleTimeString()})`);
+    const stamp = new Date().toLocaleTimeString();
+    setAnnouncement(
+      response.ok ? `${t('reportFlagged')} (${stamp})` : `${t('reportFlagFailed')} (${stamp})`,
+    );
   };
 
   return (

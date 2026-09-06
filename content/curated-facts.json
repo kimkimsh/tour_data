@@ -47,7 +47,6 @@
     "source": "https://cyber.gongju.go.kr/onnuri/sub05_01_05.do (공주시 사이버공주)",
     "checkedAt": "2026-09-02"
   },
-
   {
     "poiSlug": "muryeong-royal-tombs",
     "capabilityCode": "parking",
@@ -144,7 +143,6 @@
     "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e — 별개 시설의 시설을 이 관광지의 것으로 올리지 않는다",
     "checkedAt": "2026-09-02"
   },
-
   {
     "poiSlug": "gongju-national-museum",
     "capabilityCode": "parking",
@@ -217,7 +215,6 @@
     "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d (페이지 수정일 2026-01-05)",
     "checkedAt": "2026-09-02"
   },
-
   {
     "poiSlug": "busosanseong",
     "capabilityCode": "parking",
@@ -261,10 +258,11 @@
   {
     "poiSlug": "busosanseong",
     "capabilityCode": "elevator",
-    "status": "unsupported",
-    "detail": "부여군 편의시설 표의 「장애인 전용 엘리베이터」 항목이 「없음」이다.",
-    "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여군 편의시설 표 — 6곳 중 항목별 있음/없음을 명시하는 유일한 출처)",
-    "checkedAt": "2026-09-02"
+    "status": "unknown",
+    "detail": "야외 산성이라 건물이 없고, 엘리베이터가 설치될 수 있는 지점 자체가 없습니다. 다만 낙화암·고란사 방향은 경사가 심한 돌길이라 휠체어와 유아차로는 갈 수 없습니다 — 부소산문에서 삼충사 방향까지가 갈 수 있는 구간입니다.",
+    "source": "부여군 편의시설 표 https://www.buyeo.go.kr/html/tour/info/info_010101.html 의 「장애인 전용 엘리베이터: 없음」과, 같은 기관·한국관광공사가 공통으로 안내하는 「낙화암·고란사 구간은 경사가 심한 돌길로 휠체어·유모차 진입 어려움」 문장을 함께 읽은 판단이다. 설비 미설치가 아니라 지형상 해당되지 않는 항목으로 본다.",
+    "checkedAt": "2026-09-07",
+    "absenceKind": "not_applicable"
   },
   {
     "poiSlug": "busosanseong",
@@ -290,7 +288,6 @@
     "source": "https://www.buyeo.go.kr/html/tour/info/info_010101.html · https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c (두 출처가 같은 문장을 쓴다)",
     "checkedAt": "2026-09-02"
   },
-
   {
     "poiSlug": "jeongnimsaji",
     "capabilityCode": "parking",
@@ -363,7 +360,6 @@
     "source": "access.visitkorea 무장애 여행기사 (관광지 상세 페이지가 아니라 기사 본문이 출처다)",
     "checkedAt": "2026-09-02"
   },
-
   {
     "poiSlug": "buyeo-national-museum",
     "capabilityCode": "parking",

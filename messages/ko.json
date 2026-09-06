@@ -85,7 +85,13 @@
       "a11ySelfCheck": "KWCAG 2.2 자체 점검 (자동 검사 + NVDA 수동 검증)",
       "handover": "지자체 인계를 염두에 두고 설계한 충남 갭 리포트"
     },
-    "fixtureBanner": "이 화면은 예시 데이터로 만들어졌습니다. 실제 수집 데이터가 아니므로 판단 근거로 쓰지 마세요."
+    "fixtureBanner": "이 화면은 예시 데이터로 만들어졌습니다. 실제 수집 데이터가 아니므로 판단 근거로 쓰지 마세요.",
+    "certification": {
+      "bf_preliminary": "무장애 예비인증",
+      "bf_general": "무장애 인증(일반)",
+      "bf_excellent": "무장애 인증(우수)",
+      "open_tourism": "열린관광지"
+    }
   },
   "home": {
     "title": "누구와 함께 가시나요?",
@@ -156,9 +162,7 @@
     },
     "layerA": "A 시설 목록",
     "layerB": "B 조건 적합",
-    "layerC": "C 인증 보정",
-    "layerCNone": "해당 인증 없음",
-    "scoreFormula": "점수 = 100 × {a} × {b} × {c} = {score}",
+    "scoreFormula": "점수 = 100 × {a} × {b} = {score}",
     "roundingNote": "표시값은 소수 3자리 반올림입니다. 점수는 반올림 전 값으로 계산하므로 행별 기여값의 합과 A 합계의 마지막 자리가 다를 수 있습니다.",
     "freshnessNote": "확인일이 오래된 것은 불확실이고 부적합이 아니므로 점수를 깎지 않습니다.",
     "whyCaution": "「주의 필요」가 된 이유",
@@ -185,7 +189,8 @@
     "noPhotos": "이 관광지의 사진이 아직 수집되지 않았습니다.",
     "notFound": "그런 관광지가 없습니다.",
     "reportsLoading": "제보를 불러오는 중입니다.",
-    "reportsReady": "제보 {count}건을 불러왔습니다."
+    "reportsReady": "제보 {count}건을 불러왔습니다.",
+    "reportFlagFailed": "신고하지 못했습니다. 잠시 후 다시 시도해 주세요."
   },
   "courses": {
     "metaTitle": "코스",

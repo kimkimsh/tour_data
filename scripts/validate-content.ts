@@ -108,6 +108,9 @@ for (const [name, rows] of [
   }
 }
 
+/** Long enough that "해당 없음" or "N/A" cannot pass as an explanation. */
+const NOT_APPLICABLE_MIN_DETAIL = 20;
+
 // A curated fact may only name a cause when it also names where the cause came from.
 for (const fact of curated ?? []) {
   if (
@@ -119,6 +122,30 @@ for (const fact of curated ?? []) {
       `${fact.poiSlug}/${fact.capabilityCode} declares absenceKind "${fact.absenceKind}" ` +
         'but its source is too short to say how that cause was established',
     );
+  }
+
+  // not_applicable is the one kind that changes the arithmetic rather than the wording:
+  // the item leaves ktoTotalCount and every axis mean. A place can be made to look
+  // better by declaring its missing facilities inapplicable, so the reason has to be
+  // written down and it has to be shown — `detail` is what the evidence card prints.
+  if (fact.absenceKind === 'not_applicable') {
+    const detail = fact.detail?.trim() ?? '';
+    if (detail.length < NOT_APPLICABLE_MIN_DETAIL) {
+      fail(
+        'curated-facts.json',
+        `${fact.poiSlug}/${fact.capabilityCode} declares absenceKind "not_applicable", ` +
+          'which removes it from the score denominator. That needs a detail sentence ' +
+          `saying why the item does not apply here (at least ${NOT_APPLICABLE_MIN_DETAIL} characters); ` +
+          `got ${detail.length}.`,
+      );
+    }
+    if (fact.status !== 'unknown') {
+      fail(
+        'curated-facts.json',
+        `${fact.poiSlug}/${fact.capabilityCode} is "not_applicable" but its status is ` +
+          `"${fact.status}". An item that does not apply has no status — use "unknown".`,
+      );
+    }
   }
 }
 

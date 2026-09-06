@@ -133,24 +133,6 @@ export function goldenCases(): GoldenCase[] {
     { name: 'coverage-cap', input: withPersonas(['P1a'], coverageCase('P1a', 5)) },
     { name: 'coverage-boundary', input: withPersonas(['P1b'], coverageCase('P1b', 7)) },
     {
-      name: 'layer-c-guard',
-      input: {
-        ...findScoreInput(74),
-        certifications: [{ grade: 'bf_excellent', validUntil: null }],
-      },
-    },
-    {
-      name: 'layer-c-cap',
-      input: input({
-        certifications: [
-          { grade: 'bf_excellent', validUntil: null },
-          { grade: 'bf_general', validUntil: null },
-          { grade: 'bf_preliminary', validUntil: null },
-          { grade: 'open_tourism', validUntil: null },
-        ],
-      }),
-    },
-    {
       name: 'stale-data',
       input: withPersonas(['P1a'], facts('supported', {}, OLD_DATE)),
     },
@@ -191,7 +173,6 @@ export function goldenCases(): GoldenCase[] {
       input: withPersonas(['P1a'], facts('supported', { elevator: { status: 'partial' } })),
     },
     { name: 'all-unknown-p0', input: input({ facts: facts('unknown') }) },
-    { name: 'no-certifications', input: input({ certifications: [] }) },
     { name: 'boundary-74', input: findScoreInput(74) },
     { name: 'boundary-75', input: findScoreInput(75) },
     {

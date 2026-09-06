@@ -86,13 +86,18 @@ export const CuratedFactSchema = z.object({
   capabilityCode: z.enum(CAPABILITY_CODES),
   status: z.enum(CAPABILITY_STATUSES),
   /**
-   * Deliberately narrower than ABSENCE_KINDS. A curated `not_registered` removes the
-   * whole place from the municipal priority list, and a curated `not_applicable`
-   * removes a capability from ktoTotalCount and every axis mean — both silently, and
-   * both from a single hand-edited line. Those two kinds are ingest's to derive from
-   * the dataset, never a content file's to assert.
+   * Narrower than ABSENCE_KINDS by one. `not_registered` is ingest's to derive from
+   * the dataset — it removes a whole place from the municipal priority list, and no
+   * hand-edited line should be able to do that.
+   *
+   * `not_applicable` is allowed but gated. It removes the capability from
+   * ktoTotalCount and from every axis mean, which is the right answer for an elevator
+   * at an open-air fortress and the wrong answer everywhere it is used to make a low
+   * score go away. scripts/validate-content.ts requires a `detail` sentence saying why
+   * the item does not apply, so the exclusion is always visible on the screen that
+   * shows it.
    */
-  absenceKind: z.enum(['intrinsic', 'operator_missing']).nullable().optional(),
+  absenceKind: z.enum(['intrinsic', 'operator_missing', 'not_applicable']).nullable().optional(),
   detail: z.string().nullable(),
   /** A URL or an institution, never empty. This is the file's whole point. */
   source: z.string().min(4),

@@ -535,8 +535,15 @@ returns void language sql security definer set search_path = '' as $$
      set flagged_at = coalesce(flagged_at, now())
    where id = target and not is_hidden;
 $$;
-revoke all on function flag_report(uuid) from public;
-grant execute on function flag_report(uuid) to anon, authenticated;
+-- authenticated 만. anon 은 뺀다.
+-- 제보를 올리는 데 이미 익명 세션이 필요하므로 신고만 세션 없이 되는 것이 일관성이 없었고,
+-- 세션 없는 호출자는 테이블의 모든 제보를 신고할 수 있다. 그 결과가 정렬을 평평하게 만드는
+-- 정도가 아니다 — 관리자 목록은 200행 상한에 페이지네이션이 없고 신고된 것을 먼저 보여주므로,
+-- 신고가 200건을 넘으면 기본 화면에 그것 외에 아무것도 남지 않는다. 264건으로 실측했을 때
+-- 신고되지 않은 첫 제보의 위치가 아예 없었다(NULL). 운영자가 새 제보를 못 보게 된다.
+-- 방문자가 느끼는 차이는 없다: 신고 버튼이 제보 폼과 같은 익명 세션을 만든다.
+revoke all on function flag_report(uuid) from public, anon;
+grant execute on function flag_report(uuid) to authenticated;
 
 -- 이 함수가 돌려주는 것이 없다는 것도 의도다. 호출자는 그 제보가
 -- 이미 신고된 상태였는지 알 수 없고, 알 필요도 없다.

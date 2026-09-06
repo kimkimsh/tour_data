@@ -12,7 +12,6 @@ export interface PlaceCardData {
   unescoComponentNote: string | null;
   hasRoute: boolean;
   hasDocent: boolean;
-  certifications: Array<{ grade: string; validUntil: string | null }>;
 }
 
 export function capabilityLabel(code: string, locale: Locale): string {

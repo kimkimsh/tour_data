@@ -296,7 +296,6 @@
       "P2b"
     ],
     "cognitiveOption": false,
-    "certifications": [],
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
@@ -305,7 +304,6 @@
     "label": "주의",
     "layerA": 0.9561250000000003,
     "layerB": 0.9815340909090909,
-    "layerC": 1,
     "axes": [
       {
         "axis": "entry",
@@ -555,6 +553,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v4"
+    "policyVersion": "suitability-v5"
   }
 }

@@ -1091,12 +1091,12 @@
   {
     "poiSlug": "busosanseong",
     "capabilityCode": "elevator",
-    "status": "unsupported",
-    "absenceKind": null,
-    "detail": "부여군 편의시설 표의 「장애인 전용 엘리베이터」 항목이 「없음」이다.",
+    "status": "unknown",
+    "absenceKind": "not_applicable",
+    "detail": "야외 산성이라 건물이 없고, 엘리베이터가 설치될 수 있는 지점 자체가 없습니다. 다만 낙화암·고란사 방향은 경사가 심한 돌길이라 휠체어와 유아차로는 갈 수 없습니다 — 부소산문에서 삼충사 방향까지가 갈 수 있는 구간입니다.",
     "source": "curated",
-    "sourceField": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여군 편의시설 표 — 6곳 중 항목별 있음/없음을 명시하는 유일한 출처)",
-    "verifiedAt": "2026-09-02",
+    "sourceField": "부여군 편의시설 표 https://www.buyeo.go.kr/html/tour/info/info_010101.html 의 「장애인 전용 엘리베이터: 없음」과, 같은 기관·한국관광공사가 공통으로 안내하는 「낙화암·고란사 구간은 경사가 심한 돌길로 휠체어·유모차 진입 어려움」 문장을 함께 읽은 판단이다. 설비 미설치가 아니라 지형상 해당되지 않는 항목으로 본다.",
+    "verifiedAt": "2026-09-07",
     "isKtoScored": true
   },
   {

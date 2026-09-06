@@ -41,7 +41,6 @@ export default async function PlacesPage({ params }: { params: Promise<{ locale:
     unescoComponentNote: poi.unescoComponentNote,
     hasRoute: routes.some((route) => route.poiSlug === poi.slug),
     hasDocent: docent.some((story) => story.poiSlug === poi.slug),
-    certifications: poi.certifications.map((c) => ({ grade: c.grade, validUntil: c.validUntil })),
   }));
 
   return (

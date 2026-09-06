@@ -85,7 +85,13 @@
       "a11ySelfCheck": "KWCAG 2.2 self-assessment (automated checks plus manual NVDA testing)",
       "handover": "A Chungnam gap report designed with municipal handover in mind"
     },
-    "fixtureBanner": "This screen is built from example data, not collected data. Do not rely on it."
+    "fixtureBanner": "This screen is built from example data, not collected data. Do not rely on it.",
+    "certification": {
+      "bf_preliminary": "Barrier-free, preliminary",
+      "bf_general": "Barrier-free certified",
+      "bf_excellent": "Barrier-free certified (excellent)",
+      "open_tourism": "Open Tourism site"
+    }
   },
   "home": {
     "title": "Who are you travelling with?",
@@ -156,9 +162,7 @@
     },
     "layerA": "A Facilities",
     "layerB": "B Fit to your conditions",
-    "layerC": "C Certification adjustment",
-    "layerCNone": "no applicable certification",
-    "scoreFormula": "Score = 100 × {a} × {b} × {c} = {score}",
+    "scoreFormula": "Score = 100 × {a} × {b} = {score}",
     "roundingNote": "Displayed values are rounded to three decimals. The score is computed before rounding, so the sum of the rows and the A total can differ in the last digit.",
     "freshnessNote": "An old check date means uncertainty, not unsuitability, so it does not reduce the score.",
     "whyCaution": "Why the verdict is “check first”",
@@ -185,7 +189,8 @@
     "noPhotos": "No photographs have been collected for this place yet.",
     "notFound": "No such place.",
     "reportsLoading": "Loading reports.",
-    "reportsReady": "Loaded {count} reports."
+    "reportsReady": "Loaded {count} reports.",
+    "reportFlagFailed": "Could not flag this report. Try again in a moment."
   },
   "courses": {
     "metaTitle": "Courses",

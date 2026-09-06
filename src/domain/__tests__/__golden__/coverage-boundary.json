@@ -295,7 +295,6 @@
       "P1b"
     ],
     "cognitiveOption": false,
-    "certifications": [],
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
@@ -304,7 +303,6 @@
     "label": "방문가능",
     "layerA": 0.8191607142857145,
     "layerB": 0.9620833333333333,
-    "layerC": 1,
     "axes": [
       {
         "axis": "entry",
@@ -581,6 +579,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v4"
+    "policyVersion": "suitability-v5"
   }
 }

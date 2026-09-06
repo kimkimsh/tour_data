@@ -297,7 +297,6 @@
       "P3"
     ],
     "cognitiveOption": false,
-    "certifications": [],
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
@@ -306,7 +305,6 @@
     "label": "방문가능",
     "layerA": 0.9000000000000001,
     "layerB": 0.9642857142857143,
-    "layerC": 1,
     "axes": [
       {
         "axis": "entry",
@@ -540,6 +538,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v4"
+    "policyVersion": "suitability-v5"
   }
 }

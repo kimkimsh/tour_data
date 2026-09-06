@@ -59,7 +59,7 @@ export function CourseView({
   const scores = useMemo(() => {
     if (!loaded || today === null) return null;
     const board = buildScoreboard({
-      pois: places.map((p) => ({ slug: p.slug, title: p.title, certifications: p.certifications })),
+      pois: places.map((p) => ({ slug: p.slug, title: p.title })),
       factsByPoi,
       personaIds: conditions.personaIds,
       cognitiveOption: conditions.cognitiveOption,

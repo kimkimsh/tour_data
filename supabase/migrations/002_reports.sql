@@ -131,14 +131,25 @@ create policy "reports admin hides" on barrier_reports for update to authenticat
 --
 -- Returning void is deliberate: the caller cannot tell whether the report was
 -- already flagged, and has no reason to know.
+--
+-- authenticated only, not anon. Posting a report already requires an anonymous
+-- session, so letting flagging happen without one was the inconsistency; and a caller
+-- with no session at all can flag every report in the table, which does more damage
+-- than flattening a sort. The admin list shows 200 rows with no pagination and orders
+-- flagged first, so once the flagged set passes 200 the default screen holds nothing
+-- else — measured at 264 flagged rows, the first unflagged report has no position at
+-- all. The operator stops seeing new reports.
+--
+-- Nothing changes for a visitor: the flag button creates the same anonymous session
+-- the report form creates, and no sign-up exists in either path.
 create or replace function flag_report(target uuid)
 returns void language sql security definer set search_path = '' as $$
   update public.barrier_reports
      set flagged_at = coalesce(flagged_at, now())
    where id = target and not is_hidden;
 $$;
-revoke all on function public.flag_report(uuid) from public;
-grant execute on function public.flag_report(uuid) to anon, authenticated;
+revoke all on function public.flag_report(uuid) from public, anon;
+grant execute on function public.flag_report(uuid) to authenticated;
 
 -- Table and column privileges, because RLS alone cannot say WHICH columns a caller
 -- may write — nor anything at all about the statements that are not row operations.

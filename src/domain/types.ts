@@ -143,7 +143,6 @@ export interface SuitabilityResult {
 
   layerA: number;
   layerB: number;
-  layerC: number;
   axes: AxisBreakdown[];
 
   /**
@@ -193,7 +192,6 @@ export interface SuitabilityInput {
   /** Empty means the synthetic P0 (general visit) persona. */
   personaIds: ReadonlyArray<PersonaId>;
   cognitiveOption: boolean;
-  certifications: ReadonlyArray<{ grade: string; validUntil: string | null }>;
   /** ISO date. Date.now() must not be called inside the domain layer. */
   calculationDate: string;
   scoredAlternatives: ReadonlyArray<AlternativePoi>;

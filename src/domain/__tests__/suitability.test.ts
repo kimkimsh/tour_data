@@ -148,16 +148,13 @@ describe('spec properties the golden files must keep', () => {
     expect(result.label).toBe('방문가능');
   });
 
-  it('certification cannot lift the label across a band boundary', () => {
-    const result = run('layer-c-guard');
-    expect(result.layerC).toBeGreaterThan(1);
-    expect(result.score).toBeGreaterThan(74);
-    expect(result.label).toBe('주의');
-  });
-
-  it('certification bonus is capped', () => {
-    expect(run('layer-c-cap').layerC).toBeCloseTo(1.12, 12);
-    expect(run('no-certifications').layerC).toBe(1);
+  it('the score is exactly A x B — nothing else multiplies it', () => {
+    // v5 dropped the certification layer. This is the assertion that would fail if a
+    // third factor were reintroduced without the spec being changed with it.
+    for (const name of ['boundary-74', 'boundary-75', 'all-partial'] as const) {
+      const r = run(name);
+      expect(r.score).toBe(Math.round(Math.min(100, Math.max(0, 100 * r.layerA * r.layerB))));
+    }
   });
 
   it('stale data changes confidence only, never the score or the label', () => {

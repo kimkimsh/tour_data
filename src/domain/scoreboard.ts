@@ -9,7 +9,6 @@ import type {
 export interface ScoreboardPoi {
   slug: string;
   title: string;
-  certifications: ReadonlyArray<{ grade: string; validUntil: string | null }>;
 }
 
 export interface ScoreboardInput {
@@ -42,7 +41,6 @@ export function buildScoreboard(input: ScoreboardInput): ScoreboardEntry[] {
       facts: input.factsByPoi[poi.slug] ?? [],
       personaIds: input.personaIds,
       cognitiveOption: input.cognitiveOption,
-      certifications: poi.certifications,
       calculationDate: input.calculationDate,
       scoredAlternatives: [],
     }),
@@ -62,7 +60,6 @@ export function buildScoreboard(input: ScoreboardInput): ScoreboardEntry[] {
       facts: input.factsByPoi[poi.slug] ?? [],
       personaIds: input.personaIds,
       cognitiveOption: input.cognitiveOption,
-      certifications: poi.certifications,
       calculationDate: input.calculationDate,
       scoredAlternatives: candidates.filter((c) => c.poiSlug !== poi.slug),
     }),

@@ -52,7 +52,6 @@ export function input(partial: Partial<SuitabilityInput> = {}): SuitabilityInput
     facts: partial.facts ?? facts('supported'),
     personaIds: partial.personaIds ?? [],
     cognitiveOption: partial.cognitiveOption ?? false,
-    certifications: partial.certifications ?? [],
     calculationDate: partial.calculationDate ?? CALC_DATE,
     scoredAlternatives: partial.scoredAlternatives ?? [],
   };

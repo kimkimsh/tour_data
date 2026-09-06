@@ -17,6 +17,7 @@
 | 04 | [`04_open_items.md`](./04_open_items.md) | 남은 것. 무엇이 왜 막혀 있나 |
 | 05 | [`05_verification.md`](./05_verification.md) | **실제로 돌린 것과 그 출력.** 안 돌린 것도 적는다 |
 | 06 | [`06_review_round.md`](./06_review_round.md) | **구현 후 적대적 검토에서 나온 41건과 그 처리.** 가장 중요한 문서 |
+| 07 | [`07_merge_and_handover.md`](./07_merge_and_handover.md) | main 병합, 그리고 막힌 것을 사람이 풀 수 있는 형태로 바꾼 기록 |
 
 ---
 
@@ -41,3 +42,5 @@
 **한국관광공사 API 키와 Supabase 프로젝트가 없어서 `pnpm probe`·`pnpm ingest`는 한 번도 실행되지 않았고, 그래서 화면에 보이는 무장애 항목은 전부 `정보 없음`이다.** `pnpm validate:content`는 지금 **의도적으로 빨간불**이고 그래서 CI도 빨간불이다 — 확인되지 않은 `contentId`로 배포하면 조용히 다른 관광지의 데이터를 수집한다.
 
 자세히는 [`04_open_items.md`](./04_open_items.md), 검토에서 잡힌 것은 [`06_review_round.md`](./06_review_round.md).
+
+**막힌 것을 실제로 푸는 절차는 [`../guide/`](../guide/)에 있다** — 키를 어디서 받아 어디에 넣는지, 그리고 사람이 정해야 하는 5가지가 각각 숫자로 얼마나 달라지는지.

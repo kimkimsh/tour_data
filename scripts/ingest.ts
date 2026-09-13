@@ -1045,4 +1045,10 @@ async function main(): Promise<void> {
   console.log('\ningest finished');
 }
 
-await main();
+// Not top-level await: package.json has no "type": "module", so tsx hands this file to
+// esbuild's cjs format, which cannot host one — `pnpm ingest` dies before the first
+// stage with "Top-level await is currently not supported". Same shape as probe.ts.
+main().catch((cause: unknown) => {
+  console.error(`ingest: ${cause instanceof Error ? cause.message : String(cause)}`);
+  process.exitCode = 1;
+});

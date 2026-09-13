@@ -36,7 +36,7 @@
     },
     "media": [
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F76%2F3404476_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/76/3404476_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -46,7 +46,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F57%2F3404457_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/57/3404457_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -56,7 +56,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F67%2F3404567_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/67/3404567_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -66,7 +66,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F47%2F3404447_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/47/3404447_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -76,7 +76,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F45%2F3404545_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/45/3404545_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -86,7 +86,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F79%2F3404479_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/79/3404479_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -96,7 +96,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F13%2F3404513_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/13/3404513_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -106,7 +106,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F09%2F3404509_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/09/3404509_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -116,7 +116,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F53%2F3404553_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource_photo/53/3404553_image2_1.jpg",
         "kind": "photo",
         "alt": "공산성",
         "licenseCode": "Type1",
@@ -126,7 +126,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F1137688.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/88/1137688.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -136,7 +136,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F05%2F1747305.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/05/1747305.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -146,7 +146,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F83%2F1791183.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/83/1791183.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -156,7 +156,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F03%2F1791203.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/03/1791203.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -166,7 +166,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F04%2F1791204.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/04/1791204.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -176,7 +176,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F1791207.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/07/1791207.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -186,7 +186,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F1791211.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/11/1791211.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -196,7 +196,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F1791216.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/16/1791216.jpg",
         "kind": "gallery",
         "alt": "공산성",
         "licenseCode": null,
@@ -278,7 +278,7 @@
     },
     "media": [
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F74%2F2007774.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/74/2007774.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -288,7 +288,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F75%2F2007775.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/75/2007775.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -298,7 +298,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F76%2F2007776.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/76/2007776.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -308,7 +308,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F77%2F2007777.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/77/2007777.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -318,7 +318,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F78%2F2007778.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/78/2007778.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -328,7 +328,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F79%2F2007779.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/79/2007779.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -338,7 +338,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F80%2F2007780.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/80/2007780.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -348,7 +348,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F81%2F2007781.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/81/2007781.jpg",
         "kind": "gallery",
         "alt": "공주 무령왕릉과 왕릉원",
         "licenseCode": null,
@@ -447,7 +447,7 @@
     },
     "media": [
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F31%2F3534931_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/31/3534931_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (4)",
         "licenseCode": "Type1",
@@ -457,7 +457,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F32%2F3534932_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/32/3534932_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (5)",
         "licenseCode": "Type1",
@@ -467,7 +467,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F34%2F3534934_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/34/3534934_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (2)",
         "licenseCode": "Type1",
@@ -477,7 +477,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F35%2F3534935_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/35/3534935_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (3)",
         "licenseCode": "Type1",
@@ -487,7 +487,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F39%2F3534939_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/39/3534939_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (9)",
         "licenseCode": "Type1",
@@ -497,7 +497,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F40%2F3534940_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/40/3534940_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (6)",
         "licenseCode": "Type1",
@@ -507,7 +507,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F41%2F3534941_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/41/3534941_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (7)",
         "licenseCode": "Type1",
@@ -517,7 +517,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F42%2F3534942_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/42/3534942_image2_1.jpg",
         "kind": "photo",
         "alt": "공주_국립공주박물관 (8)",
         "licenseCode": "Type1",
@@ -527,7 +527,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F14%2F1138314.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/14/1138314.jpg",
         "kind": "gallery",
         "alt": "국립공주박물관",
         "licenseCode": null,
@@ -537,7 +537,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F10%2F2724910.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/10/2724910.jpg",
         "kind": "gallery",
         "alt": "국립공주박물관",
         "licenseCode": null,
@@ -547,7 +547,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F15%2F2724915.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/15/2724915.jpg",
         "kind": "gallery",
         "alt": "국립공주박물관",
         "licenseCode": null,
@@ -557,7 +557,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F19%2F2724919.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/19/2724919.jpg",
         "kind": "gallery",
         "alt": "국립공주박물관",
         "licenseCode": null,
@@ -567,7 +567,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F25%2F2724925.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/25/2724925.jpg",
         "kind": "gallery",
         "alt": "국립공주박물관",
         "licenseCode": null,
@@ -577,7 +577,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F1137939.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/39/1137939.jpg",
         "kind": "gallery",
         "alt": "무령왕릉 유물",
         "licenseCode": null,
@@ -587,7 +587,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F40%2F1137940.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/40/1137940.jpg",
         "kind": "gallery",
         "alt": "무령왕릉 유물",
         "licenseCode": null,
@@ -597,7 +597,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F1138023.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/23/1138023.jpg",
         "kind": "gallery",
         "alt": "무령왕릉 유물",
         "licenseCode": null,
@@ -669,7 +669,7 @@
     },
     "media": [
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F56%2F1601156_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/56/1601156_image2_1.jpg",
         "kind": "photo",
         "alt": "삼충사",
         "licenseCode": "Type3",
@@ -679,7 +679,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F64%2F1601164_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/64/1601164_image2_1.jpg",
         "kind": "photo",
         "alt": "수혈주거지",
         "licenseCode": "Type3",
@@ -689,7 +689,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F70%2F1601170_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/70/1601170_image2_1.jpg",
         "kind": "photo",
         "alt": "반월루",
         "licenseCode": "Type3",
@@ -699,7 +699,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F77%2F1601177_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/77/1601177_image2_1.jpg",
         "kind": "photo",
         "alt": "궁녀사",
         "licenseCode": "Type3",
@@ -709,7 +709,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F87%2F1791887.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/87/1791887.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -719,7 +719,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F1791888.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/88/1791888.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -729,7 +729,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F98%2F1791898.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/98/1791898.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -739,7 +739,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F1791911.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/11/1791911.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -749,7 +749,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F12%2F1791912.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/12/1791912.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -759,7 +759,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F21%2F1791921.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/21/1791921.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -769,7 +769,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F1791943.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/43/1791943.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -779,7 +779,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F1831507.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/07/1831507.jpg",
         "kind": "gallery",
         "alt": "부소산성",
         "licenseCode": null,
@@ -861,7 +861,7 @@
     },
     "media": [
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F58%2F3355458_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/58/3355458_image2_1.jpg",
         "kind": "photo",
         "alt": "정림사지 (1)",
         "licenseCode": "Type1",
@@ -871,7 +871,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F60%2F3355460_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/60/3355460_image2_1.jpg",
         "kind": "photo",
         "alt": "정림사지 (3)",
         "licenseCode": "Type1",
@@ -881,7 +881,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F61%2F4063461_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/61/4063461_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_정림사지 오층석탑_외부_6.jpg",
         "licenseCode": "Type1",
@@ -891,7 +891,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F62%2F4063462_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/62/4063462_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_정림사지 오층석탑_외부_7.jpg",
         "licenseCode": "Type1",
@@ -901,7 +901,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F63%2F4063463_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/63/4063463_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_정림사지 오층석탑_외부_8.jpg",
         "licenseCode": "Type1",
@@ -911,7 +911,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F66%2F4063466_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/66/4063466_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_정림사지 오층석탑_외부_2.jpg",
         "licenseCode": "Type1",
@@ -921,7 +921,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F67%2F4063467_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/67/4063467_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_정림사지 오층석탑_외부_3.jpg",
         "licenseCode": "Type1",
@@ -931,7 +931,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F68%2F4063468_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/68/4063468_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_정림사지 오층석탑_외부_4.jpg",
         "licenseCode": "Type1",
@@ -941,7 +941,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F69%2F4063469_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/69/4063469_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_정림사지 오층석탑_외부_5.jpg",
         "licenseCode": "Type1",
@@ -951,7 +951,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F59%2F3355459_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/59/3355459_image2_1.jpg",
         "kind": "photo",
         "alt": "정림사지 (2)",
         "licenseCode": "Type1",
@@ -961,7 +961,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F92%2F1831092.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/92/1831092.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -971,7 +971,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F93%2F1831093.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/93/1831093.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -981,7 +981,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F04%2F1831104.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/04/1831104.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -991,7 +991,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F05%2F1831105.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/05/1831105.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -1001,7 +1001,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F06%2F1831106.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/06/1831106.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -1011,7 +1011,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F1831107.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/07/1831107.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -1021,7 +1021,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F08%2F1831108.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/08/1831108.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -1031,7 +1031,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F09%2F1831109.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/09/1831109.jpg",
         "kind": "gallery",
         "alt": "정림사지",
         "licenseCode": null,
@@ -1123,7 +1123,7 @@
     },
     "media": [
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F58%2F3544158_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/58/3544158_image2_1.jpg",
         "kind": "photo",
         "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-5",
         "licenseCode": "Type1",
@@ -1133,7 +1133,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F59%2F3544159_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/59/3544159_image2_1.jpg",
         "kind": "photo",
         "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-1",
         "licenseCode": "Type1",
@@ -1143,7 +1143,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F60%2F3544160_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/60/3544160_image2_1.jpg",
         "kind": "photo",
         "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-2",
         "licenseCode": "Type1",
@@ -1153,7 +1153,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F61%2F3544161_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/61/3544161_image2_1.jpg",
         "kind": "photo",
         "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-3",
         "licenseCode": "Type1",
@@ -1163,7 +1163,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F62%2F3544162_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/62/3544162_image2_1.jpg",
         "kind": "photo",
         "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-4",
         "licenseCode": "Type1",
@@ -1173,7 +1173,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F69%2F4089169_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/69/4089169_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_국립부여박물관_내부_6-1.jpg",
         "licenseCode": "Type1",
@@ -1183,7 +1183,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F70%2F4089170_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/70/4089170_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_국립부여박물관_내부_1-4.jpg",
         "licenseCode": "Type1",
@@ -1193,7 +1193,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F71%2F4089171_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/71/4089171_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_국립부여박물관_내부_2-2.jpg",
         "licenseCode": "Type1",
@@ -1203,7 +1203,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F72%2F4089172_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/72/4089172_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_국립부여박물관_내부_3-3.jpg",
         "licenseCode": "Type1",
@@ -1213,7 +1213,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F73%2F4089173_image2_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/73/4089173_image2_1.jpg",
         "kind": "photo",
         "alt": "충남_부여_국립부여박물관_내부_4-2.jpg",
         "licenseCode": "Type1",
@@ -1223,7 +1223,7 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F13%2F1831113.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/13/1831113.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,
@@ -1233,7 +1233,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F15%2F1831115.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/15/1831115.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,
@@ -1243,7 +1243,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F1831116.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/16/1831116.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,
@@ -1253,7 +1253,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F17%2F1831117.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/17/1831117.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,
@@ -1263,7 +1263,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F1831126.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/26/1831126.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,
@@ -1273,7 +1273,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F33%2F1831133.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/33/1831133.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,
@@ -1283,7 +1283,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F1831136.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/36/1831136.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,
@@ -1293,7 +1293,7 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       },
       {
-        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F1831139.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms2/website/39/1831139.jpg",
         "kind": "gallery",
         "alt": "국립부여박물관",
         "licenseCode": null,

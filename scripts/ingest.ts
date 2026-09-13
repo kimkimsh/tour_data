@@ -327,12 +327,17 @@ async function resolveImageUrl(rawUrl: string): Promise<string> {
   if (cached !== undefined) return cached;
 
   const https = toHttps(rawUrl);
+  // A one-byte ranged GET, not HEAD. tong.visitkorea.or.kr answers HEAD with 405 on
+  // every path, so the probe failed for every image and sent all of them through
+  // /api/image-proxy — measured at 460 of 460 in the first full run, and recorded as
+  // a cost this service would have to carry. It does not: the same 89 URLs answer a
+  // ranged GET with 206 and the image bytes. Range keeps the probe to one byte.
   const serves = await fetch(https, {
-    method: 'HEAD',
+    headers: { range: 'bytes=0-0' },
     signal: AbortSignal.timeout(IMAGE_PROBE_TIMEOUT_MS),
     redirect: 'error',
   })
-    .then((response) => response.ok)
+    .then((response) => response.ok && (response.headers.get('content-type') ?? '').startsWith('image/'))
     .catch(() => false);
 
   const resolved = serves ? https : `/api/image-proxy?url=${encodeURIComponent(rawUrl)}`;

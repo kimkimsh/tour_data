@@ -47,3 +47,5 @@ supabase/.temp/
 # Tool artefacts (Claude Code plugins)
 .playwright-mcp/
 .impeccable/
+# Vercel CLI link state
+.vercel

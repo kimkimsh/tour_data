@@ -12,7 +12,24 @@ import { NextResponse } from 'next/server';
  * server can reach.
  */
 const ALLOWED_HOSTS = new Set(['tong.visitkorea.or.kr', 'cdn.visitkorea.or.kr']);
-const ALLOWED_CONTENT_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+
+/**
+ * Upstream media type to the one this route serves it as.
+ *
+ * `image/jpg` is not a registered media type and is what tong.visitkorea.or.kr sends
+ * for every photograph — all 89 of them, measured. Checking against the registered
+ * spelling alone rejected every KTO image with 415, so nothing this route was built
+ * to serve ever reached a browser. It is normalised rather than passed through:
+ * the bytes are a JPEG and the header should say so.
+ */
+const CONTENT_TYPE_MAP: ReadonlyArray<readonly [upstream: string, served: string]> = [
+  ['image/jpeg', 'image/jpeg'],
+  ['image/jpg', 'image/jpeg'],
+  ['image/png', 'image/png'],
+  ['image/webp', 'image/webp'],
+  ['image/gif', 'image/gif'],
+];
+const ALLOWED_CONTENT_TYPES = CONTENT_TYPE_MAP.map(([upstream]) => upstream);
 const TIMEOUT_MS = 8000;
 const MAX_BYTES = 12 * 1024 * 1024;
 
@@ -53,9 +70,8 @@ export async function GET(request: Request) {
   if (!upstream?.ok) return new NextResponse('upstream failed', { status: 502 });
 
   const contentType = upstream.headers.get('content-type') ?? '';
-  if (!ALLOWED_CONTENT_TYPES.some((type) => contentType.startsWith(type))) {
-    return new NextResponse('not an image', { status: 415 });
-  }
+  const served = CONTENT_TYPE_MAP.find(([upstreamType]) => contentType.startsWith(upstreamType))?.[1];
+  if (served === undefined) return new NextResponse('not an image', { status: 415 });
 
   // A missing content-length used to read as 0, pass the check, and then buffer the
   // whole body before the byteLength test below caught it. Requiring the header means
@@ -72,7 +88,7 @@ export async function GET(request: Request) {
 
   return new NextResponse(body, {
     headers: {
-      'content-type': contentType,
+      'content-type': served,
       'cache-control': 'public, max-age=86400, immutable',
       'content-security-policy': "default-src 'none'; sandbox",
     },

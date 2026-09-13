@@ -209,13 +209,24 @@ supported 58 · partial 10 · unsupported 7 · unknown 123
 
 `kto_with` 출처 94건 중 값이 있는 것은 5건뿐인데, 이는 판정 실패가 아니다 — 나머지는 손으로 넣은 사실(`curated`)이 같은 값을 이미 갖고 있어 병합에서 이겼거나, API가 그 장소에 대해 그 필드를 아예 주지 않는다.
 
-**§1.4 이미지 URL — 답이 나왔고, 답이 좋지 않다.**
+**§1.4 이미지 URL — 답이 나왔고, 관광지 상세 화면을 500으로 만들고 있었다.**
 
 ```
 media 460건 중 https 직접 제공 0건, /api/image-proxy 경유 460건
 ```
 
-`resolveImageUrl()`의 분기가 **전부 프록시 쪽으로 갔다.** 즉 모든 이미지가 우리 서버를 거친다. 460장 중 419장이 이번에 열린 관광사진갤러리에서 왔다. Vercel 함수 실행 시간과 대역폭에 직접 영향이 있고, 배포 전에 판단이 필요하다.
+`resolveImageUrl()`의 분기가 **전부 프록시 쪽으로 갔다.** 그리고 그 순간 `/ko/places/gongsanseong`이 죽었다:
+
+```
+Error: Image with src "/api/image-proxy?url=…" is using a query string
+which is not configured in images.localPatterns.
+```
+
+Next 16부터 **쿼리 문자열이 붙은 로컬 `src`는 `images.localPatterns`에 등재돼야 최적화된다.** `next.config.ts`의 주석은 프록시 경로가 「same-origin이라 등재가 필요 없다」고 적고 있었는데, 그 전제가 Next 16에서 깨졌다. **이 회차 전까지는 프록시로 가는 이미지가 하나도 없어서 드러나지 않았다** — `ktoContentId`가 전부 `UNRESOLVED`라 이미지를 아예 가져오지 않았기 때문이다.
+
+`localPatterns: [{ pathname: '/api/image-proxy' }]` 한 줄로 고쳤다. `search`를 일부러 비웠고(= 임의 쿼리 허용) 그 근거는 설정 파일 주석에 있다 — 이 라우트의 파라미터는 설계상 업스트림 주소라서 고정값이 존재할 수 없고, 열거 공격은 `route.ts`의 호스트 allow-list가 이미 막는다.
+
+`pnpm e2e` 24건 전부 통과로 돌아왔다. **다만 원래의 비용 질문은 그대로 남는다** — 이미지 460장이 전부 우리 서버를 거치고, 그중 419장이 이번에 열린 관광사진갤러리에서 왔다. Vercel 함수 실행 시간과 대역폭에 직접 영향이 있다.
 
 ---
 
@@ -251,7 +262,7 @@ routes           2행    7,110 B
 
 ### 안 돌린 것
 
-- **`pnpm e2e`** — 이번 회차에서 실행하지 않았다. 이전 회차의 24건 통과 기록이 마지막이고, 그 뒤로 항목이 32개 → 33개가 됐다. **접근성 항목 수를 세는 e2e가 있다면 지금 깨져 있을 수 있다**
+- **`pnpm e2e`** — **돌렸고, 3건이 깨져 있었다.** 원인은 항목 수 변화가 아니라 §7의 이미지 프록시 문제 하나였다 — 관광지 상세 화면이 500을 뱉으니 axe가 `document-title` · `html-has-lang` 없음을 보고했고(에러 페이지에는 둘 다 없다), golden-flow는 그 화면의 카운터를 찾지 못했다. 고친 뒤 **24건 전부 통과**
 - **`pnpm probe`** — 이번 회차에서 다시 돌리지 않았다. `docs/spec/_probe-results.md`는 09:12Z 실행 결과이고, 그 뒤 열린 서비스(DataLab·연관관광지·사진갤러리·기상청 3종)는 반영돼 있지 않다
 
 ---

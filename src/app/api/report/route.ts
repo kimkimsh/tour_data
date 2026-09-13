@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { REPORT_CATEGORIES } from '@/domain/types';
+import { POI_SLUGS } from '@/lib/content';
 import { createServerClient, isSupabaseConfigured } from '@/lib/supabase/server';
 
 /**
@@ -16,7 +17,10 @@ export const dynamic = 'force-dynamic';
 const DETAIL_MAX = 500;
 
 const Body = z.object({
-  poiSlug: z.string().min(1),
+  // The slug is not free text. It is half of the unique index that enforces one
+  // report per person per place per day, so any string the caller invents is a fresh
+  // key and the daily limit stops applying at all.
+  poiSlug: z.string().refine((slug) => POI_SLUGS.has(slug), { message: 'unknown place' }),
   category: z.enum(REPORT_CATEGORIES),
   occurredOn: z.iso.date().nullable(),
   detail: z.string().max(DETAIL_MAX).nullable(),

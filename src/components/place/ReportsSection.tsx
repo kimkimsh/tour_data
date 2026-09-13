@@ -23,29 +23,50 @@ interface ReportRow {
  * appear the moment it is posted. It is also the reason this block is a separate
  * component rather than part of the cached server render.
  */
+/**
+ * Four states, not two. An empty list is a claim — "nobody has reported a barrier
+ * here" — and a lookup that failed has no right to make it. Collapsing the two is
+ * the same error this service refuses everywhere else: an absence of data read as
+ * an absence of the thing.
+ */
+type LoadState =
+  | { kind: 'loading' }
+  | { kind: 'ready'; reports: ReportRow[] }
+  | { kind: 'unavailable' }
+  | { kind: 'failed' };
+
 export function ReportsSection({ poiSlug }: { poiSlug: string }) {
   const t = useTranslations('place');
   const tr = useTranslations('report');
-  const [reports, setReports] = useState<ReportRow[] | null>(null);
-  const [available, setAvailable] = useState(true);
+  const [state, setState] = useState<LoadState>({ kind: 'loading' });
   const [announcement, setAnnouncement] = useState('');
 
   useEffect(() => {
     let cancelled = false;
     fetch(`/api/reports?poi=${encodeURIComponent(poiSlug)}`)
-      .then((response) => response.json())
-      .then((body: { available?: boolean; reports?: ReportRow[] }) => {
+      .then(async (response) => {
         if (cancelled) return;
-        setAvailable(body.available !== false);
-        setReports(body.reports ?? []);
+        // A non-2xx body carries { error }, never a report list. Reading `reports`
+        // off it would turn a 502 into "no reports".
+        if (!response.ok) {
+          setState({ kind: 'failed' });
+          return;
+        }
+        const body = (await response.json()) as { available?: boolean; reports?: ReportRow[] };
+        if (cancelled) return;
+        if (body.available === false) setState({ kind: 'unavailable' });
+        else if (Array.isArray(body.reports)) setState({ kind: 'ready', reports: body.reports });
+        else setState({ kind: 'failed' });
       })
       .catch(() => {
-        if (!cancelled) setReports([]);
+        if (!cancelled) setState({ kind: 'failed' });
       });
     return () => {
       cancelled = true;
     };
   }, [poiSlug]);
+
+  const reports = state.kind === 'ready' ? state.reports : null;
 
   /**
    * The session is created here rather than at page load, the same way the report form
@@ -95,14 +116,24 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
       <LiveRegion
         message={
           announcement ||
-          (reports === null ? t('reportsLoading') : t('reportsReady', { count: reports.length }))
+          (state.kind === 'loading'
+            ? t('reportsLoading')
+            : state.kind === 'ready'
+              ? t('reportsReady', { count: state.reports.length })
+              : state.kind === 'unavailable'
+                ? tr('error.unavailable')
+                : t('reportsFailed'))
         }
       />
 
-      {reports === null ? (
+      {state.kind === 'loading' ? (
         <p>{t('reportsLoading')}</p>
-      ) : reports.length === 0 ? (
-        <p className="blank-slot">{available ? t('reportsEmpty') : tr('error.unavailable')}</p>
+      ) : state.kind === 'unavailable' ? (
+        <p className="blank-slot">{tr('error.unavailable')}</p>
+      ) : state.kind === 'failed' ? (
+        <p className="blank-slot">{t('reportsFailed')}</p>
+      ) : reports === null || reports.length === 0 ? (
+        <p className="blank-slot">{t('reportsEmpty')}</p>
       ) : (
         <ul className="grid gap-3">
           {reports.map((report) => (
@@ -114,9 +145,13 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
               <p className="font-bold">
                 {tr(`category.${report.category}`)}
                 {report.occurred_on ? (
-                  <span className="ml-2 font-normal text-[var(--color-ink-2)]">
-                    {t('reportSeenOn', { date: report.occurred_on })}
-                  </span>
+                  <>
+                    {/* A literal space, not only a margin. Adjacent elements with no
+                        whitespace between them are one word to a screen reader. */}{' '}
+                    <span className="ml-1 font-normal text-[var(--color-ink-2)]">
+                      {t('reportSeenOn', { date: report.occurred_on })}
+                    </span>
+                  </>
                 ) : null}
               </p>
               {report.detail ? <p className="mt-1">{report.detail}</p> : null}

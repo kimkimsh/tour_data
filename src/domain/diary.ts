@@ -1,8 +1,33 @@
-import type { DiaryDocument, DiaryEntry } from './types';
+import type { ContentLocale, DiaryDocument, DiaryEntry, Locale } from './types';
 import type { Poi, Route } from './snapshot-schema';
 import { getPersona } from './personas';
 
-const PERSONA_LABEL_FALLBACK = '조건 미선택';
+/**
+ * Every word this document puts on a page, handed in by the caller.
+ *
+ * The domain layer holds no message file, and the printed record used to hold the
+ * Korean inline — so /en/diary/print rendered an English page around a Korean
+ * document, and the .txt export was Korean whatever the visitor had chosen. The
+ * labels come from the same message files as the screen that produced the record.
+ */
+export interface DiaryLabels {
+  title: string;
+  notSelected: string;
+  cognitive: string;
+  visited: string;
+  notVisited: string;
+  designation: string;
+  address: string;
+  routeGuide: string;
+  evidenceLevel: string;
+  accessibilityNote: string;
+  date: string;
+  companions: string;
+  memo: string;
+  sources: string;
+  done: string;
+  notDone: string;
+}
 
 /**
  * Builds the *content* of the trip record. Rendering is the caller's job — the
@@ -12,13 +37,17 @@ const PERSONA_LABEL_FALLBACK = '조건 미선택';
 export function buildDiaryDocument(
   entry: DiaryEntry,
   snapshot: { pois: readonly Poi[]; routes: readonly Route[] },
+  labels: DiaryLabels,
+  locale: Locale,
 ): DiaryDocument {
   const personaLabels =
     entry.personaIds.length === 0
-      ? [PERSONA_LABEL_FALLBACK]
-      : entry.personaIds.map((id) => getPersona(id).labelKo);
+      ? [labels.notSelected]
+      : entry.personaIds.map((id) =>
+          locale === 'ko' ? getPersona(id).labelKo : getPersona(id).labelEn,
+        );
   if (entry.cognitiveOption && entry.personaIds.includes('P3')) {
-    personaLabels.push('인지·발달 친화');
+    personaLabels.push(labels.cognitive);
   }
 
   const attributions = new Set<string>();
@@ -31,17 +60,21 @@ export function buildDiaryDocument(
 
     const route = snapshot.routes.find((r) => r.poiSlug === place.poiSlug);
     const lines: Array<{ label: string; value: string }> = [
-      { label: '방문', value: place.visited ? '방문함' : '방문하지 않음' },
+      { label: labels.visited, value: place.visited ? labels.visited : labels.notVisited },
     ];
-    if (poi?.heritageLabel) lines.push({ label: '지정', value: poi.heritageLabel });
-    const address = poi?.i18n.ko?.addr;
-    if (address) lines.push({ label: '주소', value: address });
+    // The designation name and the evidence note exist in Korean only — they are
+    // quotations from the Korea Heritage Service and from our own route file, not
+    // interface text — so they keep a lang attribute's worth of honesty by staying
+    // as written rather than being half-translated.
+    if (poi?.heritageLabel) lines.push({ label: labels.designation, value: poi.heritageLabel });
+    const address = poi?.i18n[locale as ContentLocale]?.addr ?? poi?.i18n.ko?.addr;
+    if (address) lines.push({ label: labels.address, value: address });
     if (route) {
-      lines.push({ label: '경로 안내', value: route.title });
-      lines.push({ label: '근거 수준', value: route.evidenceNote });
+      lines.push({ label: labels.routeGuide, value: route.title });
+      lines.push({ label: labels.evidenceLevel, value: route.evidenceNote });
     }
     if (place.accessibilityNote.trim() !== '') {
-      lines.push({ label: '접근성 한 줄', value: place.accessibilityNote.trim() });
+      lines.push({ label: labels.accessibilityNote, value: place.accessibilityNote.trim() });
     }
 
     return {
@@ -54,7 +87,7 @@ export function buildDiaryDocument(
   });
 
   return {
-    title: '나의 백제 여행 기록',
+    title: labels.title,
     dateLabel: entry.date,
     personaLabels,
     sections,
@@ -67,18 +100,23 @@ export function buildDiaryDocument(
  * pasted into a notes app or an email, or carried to another device.
  * It is not a braille channel — accessible HTML already is that.
  */
-export function diaryToText(doc: DiaryDocument): string {
-  const lines: string[] = [doc.title, `날짜: ${doc.dateLabel}`, `동행 조건: ${doc.personaLabels.join(', ')}`, ''];
+export function diaryToText(doc: DiaryDocument, labels: DiaryLabels): string {
+  const lines: string[] = [
+    doc.title,
+    `${labels.date}: ${doc.dateLabel}`,
+    `${labels.companions}: ${doc.personaLabels.join(', ')}`,
+    '',
+  ];
   for (const section of doc.sections) {
     lines.push(`[${section.heading}]`);
     for (const line of section.lines) lines.push(`${line.label}: ${line.value}`);
     for (const step of section.steps) {
-      lines.push(`${step.done ? '완료' : '미완료'} ${step.seq}. ${step.title}`);
+      lines.push(`${step.done ? labels.done : labels.notDone} ${step.seq}. ${step.title}`);
     }
-    if (section.memo) lines.push(`메모: ${section.memo}`);
+    if (section.memo) lines.push(`${labels.memo}: ${section.memo}`);
     lines.push('');
   }
-  lines.push('--- 출처 ---');
+  lines.push(`--- ${labels.sources} ---`);
   for (const attribution of doc.attributions) lines.push(attribution);
   return `${lines.join('\n')}\n`;
 }

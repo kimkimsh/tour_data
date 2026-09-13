@@ -47,7 +47,9 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
   const asOf = latestVerifiedAt(facts.data) ?? '—';
   const csvKb = Math.max(
     1,
-    Math.round(new TextEncoder().encode(gapRowsToCsv(report.priorities, titles)).length / 1024),
+    Math.round(
+      new TextEncoder().encode(gapRowsToCsv(report.priorities, titles, localeKey)).length / 1024,
+    ),
   );
 
   return (
@@ -149,7 +151,13 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
                     <td>{titles[row.poiSlug] ?? row.poiSlug}</td>
                     <td>
                       {capabilityLabel(row.capabilityCode, localeKey)}
-                      <span className="ml-2 font-mono text-[0.72rem] text-[var(--color-ink-2)]">
+                      {/* aria-hidden: the machine code is here so an officer can
+                          match a row against the dataset, and in the accessibility
+                          tree it fuses with the label — "휠체어wheelchair". */}
+                      <span
+                        aria-hidden="true"
+                        className="ml-2 font-mono text-[0.72rem] text-[var(--color-ink-2)]"
+                      >
                         {row.capabilityCode}
                       </span>
                     </td>
@@ -194,27 +202,36 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
           <>
             <p className="text-[0.95rem]">
               {t('visitorsWindow', {
-                start: contextResult.data.visitors[0]!.windowStart,
-                end: contextResult.data.visitors[0]!.windowEnd,
+                start: isoDate(contextResult.data.visitors[0]!.windowStart),
+                end: isoDate(contextResult.data.visitors[0]!.windowEnd),
               })}
             </p>
             <ul className="grid gap-1">
               {contextResult.data.visitors.map((row) => (
                 <li key={`${row.signguCd5}-${row.touDivCd}`} className="tabular">
                   {t('visitorsValue', {
-                    place: row.signguNm,
-                    value: row.dailyAverage.toLocaleString(locale, { maximumFractionDigits: 1 }),
-                  })}
-                  <span className="ml-2 text-[0.9rem] text-[var(--color-ink-2)]">
-                    {t('visitorsDivision', { division: row.touDivNm })}
+                    place: cityName(row.signguCd5, row.signguNm, pois.data, localeKey),
+                    // Rounded to a whole person. A daily average printed as
+                    // "79,241.3명" says nothing the integer does not, and reads as a
+                    // precision the underlying figure does not carry.
+                    value: Math.round(row.dailyAverage).toLocaleString(locale),
+                  })}{' '}
+                  <span className="text-[0.9rem] text-[var(--color-ink-2)]">
+                    {t('visitorsDivision', { division: divisionName(row.touDivCd, row.touDivNm, localeKey) })}
                   </span>
                 </li>
               ))}
             </ul>
+            <p className="text-[0.9rem] text-[var(--color-ink-2)]">{t('visitorsDelay')}</p>
             {/* role="note" and never hidden: the caveat is the reason this figure is
-                allowed on the page at all. */}
-            <p role="note" className="text-[0.9rem]">
-              {contextResult.data.visitors[0]!.caveat}
+                allowed on the page at all. The Korean literal is frozen by a Zod
+                z.literal in the snapshot schema, so the English page gets the message
+                file's translation of the same sentence rather than Korean it cannot
+                read. */}
+            <p role="note" className="text-[0.9rem]" lang={localeKey}>
+              {localeKey === 'ko'
+                ? contextResult.data.visitors[0]!.caveat
+                : tc('honesty.visitors')}
             </p>
           </>
         ) : (
@@ -248,6 +265,49 @@ function CauseMark({ absenceKind }: { absenceKind: string | null }) {
 
 /** The most recent check date across every fact, used as the report's as-of line. */
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+const KTO_COMPACT_DATE = /^(\d{4})(\d{2})(\d{2})$/;
+
+/**
+ * The visitor rows name their city and their visitor class in Korean only — they are
+ * DataLab response fields, not interface text — so the English page printed
+ * "공주시 — 79,241 visitors Basis: 외지인(b)". The city is already in the catalogue in
+ * both languages; the class is a documented code, and its name comes from the code
+ * rather than from the response string, whose "(b)" is an internal marker.
+ */
+function cityName(
+  signguCd5: string,
+  fallback: string,
+  pois: ReadonlyArray<{ signguCd5: string; cityKo: string; cityEn: string }>,
+  locale: Locale,
+): string {
+  const poi = pois.find((p) => p.signguCd5 === signguCd5);
+  if (!poi) return fallback;
+  return locale === 'en' ? poi.cityEn : poi.cityKo;
+}
+
+/** DataLab touDivCd. 1 resident, 2 domestic visitor from elsewhere, 3 from abroad. */
+const VISITOR_DIVISION: Record<string, { ko: string; en: string }> = {
+  '1': { ko: '현지인', en: 'local residents' },
+  '2': { ko: '외지인', en: 'domestic visitors from elsewhere' },
+  '3': { ko: '외국인', en: 'visitors from abroad' },
+};
+
+function divisionName(touDivCd: string, fallback: string, locale: Locale): string {
+  const entry = VISITOR_DIVISION[touDivCd];
+  if (!entry) return fallback;
+  return locale === 'en' ? entry.en : entry.ko;
+}
+
+/**
+ * The visitor window comes back in the KTO parameter format, YYYYMMDD, which is a
+ * machine argument and not a date anybody reads. Anything else is printed as it
+ * arrived rather than reformatted into a shape it may not have.
+ */
+function isoDate(value: string): string {
+  const match = KTO_COMPACT_DATE.exec(value);
+  return match ? `${match[1]}-${match[2]}-${match[3]}` : value;
+}
 
 /**
  * Compares as strings, which is only sound because every value is YYYY-MM-DD. The

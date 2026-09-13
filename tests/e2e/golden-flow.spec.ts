@@ -47,7 +47,7 @@ test('a visitor can reach a verdict, its basis, a route and the gap report', asy
   await page.getByLabel('유아차와 함께 가요').check();
 
   // The rule that separates this from a filter list has to be on screen.
-  await expect(page.getByText('가장 조건이 까다로운 분을 기준으로 판정합니다')).toBeVisible();
+  await expect(page.getByText('도움이 가장 많이 필요한 분을 기준으로 판정합니다')).toBeVisible();
 
   await page.getByLabel('반나절 (3~4시간)').check();
   await page.getByRole('button', { name: '관광지 보기' }).click();
@@ -78,7 +78,7 @@ test('a visitor can reach a verdict, its basis, a route and the gap report', asy
   for (const axis of ['entry', 'continuity', 'facility', 'information', 'rest', 'context']) {
     await expect(page.locator(`#axis-${axis}-heading`)).toBeVisible();
   }
-  await expect(page.getByText('derived').first()).toBeVisible();
+  await expect(page.getByText('파생 항목').first()).toBeVisible();
 
   await page.getByRole('group').filter({ hasText: '이 점수가 나온 계산' }).first().click();
   await expect(page.getByText(/점수 = 100 ×/)).toBeVisible();

@@ -173,12 +173,7 @@ export function VerdictPanel({
         </Link>
       </p>
 
-      <CalculationDisclosure
-        result={result}
-        personaIds={conditions.personaIds}
-        relevantTotal={relevantTotal}
-        locale={locale}
-      />
+      <CalculationDisclosure result={result} relevantTotal={relevantTotal} locale={locale} />
 
       {result.alternatives.length > 0 ? (
         <section aria-labelledby="alternatives-heading" className="grid gap-3">
@@ -201,12 +196,10 @@ export function VerdictPanel({
 
 function CalculationDisclosure({
   result,
-  personaIds,
   relevantTotal,
   locale,
 }: {
   result: SuitabilityResult;
-  personaIds: readonly PersonaId[];
   relevantTotal: { known: number; total: number };
   locale: Locale;
 }) {
@@ -273,9 +266,16 @@ function CalculationDisclosure({
           <p className="text-[1.02rem] font-bold">
             {t('confidence', { value: result.evidenceConfidence })}
           </p>
+          {/* The two factors named, not printed bare. "0.60 × 0.90" beside a sentence
+              is a debug line: nothing on the row says which number is which. */}
           <p className="mt-1 text-[0.95rem]">
-            {t('whyCautionCoverage', { known: relevantTotal.known, total: relevantTotal.total })} ·{' '}
-            {result.coverage.toFixed(2)} × {result.freshness.toFixed(2)}
+            {t('whyCautionCoverage', { known: relevantTotal.known, total: relevantTotal.total })}
+          </p>
+          <p className="mt-1 text-[0.95rem] tabular">
+            {t('confidenceFactors', {
+              coverage: result.coverage.toFixed(2),
+              freshness: result.freshness.toFixed(2),
+            })}
           </p>
           <p className="mt-1 text-[0.88rem] text-[var(--color-ink-2)]">{t('freshnessNote')}</p>
         </div>
@@ -326,9 +326,6 @@ function CalculationDisclosure({
 
         <p className="evidence__provenance border-t border-[var(--color-rule)] pt-3">
           {tc('honesty.formula', { version: POLICY_VERSION })}
-        </p>
-        <p className="evidence__provenance">
-          {personaIds.length === 0 ? 'P0' : personaIds.join(' + ')} · policy {result.policyVersion}
         </p>
       </div>
     </details>

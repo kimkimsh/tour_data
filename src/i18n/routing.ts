@@ -2,9 +2,8 @@ import { defineRouting } from 'next-intl/routing';
 import { LOCALES } from '@/domain/types';
 
 /**
- * The interface ships in Korean and English. Place titles and overviews are also
- * stored in Japanese and Chinese, but only surfaced inside the detail screen —
- * that distinction lives in ContentLocale, not here.
+ * The interface ships in Korean and English, and so does the content: ContentLocale
+ * is derived from this list rather than written out again, so the two cannot drift.
  */
 export const routing = defineRouting({
   locales: LOCALES,

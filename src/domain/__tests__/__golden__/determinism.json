@@ -367,7 +367,7 @@
       {
         "axis": "context",
         "labelKo": "상황",
-        "labelEn": "Conditions",
+        "labelEn": "Situation",
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
@@ -392,8 +392,8 @@
       },
       {
         "capabilityCode": "sign_guide",
-        "labelKo": "수화 안내",
-        "reason": "수화 안내 정보 없음",
+        "labelKo": "수어 안내",
+        "reason": "수어 안내 정보 없음",
         "axis": "information"
       }
     ],

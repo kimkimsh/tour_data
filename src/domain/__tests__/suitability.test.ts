@@ -219,6 +219,41 @@ describe('spec properties the golden files must keep', () => {
     expect(facility?.rawScore).toBeCloseTo(1, 12);
   });
 
+  /**
+   * The label comparison exists so a blocked place is never offered as somewhere to
+   * go instead. Admitting equal labels let the "go elsewhere" set recommend itself.
+   */
+  it('never offers a blocked place as the alternative to a blocked place', () => {
+    const blocked = withPersonas(['P1a'], facts('unknown', { elevator: { status: 'unsupported' } }), {
+      scoredAlternatives: [
+        { poiSlug: 'busosanseong', title: '부소산성', label: '대체추천', score: 45 },
+        { poiSlug: 'jeongnimsaji', title: '정림사지', label: '대체추천', score: 40 },
+        { poiSlug: 'gongsanseong', title: '공산성', label: '주의', score: 52 },
+      ],
+    });
+    const result = calculateSuitability(blocked);
+    expect(result.label).toBe('대체추천');
+    expect(result.alternatives.map((a) => a.poiSlug)).toEqual(['gongsanseong']);
+  });
+
+  /**
+   * A persona whose whole critical set turned out not to apply has nothing to judge
+   * on. Guarding the no-verdict arm on the persona count instead of on the critical
+   * set left that case with a printed score over an empty evidence base.
+   */
+  it('gives no verdict when every critical item does not apply to this place', () => {
+    const excluded = withPersonas(
+      ['P3'],
+      facts('unknown', {
+        restroom: { absenceKind: 'not_applicable' },
+        stroller: { absenceKind: 'not_applicable' },
+      }),
+    );
+    const result = calculateSuitability(excluded);
+    expect(result.coverage).toBe(0);
+    expect(result.label).toBe('정보없음');
+  });
+
   it('the same input produces the same output a hundred times over', () => {
     const found = goldenCases().find((c) => c.name === 'determinism')!;
     const first = JSON.stringify(calculateSuitability(found.input));

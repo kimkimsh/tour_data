@@ -4,6 +4,7 @@ import { useCallback, useSyncExternalStore } from 'react';
 import type { DiaryEntry, PersonaId } from '@/domain/types';
 import { PERSONA_IDS } from '@/domain/types';
 import { useHydrated } from '@/components/useClientValue';
+import { seoulToday } from '@/domain/today';
 
 const STORAGE_KEY = 'modu-baekje.diary.v1';
 const CHANGE_EVENT = 'modu-baekje:diary';
@@ -27,12 +28,10 @@ const EMPTY_ENTRY: DiaryEntry = {
 
 /**
  * Derived exactly as useToday() derives it, so no two screens disagree about which
- * day it is. That means UTC, which before 09:00 in Seoul is still yesterday — the
- * visitor can change the date, and every export takes it from the record.
- * Called only from readSnapshot(), which never runs on the server.
+ * day it is. Called only from readSnapshot(), which never runs on the server.
  */
 function newEntry(): DiaryEntry {
-  return { ...EMPTY_ENTRY, date: new Date().toISOString().slice(0, 10) };
+  return { ...EMPTY_ENTRY, date: seoulToday() };
 }
 
 function asString(value: unknown): string {

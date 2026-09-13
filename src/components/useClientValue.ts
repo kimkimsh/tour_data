@@ -1,6 +1,7 @@
 'use client';
 
 import { useSyncExternalStore } from 'react';
+import { seoulToday } from '@/domain/today';
 
 /**
  * Two values that only exist in the browser: whether hydration has happened, and
@@ -27,13 +28,17 @@ export function useHydrated(): boolean {
   );
 }
 
-/** ISO date, or null until hydration. Feeds calculationDate, which the domain requires. */
+/**
+ * Today in Seoul, or null until hydration. Feeds calculationDate, which the domain
+ * requires. The zone is the device's only in the sense that it is ignored: the
+ * visitor's day is the Korean one wherever they are reading from.
+ */
 export function useToday(): string | null {
   return useSyncExternalStore(
     subscribeNever,
     // A new string each call, but Object.is compares strings by value, so React
     // sees a stable snapshot.
-    () => new Date().toISOString().slice(0, 10),
+    seoulToday,
     () => null,
   );
 }

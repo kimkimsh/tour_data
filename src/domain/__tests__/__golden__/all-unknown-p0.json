@@ -364,7 +364,7 @@
       {
         "axis": "context",
         "labelKo": "상황",
-        "labelEn": "Conditions",
+        "labelEn": "Situation",
         "weight": 0.10000000000000003,
         "rawScore": 0.35,
         "weighted": 0.03500000000000001,
@@ -392,8 +392,8 @@
       },
       {
         "capabilityCode": "wheelchair",
-        "labelKo": "휠체어",
-        "reason": "휠체어 정보 없음",
+        "labelKo": "휠체어 대여",
+        "reason": "휠체어 대여 정보 없음",
         "axis": "entry"
       },
       {
@@ -440,20 +440,20 @@
       },
       {
         "capabilityCode": "restroom",
-        "labelKo": "화장실",
-        "reason": "화장실 정보 없음",
+        "labelKo": "장애인 화장실",
+        "reason": "장애인 화장실 정보 없음",
         "axis": "facility"
       },
       {
         "capabilityCode": "parking",
-        "labelKo": "주차",
-        "reason": "주차 정보 없음",
+        "labelKo": "장애인 주차구역",
+        "reason": "장애인 주차구역 정보 없음",
         "axis": "facility"
       },
       {
         "capabilityCode": "stroller",
-        "labelKo": "유모차",
-        "reason": "유모차 정보 없음",
+        "labelKo": "유아차 대여",
+        "reason": "유아차 대여 정보 없음",
         "axis": "facility"
       },
       {
@@ -470,14 +470,14 @@
       },
       {
         "capabilityCode": "room",
-        "labelKo": "객실",
-        "reason": "객실 정보 없음",
+        "labelKo": "휠체어 이용 가능 객실",
+        "reason": "휠체어 이용 가능 객실 정보 없음",
         "axis": "facility"
       },
       {
         "capabilityCode": "hearing_room",
-        "labelKo": "객실(청각)",
-        "reason": "객실(청각) 정보 없음",
+        "labelKo": "청각장애인 편의 객실",
+        "reason": "청각장애인 편의 객실 정보 없음",
         "axis": "facility"
       },
       {
@@ -512,8 +512,8 @@
       },
       {
         "capabilityCode": "sign_guide",
-        "labelKo": "수화 안내",
-        "reason": "수화 안내 정보 없음",
+        "labelKo": "수어 안내",
+        "reason": "수어 안내 정보 없음",
         "axis": "information"
       },
       {
@@ -530,8 +530,8 @@
       },
       {
         "capabilityCode": "auditorium",
-        "labelKo": "관람석",
-        "reason": "관람석 정보 없음",
+        "labelKo": "장애인 관람석",
+        "reason": "장애인 관람석 정보 없음",
         "axis": "rest"
       },
       {

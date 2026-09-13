@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="모두의 백제">
+  <!--
+    The tunnel vault of the Muryeong tomb: a semicircular head on straight jambs,
+    which is the one silhouette shared by every site this service covers and the only
+    Baekje form that reads at 16 pixels. Drawn as a path rather than set as type so it
+    carries no font dependency into a browser tab.
+  -->
+  <rect width="32" height="32" rx="6" fill="#1A1A1A"/>
+  <path d="M9 25V16a7 7 0 0 1 14 0v9" fill="none" stroke="#D2A33A" stroke-width="3"
+        stroke-linecap="square"/>
+  <path d="M6 25h20" fill="none" stroke="#D2A33A" stroke-width="3" stroke-linecap="square"/>
+</svg>

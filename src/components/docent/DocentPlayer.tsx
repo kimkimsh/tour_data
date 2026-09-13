@@ -127,10 +127,13 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
       {/* Not a <details>. The transcript is the accessible equivalent of the audio, and
           a disclosure lets it be collapsed out of the accessibility tree entirely —
           which removes the only form of this content that a deaf visitor can use. */}
+      {/* h3, under the story's own h2. A page of a dozen stories used to produce a
+          dozen sibling headings all reading "대본", so the heading list a screen
+          reader offers could not say which story any of them belonged to. */}
       <section className="card" aria-labelledby={`${groupId}-script`}>
-        <h2 id={`${groupId}-script`} className="subhead">
+        <h3 id={`${groupId}-script`} className="subhead">
           {t('script')}
-        </h2>
+        </h3>
         <div className="mt-3 grid gap-3">
           {paragraphs.map((paragraph, index) => (
             <p

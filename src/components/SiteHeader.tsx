@@ -1,5 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
+import { LocaleSwitch } from '@/components/LocaleSwitch';
 import type { Locale } from '@/domain/types';
 
 const NAV = [
@@ -12,7 +13,6 @@ const NAV = [
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = useTranslations('common');
-  const other: Locale = locale === 'ko' ? 'en' : 'ko';
 
   return (
     <header className="no-print border-b border-[var(--color-rule)]">
@@ -45,17 +45,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           </ul>
         </nav>
 
-        {/* A link, not a control: the locale is part of the address, so it has to be
-            navigable, shareable and usable without JavaScript. */}
-        <Link
-          href="/"
-          locale={other}
-          className="order-2 inline-flex min-h-[44px] items-center gap-1 font-mono text-[0.8rem] uppercase tracking-[0.1em]"
-          lang={other}
-        >
-          <span className="sr-only">{t('langLabel')}: </span>
-          {other === 'en' ? 'English' : '한국어'}
-        </Link>
+        <LocaleSwitch locale={locale} />
       </div>
     </header>
   );

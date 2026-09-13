@@ -17,6 +17,7 @@ export function EvidenceRow({
   provenance,
   absenceExplanation,
   derived,
+  derivedLabel,
 }: {
   title: string;
   statusText: string;
@@ -25,22 +26,30 @@ export function EvidenceRow({
   provenance: string;
   absenceExplanation: string | null;
   derived: boolean;
+  derivedLabel: string;
 }) {
   return (
     <div className="evidence">
       <div>
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h3 className="subhead !tracking-normal">{title}</h3>
+          <h4 className="subhead !tracking-normal">{title}</h4>
           <StatusText kind={statusKind} text={statusText} />
           {derived ? (
             <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[var(--color-ink-2)]">
-              derived
+              {derivedLabel}
             </span>
           ) : null}
         </div>
 
+        {/* lang="ko" on both the quotation and the provenance. Every one of these is
+            Korean whatever language the interface is in — an upstream sentence, a
+            field name, a source note — and on the English screens a reader without it
+            gets Hangul sounded out with English phonemes. */}
         {quotedDetail ? (
-          <blockquote className="mt-2 border-l-2 border-[var(--color-rule-strong)] pl-3 text-[0.97rem]">
+          <blockquote
+            lang="ko"
+            className="mt-2 border-l-2 border-[var(--color-rule-strong)] pl-3 text-[0.97rem]"
+          >
             {quotedDetail}
           </blockquote>
         ) : null}
@@ -50,7 +59,7 @@ export function EvidenceRow({
         ) : null}
       </div>
 
-      <p className="evidence__provenance">{provenance}</p>
+      <p lang="ko" className="evidence__provenance">{provenance}</p>
     </div>
   );
 }

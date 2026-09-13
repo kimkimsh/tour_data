@@ -46,6 +46,13 @@ const EXTRA_ROUTES = [
   '/ko/credits',
   '/ko/privacy',
   '/admin/reports',
+  // The screens a wrong address reaches. They were outside every list while being the
+  // easiest pages in the build to ship broken: before the catch-all segment existed
+  // Next answered them with a document that had no lang attribute, no heading and no
+  // text at all, and no scan would have said so.
+  '/ko/nope',
+  '/en/nope',
+  '/ko/places/no-such-place',
 ] as const;
 
 for (const route of [...SPEC_ROUTES, ...EXTRA_ROUTES]) {

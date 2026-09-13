@@ -254,8 +254,50 @@ export const ContextPayload = z.object({
         warning: z.string().nullable(),
         /** Which area the answer is really about. */
         scope: z.enum(['district', 'province']),
-        /** Why, when state is unknown. Printed in the gap report, not swallowed. */
+        /** Why, when state is unknown. Reaches the operator's log, not a screen. */
         unknownReason: z.string().nullable(),
+        checkedAt: z.iso.date(),
+      }),
+    )
+    .optional(),
+  /**
+   * What the weather is going to do, which is a different claim from `weather` above
+   * and is kept in a different field so the two can never be read as one.
+   *
+   * `weather` is a 특보 — an official statement about now, and the scored item. This is
+   * a forecast: an estimate about a day that has not happened, wrong often enough that
+   * the screen has to say it is an estimate. Only `today` is scored, for the same reason
+   * `crowd` scores its nearest day: a suitability score is computed for one moment, and
+   * a value indexed by some other day has no place in it.
+   *
+   * `outlook` is days four to ten from 중기예보 and is never scored — it exists so a
+   * visitor can pick a day, which is a planning question rather than a property of the
+   * place.
+   */
+  forecast: z
+    .array(
+      z.object({
+        signguCd5: z.string(),
+        /** Which 단기예보 issue this came from, `YYYYMMDD HHmm` KST. */
+        baseAt: z.string().nullable(),
+        today: z.object({
+          state: z.enum(['good', 'caution', 'poor', 'unknown']),
+          /** Names the numbers behind the verdict. Never just the verdict. */
+          detail: z.string().nullable(),
+          unknownReason: z.string().nullable(),
+        }),
+        outlook: z.array(
+          z.object({
+            /** Days after the 중기예보 issue date. Four to ten; there is no day three. */
+            dayOffset: z.number(),
+            amWeather: z.string().nullable(),
+            pmWeather: z.string().nullable(),
+            amRainPct: z.number().nullable(),
+            pmRainPct: z.number().nullable(),
+            tmn: z.number().nullable(),
+            tmx: z.number().nullable(),
+          }),
+        ),
         checkedAt: z.iso.date(),
       }),
     )

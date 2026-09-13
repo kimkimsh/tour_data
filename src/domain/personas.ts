@@ -124,6 +124,11 @@ const MATRIX: Record<string, readonly [GradeCell, GradeCell, GradeCell, GradeCel
   shade_indoor: ['.', 'S', '.', '.', 'S'],
   crowd_forecast: ['S', 'S', '.', '.', 'S'],
   weather_warning: ['.', 'S', '.', '.', 'S'],
+  // Same columns as weather_warning, for the same reason: rain and heat are an endurance
+  // and a footing problem, which is P1b and P3. A wheelchair user on a paved route (P1a)
+  // is not more exposed than anyone else, and neither reading nor hearing changes in
+  // weather (P2a, P2b).
+  weather_forecast: ['.', 'S', '.', '.', 'S'],
   emergency_distance: ['S', 'S', '.', '.', 'S'],
   aed_distance: ['.', 'S', '.', '.', '.'],
 };

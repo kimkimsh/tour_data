@@ -9,15 +9,16 @@ import { Eyebrow } from '@/components/Eyebrow';
 import { provenanceLine } from './place-view';
 
 /**
- * All 32 items, grouped by axis, each with its status, the upstream sentence, the
- * upstream field name and the check date.
+ * Every item in the catalogue, grouped by axis, each with its status, the upstream
+ * sentence, the
+ * field name and the check date.
  *
  * Rendered on the server: none of it depends on the chosen conditions, so it is
  * identical for every visitor and stays inside the cached HTML.
  *
  * Deliberately not tabs. A tab panel that is not selected is removed from the
- * accessibility tree, and the completion criterion for this screen is that all 32
- * items are present. Six headed groups with a jump list cost nothing and keep that
+ * accessibility tree, and the completion criterion for this screen is that every
+ * item is present. Six headed groups with a jump list cost nothing and keep that
  * true (docs/spec/07_screens.md S2 makes the same call about the map).
  */
 export function CapabilityEvidence({

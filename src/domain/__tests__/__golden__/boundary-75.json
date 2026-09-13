@@ -273,6 +273,15 @@
         "isKtoScored": false
       },
       {
+        "capabilityCode": "weather_forecast",
+        "status": "partial",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
         "capabilityCode": "emergency_distance",
         "status": "partial",
         "absenceKind": null,
@@ -299,8 +308,8 @@
   "expected": {
     "score": 75,
     "label": "방문가능",
-    "layerA": 0.8005357142857145,
-    "layerB": 0.932421875,
+    "layerA": 0.8012857142857145,
+    "layerB": 0.9306818181818182,
     "axes": [
       {
         "axis": "entry",
@@ -357,14 +366,14 @@
         "labelKo": "상황",
         "labelEn": "Conditions",
         "weight": 0.10000000000000003,
-        "rawScore": 0.4625,
-        "weighted": 0.04625000000000002,
-        "knownCount": 3,
-        "totalCount": 4
+        "rawScore": 0.47000000000000003,
+        "weighted": 0.04700000000000002,
+        "knownCount": 4,
+        "totalCount": 5
       }
     ],
     "freshness": 1,
-    "coverage": 0.96875,
+    "coverage": 0.9696969696969697,
     "evidenceConfidence": 97,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
@@ -527,6 +536,11 @@
       },
       {
         "capabilityCode": "weather_warning",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "weather_forecast",
         "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },

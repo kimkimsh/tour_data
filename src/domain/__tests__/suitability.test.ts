@@ -31,8 +31,8 @@ function checkGolden(name: string, input: unknown, actual: SuitabilityResult): v
 }
 
 describe('capability catalogue', () => {
-  it('holds 32 capabilities, 24 of them KTO-scored', () => {
-    expect(CAPABILITIES).toHaveLength(32);
+  it('holds 33 capabilities, 24 of them KTO-scored', () => {
+    expect(CAPABILITIES).toHaveLength(33);
     expect(CAPABILITIES.filter((c) => c.ktoField !== null)).toHaveLength(24);
   });
 
@@ -142,10 +142,18 @@ describe('spec properties the golden files must keep', () => {
     expect(result.label).toBe('주의');
   });
 
-  it('coverage exactly at the threshold does not cap', () => {
-    const result = run('coverage-boundary');
-    expect(result.coverage).toBeCloseTo(0.65, 12);
-    expect(result.label).toBe('방문가능');
+  it('caps on the far side of the coverage threshold and not on the near side', () => {
+    const atThreshold = run('coverage-boundary');
+    expect(atThreshold.coverage).toBeGreaterThanOrEqual(0.65);
+    expect(atThreshold.unknownCriticals).toEqual([]);
+    expect(atThreshold.label).toBe('방문가능');
+
+    // One more unknown, nothing else changed. This is the assertion that fails if the
+    // comparison moves by one fact in either direction.
+    const belowThreshold = run('coverage-boundary-capped');
+    expect(belowThreshold.coverage).toBeLessThan(0.65);
+    expect(belowThreshold.unknownCriticals).toEqual([]);
+    expect(belowThreshold.label).toBe('주의');
   });
 
   it('the score is exactly A x B — nothing else multiplies it', () => {

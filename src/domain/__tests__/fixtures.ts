@@ -19,7 +19,7 @@ export interface FactOverride {
 }
 
 /**
- * Builds a full 32-capability fact array. Tests state only what differs from the
+ * Builds one fact per capability in the catalogue. Tests state only what differs from the
  * baseline, so a case reads as the one thing it is about.
  */
 export function facts(

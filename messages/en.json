@@ -47,7 +47,9 @@
     "footer": {
       "source": "Source: Korea Tourism Organization TourAPI (https://api.visitkorea.or.kr/) · terms are stated per asset",
       "credits": "All sources",
-      "privacy": "Privacy policy"
+      "privacy": "Privacy policy",
+      "sourceBefore": "Source: Korea Tourism Organization TourAPI (",
+      "sourceAfter": ") · terms are stated per asset"
     },
     "error": {
       "noSnapshotTitle": "No data has been collected yet",

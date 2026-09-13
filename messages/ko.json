@@ -47,7 +47,9 @@
     "footer": {
       "source": "출처: 한국관광공사 TourAPI (https://api.visitkorea.or.kr/) · 이용 조건은 자산별로 표기",
       "credits": "출처 전체 보기",
-      "privacy": "개인정보 처리방침"
+      "privacy": "개인정보 처리방침",
+      "sourceBefore": "출처: 한국관광공사 TourAPI (",
+      "sourceAfter": ") · 이용 조건은 자산별로 표기"
     },
     "error": {
       "noSnapshotTitle": "아직 수집된 데이터가 없습니다",

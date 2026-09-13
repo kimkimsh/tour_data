@@ -1,7 +1,7 @@
 [
   {
     "slug": "gongsanseong",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "125949",
     "contentTypeId": 12,
     "depthTier": "A",
     "coord": {
@@ -17,14 +17,14 @@
     "heritageLabel": "사적 「공주 공산성」",
     "isUnescoComponent": true,
     "unescoComponentNote": null,
-    "ktoModifiedAt": null,
+    "ktoModifiedAt": "2026-07-03",
     "i18n": {
       "ko": {
-        "title": "공산성",
-        "overview": null,
-        "addr": null,
-        "tel": null,
-        "homepage": null
+        "title": "공주 공산성 [유네스코 세계유산]",
+        "overview": "백제시대의 대표적인 성곽으로 웅진백제(475~538)를 지킨 왕성이다. 금강이 흐르는 해발 110m 능선과 계곡을 따라 흙으로 쌓은 포곡형(包谷形) 산성이다. 백제시대에는 웅진성, 고려시대공주산성, 고려시대 이후 공산성, 인조가 이괄의 난(1624)을 피해 산성에 머문 이후 쌍수산성으로도 불렀다. 조선 선조·인조 때 지금과 같은 석성(石城)으로 개축하였고, 이후 지속적으로 사용된 공산성에서 시대별 역사를 살펴볼 수 있다.\n백제문화제 기간에는 공산성 앞에서 금강신관공원까지 부교로 건널 수 있다. 금서루에서는 백제왕국의 위풍당당함을 ‘웅진성수문병근무교대식’으로 볼 수 있고, 금강신관공원에서는 밤풍경이 아름다운 공산성 감상이 가능하다.\n\n(출처 : 공주 문화관광 홈페이지)",
+        "addr": "충청남도 공주시 웅진로 280 (금성동)",
+        "tel": "",
+        "homepage": "공주시 문화관광 http://www.gongju.go.kr"
       },
       "en": {
         "title": "Gongsanseong Fortress",
@@ -34,7 +34,1308 @@
         "homepage": null
       }
     },
-    "media": [],
+    "media": [
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F76%2F3404476_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F57%2F3404457_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F67%2F3404567_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F47%2F3404447_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F45%2F3404545_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F79%2F3404479_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F13%2F3404513_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F09%2F3404509_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource_photo%2F53%2F3404553_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공산성",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F1137688.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F38%2F1546338.jpg",
+        "kind": "gallery",
+        "alt": "백제군사박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백제군사박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F41%2F1546341.jpg",
+        "kind": "gallery",
+        "alt": "백제군사박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백제군사박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F05%2F1747305.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 이윤하",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F83%2F1791183.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F03%2F1791203.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F04%2F1791204.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F1791207.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F1791211.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F1791216.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F81%2F2007481.jpg",
+        "kind": "gallery",
+        "alt": "공주 금강철교",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공주 금강철교",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F82%2F2007482.jpg",
+        "kind": "gallery",
+        "alt": "공주 금강철교",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공주 금강철교",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F86%2F2007486.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F87%2F2007487.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F2007488.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F89%2F2007489.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F90%2F2007490.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F91%2F2007491.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F92%2F2007492.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F93%2F2007493.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F94%2F2007494.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F2047022.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F2047023.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F24%2F2047024.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F2047026.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F27%2F2047027.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F30%2F2047030.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F32%2F2047032.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F34%2F2047034.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F2047036.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F38%2F2047038.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F2047043.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F49%2F2047049.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F52%2F2047052.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F57%2F2047057.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F63%2F2047063.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F65%2F2047065.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F67%2F2047067.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F69%2F2047069.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F70%2F2500270.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F71%2F2500271.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F72%2F2500272.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F73%2F2500273.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F74%2F2500274.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F75%2F2500275.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F76%2F2500276.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F77%2F2500277.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F78%2F2500278.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F79%2F2500279.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F80%2F2500280.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F81%2F2500281.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F82%2F2500282.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F83%2F2500283.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F61%2F2724861.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F62%2F2724862.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F63%2F2724863.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F65%2F2724865.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F66%2F2724866.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F68%2F2724868.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F69%2F2724869.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F70%2F2724870.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F71%2F2724871.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F73%2F2724873.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F74%2F2724874.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F83%2F2724883.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F84%2F2724884.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F85%2F2724885.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F86%2F2724886.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F2724888.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F89%2F2724889.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F90%2F2724890.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F47%2F3404447.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F48%2F3404448.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F55%2F3404455.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F56%2F3404456.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F57%2F3404457.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F58%2F3404458.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F59%2F3404459.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F61%2F3404461.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F63%2F3404463.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F76%2F3404476.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F77%2F3404477.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F79%2F3404479.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F80%2F3404480.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F3404488.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F90%2F3404490.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F98%2F3404498.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F03%2F3404503.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F09%2F3404509.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F10%2F3404510.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F13%2F3404513.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F3404516.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F20%2F3404520.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F24%2F3404524.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F3404526.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F27%2F3404527.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F35%2F3404535.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F3404536.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F37%2F3404537.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F38%2F3404538.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F3404539.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F41%2F3404541.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F42%2F3404542.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F3404543.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F44%2F3404544.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F45%2F3404545.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F53%2F3404553.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F61%2F3404561.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F62%2F3404562.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F63%2F3404563.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F65%2F3404565.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F67%2F3404567.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F71%2F3404571.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F78%2F3404578.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F93%2F3404593.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F94%2F3404594.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F78%2F3404678.jpg",
+        "kind": "gallery",
+        "alt": "미르섬",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "미르섬",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F83%2F3404683.jpg",
+        "kind": "gallery",
+        "alt": "금강철교",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "금강철교",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F84%2F3404684.jpg",
+        "kind": "gallery",
+        "alt": "금강철교",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "금강철교",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F86%2F3404686.jpg",
+        "kind": "gallery",
+        "alt": "금강철교",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김영호",
+        "noTransform": true,
+        "caption": "금강철교",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F02%2F743502.jpg",
+        "kind": "gallery",
+        "alt": "공산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 전형준",
+        "noTransform": true,
+        "caption": "공산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      }
+    ],
     "certifications": [],
     "facilities": [
       {
@@ -72,7 +1373,7 @@
   },
   {
     "slug": "muryeong-royal-tombs",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "126681",
     "contentTypeId": 12,
     "depthTier": "B",
     "coord": {
@@ -88,14 +1389,14 @@
     "heritageLabel": "사적 「공주 무령왕릉과 왕릉원」",
     "isUnescoComponent": true,
     "unescoComponentNote": "2021-09-17 관보 고시로 「공주 송산리 고분군」에서 개칭됐다. 확장 목록에 옛 이름을 다시 쓰면 같은 곳을 두 번 세게 된다.",
-    "ktoModifiedAt": null,
+    "ktoModifiedAt": "2025-11-21",
     "i18n": {
       "ko": {
-        "title": "무령왕릉과 왕릉원",
-        "overview": null,
-        "addr": null,
-        "tel": null,
-        "homepage": null
+        "title": "공주 무령왕릉과 왕릉원[유네스코 세계유산]",
+        "overview": "사적 공주 무령왕릉과 왕릉원은 백제 웅진시기(475~538년) 왕들의 무덤이 모여있는 곳이다. 무령왕릉을 포함한 이 일대의 고분들은 모두 7기가 전해지는데, 금강의 남쪽 구릉 경사면에 위치하고 있다. 계곡을 사이에 두고 서쪽에는 무령왕릉과 5호분과 6호분이 있고, 동북쪽에는 1∼4호분이 있다. 1∼6호분은 일제 강점기에 조사되어 고분의 구조와 형식이 밝혀졌고, 무령왕릉은 1971년 5호분과 6호분의 보수공사 때 발견되었다. 1~5호분은 백제의 대표적 무덤 양식인 돌로 만든 굴식돌방무덤이고, 6호분과 무령왕릉은 당시 중국에서 널리 유행하던 무덤 양식인 벽돌무덤이다. 벽돌무덤은 백제에서 이전에 찾아볼 수 없던 새로운 양식의 무덤으로, 이는 백제가 중국 남조 양나라와 활발히 교류를 했다는 증거이다. 특히 무령왕릉에서는 중국의 영향을 받은 석수와 도자기를 비롯하여 일본산 금송으로 만든 목관, 태국 및 인도와의 교류를 의미하는 장신구 등이 발견되어 백제의 수준 높은 국제적 문화교류 역량을 엿볼 수 있다.",
+        "addr": "충청남도 공주시 왕릉로 37 (웅진동)",
+        "tel": "",
+        "homepage": "<a href=\"https://www.gongju.go.kr/tour/sub01_01_03.do\" target=\"_blank\" title=\"새창 : 공주시 문화관광 홈페이지로 이동\">https://www.gongju.go.kr/tour</a>"
       },
       "en": {
         "title": "Royal Tomb of King Muryeong and Tombs",
@@ -105,7 +1406,618 @@
         "homepage": null
       }
     },
-    "media": [],
+    "media": [
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F74%2F2007774.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F75%2F2007775.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F76%2F2007776.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F77%2F2007777.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F78%2F2007778.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F79%2F2007779.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F80%2F2007780.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F81%2F2007781.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F82%2F2007782.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F85%2F2007785.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F87%2F2007787.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F89%2F2007789.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F92%2F2007792.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F94%2F2007794.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F95%2F2007795.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F96%2F2007796.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F99%2F2007799.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F01%2F2007801.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F02%2F2007802.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F04%2F2007804.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F05%2F2007805.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F2505922.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F2505923.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F24%2F2505924.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F25%2F2505925.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F2505926.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F29%2F2505929.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F96%2F2724896.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F97%2F2724897.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F98%2F2724898.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F99%2F2724899.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F00%2F2724900.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F01%2F2724901.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F02%2F2724902.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F03%2F2724903.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F15%2F478115.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F478116.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F17%2F478117.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F18%2F478118.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F20%2F478120.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F21%2F478121.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F478122.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F478123.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F24%2F478124.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F510839.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F569088.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F89%2F569089.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F97%2F569097.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F01%2F569101.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F02%2F569102.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F04%2F569104.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F06%2F569106.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F569107.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F08%2F569108.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F09%2F569109.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F569111.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F12%2F569112.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F01%2F690601.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F17%2F690617.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F690623.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F70%2F690870.jpg",
+        "kind": "gallery",
+        "alt": "공주 무령왕릉과 왕릉원",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "공주 무령왕릉과 왕릉원",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      }
+    ],
     "certifications": [
       {
         "grade": "open_tourism",
@@ -160,7 +2072,7 @@
   },
   {
     "slug": "gongju-national-museum",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "129787",
     "contentTypeId": 14,
     "depthTier": "B",
     "coord": {
@@ -176,14 +2088,14 @@
     "heritageLabel": null,
     "isUnescoComponent": false,
     "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
-    "ktoModifiedAt": null,
+    "ktoModifiedAt": "2026-01-05",
     "i18n": {
       "ko": {
         "title": "국립공주박물관",
-        "overview": null,
-        "addr": null,
-        "tel": null,
-        "homepage": null
+        "overview": "국립공주박물관은 1946년 4월 1일 웅진 백제 문화를 중심으로 충청남도의 역사와 문화를 보존, 전시하기 위해 개관했다. 웅진백제를 주제로 하는 전시실과 충청남도의 역사문화를 주제로 한 전시실이 있으며, 다양한 주제의 특별전시도 수시로 열리고 있다. 전시 외에도 다채로운 문화행사와 교육 프로그램도 진행하고 있다.",
+        "addr": "충청남도 공주시 관광단지길 34 (웅진동)",
+        "tel": "",
+        "homepage": "<a href=\"http://gongju.museum.go.kr/\" target=\"_blank\" title=\"새창 : 국립공주박물관 홈페이지로 이동\">http://gongju.museum.go.kr</a>"
       },
       "en": {
         "title": "Gongju National Museum",
@@ -193,7 +2105,478 @@
         "homepage": null
       }
     },
-    "media": [],
+    "media": [
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F31%2F3534931_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (4)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F32%2F3534932_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (5)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F34%2F3534934_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (2)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F35%2F3534935_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (3)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F39%2F3534939_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (9)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F40%2F3534940_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (6)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F41%2F3534941_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (7)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=http%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F42%2F3534942_image2_1.jpg",
+        "kind": "photo",
+        "alt": "공주_국립공주박물관 (8)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F1137939.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F40%2F1137940.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F1138023.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F27%2F1138027.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F34%2F1138034.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F41%2F1138041.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F55%2F1138055.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F64%2F1138064.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F69%2F1138069.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F74%2F1138074.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F78%2F1138078.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F85%2F1138085.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F87%2F1138087.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F93%2F1138093.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F99%2F1138099.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F01%2F1138101.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F17%2F1138117.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F31%2F1138131.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F1138139.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F1138143.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F47%2F1138147.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F50%2F1138150.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F63%2F1138163.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F75%2F1138175.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F1138226.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F29%2F1138229.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F30%2F1138230.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F32%2F1138232.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F34%2F1138234.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F1138236.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F38%2F1138238.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F58%2F1138258.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F60%2F1138260.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F63%2F1138263.jpg",
+        "kind": "gallery",
+        "alt": "무령왕릉 유물",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "무령왕릉 유물",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F14%2F1138314.jpg",
+        "kind": "gallery",
+        "alt": "국립공주박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립공주박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F10%2F2724910.jpg",
+        "kind": "gallery",
+        "alt": "국립공주박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립공주박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F15%2F2724915.jpg",
+        "kind": "gallery",
+        "alt": "국립공주박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립공주박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F19%2F2724919.jpg",
+        "kind": "gallery",
+        "alt": "국립공주박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립공주박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F25%2F2724925.jpg",
+        "kind": "gallery",
+        "alt": "국립공주박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립공주박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      }
+    ],
     "certifications": [],
     "facilities": [
       {
@@ -221,7 +2604,7 @@
   },
   {
     "slug": "busosanseong",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "125988",
     "contentTypeId": 12,
     "depthTier": "A",
     "coord": {
@@ -237,14 +2620,14 @@
     "heritageLabel": "사적 「부여 부소산성」",
     "isUnescoComponent": true,
     "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고 우리가 다루는 것은 그중 부소산성이다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있다.",
-    "ktoModifiedAt": null,
+    "ktoModifiedAt": "2026-02-09",
     "i18n": {
       "ko": {
-        "title": "부소산성",
-        "overview": null,
-        "addr": null,
-        "tel": null,
-        "homepage": null
+        "title": "관북리유적과 부소산성 [유네스코 세계유산]",
+        "overview": "관북리유적과 부소산성은 충남 부여군 소재지 북부에 위치한 백제시대 유적이다. 부여의 진산인 부소산(96.4m)에는 낙화암, 백화정, 사자루, 반월루, 궁녀사, 고란사, 부소산성, 영일루, 백제의 마지막 충신인 성충, 흥수, 계백을 기리는 삼충사, 곡식 창고터였던 군창지, 수혈병영지등 백제의 유적이 매우 많다. 부소산성은 금강의 남안에 있는 부소산의 산정을 중심으로 쌓은  테뫼식, 포곡식 복합 산성이다. 백제시대에는 사비성, 소부리성으로 부른 것으로 보이나 산성이 위치한 산의 이름을 따서 부소산성으로 불리고 있다. 백제의 수도인 사비 도성의 일환이며 왕궁을 수호하기 위하여 538년(성왕 16년) 사비 천도 시 혹은 그 이전에 축조된 것으로 보인다. 이후 백제 멸망 이전과 이후에 계속 개보수되어 현재에 이른다. 부소산성 아래 관북리 725번지 일원에 위치한 관북리유적은 그동안의 발굴 결과 도로 유적, 배수시설 유적, 토기 등이 출토되어 현재 왕궁지로 추정되고 있다. 관북리유적과 부소산성은 이러한 가치를 인정받아 사적으로 지정되어 있으며 유네스코 세계유산 백제역사유적지구에도 포함되었다. 사비도성 가상체험관도 들어서 유적을 더욱 생생하게 느낄 수 있으며 매년 가을 대백제전이 개최된다. 인근 관광지로는 정림사지 5층석탑, 부여 구아리유적, 부여 쌍북리 요지, 부여향교, 궁남지, 국립부여박물관 등이 있다.",
+        "addr": "충청남도 부여군 부여읍 부소로 15",
+        "tel": "",
+        "homepage": "https://www.buyeo.go.kr"
       },
       "en": {
         "title": "Busosanseong Fortress",
@@ -254,7 +2637,658 @@
         "homepage": null
       }
     },
-    "media": [],
+    "media": [
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F56%2F1601156_image2_1.jpg",
+        "kind": "photo",
+        "alt": "삼충사",
+        "licenseCode": "Type3",
+        "attribution": "출처: 한국관광공사 · 공공누리 제3유형 (변경금지)",
+        "noTransform": true,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F64%2F1601164_image2_1.jpg",
+        "kind": "photo",
+        "alt": "수혈주거지",
+        "licenseCode": "Type3",
+        "attribution": "출처: 한국관광공사 · 공공누리 제3유형 (변경금지)",
+        "noTransform": true,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F70%2F1601170_image2_1.jpg",
+        "kind": "photo",
+        "alt": "반월루",
+        "licenseCode": "Type3",
+        "attribution": "출처: 한국관광공사 · 공공누리 제3유형 (변경금지)",
+        "noTransform": true,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F77%2F1601177_image2_1.jpg",
+        "kind": "photo",
+        "alt": "궁녀사",
+        "licenseCode": "Type3",
+        "attribution": "출처: 한국관광공사 · 공공누리 제3유형 (변경금지)",
+        "noTransform": true,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F87%2F1791887.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F1791888.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F98%2F1791898.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F1791911.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F12%2F1791912.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F21%2F1791921.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F1791943.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F1831507.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F08%2F1831508.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F10%2F1831510.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F1831511.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F1831516.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F19%2F1831519.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F20%2F1831520.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F21%2F1831521.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F1831522.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F24%2F1831524.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F25%2F1831525.jpg",
+        "kind": "gallery",
+        "alt": "낙화암",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "낙화암",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F1831539.jpg",
+        "kind": "gallery",
+        "alt": "낙화암",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "낙화암",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F56%2F1831556.jpg",
+        "kind": "gallery",
+        "alt": "군창지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "군창지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F57%2F1831557.jpg",
+        "kind": "gallery",
+        "alt": "군창지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "군창지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F59%2F1831559.jpg",
+        "kind": "gallery",
+        "alt": "군창지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "군창지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F64%2F1831564.jpg",
+        "kind": "gallery",
+        "alt": "군창지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "군창지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F69%2F1831569.jpg",
+        "kind": "gallery",
+        "alt": "백화정",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백화정",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F86%2F1831586.jpg",
+        "kind": "gallery",
+        "alt": "백화정",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백화정",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F93%2F1831593.jpg",
+        "kind": "gallery",
+        "alt": "백화정",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백화정",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F99%2F1831599.jpg",
+        "kind": "gallery",
+        "alt": "백화정",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백화정",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F00%2F1831600.jpg",
+        "kind": "gallery",
+        "alt": "백화정",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백화정",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F01%2F1831601.jpg",
+        "kind": "gallery",
+        "alt": "백화정",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "백화정",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F18%2F1831618.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F19%2F1831619.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F1831622.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F32%2F1831632.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F33%2F1831633.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F34%2F1831634.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F35%2F1831635.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F1831636.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F37%2F1831637.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F38%2F1831638.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F1831643.jpg",
+        "kind": "gallery",
+        "alt": "부소산성 수혈건물지 자료관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성 수혈건물지 자료관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F75%2F1831675.jpg",
+        "kind": "gallery",
+        "alt": "낙화암",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "낙화암",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F77%2F1831677.jpg",
+        "kind": "gallery",
+        "alt": "반월루",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "반월루",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F79%2F1831679.jpg",
+        "kind": "gallery",
+        "alt": "반월루",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "반월루",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F80%2F1831680.jpg",
+        "kind": "gallery",
+        "alt": "반월루",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "반월루",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F14%2F1961914.jpg",
+        "kind": "gallery",
+        "alt": "사비성 나들이",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 김병영",
+        "noTransform": true,
+        "caption": "사비성 나들이",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F10%2F2027910.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F2027911.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F13%2F2027913.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F14%2F2027914.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F15%2F2027915.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F2027916.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F17%2F2027917.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F67%2F2500267.jpg",
+        "kind": "gallery",
+        "alt": "낙화암",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "낙화암",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F14%2F2725014.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F17%2F2725017.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F18%2F2725018.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F19%2F2725019.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F20%2F2725020.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F21%2F2725021.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F2725022.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F2725023.jpg",
+        "kind": "gallery",
+        "alt": "부소산성",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "부소산성",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      }
+    ],
     "certifications": [],
     "facilities": [
       {
@@ -292,7 +3326,7 @@
   },
   {
     "slug": "jeongnimsaji",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "126650",
     "contentTypeId": 12,
     "depthTier": "B",
     "coord": {
@@ -308,14 +3342,14 @@
     "heritageLabel": "사적 「부여 정림사지」",
     "isUnescoComponent": true,
     "unescoComponentNote": null,
-    "ktoModifiedAt": null,
+    "ktoModifiedAt": "2026-06-01",
     "i18n": {
       "ko": {
-        "title": "정림사지",
-        "overview": null,
-        "addr": null,
-        "tel": null,
-        "homepage": null
+        "title": "부여 정림사지 오층석탑 [유네스코 세계유산]",
+        "overview": "국보로 유명한 정림사지오층석탑은 부여 정림사터에 세워져 있는 석탑으로, 좁고 낮은 1단의 기단(基壇) 위에 5층의 탑신(塔身)을 세운 모습이다. 신라와의 연합군으로 백제를 멸망시킨 당나라 장수 소정방이 ‘백제를 정벌한 기념탑’이라는 뜻의 글귀를 이 탑에 남겨놓아, 한때는 ‘평제탑’이라고 잘못 불리어지는 수모를 겪기도 하였다. 기단은 각 면의 가운데와 모서리에 기둥돌을 끼워 놓았고, 탑신부의 각 층 몸돌에는 모서리마다 기둥을 세워놓았는데 위아래가 좁고 가운데를 볼록하게 표현하는 목조건물의 배흘림기법을 이용하였다. 얇고 넓은 지붕돌은 처마의 네 귀퉁이에서 부드럽게 들려져 단아한 자태를 보여준다. 좁고 얕은 1단의 기단과 배흘림기법의 기둥표현, 얇고 넓은 지붕돌의 형태 등은 목조건물의 형식을 충실히 이행하면서도 단순한 모방이 아닌 세련되고 창의적인 조형을 보여주며, 전체의 형태가 매우 장중하고 아름답다. 익산미륵사지석탑(국보)과 함께 2기만 남아있는 백제시대의 석탑이라는 점에서도 귀중한 자료로 평가되며, 세련되고 정제된 조형미를 통해 격조 높은 기품을 풍기고 있는 아름다운 작품이다. 이 석탑은 익산(益山) 미륵사지(彌勒寺址) 석탑(石塔)과 함께 백제시대(百濟時代)에 세워진 귀중한 탑으로, 우리나라 석탑의 시조(始祖)라고 할 수 있다. 목조건물의 가구(架構)를 모방하고 있으나 단순한 모방이 아니라 정돈된 형태에서 세련되고 창의적인 조형을 보여주고 있으며 전체의 형태가 장중하고 명쾌한 기풍을 풍겨준다. 초층탑신(初層塔身) 4면에는 당(唐)의 소정방(蘇定方)이 백제(百濟)를 멸한 다음, 그 기공문(紀功文)을 새겨 넣었으나 이는 탑이 건립된 훨씬 뒤의 일이다. 이곳 일대의 발굴조사에서 정림사명(定林寺銘)이 들어 있는 기와가 많이 출토되었다.\n\n◎ 한류의 매력을 만나는 여행 정보 - 예능 \n예능 에서 멤버들이 저녁 식사를 두고 정림사지 오층석탑을 본뜬 ‘인간 탑 쌓기 3종’ 미션을 수행한 곳이다. 인근에 백제 문화를 엿볼 수 있는 다양한 국가유산이 있어 함께 둘러보기 좋다.",
+        "addr": "충청남도 부여군 부여읍 정림로 83",
+        "tel": "",
+        "homepage": "https://www.buyeo.go.kr"
       },
       "en": {
         "title": "Jeongnimsa Temple Site",
@@ -325,7 +3359,878 @@
         "homepage": null
       }
     },
-    "media": [],
+    "media": [
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F58%2F3355458_image2_1.jpg",
+        "kind": "photo",
+        "alt": "정림사지 (1)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F60%2F3355460_image2_1.jpg",
+        "kind": "photo",
+        "alt": "정림사지 (3)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F61%2F4063461_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_정림사지 오층석탑_외부_6.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F62%2F4063462_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_정림사지 오층석탑_외부_7.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F63%2F4063463_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_정림사지 오층석탑_외부_8.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F66%2F4063466_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_정림사지 오층석탑_외부_2.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F67%2F4063467_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_정림사지 오층석탑_외부_3.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F68%2F4063468_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_정림사지 오층석탑_외부_4.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F69%2F4063469_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_정림사지 오층석탑_외부_5.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F59%2F3355459_image2_1.jpg",
+        "kind": "photo",
+        "alt": "정림사지 (2)",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F92%2F1831092.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F93%2F1831093.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F04%2F1831104.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F05%2F1831105.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F06%2F1831106.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F1831107.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F08%2F1831108.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F09%2F1831109.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F10%2F1831110.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F45%2F1831245.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F46%2F1831246.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F47%2F1831247.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F48%2F1831248.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F49%2F1831249.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F50%2F1831250.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F51%2F1831251.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F53%2F1831253.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F54%2F1831254.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F55%2F1831255.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F56%2F1831256.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F62%2F1831262.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F65%2F1831265.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F25%2F2006525.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F2006526.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F27%2F2006527.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F28%2F2006528.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F29%2F2006529.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F30%2F2006530.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F31%2F2006531.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F32%2F2006532.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F33%2F2006533.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F35%2F2006535.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F2006536.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F38%2F2006538.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F40%2F2006540.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F41%2F2006541.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F42%2F2006542.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F2006543.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F45%2F2006545.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F47%2F2006547.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F48%2F2006548.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F49%2F2006549.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F51%2F2006551.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F52%2F2006552.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F53%2F2006553.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F54%2F2006554.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F56%2F2006556.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F18%2F2027918.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F19%2F2027919.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F20%2F2027920.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F21%2F2027921.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F2027922.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F25%2F2027925.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F2027926.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F27%2F2027927.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F28%2F2027928.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F29%2F2027929.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F30%2F2027930.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F31%2F2027931.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F56%2F2541456.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F57%2F2541457.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F59%2F2541459.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F60%2F2541460.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F61%2F2541461.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F62%2F2541462.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F63%2F2541463.jpg",
+        "kind": "gallery",
+        "alt": "정림사지박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · IR 스튜디오",
+        "noTransform": true,
+        "caption": "정림사지박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F34%2F2725034.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F35%2F2725035.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F2725036.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F38%2F2725038.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F40%2F2725040.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F41%2F2725041.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F42%2F2725042.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F2725043.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F86%2F3022286.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 심현우",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F87%2F3022287.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 심현우",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F3022288.jpg",
+        "kind": "gallery",
+        "alt": "정림사지",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 심현우",
+        "noTransform": true,
+        "caption": "정림사지",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      }
+    ],
     "certifications": [],
     "facilities": [
       {
@@ -373,7 +4278,7 @@
   },
   {
     "slug": "buyeo-national-museum",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "130062",
     "contentTypeId": 14,
     "depthTier": "B",
     "coord": {
@@ -389,14 +4294,14 @@
     "heritageLabel": null,
     "isUnescoComponent": false,
     "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
-    "ktoModifiedAt": null,
+    "ktoModifiedAt": "2026-07-21",
     "i18n": {
       "ko": {
         "title": "국립부여박물관",
-        "overview": null,
-        "addr": null,
-        "tel": null,
-        "homepage": null
+        "overview": "부여 시내 남동쪽 금성산 기슭에 위치한 국립부여박물관은 1929년 재단법인 ‘부여 고적 보존회’가 발족되어 백제의 문화재. 유물을 모아 부소산 남쪽에 자리한 조선시대 관아의 객사에 전시하게 된 것이 국립부여박물관의 시작이다. 1939년부터는 ‘조선총독부 박물관 부여 분관’이라 하여 비로소 ‘부여박물관’이라는 이름을 얻게 되었으며 1970년에는 부소산 남쪽 기슭에 새 박물관을 지어 부여지역을 비롯하여 백제권에 흩어진 백제문화유물을 중심으로 전시하였다. 1993년 8월 6일 현재 위치로 자리를 옮겨 새로운 모습으로 개관하였다. 국립 부여 박물관은 61,429㎡의 면적에 4개의 전시실과 야외 유물전시장을 마련하고 약 1,000여 점의 유물을 전시하고 있다. \n건물 설계 당시 한국의 전통양식을 도입하여 8 각형의 중정(中庭)을 중심에 두고 상설전시실인 선사실·역사실·불교미술실과 야외전시실을 배치하였다. 선사실에는 부여 지방을 중심으로 충남지역에서 출토된 청동기시대와 철기시대 유물들을, 역사실에는 사비시대의 백제 유물과 삼국시대 유물들을 전시하였다. 불교미술실에는 사비시대 백제의 불교미술품들이 전시되어 있으며, 야외전시실에는 불상과 석탑 등의 조각품들이 전시되어 있다.",
+        "addr": "충청남도 부여군 부여읍 금성로 5",
+        "tel": "",
+        "homepage": "http://buyeo.museum.go.kr"
       },
       "en": {
         "title": "Buyeo National Museum",
@@ -406,7 +4311,708 @@
         "homepage": null
       }
     },
-    "media": [],
+    "media": [
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F58%2F3544158_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-5",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F59%2F3544159_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-1",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F60%2F3544160_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-2",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F61%2F3544161_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-3",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F62%2F3544162_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남여행, 부여 가볼만한 곳_국립부여박물관_3-4",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F69%2F4089169_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_국립부여박물관_내부_6-1.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F70%2F4089170_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_국립부여박물관_내부_1-4.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F71%2F4089171_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_국립부여박물관_내부_2-2.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F72%2F4089172_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_국립부여박물관_내부_3-3.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms%2Fresource%2F73%2F4089173_image2_1.jpg",
+        "kind": "photo",
+        "alt": "충남_부여_국립부여박물관_내부_4-2.jpg",
+        "licenseCode": "Type1",
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "noTransform": false,
+        "caption": null,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F13%2F1831113.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F15%2F1831115.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F16%2F1831116.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F17%2F1831117.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F1831126.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F33%2F1831133.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F36%2F1831136.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F39%2F1831139.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F41%2F1831141.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F43%2F1831143.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F45%2F1831145.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F46%2F1831146.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F47%2F1831147.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F49%2F1831149.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F83%2F1831183.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F84%2F1831184.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F86%2F1831186.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F87%2F1831187.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F88%2F1831188.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F89%2F1831189.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F94%2F1831194.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F97%2F1831197.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F99%2F1831199.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F00%2F1831200.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F44%2F1831744.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 김지호 ",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F02%2F2006402.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F03%2F2006403.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F04%2F2006404.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F07%2F2006407.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F10%2F2006410.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F11%2F2006411.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F14%2F2006414.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F18%2F2006418.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F19%2F2006419.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F20%2F2006420.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F21%2F2006421.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F22%2F2006422.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F23%2F2006423.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F24%2F2006424.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F26%2F2006426.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F28%2F2006428.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F29%2F2006429.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F30%2F2006430.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F31%2F2006431.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F32%2F2006432.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F33%2F2006433.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F35%2F2006435.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F41%2F2006441.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F44%2F2006444.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F47%2F2006447.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F49%2F2006449.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F50%2F2006450.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F51%2F2006451.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F54%2F2006454.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F55%2F2006455.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F56%2F2006456.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F57%2F2006457.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F58%2F2006458.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F59%2F2006459.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      },
+      {
+        "url": "/api/image-proxy?url=https%3A%2F%2Ftong.visitkorea.or.kr%2Fcms2%2Fwebsite%2F60%2F2006460.jpg",
+        "kind": "gallery",
+        "alt": "국립부여박물관",
+        "licenseCode": null,
+        "attribution": "출처: 한국관광공사 관광사진갤러리 · 한국관광공사 이범수",
+        "noTransform": true,
+        "caption": "국립부여박물관",
+        "sourceField": "gallerySearchList1.galWebImageUrl"
+      }
+    ],
     "certifications": [],
     "facilities": [
       {

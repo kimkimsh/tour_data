@@ -95,7 +95,7 @@
       "gapScope": "This report covers {count} places. The same method could be extended to any other city or county.",
       "related": "How this list defines relatedness is not published, and its accessibility has not been checked.",
       "reportsExcluded": "Visitor reports do not affect the suitability score.",
-      "a11ySelfCheck": "KWCAG 2.2 self-assessment (automated checks plus manual NVDA testing)",
+      "a11ySelfCheck": "KWCAG 2.2 self-assessment (axe-core automated checks. Manual NVDA testing has not been done yet)",
       "handover": "A Chungnam gap report designed with municipal handover in mind"
     },
     "fixtureBanner": "This screen is built from example data, not collected data. Do not rely on it.",
@@ -198,7 +198,7 @@
     "reportSeenOn": "seen {date}",
     "reportPostedOn": "posted {date}",
     "alternativesHint": "Places with a better verdict under the same conditions.",
-    "safetyNote": "The emergency-department and defibrillator distances on the Situation axis are calculated from this list. Where a coordinate could not be confirmed, no distance is calculated and the item stays unknown.",
+    "safetyNote": "The emergency-department and defibrillator distances on the Situation axis are calculated from this list. They are straight-line distances, not walking distances — at the hilltop fortresses the walk is considerably longer. Where a coordinate could not be confirmed, no distance is calculated and the item stays unknown.",
     "distanceMeters": "{value} m",
     "crowdRate": "Crowding index {value} — not a score out of 100",
     "noPhotos": "No photographs have been collected for this place yet.",

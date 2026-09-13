@@ -310,12 +310,12 @@
   {
     "poiSlug": "gongsanseong",
     "capabilityCode": "emergency_distance",
-    "status": "unknown",
+    "status": "unsupported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "충청남도 공주의료원 응급실 직선거리 1,627m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -673,12 +673,12 @@
   {
     "poiSlug": "muryeong-royal-tombs",
     "capabilityCode": "emergency_distance",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "충청남도 공주의료원 응급실 직선거리 330m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1036,12 +1036,12 @@
   {
     "poiSlug": "gongju-national-museum",
     "capabilityCode": "emergency_distance",
-    "status": "unknown",
+    "status": "partial",
     "absenceKind": null,
-    "detail": null,
+    "detail": "충청남도 공주의료원 응급실 직선거리 816m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1399,12 +1399,12 @@
   {
     "poiSlug": "busosanseong",
     "capabilityCode": "emergency_distance",
-    "status": "unknown",
+    "status": "unsupported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "건양대학교 부여병원 응급실 직선거리 1,546m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1762,23 +1762,23 @@
   {
     "poiSlug": "jeongnimsaji",
     "capabilityCode": "emergency_distance",
-    "status": "unknown",
+    "status": "unsupported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "건양대학교 부여병원 응급실 직선거리 1,152m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
     "poiSlug": "jeongnimsaji",
     "capabilityCode": "aed_distance",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "정림사지박물관 로비 직선거리 182m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -2125,23 +2125,23 @@
   {
     "poiSlug": "buyeo-national-museum",
     "capabilityCode": "emergency_distance",
-    "status": "unknown",
+    "status": "unsupported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "건양대학교 부여병원 응급실 직선거리 1,559m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
     "poiSlug": "buyeo-national-museum",
     "capabilityCode": "aed_distance",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "어린이박물관 직선거리 10m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {

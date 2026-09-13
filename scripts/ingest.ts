@@ -909,7 +909,12 @@ function nearestFacility(
       supportedMax === Number.POSITIVE_INFINITY
         ? 'supported'
         : derivedStatus(distance, supportedMax, partialMax),
-    detail: `${nearest.name} ${distance}m`,
+    // "직선거리" in the sentence itself, not only in the source note underneath. This
+    // is the figure a visitor reads when deciding whether help is close, and a
+    // straight line across a hillside is shorter than the path up it — at 공산성 and
+    // 부소산성 the walk is the long way round. The number is honest about its method
+    // where it is read, or it is not honest at all.
+    detail: `${nearest.name} 직선거리 ${distance.toLocaleString('ko-KR')}m`,
     source: 'derived_facility',
   };
 }

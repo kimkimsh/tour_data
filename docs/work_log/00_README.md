@@ -19,7 +19,7 @@
 | 06 | [`06_review_round.md`](./06_review_round.md) | **구현 후 적대적 검토에서 나온 41건과 그 처리.** 가장 중요한 문서 |
 | 07 | [`07_merge_and_handover.md`](./07_merge_and_handover.md) | main 병합, 그리고 막힌 것을 사람이 풀 수 있는 형태로 바꾼 기록 |
 | 08 | [`08_data_go_live.md`](./08_data_go_live.md) | **키가 들어오고 실제 데이터가 붙기까지.** API 11종·Supabase 연결, 그 과정에서 드러난 버그와 스펙 오류 |
-| 09 | [`09_review_and_polish.md`](./09_review_and_polish.md) | **브라우저로 전 화면을 열어 보고 고친 것.** 안전 판정 역전, 화면에 새던 원시 데이터, 접근성 트리·문안·영문 |
+| 09 | [`09_review_and_polish.md`](./09_review_and_polish.md) | **브라우저로 전 화면을 열어 보고 고친 것.** 안전 판정 역전, 화면에 새던 원시 데이터, 접근성 트리·문안·영문, 그리고 수집이 「못 봤다」를 발행하던 경로 |
 
 ---
 
@@ -45,4 +45,6 @@
 
 `pnpm typecheck`·`lint`·`test`(160건)·`validate:content`·`build`·`e2e`(24건, axe 20경로)가 전부 통과한다.
 
-**남아 있는 것 셋** — NVDA 수동 검증(Windows 필요), `flag_report` 호출 제한(스키마 변경이라 사람 결정), 안전시설 좌표(공식 출처에 없음). 09번 §12.
+야간 수집(GitHub Actions)이 시크릿 5개로 동작한다 — 2분, 전 단계 성공, 스냅샷 자동 커밋.
+
+**남아 있는 것 셋** — NVDA 수동 검증(Windows 필요), `flag_report` 호출 제한(스키마 변경이라 사람 결정), 안전시설 좌표(공식 출처에 없음). 09번 §13.

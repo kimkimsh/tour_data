@@ -279,10 +279,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "unsupported",
     "absenceKind": null,
-    "detail": "예측 혼잡도 82.94 (20260913 기준, 향후 30일 예측)",
+    "detail": "혼잡 — 집중률 82.9 (40 이하 여유 · 70 이하 보통). 2026-09-13 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -290,10 +290,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-14 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -301,10 +301,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "구름많음 · 최고 25℃ · 최저 15℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -642,10 +642,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "partial",
     "absenceKind": null,
-    "detail": "예측 혼잡도 55.74 (20260913 기준, 향후 30일 예측)",
+    "detail": "보통 — 집중률 55.7 (40 이하 여유 · 70 이하 보통). 2026-09-13 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -653,10 +653,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-14 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -664,10 +664,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "구름많음 · 최고 25℃ · 최저 15℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1005,10 +1005,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "unsupported",
     "absenceKind": null,
-    "detail": "예측 혼잡도 89.34 (20260913 기준, 향후 30일 예측)",
+    "detail": "혼잡 — 집중률 89.3 (40 이하 여유 · 70 이하 보통). 2026-09-13 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1016,10 +1016,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-14 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1027,10 +1027,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "구름많음 · 최고 25℃ · 최저 15℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1368,10 +1368,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "unsupported",
     "absenceKind": null,
-    "detail": "예측 혼잡도 73.71 (20260913 기준, 향후 30일 예측)",
+    "detail": "혼잡 — 집중률 73.7 (40 이하 여유 · 70 이하 보통). 2026-09-13 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1379,10 +1379,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-14 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1390,10 +1390,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "구름많음 · 최고 27℃ · 최저 16℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1731,10 +1731,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "unsupported",
     "absenceKind": null,
-    "detail": "예측 혼잡도 70.63 (20260913 기준, 향후 30일 예측)",
+    "detail": "혼잡 — 집중률 70.6 (40 이하 여유 · 70 이하 보통). 2026-09-13 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1742,10 +1742,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-14 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -1753,10 +1753,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "구름많음 · 최고 27℃ · 최저 16℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -2094,10 +2094,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "unsupported",
     "absenceKind": null,
-    "detail": "예측 혼잡도 71.41 (20260913 기준, 향후 30일 예측)",
+    "detail": "혼잡 — 집중률 71.4 (40 이하 여유 · 70 이하 보통). 2026-09-13 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -2105,10 +2105,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-14 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {
@@ -2116,10 +2116,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "구름많음 · 최고 27℃ · 최저 16℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-13",
+    "verifiedAt": "2026-09-14",
     "isKtoScored": false
   },
   {

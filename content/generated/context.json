@@ -68,7 +68,7 @@
       "warning": null,
       "scope": "district",
       "unknownReason": null,
-      "checkedAt": "2026-09-13"
+      "checkedAt": "2026-09-14"
     },
     {
       "signguCd5": "44760",
@@ -76,16 +76,16 @@
       "warning": null,
       "scope": "district",
       "unknownReason": null,
-      "checkedAt": "2026-09-13"
+      "checkedAt": "2026-09-14"
     }
   ],
   "forecast": [
     {
       "signguCd5": "44150",
-      "baseAt": "20260913 2000",
+      "baseAt": "20260913 2300",
       "today": {
         "state": "good",
-        "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+        "detail": "구름많음 · 최고 25℃ · 최저 15℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
         "unknownReason": null
       },
       "outlook": [
@@ -144,14 +144,14 @@
           "tmx": 25
         }
       ],
-      "checkedAt": "2026-09-13"
+      "checkedAt": "2026-09-14"
     },
     {
       "signguCd5": "44760",
-      "baseAt": "20260913 2000",
+      "baseAt": "20260913 2300",
       "today": {
         "state": "good",
-        "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+        "detail": "구름많음 · 최고 27℃ · 최저 16℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
         "unknownReason": null
       },
       "outlook": [
@@ -210,8 +210,8 @@
           "tmx": 25
         }
       ],
-      "checkedAt": "2026-09-13"
+      "checkedAt": "2026-09-14"
     }
   ],
-  "fetchedAt": "2026-09-13T14:07:15.761Z"
+  "fetchedAt": "2026-09-13T15:06:00.580Z"
 }

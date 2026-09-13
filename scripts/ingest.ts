@@ -310,6 +310,34 @@ async function resolveImageUrl(rawUrl: string): Promise<string> {
   return resolved;
 }
 
+/**
+ * Photo-gallery hits, most-relevant first and then cut short.
+ *
+ * gallerySearchList1 keyword-matches loosely, so a search for 공산성 comes back with
+ * 백제군사박물관 (a museum in Nonsan), 금강철교 and 미르섬 among the 121 rows it
+ * returned. Two problems, one fix: a photo of somewhere else under this place's name
+ * is wrong, and 121 images on one page is 121 requests through /api/image-proxy —
+ * every KTO asset fails the https probe, so the proxy is the only path they take.
+ *
+ * Rows whose own title names the place come first. The rest are kept, not dropped:
+ * 낙화암 and 군창지 are inside 부소산성 and their titles never say so, and the page
+ * prints each photo's own title beside it, so a reader can see what they are looking
+ * at. The cap is what removes the far-off ones.
+ */
+const GALLERY_PHOTO_LIMIT = 8;
+
+function rankAndCapGallery<T extends { galTitle?: string | null }>(
+  items: readonly T[],
+  keyword: string,
+): T[] {
+  const wanted = keyword.replace(/\s+/g, '');
+  const names = (item: T) => (item.galTitle ?? '').replace(/\s+/g, '').includes(wanted);
+  return [...items.filter(names), ...items.filter((item) => !names(item))].slice(
+    0,
+    GALLERY_PHOTO_LIMIT,
+  );
+}
+
 async function buildPois(pois: PoiInput[]): Promise<void> {
   requireKey();
   const facilities = readContent('facilities.json', FacilitiesInput);
@@ -348,8 +376,15 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
     }>> = {};
 
     const koRow = common.ok ? common.items[0] : undefined;
+    // Our name, not the catalogue's. A TourAPI title is a listing headline: it
+    // appends "[유네스코 세계유산]" with inconsistent spacing, and for busosanseong it
+    // names a larger asset than the one this record is about — "관북리유적과 부소산성",
+    // where every fact, route and score here covers 부소산성 alone. content/pois.json
+    // carries the designation name checked against the Korea Heritage Service, and
+    // that is the name the screens, the exports and the gap report all have to agree
+    // on. Everything else in this block still comes from upstream.
     i18n.ko = {
-      title: koRow?.title ?? poi.nameKo,
+      title: poi.nameKo,
       overview: koRow?.overview ?? null,
       addr: [koRow?.addr1, koRow?.addr2].filter(Boolean).join(' ') || null,
       tel: koRow?.tel ?? null,
@@ -366,7 +401,9 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
       const row = result.items[0];
       if (!row?.title) continue;
       i18n[locale] = {
-        title: row.title,
+        // Same rule as the Korean title above: ours names the asset this record
+        // covers, and the two locales have to be about the same place.
+        title: locale === 'en' ? poi.nameEn : row.title,
         overview: row.overview ?? null,
         addr: [row.addr1, row.addr2].filter(Boolean).join(' ') || null,
         tel: row.tel ?? null,
@@ -401,7 +438,7 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
 
     const gallery = await searchPhotoGallery(poi.nameKo);
     if (gallery.ok) {
-      for (const photo of gallery.items) {
+      for (const photo of rankAndCapGallery(gallery.items, poi.odiiKeyword)) {
         if (!photo.galWebImageUrl) continue;
         media.push({
           url: await resolveImageUrl(photo.galWebImageUrl),
@@ -633,6 +670,19 @@ function derivedStatus(value: number, supportedMax: number, partialMax: number) 
   return 'unsupported' as const;
 }
 
+/** The crowding band as a word, on the same thresholds derivedStatus uses. */
+function crowdBandKo(rate: number): string {
+  if (rate <= CROWD_SUPPORTED_MAX) return '여유';
+  if (rate <= CROWD_PARTIAL_MAX) return '보통';
+  return '혼잡';
+}
+
+/** YYYYMMDD, which is what the KTO date parameters carry, as a date people read. */
+function formatYmd(value: string): string {
+  const match = /^(\d{4})(\d{2})(\d{2})$/.exec(value);
+  return match ? `${match[1]}-${match[2]}-${match[3]}` : value;
+}
+
 async function buildAccessibility(pois: PoiInput[]): Promise<void> {
   requireKey();
   const curated = readContent('curated-facts.json', CuratedFactsInput);
@@ -705,7 +755,15 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
           { status: 'unknown', detail: `집중률 ${crowdRow.rate} — 스케일 가정 밖`, source: 'tats' }
         : {
             status: derivedStatus(crowdRow.rate, CROWD_SUPPORTED_MAX, CROWD_PARTIAL_MAX),
-            detail: `예측 혼잡도 ${crowdRow.rate} (${crowdRow.baseYmd} 기준, 향후 30일 예측)`,
+            // The band in words, then the figure. The manual gives cnctrRate no unit,
+            // denominator or ceiling, so the bare number was unreadable on screen —
+            // "예측 혼잡도 82.94" told a visitor nothing about whether to go that day.
+            // The thresholds it is banded against are named right here rather than
+            // left to a reader to infer from the badge.
+            detail:
+              `${crowdBandKo(crowdRow.rate)} — 집중률 ${crowdRow.rate.toFixed(1)}` +
+              ` (${CROWD_SUPPORTED_MAX} 이하 여유 · ${CROWD_PARTIAL_MAX} 이하 보통).` +
+              ` ${formatYmd(crowdRow.baseYmd)} 기준, 향후 30일 예측치입니다`,
             source: 'tats',
           }
       : null);

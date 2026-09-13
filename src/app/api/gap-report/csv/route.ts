@@ -9,10 +9,14 @@ import type { ContentLocale } from '@/domain/types';
  * Same computation as the screen, from the same snapshot array, so the numbers in
  * the file and the numbers on the page cannot diverge.
  */
-export const revalidate = 3600;
+// Not cached: the handler reads a search parameter, so Next renders it per request
+// whatever a revalidate value would claim. Saying so here beats a number that does
+// nothing.
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
-  const locale = (new URL(request.url).searchParams.get('locale') ?? 'ko') as ContentLocale;
+  const requested = new URL(request.url).searchParams.get('locale');
+  const locale: ContentLocale = requested === 'en' ? 'en' : 'ko';
 
   const [pois, facts] = await Promise.all([getPois(), getFacts()]);
   if (!pois.ok || !facts.ok) {
@@ -26,7 +30,7 @@ export async function GET(request: Request) {
     facts.data as GapFact[],
     pois.data.map((poi) => poi.slug),
   );
-  const csv = gapRowsToCsv(report.priorities, titles);
+  const csv = gapRowsToCsv(report.priorities, titles, locale);
 
   const name = 'modu-baekje-gap-report';
   return new Response(csv, {

@@ -41,7 +41,13 @@ export async function setReportHidden(raw: unknown): Promise<{ ok: boolean; mess
     .eq('id', parsed.data.id)
     .select('id');
 
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    // The action id ships in a public client chunk and this function only requires
+    // *a* session, which any visitor can mint. A Postgres message names the table,
+    // the column and the policy; it goes to the log, not to the caller.
+    console.error(`setReportHidden failed: ${error.message}`);
+    return { ok: false, message: 'failed' };
+  }
   if ((data ?? []).length === 0) return { ok: false, message: 'not_permitted' };
 
   // The place page renders its reports from the browser, but the cached layout

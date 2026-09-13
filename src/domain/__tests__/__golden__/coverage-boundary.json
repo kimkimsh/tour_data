@@ -273,6 +273,15 @@
         "isKtoScored": false
       },
       {
+        "capabilityCode": "weather_forecast",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
         "capabilityCode": "emergency_distance",
         "status": "supported",
         "absenceKind": null,
@@ -302,7 +311,7 @@
     "score": 79,
     "label": "방문가능",
     "layerA": 0.8191607142857145,
-    "layerB": 0.9620833333333333,
+    "layerB": 0.9633064516129032,
     "axes": [
       {
         "axis": "entry",
@@ -361,13 +370,13 @@
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
-        "knownCount": 4,
-        "totalCount": 4
+        "knownCount": 5,
+        "totalCount": 5
       }
     ],
     "freshness": 1,
-    "coverage": 0.65,
-    "evidenceConfidence": 65,
+    "coverage": 0.6666666666666666,
+    "evidenceConfidence": 67,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "deductions": [
@@ -565,6 +574,11 @@
       },
       {
         "capabilityCode": "weather_warning",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "weather_forecast",
         "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },

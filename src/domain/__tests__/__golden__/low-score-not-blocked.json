@@ -273,6 +273,15 @@
         "isKtoScored": false
       },
       {
+        "capabilityCode": "weather_forecast",
+        "status": "unknown",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": null,
+        "isKtoScored": false
+      },
+      {
         "capabilityCode": "emergency_distance",
         "status": "unknown",
         "absenceKind": null,
@@ -302,7 +311,7 @@
     "score": 46,
     "label": "주의",
     "layerA": 0.5101785714285716,
-    "layerB": 0.8955357142857143,
+    "layerB": 0.8945175438596492,
     "axes": [
       {
         "axis": "entry",
@@ -362,7 +371,7 @@
         "rawScore": 0.35,
         "weighted": 0.03500000000000001,
         "knownCount": 0,
-        "totalCount": 4
+        "totalCount": 5
       }
     ],
     "freshness": 1,
@@ -515,6 +524,12 @@
         "capabilityCode": "weather_warning",
         "labelKo": "기상 특보",
         "reason": "기상 특보 정보 없음",
+        "axis": "context"
+      },
+      {
+        "capabilityCode": "weather_forecast",
+        "labelKo": "당일 기상 예보",
+        "reason": "당일 기상 예보 정보 없음",
         "axis": "context"
       },
       {
@@ -681,6 +696,11 @@
       },
       {
         "capabilityCode": "weather_warning",
+        "verifiedAt": null,
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "weather_forecast",
         "verifiedAt": null,
         "source": "derived_facility"
       },

@@ -58,6 +58,7 @@ export const CAPABILITIES: readonly Capability[] = [
   // context
   { code: 'crowd_forecast', ktoField: null, labelKo: '예측 혼잡도', labelEn: 'Expected crowds', axis: 'context' },
   { code: 'weather_warning', ktoField: null, labelKo: '기상 특보', labelEn: 'Weather warning', axis: 'context' },
+  { code: 'weather_forecast', ktoField: null, labelKo: '당일 기상 예보', labelEn: "Today's forecast", axis: 'context' },
   { code: 'emergency_distance', ktoField: null, labelKo: '응급실 거리', labelEn: 'Nearest emergency department', axis: 'context' },
   { code: 'aed_distance', ktoField: null, labelKo: '자동심장충격기 거리', labelEn: 'Nearest defibrillator (AED)', axis: 'context' },
 ] as const;

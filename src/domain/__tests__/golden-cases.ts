@@ -131,7 +131,13 @@ export function goldenCases(): GoldenCase[] {
       input: withPersonas(['P2b'], unknownOn(['sign_guide'])),
     },
     { name: 'coverage-cap', input: withPersonas(['P1a'], coverageCase('P1a', 5)) },
+    // The pair that pins the comparison in rule 4. Seven unknowns is the most P1b can
+    // carry and still clear the threshold; eight is the first that does not. Coverage is
+    // a ratio of whole facts, so it lands on k/n and cannot be written to equal the
+    // threshold exactly — what a test can prove is that the cap fires between these two
+    // and nowhere else, which is what an off-by-one in `<` would break.
     { name: 'coverage-boundary', input: withPersonas(['P1b'], coverageCase('P1b', 7)) },
+    { name: 'coverage-boundary-capped', input: withPersonas(['P1b'], coverageCase('P1b', 8)) },
     {
       name: 'stale-data',
       input: withPersonas(['P1a'], facts('supported', {}, OLD_DATE)),

@@ -273,6 +273,15 @@
         "isKtoScored": false
       },
       {
+        "capabilityCode": "weather_forecast",
+        "status": "supported",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": "2026-08-01",
+        "isKtoScored": false
+      },
+      {
         "capabilityCode": "emergency_distance",
         "status": "supported",
         "absenceKind": null,
@@ -302,7 +311,7 @@
     "score": 97,
     "label": "주의",
     "layerA": 0.9886250000000003,
-    "layerB": 0.9852272727272727,
+    "layerB": 0.9855555555555555,
     "axes": [
       {
         "axis": "entry",
@@ -361,8 +370,8 @@
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
-        "knownCount": 4,
-        "totalCount": 4
+        "knownCount": 5,
+        "totalCount": 5
       }
     ],
     "freshness": 1,
@@ -531,6 +540,11 @@
       },
       {
         "capabilityCode": "weather_warning",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "weather_forecast",
         "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },

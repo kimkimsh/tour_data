@@ -73,6 +73,7 @@ import {
 } from '../src/lib/kto/transport';
 import { ktoTimestampToIsoDate, readStoryCoord, readThemeCoord } from '../src/lib/kto/schemas';
 import { getWeatherWarnings, kmaRegionFor, readWarningFor } from '../src/lib/kma/warnings';
+import { getMidOutlook, getShortTermForecast, readDayCondition } from '../src/lib/kma/forecast';
 import { UNRESOLVED_CONTENT_ID } from './validate-content';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -605,18 +606,20 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
   }
 
   const weather = await buildWeather(pois);
+  const forecast = await buildForecast(pois);
 
   const payload = ContextPayload.parse({
     crowd,
     visitors,
     weather,
+    forecast,
     fetchedAt: new Date().toISOString(),
   });
   await publish(
     'context',
     payload,
-    crowd.length + visitors.length + weather.length,
-    '한국관광공사 TatsCnctrRateService + DataLabService + 기상청 WthrWrnInfoService',
+    crowd.length + visitors.length + weather.length + forecast.length,
+    '한국관광공사 TatsCnctrRateService + DataLabService + 기상청 WthrWrnInfoService · VilageFcstInfoService_2.0 · MidFcstInfoService',
   );
 }
 
@@ -720,6 +723,24 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
               ? `발효 중인 기상 특보가 없습니다 (${weatherRow.checkedAt} 확인` +
                 `${weatherRow.scope === 'province' ? ', 도 단위 조회' : ''})`
               : weatherRow.warning,
+          source: 'kma',
+        }
+      : null);
+
+    // Only today's day is scored. The 4-10 day outlook lives in the same snapshot row
+    // and is never turned into a fact: a suitability score answers for one moment, and
+    // a value indexed by a different day would make the same ramp score differently on
+    // Tuesday and Thursday for a reason that has nothing to do with the ramp.
+    const forecastRow = context?.forecast?.find((f) => f.signguCd5 === poi.signguCd5);
+    push(facts, poi.slug, 'weather_forecast', forecastRow && forecastRow.today.state !== 'unknown'
+      ? {
+          status:
+            forecastRow.today.state === 'good'
+              ? 'supported'
+              : forecastRow.today.state === 'caution'
+                ? 'partial'
+                : 'unsupported',
+          detail: forecastRow.today.detail,
           source: 'kma',
         }
       : null);
@@ -870,6 +891,49 @@ async function buildWeather(
     if (read.state === 'unknown') warn(`weather for ${poi.cityKo}: ${read.unknownReason}`);
     return { signguCd5: poi.signguCd5, ...read, checkedAt };
   });
+}
+
+/**
+ * 단기예보 for today and 중기예보 for the week after, one row per district.
+ *
+ * Separate from buildWeather because the two fail in opposite directions and must not
+ * share a row. A 특보 that cannot be checked has to read "모름" on the screen, because a
+ * false all-clear is a safety failure. A forecast that cannot be fetched simply is not
+ * there, and the day's planning line disappears — nobody is endangered by not being told
+ * it might rain on Thursday. Both still land on unknown rather than on "fine".
+ *
+ * 중기예보 is fetched even though nothing scores it: it is the only source that reaches
+ * past three days, and picking which day to travel is the question a visitor who needs
+ * to plan a route actually has.
+ */
+async function buildForecast(
+  pois: PoiInput[],
+): Promise<NonNullable<z.infer<typeof ContextPayload>['forecast']>> {
+  const checkedAt = seoulToday();
+  const now = new Date();
+  const today = seoulTodayCompact();
+  const districts = Array.from(new Map(pois.map((poi) => [poi.signguCd5, poi])).values());
+
+  const rows: NonNullable<z.infer<typeof ContextPayload>['forecast']> = [];
+  for (const poi of districts) {
+    const short = await getShortTermForecast(poi.signguCd5, now);
+    if (!short.ok) warn(`단기예보 for ${poi.cityKo} unavailable — ${short.message}`);
+    const todayCondition = readDayCondition(
+      short.ok ? short.days.find((day) => day.fcstDate === today) : undefined,
+    );
+
+    const mid = await getMidOutlook(poi.lDongRegnCd, poi.signguCd5, now);
+    if (!mid.ok) warn(`중기예보 for ${poi.cityKo} unavailable — ${mid.message}`);
+
+    rows.push({
+      signguCd5: poi.signguCd5,
+      baseAt: short.baseAt,
+      today: todayCondition,
+      outlook: mid.ok ? mid.days : [],
+      checkedAt,
+    });
+  }
+  return rows;
 }
 
 // ── stage 5: docent ────────────────────────────────────────────────────────────

@@ -1,41 +1,206 @@
 # 탐침 결과 (`pnpm probe`)
 
-> **아직 실행하지 않았다.** 이 파일은 `scripts/probe.ts`가 덮어쓴다.
-> 확인 항목의 정의와 **범위의 단일 권위**는 [`11_open_items.md`](./11_open_items.md) §1이다.
+> **마지막 실행:** 2026-09-13T09:12:55.052Z — 이번 실행이 갱신한 항목: P0-1 · P0-2 · P0-3 · P0-4 · P0-5 · P0-6 · P0-9 · P0-10 · P0-11
+> 이 파일은 `scripts/probe.ts` 가 쓴다. **`--only=` 로 일부만 돌리면 나머지 절은 이전 결과가 그대로 남는다.**
+> **P0-7 절은 사람이 확인한 결과이고 탐침 산출물이 아니다** — 스크립트는 이 절을 건드리지 않는다.
 >
-> 이 파일이 **"우리가 실제 호출로 확인한 것"의 유일한 기록**이다.
+> 확인 항목의 정의와 **범위의 단일 권위**는 [`11_open_items.md`](./11_open_items.md) §1이다.
 > 다른 문서에 `[미확인]`으로 남아 있는 항목은 여기 결과가 나온 뒤에만 `[확정]`으로 바뀐다.
 
 ## 실행 방법
 
 ```bash
-pnpm probe            # 자동 9건 전체
+pnpm probe                # 자동 9건 전체
 pnpm probe --only=P0-1
+pnpm probe --only=P0-3,P0-4
 ```
 
-## 자동 탐침 9건 — 아직 채워지지 않았다
+대상 6곳은 `content/pois.json` 에서 읽는다. `KTO_SERVICE_KEY_DECODING` 가 없으면 아무것도 확인하지 않고 종료한다.
+
+## 상태 요약
 
 | ID | 확인할 것 | 상태 |
 |---|---|---|
-| P0-1 | 6곳이 무장애여행 API(KorWithService2)에 등록돼 있는가 | 미실행 |
-| P0-2 | 인증키가 동작하는가 (resultCode 30 여부) | 미실행 |
-| P0-3 | Odii에 6곳 콘텐츠가 있는가 — **`themeBasedList` 전수 열거 + 좌표 매칭** | 미실행 |
-| P0-4 | Odii `langCode`의 실제 허용값 + `themeSearchList`의 언어 파라미터 이름 | 미실행 |
-| P0-5 | 집중률 API의 `tAtsNm` 목록에 우리 관광지가 있는가 | 미실행 |
-| P0-6 | 법정동 코드 44 / 150 / 760 확인 | 미실행 |
-| P0-9 | 매뉴얼 표기와 예시가 어긋나는 **5군데** (오퍼레이션명 3 · 응답 필드명 1 · 경로 1) | 미실행 |
-| P0-10 | `contentId`가 국문/다국어에서 같은 값인가 ★★ 수집 설계가 전면 의존 | 미실행 |
-| P0-11 | 무장애 대상 목록(`areaBasedSyncList2`)으로 6곳을 한 번에 찾을 수 있는가 | 미실행 |
+| P0-1 | 6곳이 무장애여행 API(KorWithService2)에 등록돼 있는가 | ⚠️ 부분 · 2026-09-13 |
+| P0-2 | 인증키가 동작하는가 (resultCode 30 여부) | ✅ 통과 · 2026-09-13 |
+| P0-3 | Odii 에 6곳 콘텐츠가 있는가 — `themeBasedList` 전수 열거 + 좌표 매칭 | ✅ 통과 · 2026-09-13 |
+| P0-4 | Odii `langCode` 의 실제 허용값 + `themeSearchList` 의 언어 파라미터 이름 | ✅ 통과 · 2026-09-13 |
+| P0-5 | 집중률 API 의 `tAtsNm` 목록에 우리 관광지가 있는가 + `cnctrRate` 관측 범위 | ✅ 통과 · 2026-09-13 |
+| P0-6 | 법정동 코드 확인 (`ldongCode2`) | ✅ 통과 · 2026-09-13 |
+| P0-7 | 백제역사유적지구 구성유산 (사람이 국가유산청 포털에서 확인) | 기록 있음 |
+| P0-9 | 매뉴얼 표기와 예시가 어긋나는 6군데 | ✅ 통과 · 2026-09-13 |
+| P0-10 | `contentId` 가 국문/다국어에서 같은 값인가 | ⚠️ 부분 · 2026-09-13 |
+| P0-11 | 무장애 대상 목록(`areaBasedSyncList2`)으로 6곳을 한 번에 찾을 수 있는가 | ✅ 통과 · 2026-09-13 |
 
-## 자동 탐침이 아닌 2건
+> P0-8(관광사진갤러리 검색 오퍼레이션 존재 여부)은 **해소됐다** — 매뉴얼 v4.2 에 `gallerySearchList1` 이 있다 ([`03_external_data.md`](./03_external_data.md) §2.7). 탐침 대상이 아니다.
 
-| ID | 확인할 것 | 상태 |
+---
+
+## P0-1 — 6곳이 무장애여행 API(KorWithService2)에 등록돼 있는가
+<!-- probe id=P0-1 status=partial at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ⚠️ 부분 — 응답 0곳 / 데이터없음(03) 6곳 / 확인불가 0곳
+
+점수 대상 항목 수: **24개** (src/domain/capabilities.ts 의 ktoField)
+
+| 관광지 | contentId | 출처 | resultCode | 채움 | 채워진 항목 |
+|---|---|---|---|---|---|
+| 공산성 | UNRESOLVED | pois.json | 0000 | 0/24 | 무장애 응답 없음 (03 하나로 "미등록"이라고 쓰지 않는다 — P0-11 참조) |
+| 무령왕릉과 왕릉원 | UNRESOLVED | pois.json | 0000 | 0/24 | 무장애 응답 없음 (03 하나로 "미등록"이라고 쓰지 않는다 — P0-11 참조) |
+| 국립공주박물관 | UNRESOLVED | pois.json | 0000 | 0/24 | 무장애 응답 없음 (03 하나로 "미등록"이라고 쓰지 않는다 — P0-11 참조) |
+| 부소산성 | UNRESOLVED | pois.json | 0000 | 0/24 | 무장애 응답 없음 (03 하나로 "미등록"이라고 쓰지 않는다 — P0-11 참조) |
+| 정림사지 | UNRESOLVED | pois.json | 0000 | 0/24 | 무장애 응답 없음 (03 하나로 "미등록"이라고 쓰지 않는다 — P0-11 참조) |
+| 국립부여박물관 | UNRESOLVED | pois.json | 0000 | 0/24 | 무장애 응답 없음 (03 하나로 "미등록"이라고 쓰지 않는다 — P0-11 참조) |
+
+`*etc` 4개는 전부 비어 있다.
+
+---
+
+## P0-2 — 인증키가 동작하는가 (resultCode 30 여부)
+<!-- probe id=P0-2 status=pass at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ✅ 통과 — resultCode=0000 (30 아님)
+
+`KorService2/ldongCode2` → **resultCode=0000**, totalCount=17
+
+인증키가 동작한다. `KTO_SERVICE_KEY_DECODING` 에 Decoding 키가 들어가 있고 이중 인코딩이 없다.
+
+---
+
+## P0-3 — Odii 에 6곳 콘텐츠가 있는가 — `themeBasedList` 전수 열거 + 좌표 매칭
+<!-- probe id=P0-3 status=pass at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ✅ 통과 — 열거 2273행 / 좌표 읽힘 2268행 / 반경 1000m 매칭 6곳
+
+`Odii/themeBasedList` 전수 열거: totalCount=**2273**, 받은 행 2273, 23페이지
+
+좌표를 읽을 수 있었던 행: **2268 / 2273**
+답한 필드 이름: `mapY/mapX` 2268건
+읽지 못한 이유: latitude 0 is outside 33..39 (5건)
+
+### 좌표 매칭 (반경 1000m)
+
+| 관광지 | 매칭된 Odii 관광지 | 거리 | tid / tlid | 이야기 수 |
+|---|---|---|---|---|
+| 공산성 | 공주 공산성 | 341m | 22 / 70 | 11 (totalCount 11) |
+| 공산성 | 공주 산성시장 | 637m | 371 / 1161 | 1 (totalCount 1) |
+| 무령왕릉과 왕릉원 | 전설따라 설화따라-부여군 | 115m | 2838 / 4095 | 1 (totalCount 1) |
+| 무령왕릉과 왕릉원 | 공주 무령왕릉과 왕릉원 | 193m | 2984 / 4640 | 3 (totalCount 3) |
+| 무령왕릉과 왕릉원 | 송산리고분군전시관 | 217m | 21 / 66 | 14 (totalCount 14) |
+| 무령왕릉과 왕릉원 | 국립공주박물관 | 593m | 50 / 158 | 32 (totalCount 32) |
+| 국립공주박물관 | 국립공주박물관 | 144m | 50 / 158 | 32 (totalCount 32) |
+| 국립공주박물관 | 송산리고분군전시관 | 597m | 21 / 66 | 14 (totalCount 14) |
+| 국립공주박물관 | 전설따라 설화따라-부여군 | 597m | 2838 / 4095 | 1 (totalCount 1) |
+| 국립공주박물관 | 공주 무령왕릉과 왕릉원 | 600m | 2984 / 4640 | 3 (totalCount 3) |
+| 부소산성 | 부여 관북리 유적 | 124m | 2980 / 4637 | 1 (totalCount 1) |
+| 부소산성 | 부여 부소산성 | 166m | 23 / 74 | 12 (totalCount 12) |
+| 부소산성 | 정림사지 박물관 | 681m | 25 / 83 | 6 (totalCount 6) |
+| 부소산성 | 부여 정림사지 | 685m | 2976 / 4633 | 4 (totalCount 4) |
+| 부소산성 | 전설따라 설화따라-부여군 | 781m | 2835 / 4092 | 2 (totalCount 2) |
+| 정림사지 | 정림사지 박물관 | 40m | 25 / 83 | 6 (totalCount 6) |
+| 정림사지 | 부여 정림사지 | 42m | 2976 / 4633 | 4 (totalCount 4) |
+| 정림사지 | 부여 관북리 유적 | 533m | 2980 / 4637 | 1 (totalCount 1) |
+| 정림사지 | 부여 부소산성 | 569m | 23 / 74 | 12 (totalCount 12) |
+| 정림사지 | 국립부여박물관 | 629m | 51 / 161 | 19 (totalCount 19) |
+| 국립부여박물관 | 국립부여박물관 | 15m | 51 / 161 | 19 (totalCount 19) |
+| 국립부여박물관 | 정림사지 박물관 | 598m | 25 / 83 | 6 (totalCount 6) |
+| 국립부여박물관 | 부여 정림사지 | 600m | 2976 / 4633 | 4 (totalCount 4) |
+| 국립부여박물관 | 부여 궁남지 | 961m | 2968 / 4624 | 2 (totalCount 2) |
+| 국립부여박물관 | 부여 부소산성 | 992m | 23 / 74 | 12 (totalCount 12) |
+
+### 제목 문자열이 겹치는 행 (참고 — 이름으로 등록됐다는 가정이 붙는 약한 신호다)
+
+- 공산성: 공주 공산성 (tid 22)
+- 무령왕릉과 왕릉원: 공주 무령왕릉과 왕릉원 (tid 2984)
+- 국립공주박물관: 국립공주박물관 (tid 50)
+- 부소산성: 부여 부소산성 (tid 23)
+- 정림사지: 정림사지 박물관 (tid 25) · 부여 정림사지 (tid 2976)
+- 국립부여박물관: 국립부여박물관 (tid 51)
+
+---
+
+## P0-4 — Odii `langCode` 의 실제 허용값 + `themeSearchList` 의 언어 파라미터 이름
+<!-- probe id=P0-4 status=pass at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ✅ 통과 — 후보 6개 중 데이터가 온 값 4개
+
+| langCode | resultCode | totalCount |
 |---|---|---|
-| P0-7 | 백제역사유적지구 구성유산의 공식 명칭·소재 시군, 우리 6곳 중 어느 것이 구성유산인가 | **✅ 확인 완료 2026-09-01** — 아래 |
-| P0-8 | 관광사진갤러리 검색 오퍼레이션 존재 여부 | **해소됨** — 매뉴얼 v4.2에 `gallerySearchList1` 있음 ([`03_external_data.md`](./03_external_data.md) §2.7) |
+| `ko` | 0000 | 2273 |
+| `en` | 0000 | 1354 |
+| `ja` | 0000 | 0 |
+| `jp` | 0000 | 1129 |
+| `zh-CN` | 0000 | 0 |
+| `cn1` | 0000 | 1139 |
 
-> **P0-7에 "지정번호"는 없다.** 지정번호는 쓰지 않기로 했고([`11_open_items.md`](./11_open_items.md) P0-7), 확인 대상은 **명칭과 구성유산 여부**다. 앞 판의 이 파일은 "지정 명칭·번호"라고 적어 폐기한 항목을 되살려 놓고 있었다.
+### `themeSearchList` 의 언어 파라미터 이름
 
+파라미터 표는 `lang`, 같은 항목의 예시 URL 은 `langCode` 다. 같은 키워드로 두 이름을 각각 보냈다.
+
+| 보낸 이름 | resultCode | totalCount |
+|---|---|---|
+| `lang` | transport/json | — (Odii/themeSearchList?keyword=공산성&lang=ko&numOfRows=5: JSON without response.header.resultCode (HTTP 200)) |
+| `langCode` | 0000 | 1 |
+
+검색 키워드: `공산성`
+
+두 이름이 같은 `totalCount` 를 주면 서버가 언어 파라미터를 무시한 것일 수 있다 — 그때는 값을 바꿔(예: `en`) 결과가 달라지는 쪽이 실제로 읽히는 이름이다.
+
+---
+
+## P0-5 — 집중률 API 의 `tAtsNm` 목록에 우리 관광지가 있는가 + `cnctrRate` 관측 범위
+<!-- probe id=P0-5 status=pass at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ✅ 통과 — 관광지 109곳, cnctrRate 1.59~100
+
+### `signguCd=44150` (areaCd=44)
+
+totalCount=**1740**, 받은 행 1740, 18페이지, 관광지 58곳
+
+반환된 `tAtsNm` 전체: `갑사` · `갑사계곡` · `계룡산국립공원` · `계룡산도예촌` · `고로서원` · `고마나루` · `곰나루국민관광단지` · `공주 공산성 [유네스코 세계유산]` · `공주 무령왕릉과 왕릉원[유네스코 세계유산]` · `공주 반죽동당간지주` · `공주 산림휴양마을` · `공주 석장리 유적` · `공주 정지산 유적` · `공주 황새바위 순교성지` · `공주민속극박물관` · `공주역사영상관` · `공주제일교회` · `공주치즈스쿨` · `공주향교` · `국립공주박물관` · `금강신관공원` · `금강아트센터` · `금강온천` · `금학생태공원` · `동월계곡` · `동학사(공주)` · `동학사계곡` · `동혈사` · `로보카폴리안전체험공원` · `마곡사 [유네스코 세계유산]` · `마곡사 천연송림욕장` · `명탄서원` · `미르섬` · `박동진 판소리전수관` · `박찬호기념관` · `선화당(공주)` · `성곡사` · `소랭이마을` · `수리치골 성지` · `신원사` · `아트센터고마` · `연미산 자연미술공원` · `영은사(공주)` · `유구벽화거리` · `유구색동수국정원` · `유구천핑크뮬리` · `은선폭포` · `이안숲속` · `임립미술관` · `정안천생태공원` · `지당자연사박물관` · `청벽산` · `충청남도역사박물관` · `충현서원` · `풀꽃문학관` · `학림사(공주)` · `한국문화연수원` · `한국자연사박물관`
+
+### `signguCd=44760` (areaCd=44)
+
+totalCount=**1530**, 받은 행 1530, 16페이지, 관광지 51곳
+
+반환된 `tAtsNm` 전체: `간곡서원` · `고란사(고란약수)` · `관북리유적과 부소산성 [유네스코 세계유산]` · `구드래나루터선착장` · `구드래조각공원` · `국립부여박물관` · `나래공원` · `낙화암` · `대조사(부여)` · `도강영당` · `동곡서원` · `롯데부여리조트` · `만수산자연휴양림` · `무량사(부여)` · `무진암(부여)` · `미암사` · `반산서원` · `백마강 레저파크` · `백제문화단지` · `백제보(금강문화관)` · `백제원(부여)` · `부여 가림성` · `부여 나성 [유네스코 세계유산]` · `부여 송국리 유적` · `부여 수리바위` · `부여 왕릉원 [유네스코 세계유산]` · `부여 정림사지 오층석탑 [유네스코 세계유산]` · `부여 중앙시장` · `부여 청마산성` · `부여금사리성당` · `부여시장(야시장)` · `부여향교` · `사비도성 가상체험관` · `서동공원과 궁남지` · `서동요 테마파크` · `석성향교` · `수북로1945` · `수북정` · `아미산(부여)` · `임천향교` · `정각사(부여)` · `조왕사(부여)` · `창강서원` · `창렬사` · `천정대` · `청일사` · `칠산서원` · `칠지공원` · `홍산 동헌` · `홍산객사` · `홍산향교`
+
+### 우리 6곳이 목록에 있는가
+
+| 관광지 | pois.json `tatsName` | 목록에 있는가 |
+|---|---|---|
+| 공산성 | 공산성 (미기재 — nameKo 사용) | △ 부분 일치: 공주 공산성 [유네스코 세계유산] |
+| 무령왕릉과 왕릉원 | 무령왕릉과 왕릉원 (미기재 — nameKo 사용) | △ 부분 일치: 공주 무령왕릉과 왕릉원[유네스코 세계유산] |
+| 국립공주박물관 | 국립공주박물관 (미기재 — nameKo 사용) | ✓ 완전 일치 |
+| 부소산성 | 부소산성 (미기재 — nameKo 사용) | △ 부분 일치: 관북리유적과 부소산성 [유네스코 세계유산] |
+| 정림사지 | 정림사지 (미기재 — nameKo 사용) | △ 부분 일치: 부여 정림사지 오층석탑 [유네스코 세계유산] |
+| 국립부여박물관 | 국립부여박물관 (미기재 — nameKo 사용) | ✓ 완전 일치 |
+
+### `cnctrRate` 관측 범위 — 40/70 경계의 근거
+
+관측 최소 **1.59** · 관측 최대 **100**
+
+관측 분포가 0~100 안이다. `05_ingest.md` §5.7 의 40/70 경계를 그대로 쓸 수 있다 (경계값 자체는 여전히 우리가 고른 값이고 매뉴얼이 준 값이 아니다).
+
+### `tAtsNm` 필터가 동작하는가 — 수집이 6콜인지 페이징인지를 정한다
+
+`tAtsNm=공산성` → totalCount=30, 행 30, 반환된 이름 `공주 공산성 [유네스코 세계유산]`
+
+필터가 이름을 좁히지 못했다 → 수집은 `totalCount` 까지 페이징한다.
+
+---
+
+## P0-6 — 법정동 코드 확인 (`ldongCode2`)
+<!-- probe id=P0-6 status=pass at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ✅ 통과 — 시군구 코드 2건 확인
+
+`lDongRegnCd=44` → **충청남도**, 시군구 17건
+
+| lDongSignguCd | 이름 | 우리 대상 |
+|---|---|---|
+| 150 | 공주시 | gongsanseong, muryeong-royal-tombs, gongju-national-museum |
+| 760 | 부여군 | busosanseong, jeongnimsaji, buyeo-national-museum |
 
 ---
 
@@ -104,3 +269,94 @@ pnpm probe --only=P0-1
 - **지역특화 논거가 근거를 얻었다** — "한 지역 안에서 세계유산 권역이 완결된다"를 **8곳 중 6곳**이라는 확인된 수로 말할 수 있다
 - [`12_judging_and_demo.md`](./12_judging_and_demo.md) §5 로드맵의 단계 2·3에 **개수를 다시 쓸 수 있다**
 - `content/pois.json`의 `heritageLabel` 6개가 확정됐다 (박물관 2곳은 `null`)
+
+---
+
+## P0-9 — 매뉴얼 표기와 예시가 어긋나는 6군데
+<!-- probe id=P0-9 status=pass at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ✅ 통과 — 6군데 전부 호출해 기록했다
+
+### 1. `TatsCnctrRateService` 오퍼레이션명 — 표 `tatsCnctrRateList` vs 예시 `tatsCnctrRatedList`
+
+- `tatsCnctrRateList` → ✗ 이 이름의 오퍼레이션이 없다 (resultCode=12)
+- `tatsCnctrRatedList` → ✓ 응답 (resultCode=0000, totalCount=1740)
+
+### 2. Odii 동기화 오퍼레이션명 — 표 `themeBaseSyncdList` vs 예시 `themeBasedSyncList`
+
+- `themeBaseSyncdList` → ✗ 이 이름의 오퍼레이션이 없다 (resultCode=12)
+- `themeBasedSyncList` → ✓ 응답 (resultCode=0000, totalCount=2273)
+
+### 3. `TarRlteTarService1` 오퍼레이션명 대소문자 — 표 `AreaBasedList1` vs 예시 `areaBasedList1`
+
+- `AreaBasedList1` → ✗ 이 이름의 오퍼레이션이 없다 (resultCode=12)
+- `areaBasedList1` → ✗ resultCode=30 — TarRlteTarService1/areaBasedList1?baseYm=202608&areaCd=44&signguCd=44150&numOfRows=1&pageNo=1: gateway fault envelope — SERVICE_KEY_IS_NOT_REGISTERED_ERROR / 등록되지 않은 서비스키
+
+### 4. `storyBasedList` 응답 좌표 필드 — 표 `addr1`/`addr2` vs XML 예시 `mapX`/`mapY` ★ 가장 위험하다
+
+- tid=1 (백제문화단지) → `addr1`=`` `addr2`=`` `mapX`=`126.906603` `mapY`=`36.3055904`
+  → 좌표를 준 필드: **`mapY/mapX`** = { lat: 36.3055904, lng: 126.906603 }
+
+### 5. `TarRlteTarService1` 경로 — 서비스ID·오퍼레이션명의 `1` 이 예시에서 둘 다 빠져 있다
+
+한 오퍼레이션에 표기가 3가지 있다(표·Call Back URL·예시 URL). 데이터셋 ID 가 쓰는 `1` 접미사 형태를 먼저 확인한다.
+
+- `TarRlteTarService1/searchKeyword1` → ✗ resultCode=30 — TarRlteTarService1/searchKeyword1?keyword=공산성&baseYm=202608&areaCd=44&signguCd=44150&numOfRows=1&pageNo=1: gateway fault envelope — SERVICE_KEY_IS_NOT_REGISTERED_ERROR / 등록되지 않은 서비스키
+- `TarRlteTarService1/searchKeyword` → ✗ 이 이름의 오퍼레이션이 없다 (resultCode=12)
+- `TarRlteTarService/searchKeyword1` → ✗ 이 이름의 오퍼레이션이 없다 (resultCode=12)
+- `TarRlteTarService/searchKeyword` → ✗ 이 이름의 오퍼레이션이 없다 (resultCode=12)
+
+### 6. `storyLocationBasedList` 요청 파라미터 — 표 `mapX`/`mapY`/`langCode` vs 예시 `xCoord`/`yCoord`/`lang`
+
+수집은 두 조합을 한 번에 실어 보낸다(모르는 쿼리 파라미터는 무시되므로 어느 쪽이 살아 있어도 응답이 온다). 어느 쪽이 실제로 읽히는지는 한 조합씩 따로 보내야 갈린다.
+
+- `table` (radius, mapX, mapY, langCode) → resultCode=0000, totalCount=14, 행 5
+- `example` (radius, xCoord, yCoord, lang) → resultCode=transport/json — Odii/storyLocationBasedList?radius=1000&xCoord=127.126790610397&yCoord=36.4629499677019&lang=ko&numOfRows=5&pageNo=1: JSON without response.header.resultCode (HTTP 200)
+- `both` (radius, mapX, mapY, langCode, xCoord, yCoord, lang) → resultCode=transport/json — Odii/storyLocationBasedList?radius=1000&mapX=127.126790610397&mapY=36.4629499677019&langCode=ko&xCoord=127.126790610397&yCoord=36.4629499677019&lang=ko&numOfRows=5&pageNo=1: JSON without response.header.resultCode (HTTP 200)
+
+`table` 과 `example` 중 한쪽만 응답하면 그 이름이 실제 계약이다. 둘 다 응답하면 서버가 좌표 파라미터 없이도 답한다는 뜻이므로(반경 필터가 안 걸린 것) `resultCode 11` 여부와 `totalCount` 차이를 함께 본다.
+
+---
+
+## P0-10 — `contentId` 가 국문/다국어에서 같은 값인가
+<!-- probe id=P0-10 status=partial at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ⚠️ 부분 — 같은 곳 0 / 다른 곳 0 / 빈 응답 6
+
+`detailCommon2` 에는 `contentTypeId` 파라미터가 없으므로 같은 `contentId` 를 그대로 넣어 국문과 영문을 비교한다.
+제목은 언어가 다르니 문자열로 비교할 수 없다 — **좌표가 같은 곳을 가리키는지**로 판정한다.
+
+| 관광지 | contentId | 국문 제목 | 영문 제목 | 좌표 거리 | 판정 |
+|---|---|---|---|---|---|
+| 공산성 | UNRESOLVED |  | (빈 응답, resultCode=0000) | — | **다국어 경로를 searchKeyword2 로 바꿔야 한다** |
+| 무령왕릉과 왕릉원 | UNRESOLVED |  | (빈 응답, resultCode=0000) | — | **다국어 경로를 searchKeyword2 로 바꿔야 한다** |
+| 국립공주박물관 | UNRESOLVED |  | (빈 응답, resultCode=0000) | — | **다국어 경로를 searchKeyword2 로 바꿔야 한다** |
+| 부소산성 | UNRESOLVED |  | (빈 응답, resultCode=0000) | — | **다국어 경로를 searchKeyword2 로 바꿔야 한다** |
+| 정림사지 | UNRESOLVED |  | (빈 응답, resultCode=0000) | — | **다국어 경로를 searchKeyword2 로 바꿔야 한다** |
+| 국립부여박물관 | UNRESOLVED |  | (빈 응답, resultCode=0000) | — | **다국어 경로를 searchKeyword2 로 바꿔야 한다** |
+
+★ 같은 `contentId` 가 다국어에서 같은 관광지를 가리키지 않는 경우가 있다. `05_ingest.md` §5.1 의 다국어 경로를 `searchKeyword2`(관광지명 검색)로 바꾼다.
+
+---
+
+## P0-11 — 무장애 대상 목록(`areaBasedSyncList2`)으로 6곳을 한 번에 찾을 수 있는가
+<!-- probe id=P0-11 status=pass at=2026-09-13T09:12:55.052Z -->
+
+**상태:** ✅ 통과 — 6 / 6 곳을 목록에서 찾았다
+
+필터 없이: totalCount=**9663** (매뉴얼 샘플은 8,852)
+
+- `lDongRegnCd=44&lDongSignguCd=150` → totalCount=**51**, 받은 행 51, 1페이지 · 필터 동작함
+- `lDongRegnCd=44&lDongSignguCd=760` → totalCount=**25**, 받은 행 25, 1페이지 · 필터 동작함
+
+| 관광지 | 무장애 목록에 있는가 | contentId | 목록의 제목 |
+|---|---|---|---|
+| 공산성 | ✓ 있음 | 125949 | 공주 공산성 [유네스코 세계유산] |
+| 무령왕릉과 왕릉원 | ✓ 있음 | 126681 | 공주 무령왕릉과 왕릉원[유네스코 세계유산] |
+| 국립공주박물관 | ✓ 있음 | 129787 | 국립공주박물관 |
+| 부소산성 | ✓ 있음 | 125988 | 관북리유적과 부소산성 [유네스코 세계유산] |
+| 정림사지 | ✓ 있음 | 126650 | 부여 정림사지 오층석탑 [유네스코 세계유산] |
+| 국립부여박물관 | ✓ 있음 | 130062 | 국립부여박물관 |
+
+★ 여기서 "없음"이고 P0-1 이 `resultCode 03` 이면 그 관광지는 `absenceKind: 'not_registered'` 다. 목록이 잘렸거나(위의 상한 표시) 필터가 동작하지 않았으면 **아직 아무것도 확정되지 않았다** — `absenceKind` 는 `null` 로 둔다.
+

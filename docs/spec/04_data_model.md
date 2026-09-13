@@ -84,7 +84,7 @@ create policy "snapshots public read" on data_snapshots
 | `key` | 내용 | 갱신 주기 | 대략 크기 |
 |---|---|---|---|
 | `pois` | 6곳 기본 정보 + 다국어 제목·개요 + 사진 + 인증 + 인근 시설 | 1일 | ~60KB |
-| `accessibility` | 관광지별 항목 32개의 상태·원문·출처·확인일 | 1일 | ~50KB |
+| `accessibility` | 관광지별 항목 33개의 상태·원문·출처·확인일 | 1일 | ~50KB |
 | `routes` | 경로 안내 (A등급 2곳) | 콘텐츠 수정 시 | ~15KB |
 | `docent` | 도슨트 이야기 (제목·대본·오디오 URL) | 1일 | ~40KB |
 | `context` | 예측 혼잡도 · 방문자 추이 | 1일 | ~10KB |
@@ -167,7 +167,7 @@ export const PoisPayload = z.array(PoiSchema);
 // ── key: 'accessibility' ───────────────────────────────────
 export const FactSchema = z.object({
   poiSlug: z.string(),
-  capabilityCode: z.string(),              // src/domain/capabilities.ts 의 32개 중 하나
+  capabilityCode: z.string(),              // src/domain/capabilities.ts 의 33개 중 하나
   status: z.enum(['supported', 'partial', 'unsupported', 'unknown']),
   absenceKind: z.enum(['intrinsic', 'operator_missing', 'not_applicable',
                        'not_registered']).nullable(),

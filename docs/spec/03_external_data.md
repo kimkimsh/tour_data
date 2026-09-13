@@ -350,14 +350,24 @@ GET /B551011/Odii/storyLocationBasedList?…&lang=ko&xCoord=126.9060&yCoord=36.2
 > **구현 방침 — 둘 다 보낸다.** 서버가 모르는 쿼리 파라미터는 무시하므로, `mapX`·`mapY`·`langCode`와 `xCoord`·`yCoord`·`lang`을 **함께 실어** 한 번에 호출한다. 어느 쪽이 살아 있어도 응답이 온다. **탐침으로 확정되면 그때 하나로 줄인다.**
 > (`themeLocationBasedList`는 갈라짐이 없으므로 `mapX`/`mapY`/`langCode`만 쓴다.)
 
-#### `langCode` 값 **[미확인]**
+#### `langCode` 값 **[확정]**
 
-매뉴얼 v4.1에는 **`ko` 샘플만 있고 허용값 목록이 없다.** 서비스 설명문에는 "한국어, 영어, 중국어, 일본어"라고 되어 있고, 응답의 `langCheck` 필드가 `1111`(4개 언어 제공 여부 비트마스크)로 나온다.
+매뉴얼 v4.1에는 `ko` 샘플만 있고 허용값 목록이 없다. P0-4 탐침(`_probe-results.md`, 2026-09-13)이 후보 6개를 전부 호출해서 결정했다.
 
-기존 스펙은 두 가지 상반된 주장을 한다 — `ko/en/ja/zh-CN`(조사 문서) vs `ko/en/cn1/jp`(플랜 리뷰). **어느 쪽도 매뉴얼로 확인되지 않는다.**
-→ **탐침으로 4가지 후보를 전부 시도한다** (`11_open_items.md` **P0-4**).
+| 값 | resultCode | totalCount |
+|---|---|---|
+| `ko` | 0000 | 2273 |
+| `en` | 0000 | 1354 |
+| `jp` | 0000 | 1129 |
+| `cn1` | 0000 | 1139 |
+| `ja` | 0000 | **0** |
+| `zh-CN` | 0000 | **0** |
 
-또 하나: `themeSearchList`의 파라미터 표에는 언어 파라미터가 **`lang`** 으로 적혀 있는데 같은 항목의 예시 URL은 `langCode`를 쓴다. → 같은 탐침에서 확인.
+**쓰는 값은 `ko` · `en` · `jp` · `cn1` 이다.** 나머지 두 개는 오류가 아니라 **빈 목록**으로 돌아온다 — resultCode 가 `0000` 이라 호출자는 "그 언어 오디오가 없다"와 "언어 코드를 잘못 보냈다"를 구별할 수 없다.
+
+이 함정은 앱의 로케일 목록과 정확히 어긋난다. `src/domain/types.ts:27` 의 `CONTENT_LOCALES` 는 `['ko','en','ja','zh-CN']` 이고, 그 두 값이 Odii 에서 0행을 주는 쪽이다. 지금은 `scripts/ingest.ts:885` 가 `['ko','en']` 만 돌기 때문에 걸리지 않는다. **도슨트를 `CONTENT_LOCALES` 로 넓히는 변경은 `ja→jp`, `zh-CN→cn1` 매핑을 같이 넣어야 하고, 넣지 않으면 조용히 빈 화면이 된다.**
+
+`themeSearchList` 의 언어 파라미터 이름은 **`langCode`** 다 **[확정] [정정]** — 매뉴얼 파라미터 표의 `lang` 은 틀렸다. P0-4 에서 같은 키워드(`공산성`)로 두 이름을 보냈고, `lang` 은 `resultCode` 없는 HTTP 200 본문을, `langCode` 는 `0000 totalCount=1` 을 돌려줬다.
 
 #### `storyBasedList` 응답 — 이게 도슨트의 실체다 **[확정]**
 
@@ -398,12 +408,12 @@ GET /B551011/Odii/storyBasedList?…&langCode=ko&tid={관광지ID}&tlid={관광�
 
 ### 2.4 TatsCnctrRateService — 관광지 집중률 (예측)
 
-- **베이스:** `/B551011/TatsCnctrRateService` · 데이터셋 `15128555` **[포털]** · 매뉴얼 **v4.0** **[확정]**
-- **오퍼레이션 1종:** `tatsCnctrRateList`
-  (매뉴얼 예시 URL에 `tatsCnctrRatedList`라는 오타가 있다. 표의 `tatsCnctrRateList`가 맞다 → 탐침 확인)
+- **베이스:** `/B551011/TatsCnctrRateService` · 데이터셋 `15128555` **[포털]** · 매뉴얼 **v4.1** **[포털] [정정]** (이 문서가 파싱한 `docs/api_manual/1725501618773/` 사본은 v4.0이다)
+- **오퍼레이션 1종:** `tatsCnctrRatedList` **[확정] [정정]**
+  (`d`가 들어간 쪽이 살아 있는 이름이다. 매뉴얼 **표**의 `tatsCnctrRateList`는 존재하지 않고, 매뉴얼 **예시 URL**과 포털 Swagger가 `tatsCnctrRatedList`로 일치한다. 이 문서의 앞선 판은 반대로 적어 두었다 — 표가 맞고 예시가 오타라고. 근거: `_probe-results.md` P0-9.1 이 두 이름을 매번 호출한다 · `tatsCnctrRateList` → `12`, `tatsCnctrRatedList` → `0000 totalCount=1740` · 코드는 `src/lib/kto/services.ts:463`에서 이미 `d` 쪽을 쓴다)
 
 ```
-GET /B551011/TatsCnctrRateService/tatsCnctrRateList
+GET /B551011/TatsCnctrRateService/tatsCnctrRatedList
     ?…&areaCd=44&signguCd=44150&tAtsNm=공산성
 ```
 
@@ -465,6 +475,19 @@ GET /B551011/DataLabService/locgoRegnVisitrDDList?…&startYmd=20260801&endYmd=2
 >
 > (앞 판은 `740 = 시군구 229개 × 3구분`이라고 적었는데 **229×3 = 687이라 산수가 맞지 않는다.** 매뉴얼이 주는 것은 `totalCount 740` 하나이고, 거기서 시군구 개수를 역산하지 않는다.)
 > **`startYmd`와 `endYmd`를 같게 주고 하루씩 8회 부른다.** 8일을 한 번에 부르면 약 5,900행이 되어 `numOfRows=1000`에서 잘리고, 정렬 순서에 따라 우리 두 시군 행이 응답에 아예 없을 수 있다 → [`05_ingest.md`](./05_ingest.md) §5.5. 하루씩이면 740행이라 `numOfRows=1000` 1콜로 끝난다.
+
+#### 발행 지연이 한 달이다 **[확정] [정정]**
+
+앞선 판(과 [`05_ingest.md`](./05_ingest.md))은 지연을 **4일** 정도로 가정하고 `[미확인]`으로 두었다. 하루에 한 콜씩 실제로 재 보니 **30일**이었다.
+
+```
+20260913 … 20260815  →  resultCode 0000, totalCount 0   (30일 연속)
+20260814             →  resultCode 0000, totalCount 807
+```
+
+**빈 날은 오류가 아니고 데이터의 끝도 아니다.** `resultCode`가 `0000`이라 「아직 발행 안 됨」과 「그날 방문자가 없음」이 구별되지 않는다. 그래서 수집기는 오늘부터 하루씩 뒤로 걸으며 **처음으로 행이 있는 날**을 찾고, 그 날을 창의 끝으로 삼는다.
+
+**탐색 상한이 지연보다 짧으면 멀쩡한 서비스가 죽은 것처럼 보인다.** 상한이 14일이던 동안 모든 호출이 성공하고 모든 호출이 비어서, `context.visitors`가 매번 조용히 `[]`였다. 현재 상한은 `scripts/ingest.ts`의 `VISITOR_LAG_SCAN_DAYS = 45` — 측정한 30일에 2주 여유다.
 
 응답: `signguCode` · `signguNm` · `daywkDivCd`/`daywkDivNm`(요일, `1`=월 … `7`=일) · `touDivCd`/**`touDivNm`** · **`touNum`** · `baseYmd`
 
@@ -565,10 +588,16 @@ GET /B551011/PhotoGalleryService1/galleryList1?…&arrange=C&numOfRows=100&pageN
 
 ---
 
-### 2.8 EngService2 / JpnService2 / ChsService2 — 다국어
+### 2.8 EngService2 — 다국어
 
-- **베이스:** `/B551011/EngService2`, `/JpnService2`, `/ChsService2` **[확정]**
-- 데이터셋 **[포털]**: Eng `15101753` · Jpn `15101760` · Chs `15101764`
+> **[정정] 일문·중문은 범위에서 뺐다.** 앞선 판은 이 절을 `EngService2 / JpnService2 / ChsService2` 셋으로 썼다. `JpnService2`(`15101760`)와 `ChsService2`(`15101764`)는 각각 별도 활용신청이 필요하고 신청하지 않기로 했으므로, `src/lib/kto/services.ts`의 `SERVICE_IDS`와 `MULTILINGUAL_SERVICE_IDS`에서 제거했다.
+>
+> **저장된 스냅샷에는 원래부터 일문·중문 행이 없었다** — `content/generated/pois.json`의 `i18n` 키는 계속 `ko`·`en` 둘뿐이었다. 이 정정으로 코드·데이터·[`01_scope.md`](./01_scope.md) §4.2의 서술이 처음으로 일치한다.
+>
+> 아래 contentTypeId 표는 **영문에도 그대로 적용되므로 남긴다.** 되살릴 때는 두 상수에 항목을 넣으면 되고, `CONTENT_LOCALES`는 `LOCALES`에서 파생되므로 함께 넓어진다.
+
+- **베이스:** `/B551011/EngService2` **[확정]**
+- 데이터셋 **[포털]**: Eng `15101753`
 - 매뉴얼 **v4.4 (2026-02-10)** — 국문과 마찬가지로 **`areaCode2`/`categoryCode2` 삭제, 구 코드 파라미터 삭제** **[확정]**
 - **오퍼레이션 12종:** 국문과 동일하되 **`detailPetTour2` 없음**
 
@@ -658,9 +687,47 @@ GET /B551011/KorService2/ldongCode2?…&lDongRegnCd=44&lDongListYn=Y
 | 데이터 | 용도 | 상태 |
 |---|---|---|
 | **국가유산청 OpenAPI** (`khs.go.kr` — 구 문화재청 `cha.go.kr`, data.go.kr `15034324`) | 국가유산 지정 명칭·공식 해설. 도슨트 보조 + 여행 기록 문서 | **선택 구현.** XML 전용. **엔드포인트별 라이선스가 달라 하나로 고정해 쓴다** |
-| **기상청 단기예보·특보** (`apihub.kma.go.kr`) | 상황 축(폭염·강수·특보) | **선택 구현.** LCC 격자 좌표 변환이 필요하지만 공주·부여 2개 지점이므로 **한 번 변환해 상수로 박는다** |
+| **기상청 기상특보 조회서비스** (data.go.kr `15000415`) | 상황 축(기상 특보) | **구현됨, 선택 아님.** `context` 스테이지가 매 수집마다 부른다 |
+| **기상청 단기예보 조회서비스** (data.go.kr `15084084`) | 상황 축(당일 기상 예보) | **구현됨.** `src/lib/kma/forecast.ts` |
+| **기상청 중기예보 조회서비스** (data.go.kr `15059468`) | 4~10일 안내 (**점수에 안 들어감**) | **구현됨.** 같은 파일 |
 
 > **[정정]** 문화재청 → **국가유산청**, 도메인 `cha.go.kr` → **`khs.go.kr`** 로 바뀌었다. 기존 문서가 옛 도메인을 쓰고 있다.
+
+> **[정정]** 기상청 항목은 앞선 판이 `apihub.kma.go.kr`의 **단기예보**를 선택 구현으로 적어 두었다. 실제로 들어간 것은 **data.go.kr 게이트웨이의 기상특보**이고, 선택이 아니다.
+>
+> - **베이스:** `https://apis.data.go.kr/1360000/WthrWrnInfoService` **[확정]** — `1360000`은 기상청 제공기관 코드다. §1.1의 `B551011`과 같은 자리
+> - **오퍼레이션:** `getPwnStatus`(특보현황조회) 하나만 쓴다 **[확정]**. 서비스에는 10종이 있다
+> - **파라미터가 §1.2와 다르다** **[확정]** — `MobileOS`·`MobileApp`이 없고, JSON 요청이 `_type=json`이 아니라 **`dataType=JSON`**이다. `src/lib/kto/transport.ts:231`이 org별로 이 분기를 한다
+> - **인증키는 한국관광공사와 같은 값**을 쓴다 **[확정]** — 공공데이터포털 계정당 키는 하나이고, `KTO_SERVICE_KEY_DECODING` 하나가 양쪽에 간다 (`transport.ts:132`)
+> - **활용신청은 서비스마다 따로다.** 2026-09-13 측정: 같은 키로 한국관광공사 5종은 `0000`, 이 서비스는 `30 SERVICE_KEY_IS_NOT_REGISTERED_ERROR`. 신청 전까지 모든 장소의 `weather_warning`은 `unknown`으로 남는다 (설계대로 — §2 원칙, 거짓 「특보 없음」은 안전 실패다)
+> - **개발계정 한도 10,000건/일** **[포털]** — 한국관광공사 1,000건의 10배다
+
+#### 3.1.1 기상청 예보 2종 — 특보와 같은 게이트웨이, 다른 계약 **[확정]**
+
+**특보와 예보를 한 줄로 합치지 않는다.** 특보는 지금 무슨 일이 벌어지고 있다는 공식 진술이고, 예보는 아직 일어나지 않은 날에 대한 추정이다. 틀렸을 때의 결과가 달라서 실패 방향도 다르게 잡았다 — 특보는 확인 실패 시 「모름」으로 남겨야 안전 실패를 피하고, 예보는 못 받으면 그냥 안내가 사라진다. 목요일에 비가 온다는 말을 못 들어서 다치는 사람은 없다. 둘 다 「좋음」으로는 절대 떨어지지 않는다.
+
+| | 단기예보 | 중기예보 |
+|---|---|---|
+| 데이터셋 **[포털]** | `15084084` | `15059468` |
+| 서비스ID | `VilageFcstInfoService_2.0` | `MidFcstInfoService` |
+| 오퍼레이션 | `getVilageFcst` | `getMidLandFcst` · `getMidTa` |
+| 지역 지정 | **5km 격자** `nx`/`ny` | **예보구역 코드** `regId` |
+| 공주 / 부여 | `63,102` / `59,99` | 육상 둘 다 `11C20000` · 기온 `11C20402` / `11C20501` |
+| 발표 | 1일 8회 `0200`~`2300`, **+10분 후 제공** | 1일 2회 `0600`·`1800`, **최근 24시간만 조회 가능** |
+| 범위 | `0200`~`1400` 발표는 +3일, `1700`~`2300` 발표는 **+4일** | 발표일 **+4~10일** (`1800` 발표는 +5일부터) |
+| 이용허락범위 **[포털]** | 공공누리 **제1유형(출처표시)** | 동일 |
+| 개발계정 한도 **[포털]** | 10,000건/일 | 10,000건/일 |
+
+**함정 넷.**
+
+1. **격자는 관광지 좌표에서 계산하지 않는다.** 시군구 대표 격자를 쓴다. 공주는 관광지에 따라 `(63,102)`와 `(63,103)`으로 갈리는데(약 5km, 기온 1℃ 차이), 스냅샷의 `weather`/`forecast` 행이 시군구 단위라 대표 격자여야 행이 말하는 범위와 맞는다.
+2. **`PCP`·`SNO`·`WSD`는 읽지 않는다.** 예보 마지막 날(연장 구간)에서 이 셋만 측정값에서 **정성 코드로 바뀐다** — `PCP: "2"`가 어떤 날은 2mm고 어떤 날은 「보통 비 3~15mm/h」다. 구별할 플래그가 없다. 필요 없으므로 아예 안 읽는다.
+3. **`SKY`에 `2`는 없다.** 「구름조금」은 2019-06-04부터 「맑음」에 흡수됐다. `1`·`3`·`4`뿐이다.
+4. **`wf3`·`taMin3` 같은 3일차 필드는 존재하지 않는다.** 중기예보는 4일차부터다. 3일 구간은 단기예보가 덮는다.
+
+**폭염·한파를 `TMX`/`TMN`으로 판정하지 않는다.** 폭염 특보의 법적 기준은 「기상법 시행령」 별표 1의 **일 최고 체감온도** 33℃/35℃이고, 체감온도는 습도·바람이 들어간 값이다. **기상청이 체감온도 오픈 API를 2026-05-11에 종료**해서 그 숫자를 주는 엔드포인트가 없다. 그래서 `src/lib/kma/forecast.ts`의 `HOT_DAY_TMX = 33`은 특보 기준의 **모양만 빌린 기온 임계값**이고, 화면 문구에 「기온 기준이며 폭염 특보 판정이 아닙니다」를 붙인다. 실제 특보는 `getPwnStatus`가 따로 답하고 항목도 따로다.
+
+> **시한: 2026-11-12.** 「예보업무규정」(기상청훈령 제1185호) 부칙 제1조에 따라 그날부터 중기예보가 **일 1회(18시) 발표, 발표일 +6~11일, 5km 격자**로 바뀐다. 지금 코드의 `MID_BASE_HOURS = [6, 18]`과 4~10일 범위가 그때 어긋난다.
 
 ### 3.2 저장소 안의 JSON으로 처리하는 것 (`content/`)
 
@@ -740,14 +807,14 @@ GET /B551011/KorService2/ldongCode2?…&lDongRegnCd=44&lDongListYn=Y
 | **KorWithService2** | `detailWithTour2` 6 | **6** | 0.6% |
 | **KorService2** | `detailCommon2` 6 + `detailIntro2` 6 + `detailImage2` 6 + **`detailInfo2` 4**(타입 12만 — §2.2) + `areaBasedList2` 4 + (최초 1회) `ldongCode2` 1 + `lclsSystmCode2` 1 | **28** | 2.8% |
 | **EngService2** | `detailCommon2` 6 | **6** | 0.6% |
-| **JpnService2** | `detailCommon2` 6 | **6** | 0.6% |
-| **ChsService2** | `detailCommon2` 6 | **6** | 0.6% |
 | **Odii** | `themeBasedList` 16(전수) + `storyBasedList` 12 (6곳 × ko/en) | **28** | 2.8% |
 | **PhotoGalleryService1** | `gallerySearchList1` 7 (관광지명 6 + '백제' 1) | **7** | 0.7% |
-| **TatsCnctrRateService** | `tatsCnctrRateList` 2 (`numOfRows=100`) | **2** | 0.2% |
+| **TatsCnctrRateService** | `tatsCnctrRatedList` 2 (`numOfRows=100`) | **2** | 0.2% |
 | **TarRlteTarService1** | `searchKeyword1` 6 (관광지별 — §2.6) | **6** | 0.6% |
-| **DataLabService** | `locgoRegnVisitrDDList` 8 | **8** | 0.8% |
-| **합계** | | **약 103건** | 최대 사용 오퍼레이션이 1.6% |
+| **DataLabService** | `locgoRegnVisitrDDList` **최대 45 + 8** (§2.5 발행 지연 탐색 + 8일 창) | **최대 53** | 5.3% |
+| **합계** | | **약 130건** | 최대 사용 오퍼레이션이 4.5% |
+
+> **[정정]** 앞선 판은 `JpnService2` 6건 + `ChsService2` 6건을 포함해 약 103건으로 셌다. 두 서비스는 신청하지 않기로 해 삭제했고(§2.8), 대신 `DataLabService`가 발행 지연을 찾느라 하루 최대 45콜을 더 쓴다 — 그 서비스의 최신 데이터가 **한 달 전**이라 짧은 탐색으로는 못 찾는다.
 
 **가장 많이 부르는 오퍼레이션이 `themeBasedList` 16콜이고, 한도는 오퍼레이션당 1,000건이다 — 1.6%다.** 하루에 여러 번 돌려도 여유가 크고, 운영계정 없이 개발·심사를 마칠 수 있다.
 

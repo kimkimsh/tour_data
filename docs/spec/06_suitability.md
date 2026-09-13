@@ -162,7 +162,7 @@ A = 0.30·진입 + 0.18·이동 + 0.18·편의시설 + 0.14·정보안내 + 0.10
 | 편의시설 | `facility` | **0.18** | `restroom` `parking` `stroller` `nursing_room` `baby_chair` `room` `hearing_room` | 7 |
 | 정보안내 | `information` | **0.14** | `audio_guide` `big_print` `braille_promotion` `promotion_material` `guide_human` `sign_guide` `video_caption` `visual_alarm` | 8 |
 | 휴식 | `rest` | **0.10** | `auditorium` `rest_seating` `shade_indoor` | 3 |
-| 상황 | `context` | **0.10** | `crowd_forecast` `weather_warning` `emergency_distance` `aed_distance` | 4 |
+| 상황 | `context` | **0.10** | `crowd_forecast` `weather_warning` `weather_forecast` `emergency_distance` `aed_distance` | 5 |
 | | | **1.00** | | **32** |
 
 ### 축 안의 세부 가중치 — **균등**
@@ -285,6 +285,7 @@ B = 0.75 + 0.25 × min( 선택한 모든 페르소나의 personaFit )
 | `shade_indoor` 그늘·실내 휴게 ※ | 휴식 | · | S | · | · | S |
 | `crowd_forecast` 예측 혼잡도 ※ | 상황 | S | S | · | · | S |
 | `weather_warning` 기상 특보 ※ | 상황 | · | S | · | · | S |
+| `weather_forecast` 당일 기상 예보 ※ | 상황 | · | S | · | · | S |
 | `emergency_distance` 응급실 거리 ※ | 상황 | S | S | · | · | S |
 | `aed_distance` 자동심장충격기 거리 ※ | 상황 | · | S | · | · | · |
 
@@ -620,7 +621,7 @@ buildItinerary({ budgetMode, personaIds, cognitiveOption, templates, scores })
 | 7 | `rest` 축을 "연속 이동 한계 대비 실제 구간"으로 계산 | **다른 축과 같은 평균.** 휴식 간격은 코스 화면 경고로 이동 | 구간별 소요 시간 데이터가 A등급 2곳에만 있다 |
 | 8 | `continuity`를 구간 최솟값으로 계산 | 다른 축과 같은 평균 (최솟값 논리는 `path_continuity` 항목 안으로) | 축마다 계산 규칙이 다르면 설명도, 테스트도 어려워진다 |
 | 9 | `evidenceConfidence`에 "2차 승인 증거 있으면 1.0, 없으면 0.85" 계수 | 계수 삭제 | 2차 승인 증거 팩을 만들지 않기로 했다. 항상 0.85면 상수일 뿐이다 |
-| 10 | 항목 25개, 페르소나 6개(P4 포함) | **항목 32개, 페르소나 5개** | 실제 KTO 24항목 + 파생 8개로 재구성. P4(단체)는 단체 기능을 안 만들므로 삭제 |
+| 10 | 항목 25개, 페르소나 6개(P4 포함) | **항목 33개, 페르소나 5개** | 실제 KTO 24항목 + 파생 9개로 재구성. P4(단체)는 단체 기능을 안 만들므로 삭제 |
 | 11 | 골든 케이스 30건 + 전문가 서명 전 배포 금지 | **24건**, 전문가 검수는 "미실시"로 화면에 표시 | 서명해 줄 전문가가 없다. 게이트를 지키지 못할 바엔 **정직하게 표시하는 것**이 낫다 |
 | 12 | 점수와 라벨을 항상 함께 표시 | **`정보없음`이면 점수를 숨김** | "26점" 같은 숫자가 근거 없이 보이는 것을 막는다 |
 | 13 | 필수 항목 중 **하나라도** unknown → `정보없음` | **과반(>50%)일 때만** `정보없음`. 소수면 라벨 상한 `주의` + **미확인 항목 이름 노출** | 실제 채움률이 24개 중 4~7개라, 원래 규칙이면 **모든 관광지가 모든 사용자에게 `정보없음`** 이 되어 점수 화면이 전부 빈칸이 된다. `00_README.md` §1이 기존 스펙의 결함으로 지적한 것과 같은 결과를 형태만 바꿔 재현한 것이었다. §6.4 하위 절에 상세 |
@@ -682,7 +683,7 @@ buildItinerary({ budgetMode, personaIds, cognitiveOption, templates, scores })
 
 ### 10.4 원 정책에 있던 항목 4개 — 하나는 되살렸다
 
-원 정책의 25개 카탈로그에 있었던 것. 현재 카탈로그는 **32개**다.
+원 정책의 25개 카탈로그에 있었던 것. 현재 카탈로그는 **33개**다.
 
 | 항목 | 원 등급 | 왜 빠졌나 | 되살릴 가치 |
 |---|---|---|---|

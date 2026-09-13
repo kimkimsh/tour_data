@@ -63,8 +63,16 @@
 | 화면에 보이는 이름 | `.env.local`의 줄 | 공개돼도 되나 |
 |---|---|---|
 | **Project URL** | `NEXT_PUBLIC_SUPABASE_URL=` | 된다 |
-| **anon** / **public** | `NEXT_PUBLIC_SUPABASE_ANON_KEY=` | 된다 |
-| **service_role** / **secret** | `SUPABASE_SERVICE_ROLE_KEY=` | ❌ **절대 안 된다** |
+| **Publishable key** (`sb_publishable_…`) | `NEXT_PUBLIC_SUPABASE_ANON_KEY=` | 된다 |
+| **Secret key** (`sb_secret_…`) | `SUPABASE_SERVICE_ROLE_KEY=` | ❌ **절대 안 된다** |
+
+> **`anon` / `service_role`이 화면에 안 보이면 정상이다.** Supabase가 키 체계를 바꿨다. 지금 대시보드가 기본으로 보여주는 건 **Publishable key**(`sb_publishable_…`)와 **Secret keys**(`sb_secret_…`)이고, 옛 이름 두 개는 같은 화면의 **Legacy API keys**를 펼쳐야 나온다.
+>
+> - 새 키를 쓰면 된다. `sb_publishable_…`은 데이터베이스의 `anon` 역할로, `sb_secret_…`은 `service_role`로 그대로 매핑되므로 이 저장소의 SQL 권한 설정(`supabase/migrations/`)은 손댈 게 없다
+> - **Secret key는 「보이는」 게 아니라 「만드는」 것이다** — `Secret keys → Create new secret key`. 만든 직후 한 번만 전체가 보이고, 그 뒤에는 다시 못 본다
+> - Secret key는 옛 `service_role`보다 안전하다. 브라우저에서 쓰이면(User-Agent로 판별) HTTP 401을 돌려주고, 하나가 새면 그것만 폐기하면 된다
+> - 환경변수 이름은 `SUPABASE_SERVICE_ROLE_KEY` 그대로 둔다. 값의 형식이 바뀐 것이지 역할이 바뀐 게 아니다
+> - 레거시 키도 **2026년 말까지는** 계속 동작한다. 이미 넣어 뒀다면 급히 바꿀 필요는 없다
 
 ### 앞의 둘이 공개돼도 되는 이유
 
@@ -82,11 +90,11 @@
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://abcdefgh.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOi...
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_...
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_...
 ```
 
-> 두 키가 둘 다 `eyJ`로 시작해서 **헷갈리기 쉽다.** 화면에서 복사할 때 어느 쪽 버튼을 눌렀는지 확인하고, 붙여넣은 뒤에도 한 번 더 본다.
+> **접두사가 다르니 새 키끼리는 헷갈릴 일이 없다.** 레거시 키를 쓰는 경우에만 조심하면 된다 — `anon`과 `service_role`이 둘 다 `eyJ`로 시작해서 구별이 안 된다. 그때는 화면에서 어느 쪽 버튼을 눌렀는지 확인하고, 붙여넣은 뒤에도 한 번 더 본다.
 
 ---
 

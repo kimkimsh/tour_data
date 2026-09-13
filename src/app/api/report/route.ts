@@ -63,7 +63,11 @@ export async function POST(request: Request) {
 
   const parsed = Body.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
-    return NextResponse.json({ error: 'invalid', detail: z.prettifyError(parsed.error) }, { status: 400 });
+    // A code, like every other refusal this route gives. The two diary export routes
+    // do return the Zod text, and the difference is deliberate: their caller is the
+    // owner of the data being exported, and this one is open to anybody with a
+    // session.
+    return NextResponse.json({ error: 'invalid' }, { status: 400 });
   }
 
   const supabase = await createServerClient();

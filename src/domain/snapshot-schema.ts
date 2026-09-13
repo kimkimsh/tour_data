@@ -130,7 +130,11 @@ export const FactSchema = z.object({
   detail: z.string().nullable(),
   source: z.enum(FACT_SOURCES),
   sourceField: z.string().nullable(),
-  verifiedAt: z.string().nullable(),
+  // The date the freshness buckets are computed from — computeFreshness reads this
+  // field, not ktoModifiedAt, which is where the shape guard used to sit. A raw
+  // 14-digit KTO stamp passes z.string(), Date.parse returns NaN, daysBetween returns
+  // Infinity, and the fact sits in the oldest bucket for ever without saying so.
+  verifiedAt: z.iso.date().nullable(),
   isKtoScored: z.boolean(),
 });
 export const AccessibilityPayload = z.array(FactSchema);

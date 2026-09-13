@@ -27,13 +27,59 @@ const KTO_IMAGE_HOSTS = ['tong.visitkorea.or.kr', 'cdn.visitkorea.or.kr'] as con
  */
 const IMAGE_PROXY_PATHNAME = '/api/image-proxy';
 
+/**
+ * What the browser is allowed to fetch, load and do on these pages.
+ *
+ * The list is the real inventory, not a template: the fonts are self-hosted
+ * (docs/work_log/03_deviations.md D-6), there is no analytics script and no map SDK,
+ * and the only images that are not ours come from the two KTO hosts the image config
+ * above already names. `frame-ancestors 'none'` is what X-Frame-Options used to say,
+ * in the header that superseded it.
+ *
+ * 'unsafe-inline' on styles is Tailwind v4's inline `<style>` element, and on scripts
+ * is Next's own bootstrap. Removing either needs a nonce, which needs a dynamic
+ * response, which is the opposite of the cache design this whole service is built on.
+ */
+const CONTENT_SECURITY_POLICY = [
+  "default-src 'self'",
+  `img-src 'self' data: blob: ${KTO_IMAGE_HOSTS.map((host) => `https://${host}`).join(' ')}`,
+  // Odii serves the audio guide; the transcript beside it is ours.
+  "media-src 'self' https://tong.visitkorea.or.kr https://cdn.visitkorea.or.kr",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
+  // The Supabase project, and nothing else. Visitor reports are the only thing this
+  // app sends anywhere at run time.
+  "connect-src 'self' https://*.supabase.co",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+].join('; ');
+
+const SECURITY_HEADERS = [
+  { key: 'Content-Security-Policy', value: CONTENT_SECURITY_POLICY },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  // Three capabilities this service states it does not use. The privacy policy says
+  // so about location in particular (docs/spec/13_legal_citations.md section 1), and
+  // this is that sentence in a form the browser enforces.
+  { key: 'Permissions-Policy', value: 'geolocation=(), camera=(), microphone=()' },
+];
+
 const nextConfig: NextConfig = {
+  // The framework's version is not the visitor's business, and it is the first thing
+  // an automated scan reads.
+  poweredByHeader: false,
   images: {
     remotePatterns: KTO_IMAGE_HOSTS.map((hostname) => ({
       protocol: 'https' as const,
       hostname,
     })),
     localPatterns: [{ pathname: IMAGE_PROXY_PATHNAME }],
+  },
+  async headers() {
+    return [{ source: '/:path*', headers: SECURITY_HEADERS }];
   },
 };
 

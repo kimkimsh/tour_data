@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { REPORT_CATEGORIES } from '@/domain/types';
+import { POI_SLUGS } from '@/lib/content';
 import { getPublicDb, isSupabaseConfigured } from '@/lib/supabase/public';
 
 /**
@@ -25,7 +26,12 @@ const MAX_ROWS = 50;
 
 export async function GET(request: Request) {
   const poiSlug = new URL(request.url).searchParams.get('poi');
-  if (!poiSlug) return NextResponse.json({ error: 'poi is required' }, { status: 400 });
+  // Checked against the catalogue, like every other entry point that takes a slug.
+  // An unbounded string reaching a query is the one inconsistency in an otherwise
+  // uniformly validated surface.
+  if (!poiSlug || !POI_SLUGS.has(poiSlug)) {
+    return NextResponse.json({ error: 'poi is required' }, { status: 400 });
+  }
 
   if (!isSupabaseConfigured()) {
     // Not an error: the screen renders its empty state and says why.

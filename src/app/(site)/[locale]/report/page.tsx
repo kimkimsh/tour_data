@@ -7,7 +7,13 @@ import { SnapshotProblem } from '@/components/SnapshotGate';
 import { ReportForm } from '@/components/report/ReportForm';
 import type { ContentLocale } from '@/domain/types';
 
-export const revalidate = 3600;
+/**
+ * Dynamic, and said out loud. `revalidate = 3600` used to sit here and did nothing:
+ * the component reads searchParams, which makes the route fully dynamic — it appears
+ * in neither `routes` nor `dynamicRoutes` in the prerender manifest, unlike its ten
+ * siblings. Every other route in this app states its caching intent accurately.
+ */
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,

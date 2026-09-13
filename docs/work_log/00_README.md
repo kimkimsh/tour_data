@@ -45,6 +45,6 @@
 
 `pnpm typecheck`·`lint`·`test`(160건)·`validate:content`·`build`·`e2e`(24건, axe 20경로)가 전부 통과한다.
 
-야간 수집(GitHub Actions)이 시크릿 5개로 동작한다 — 2분, 전 단계 성공, 스냅샷 자동 커밋.
+야간 수집(GitHub Actions)이 시크릿 5개로 동작한다 — 2분, 전 단계 성공, 스냅샷 자동 커밋. **`https://modu-baekje.vercel.app`에 배포됐다** — 19개 라우트 전부 200이고, 사진이 17장 중 17장 뜬다. 그 전까지는 **한 장도 뜬 적이 없었다**(09번 §12b).
 
 **남아 있는 것 셋** — NVDA 수동 검증(Windows 필요), `flag_report` 호출 제한(스키마 변경이라 사람 결정), 안전시설 좌표(공식 출처에 없음). 09번 §13.

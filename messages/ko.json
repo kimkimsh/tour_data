@@ -202,7 +202,7 @@
     "distanceMeters": "{value}m",
     "crowdRate": "집중률 {value} — 100점 만점이 아닙니다",
     "noPhotos": "이 관광지 사진은 아직 모으지 못했습니다.",
-    "notFound": "찾으시는 관광지가 없습니다.",
+    "notFound": "찾으시는 관광지가 없습니다",
     "reportsLoading": "제보를 불러오는 중입니다.",
     "reportsReady": "제보 {count}건을 불러왔습니다.",
     "reportsFailed": "제보를 불러오지 못했습니다. 제보가 없다는 뜻이 아니라, 지금은 확인할 수 없다는 뜻입니다.",

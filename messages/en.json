@@ -202,7 +202,7 @@
     "distanceMeters": "{value} m",
     "crowdRate": "Crowding index {value} — not a score out of 100",
     "noPhotos": "No photographs have been collected for this place yet.",
-    "notFound": "We could not find that place.",
+    "notFound": "We could not find that place",
     "reportsLoading": "Loading reports.",
     "reportsReady": "Loaded {count} reports.",
     "reportsFailed": "Reports could not be loaded. That does not mean there are none — it means we cannot check right now.",

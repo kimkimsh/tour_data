@@ -96,6 +96,13 @@ type Stage = (typeof STAGE_ORDER)[number];
 
 const ODII_MATCH_RADIUS_M = 1000;
 const VISITOR_WINDOW_DAYS = 8;
+
+/**
+ * How far back to walk looking for the newest day DataLabService has published.
+ * Sized from the measured lag (see buildContext) with two weeks of headroom, so the
+ * scan still finds the edge if KTO publishes later than it does today.
+ */
+const VISITOR_LAG_SCAN_DAYS = 45;
 const CROWD_SUPPORTED_MAX = 40;
 const CROWD_PARTIAL_MAX = 70;
 const EMERGENCY_SUPPORTED_M = 500;
@@ -528,9 +535,17 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
   // The window ends at the most recent day the API actually answers for, found by
   // walking back from today. The delay is measured, never assumed: a hard-coded
   // "four days" wastes a call when the delay is five and drops a day when it is three.
+  //
+  // The scan has to reach further back than anyone expects, which is what sets the
+  // bound. Measured one call per day across a full month: thirty consecutive dates
+  // answered resultCode 0000 with totalCount 0, and the thirty-first answered with 807
+  // rows. An empty day is not an error here and not the end of the data — it is the
+  // publication lag, and it is around a month rather than the few days the earlier
+  // spec assumed. A bound shorter than the lag makes a working service look dead:
+  // every probe succeeds, every probe is empty, and context.visitors is silently [].
   const today = seoulTodayCompact();
   let endYmd: string | null = null;
-  for (let back = 0; back < 14 && endYmd === null; back += 1) {
+  for (let back = 0; back < VISITOR_LAG_SCAN_DAYS && endYmd === null; back += 1) {
     const candidate = ymdMinus(today, back);
     const probe = await getVisitorsForDay(candidate);
     if (probe.ok && probe.items.length > 0) endYmd = candidate;
@@ -538,7 +553,9 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
 
   const visitors: z.infer<typeof ContextPayload>['visitors'] = [];
   if (endYmd === null) {
-    warn('no visitor data answered within the last 14 days; context.visitors is empty');
+    warn(
+      `no visitor data answered within the last ${VISITOR_LAG_SCAN_DAYS} days; context.visitors is empty`,
+    );
   } else {
     const wanted = new Set(sigunguCodes);
     const totals = new Map<string, { sum: number; days: number; name: string; divisionName: string }>();

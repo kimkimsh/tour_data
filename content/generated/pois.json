@@ -215,7 +215,7 @@
         "distanceM": null,
         "phone": "041-962-1365",
         "detail": "충청남도 공주시 무령로 77 · 지역응급의료기관 · 연중 24시간 야간콜제 운영 · 응급실 직통 041-962-1365 / 041-962-1366",
-        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom — 좌표는 공식 출처에서 확인하지 못해 비웠다",
+        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom (공식 출처에서 좌표를 확인하지 못해 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -234,7 +234,7 @@
         "coord": null,
         "distanceM": null,
         "phone": "1644-5588",
-        "detail": "연중무휴 24시간 운행. 공주시 지역번호는 두 공식 출처가 041-852-5858과 041-881-7632로 갈려 있어 확인 전까지 싣지 않는다.",
+        "detail": "연중무휴 24시간 운행합니다. 공주시 지역번호는 공식 출처 두 곳이 041-852-5858과 041-881-7632로 서로 달라, 확인되기 전까지는 싣지 않습니다.",
         "sourceNote": "https://www.16445588.or.kr/",
         "checkedAt": "2026-09-02"
       }
@@ -374,7 +374,7 @@
         "distanceM": null,
         "phone": "041-962-1365",
         "detail": "충청남도 공주시 무령로 77 · 지역응급의료기관 · 연중 24시간 야간콜제 운영",
-        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom — 좌표는 공식 출처에서 확인하지 못해 비웠다",
+        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom (공식 출처에서 좌표를 확인하지 못해 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -383,8 +383,8 @@
         "coord": null,
         "distanceM": null,
         "phone": "041-856-0331",
-        "detail": "충청남도 공주시 왕릉로 37 — 관광지 주소와 같다",
-        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 https://www.e-gen.or.kr/egen/search_aed.do — 좌표는 결과 화면에 지도 마커로만 표시돼 얻지 못했다",
+        "detail": "충청남도 공주시 왕릉로 37 (관광지 주소와 같습니다)",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 https://www.e-gen.or.kr/egen/search_aed.do (좌표가 지도 마커로만 표시돼 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -616,7 +616,7 @@
         "distanceM": null,
         "phone": "041-962-1365",
         "detail": "충청남도 공주시 무령로 77 · 지역응급의료기관 · 연중 24시간 야간콜제 운영",
-        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom — 좌표는 공식 출처에서 확인하지 못해 비웠다",
+        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom (공식 출처에서 좌표를 확인하지 못해 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -798,7 +798,7 @@
         "distanceM": null,
         "phone": "041-837-1200",
         "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관(2007-09 지정) · 응급실 365일 24시간 연중 무휴 · 부여지역 유일의 응급실 운영 병원",
-        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do — 병원 푸터의 042 번호는 대전 본원이므로 쓰지 않는다. 좌표는 얻지 못했다",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (병원 안내의 042 번호는 대전 본원이라 싣지 않았고, 좌표를 확인하지 못해 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -1050,7 +1050,7 @@
         "distanceM": null,
         "phone": "041-837-1200",
         "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 응급실 365일 24시간 연중 무휴",
-        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do — 좌표는 얻지 못했다",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (좌표를 확인하지 못해 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -1060,7 +1060,7 @@
         "distanceM": null,
         "phone": "041-832-2721",
         "detail": "충청남도 부여군 부여읍 정림로 83",
-        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 — 좌표는 지도 마커로만 표시돼 얻지 못했다",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (좌표가 지도 마커로만 표시돼 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -1070,7 +1070,7 @@
         "distanceM": null,
         "phone": null,
         "detail": "주차장과 박물관 외부, 내부 세 곳",
-        "sourceNote": "https://access.visitkorea.or.kr 무장애 여행기사 — 관광지 상세 페이지가 아니라 기사 본문이 출처다",
+        "sourceNote": "https://access.visitkorea.or.kr 무장애 여행기사 본문 (관광지 상세 페이지가 아니라 기사 본문이 출처입니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -1312,7 +1312,7 @@
         "distanceM": null,
         "phone": "041-837-1200",
         "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 응급실 365일 24시간 연중 무휴",
-        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do — 좌표는 얻지 못했다",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (좌표를 확인하지 못해 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {
@@ -1321,8 +1321,8 @@
         "coord": null,
         "distanceM": null,
         "phone": "041-830-8412",
-        "detail": "충청남도 부여군 부여읍 금성로 5 — 관광지 주소와 같다",
-        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 — 좌표는 지도 마커로만 표시돼 얻지 못했다",
+        "detail": "충청남도 부여군 부여읍 금성로 5 (관광지 주소와 같습니다)",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (좌표가 지도 마커로만 표시돼 거리는 계산하지 않았습니다)",
         "checkedAt": "2026-09-02"
       },
       {

@@ -442,6 +442,26 @@ export async function ktoRequest(
   return gatewayRequest(ORG.kto, serviceId, operation, params, options);
 }
 
+/**
+ * How many calls this process reached the gateway on, and how many it could not.
+ *
+ * "Unreachable" means the retries ran out against a transport failure — no response,
+ * or one the gateway itself never wrote. It is not a resultCode: a 03 or a 30 is an
+ * answer, and an answer can be published. A run with no reachable gateway assembled
+ * its snapshots out of absences it never observed, which is the one thing this
+ * pipeline may not write, so scripts/ingest.ts checks this before it publishes.
+ *
+ * Counted here rather than at each call site because here is the single funnel every
+ * call passes through; a counter a caller has to remember to increment is a counter
+ * that is wrong the first time somebody adds a call.
+ */
+let gatewayReached = 0;
+let gatewayUnreachable = 0;
+
+export function gatewayCallStats(): { reached: number; unreachable: number } {
+  return { reached: gatewayReached, unreachable: gatewayUnreachable };
+}
+
 /** Same gateway, another provider's organisation segment. See ORG. */
 export async function gatewayRequest(
   org: OrgCode,
@@ -463,12 +483,24 @@ export async function gatewayRequest(
   };
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     const result = await attemptOnce(org, serviceId, operation, params, timeoutMs, call);
-    if (result.ok) return result;
-    if (!isRetryable(result)) return result;
+    if (result.ok) {
+      gatewayReached += 1;
+      return result;
+    }
+    if (!isRetryable(result)) {
+      // The gateway answered; we did not like the answer. That is still contact.
+      gatewayReached += 1;
+      return result;
+    }
     failure = result;
     if (attempt < maxAttempts) {
       await sleep(RETRY_BASE_DELAY_MS * 2 ** (attempt - 1));
     }
+  }
+  if (failure.resultCode === TRANSPORT_CODES.network || failure.resultCode === TRANSPORT_CODES.timeout) {
+    gatewayUnreachable += 1;
+  } else {
+    gatewayReached += 1;
   }
   return { ...failure, message: `${failure.message} (gave up after ${maxAttempts} attempts)` };
 }

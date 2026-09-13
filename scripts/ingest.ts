@@ -65,6 +65,7 @@ import {
   type MultilingualLocale,
 } from '../src/lib/kto/services';
 import {
+  gatewayCallStats,
   hasServiceKey,
   isQuotaExceeded,
   isOperationRetired,
@@ -200,7 +201,32 @@ function readGenerated<T>(key: SnapshotKey, schema: z.ZodType<T>): T | undefined
  * data_snapshots, and both later stages and src/lib/data.ts can read those files —
  * a discrepancy that would then look like collected data.
  */
+/**
+ * Nothing is published after a call that never reached the gateway.
+ *
+ * A stage assembles whatever its calls returned and publishes it, which is right when
+ * the gateway answered and wrong when it did not: an unanswered call and an empty
+ * answer are the same empty array by the time a stage builds its payload. Measured —
+ * a GitHub Actions run reached apis.data.go.kr on none of its calls, warned on every
+ * one, and still published a pois snapshot with media: [] over the good one. Six place
+ * pages then said 이 관광지 사진은 아직 모으지 못했습니다 about 89 photographs that exist.
+ *
+ * Yesterday's snapshot is the correct output of a run that could not see today. This
+ * is the same call abortOnQuota makes and for the same reason.
+ */
+function requireGatewayWasReachable(what: SnapshotKey | 'bootstrap'): void {
+  const { reached, unreachable } = gatewayCallStats();
+  if (unreachable === 0) return;
+  exit(
+    `${unreachable} call(s) never reached the gateway (${reached} did). Nothing was published, ` +
+      `including ${what}: a stage cannot tell an unanswered call from an empty answer, and the ` +
+      'snapshot already in place was collected when the gateway was reachable.',
+  );
+}
+
 async function publish(key: SnapshotKey, payload: unknown, rowCount: number, sourceNote: string) {
+  requireGatewayWasReachable(key);
+
   const writeFile = () => {
     mkdirSync(GENERATED, { recursive: true });
     writeFileSync(join(GENERATED, `${key}.json`), `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
@@ -251,6 +277,11 @@ async function bootstrap(pois: PoiInput[]): Promise<void> {
   const [ldong, lcls] = await Promise.all([getLdongCodes(regionCode), getLclsSystmCodes()]);
   if (!ldong.ok) warn(`ldongCode2 failed: ${ldong.message}`);
   if (!lcls.ok) warn(`lclsSystmCode2 failed: ${lcls.message}`);
+
+  // This stage writes its file directly rather than through publish(), so it needs
+  // the same guard: an unreachable gateway would otherwise replace 2,338 lines of
+  // code tables with two empty arrays, and every later stage reads this file.
+  requireGatewayWasReachable('bootstrap');
 
   mkdirSync(GENERATED, { recursive: true });
   writeFileSync(

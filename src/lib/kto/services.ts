@@ -65,8 +65,6 @@ export const SERVICE_IDS = {
   korWith: 'KorWithService2',
   kor: 'KorService2',
   eng: 'EngService2',
-  jpn: 'JpnService2',
-  chs: 'ChsService2',
   odii: 'Odii',
   tatsCnctrRate: 'TatsCnctrRateService',
   dataLab: 'DataLabService',
@@ -244,13 +242,19 @@ export function getLclsSystmCodes(
   );
 }
 
-// ── EngService2 / JpnService2 / ChsService2 — multilingual ──────────────────────
+// ── EngService2 — multilingual ─────────────────────────────────────────────────
 
-/** Keyed by the content locale stored in the pois snapshot. Korean uses KorService2. */
+/**
+ * Keyed by the content locale stored in the pois snapshot. Korean uses KorService2.
+ *
+ * One entry, because the interface is ko/en. JpnService2 and ChsService2 were here and
+ * are gone: each is a separate data.go.kr registration this key does not hold, so every
+ * call answered resultCode 30 and every Japanese and Chinese title in the snapshot was
+ * absent. Re-adding a language is this map plus its SERVICE_IDS entry — CONTENT_LOCALES
+ * widens with it, since it derives from LOCALES.
+ */
 export const MULTILINGUAL_SERVICE_IDS = {
   en: SERVICE_IDS.eng,
-  ja: SERVICE_IDS.jpn,
-  'zh-CN': SERVICE_IDS.chs,
 } as const;
 
 export type MultilingualLocale = keyof typeof MULTILINGUAL_SERVICE_IDS;

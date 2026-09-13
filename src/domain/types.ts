@@ -23,9 +23,18 @@ export type Axis = (typeof AXES)[number];
 export const LOCALES = ['ko', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 
-/** Locales stored in the pois snapshot. The interface itself is ko/en only. */
-export const CONTENT_LOCALES = ['ko', 'en', 'ja', 'zh-CN'] as const;
-export type ContentLocale = (typeof CONTENT_LOCALES)[number];
+/**
+ * Locales stored in the pois snapshot. Distinct from LOCALES because the snapshot could
+ * hold a language the interface does not render — an earlier plan stored ja and zh-CN
+ * titles for a ko/en interface. It no longer does, so this is LOCALES today.
+ *
+ * Derived rather than restated: two hand-written lists that must agree drift, and the
+ * drift is silent here. scripts/ingest.ts loops this set and casts each member to
+ * MultilingualLocale, so a locale present here and absent from MULTILINGUAL_SERVICE_IDS
+ * builds a request URL with `undefined` in the service-id slot.
+ */
+export const CONTENT_LOCALES = LOCALES;
+export type ContentLocale = Locale;
 
 /**
  * Verdict label. Spelling is fixed. The value '정보없음' has no space; the

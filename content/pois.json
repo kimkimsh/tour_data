@@ -3,7 +3,7 @@
     "slug": "gongsanseong",
     "nameKo": "공산성",
     "nameEn": "Gongsanseong Fortress",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "125949",
     "contentTypeId": 12,
     "lDongRegnCd": "44",
     "lDongSignguCd": "150",
@@ -17,16 +17,16 @@
     "unescoComponentNote": null,
     "depthTier": "A",
     "odiiKeyword": "공산성",
-    "tatsName": null,
+    "tatsName": "공주 공산성 [유네스코 세계유산]",
     "tAtsCd": null,
-    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400120000",
-    "checkedAt": "2026-09-02"
+    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400120000",
+    "checkedAt": "2026-09-13"
   },
   {
     "slug": "muryeong-royal-tombs",
     "nameKo": "무령왕릉과 왕릉원",
     "nameEn": "Royal Tomb of King Muryeong and Tombs",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "126681",
     "contentTypeId": 12,
     "lDongRegnCd": "44",
     "lDongSignguCd": "150",
@@ -40,16 +40,16 @@
     "unescoComponentNote": "2021-09-17 관보 고시로 「공주 송산리 고분군」에서 개칭됐다. 확장 목록에 옛 이름을 다시 쓰면 같은 곳을 두 번 세게 된다.",
     "depthTier": "B",
     "odiiKeyword": "무령왕릉",
-    "tatsName": null,
+    "tatsName": "공주 무령왕릉과 왕릉원[유네스코 세계유산]",
     "tAtsCd": null,
-    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400130000",
-    "checkedAt": "2026-09-02"
+    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400130000",
+    "checkedAt": "2026-09-13"
   },
   {
     "slug": "gongju-national-museum",
     "nameKo": "국립공주박물관",
     "nameEn": "Gongju National Museum",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "129787",
     "contentTypeId": 14,
     "lDongRegnCd": "44",
     "lDongSignguCd": "150",
@@ -63,16 +63,16 @@
     "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
     "depthTier": "B",
     "odiiKeyword": "국립공주박물관",
-    "tatsName": null,
+    "tatsName": "국립공주박물관",
     "tAtsCd": null,
-    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d · 사적 미지정: 국가유산청 충남 사적 55건 전수 조회에 없음",
-    "checkedAt": "2026-09-02"
+    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=28e47a61-d8d5-4739-bfbf-f2b89d0e5b9d · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 사적 미지정: 국가유산청 충남 사적 55건 전수 조회에 없음",
+    "checkedAt": "2026-09-13"
   },
   {
     "slug": "busosanseong",
     "nameKo": "부소산성",
     "nameEn": "Busosanseong Fortress",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "125988",
     "contentTypeId": 12,
     "lDongRegnCd": "44",
     "lDongSignguCd": "760",
@@ -86,16 +86,16 @@
     "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고 우리가 다루는 것은 그중 부소산성이다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있다.",
     "depthTier": "A",
     "odiiKeyword": "부소산성",
-    "tatsName": null,
+    "tatsName": "관북리유적과 부소산성 [유네스코 세계유산]",
     "tAtsCd": null,
-    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400050000",
-    "checkedAt": "2026-09-02"
+    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400050000",
+    "checkedAt": "2026-09-13"
   },
   {
     "slug": "jeongnimsaji",
     "nameKo": "정림사지",
     "nameEn": "Jeongnimsa Temple Site",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "126650",
     "contentTypeId": 12,
     "lDongRegnCd": "44",
     "lDongSignguCd": "760",
@@ -109,16 +109,16 @@
     "unescoComponentNote": null,
     "depthTier": "B",
     "odiiKeyword": "정림사지",
-    "tatsName": null,
+    "tatsName": "부여 정림사지 오층석탑 [유네스코 세계유산]",
     "tAtsCd": null,
-    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=3ad56277-1887-4fe5-b7fe-7e8a62f8bb5b · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333403010000",
-    "checkedAt": "2026-09-02"
+    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=3ad56277-1887-4fe5-b7fe-7e8a62f8bb5b · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333403010000",
+    "checkedAt": "2026-09-13"
   },
   {
     "slug": "buyeo-national-museum",
     "nameKo": "국립부여박물관",
     "nameEn": "Buyeo National Museum",
-    "ktoContentId": "UNRESOLVED",
+    "ktoContentId": "130062",
     "contentTypeId": 14,
     "lDongRegnCd": "44",
     "lDongSignguCd": "760",
@@ -132,9 +132,9 @@
     "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
     "depthTier": "B",
     "odiiKeyword": "국립부여박물관",
-    "tatsName": null,
+    "tatsName": "국립부여박물관",
     "tAtsCd": null,
-    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=a8f5739d-84fa-47b7-801a-9c8292ccc7f1 · 사적 미지정: 국가유산청 충남 사적 55건 전수 조회에 없음",
-    "checkedAt": "2026-09-02"
+    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=a8f5739d-84fa-47b7-801a-9c8292ccc7f1 · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 사적 미지정: 국가유산청 충남 사적 55건 전수 조회에 없음",
+    "checkedAt": "2026-09-13"
   }
 ]

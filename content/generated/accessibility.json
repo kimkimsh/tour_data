@@ -29,7 +29,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "wheelchair",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -40,7 +40,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "elevator",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -51,7 +51,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "ticketoffice",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -62,7 +62,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "helpdog",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -73,7 +73,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "publictransport",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -84,7 +84,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "braileblock",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -95,19 +95,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidesystem",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "gongsanseong",
-    "capabilityCode": "path_continuity",
-    "status": "partial",
-    "absenceKind": null,
-    "detail": "휠체어 이용자의 경우 금서루에서 공북루 방향, 금서루에서 쌍수정 방향까지 산책하듯 이동할 수 있는 구간. 이외의 경로는 접근 자체가 어렵거나 경사도가 매우 높음.",
-    "source": "curated",
-    "sourceField": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de (지체장애 기타상세 원문. 원문에 「휠처」 오타가 있어 표기만 바로잡았다)",
-    "verifiedAt": "2026-09-02",
-    "isKtoScored": false
   },
   {
     "poiSlug": "gongsanseong",
@@ -139,7 +128,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "stroller",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -161,7 +150,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "babysparechair",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -194,7 +183,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "audioguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -205,7 +194,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "bigprint",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -216,7 +205,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "brailepromotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -227,7 +216,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "promotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -238,7 +227,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidehuman",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -249,7 +238,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "signguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
@@ -260,12 +249,67 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "videoguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-03",
     "isKtoScored": true
   },
   {
     "poiSlug": "gongsanseong",
-    "capabilityCode": "visual_alarm",
+    "capabilityCode": "auditorium",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "kto_with",
+    "sourceField": "auditorium",
+    "verifiedAt": "2026-07-03",
+    "isKtoScored": true
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "absenceKind": null,
+    "detail": "휠체어 이용자의 경우 금서루에서 공북루 방향, 금서루에서 쌍수정 방향까지 산책하듯 이동할 수 있는 구간. 이외의 경로는 접근 자체가 어렵거나 경사도가 매우 높음.",
+    "source": "curated",
+    "sourceField": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de (지체장애 기타상세 원문. 원문에 「휠처」 오타가 있어 표기만 바로잡았다)",
+    "verifiedAt": "2026-09-02",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "crowd_forecast",
+    "status": "unsupported",
+    "absenceKind": null,
+    "detail": "예측 혼잡도 82.94 (20260913 기준, 향후 30일 예측)",
+    "source": "tats",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "weather_warning",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "weather_forecast",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "gongsanseong",
+    "capabilityCode": "emergency_distance",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -276,14 +320,14 @@
   },
   {
     "poiSlug": "gongsanseong",
-    "capabilityCode": "auditorium",
+    "capabilityCode": "aed_distance",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
-    "source": "kto_with",
-    "sourceField": "auditorium",
+    "source": "derived_facility",
+    "sourceField": null,
     "verifiedAt": null,
-    "isKtoScored": true
+    "isKtoScored": false
   },
   {
     "poiSlug": "gongsanseong",
@@ -309,40 +353,7 @@
   },
   {
     "poiSlug": "gongsanseong",
-    "capabilityCode": "crowd_forecast",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "gongsanseong",
-    "capabilityCode": "weather_warning",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "gongsanseong",
-    "capabilityCode": "emergency_distance",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "gongsanseong",
-    "capabilityCode": "aed_distance",
+    "capabilityCode": "visual_alarm",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -403,7 +414,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "ticketoffice",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -414,7 +425,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "helpdog",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -425,7 +436,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "publictransport",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -447,19 +458,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidesystem",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "muryeong-royal-tombs",
-    "capabilityCode": "path_continuity",
-    "status": "partial",
-    "absenceKind": null,
-    "detail": "무령왕릉과 왕릉원 내 일부 보행로는 동행자 동반 필요",
-    "source": "curated",
-    "sourceField": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e (무장애 관광지 정보 원문)",
-    "verifiedAt": "2026-09-02",
-    "isKtoScored": false
   },
   {
     "poiSlug": "muryeong-royal-tombs",
@@ -513,7 +513,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "babysparechair",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -557,7 +557,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "bigprint",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -579,7 +579,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "promotion",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -590,7 +590,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidehuman",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -601,7 +601,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "signguide",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
@@ -612,12 +612,67 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "videoguide",
-    "verifiedAt": null,
+    "verifiedAt": "2025-11-21",
     "isKtoScored": true
   },
   {
     "poiSlug": "muryeong-royal-tombs",
-    "capabilityCode": "visual_alarm",
+    "capabilityCode": "auditorium",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "kto_with",
+    "sourceField": "auditorium",
+    "verifiedAt": "2025-11-21",
+    "isKtoScored": true
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "absenceKind": null,
+    "detail": "무령왕릉과 왕릉원 내 일부 보행로는 동행자 동반 필요",
+    "source": "curated",
+    "sourceField": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=bc81ed18-d438-49df-a54d-175ca3e12e0e (무장애 관광지 정보 원문)",
+    "verifiedAt": "2026-09-02",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "crowd_forecast",
+    "status": "partial",
+    "absenceKind": null,
+    "detail": "예측 혼잡도 55.74 (20260913 기준, 향후 30일 예측)",
+    "source": "tats",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "weather_warning",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "weather_forecast",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "muryeong-royal-tombs",
+    "capabilityCode": "emergency_distance",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -628,14 +683,14 @@
   },
   {
     "poiSlug": "muryeong-royal-tombs",
-    "capabilityCode": "auditorium",
+    "capabilityCode": "aed_distance",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
-    "source": "kto_with",
-    "sourceField": "auditorium",
+    "source": "derived_facility",
+    "sourceField": null,
     "verifiedAt": null,
-    "isKtoScored": true
+    "isKtoScored": false
   },
   {
     "poiSlug": "muryeong-royal-tombs",
@@ -661,40 +716,7 @@
   },
   {
     "poiSlug": "muryeong-royal-tombs",
-    "capabilityCode": "crowd_forecast",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "muryeong-royal-tombs",
-    "capabilityCode": "weather_warning",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "muryeong-royal-tombs",
-    "capabilityCode": "emergency_distance",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "muryeong-royal-tombs",
-    "capabilityCode": "aed_distance",
+    "capabilityCode": "visual_alarm",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -755,7 +777,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "ticketoffice",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -766,7 +788,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "helpdog",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -777,18 +799,18 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "publictransport",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
     "poiSlug": "gongju-national-museum",
     "capabilityCode": "braille_block",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "점자유도로 있음_시각장애인 편의시설",
     "source": "kto_with",
     "sourceField": "braileblock",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -799,19 +821,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidesystem",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "gongju-national-museum",
-    "capabilityCode": "path_continuity",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_route",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
   },
   {
     "poiSlug": "gongju-national-museum",
@@ -865,7 +876,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "babysparechair",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -909,7 +920,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "bigprint",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -920,7 +931,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "brailepromotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -931,18 +942,18 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "promotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
     "poiSlug": "gongju-national-museum",
     "capabilityCode": "guide_human",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "전시해설자 있음",
     "source": "kto_with",
     "sourceField": "guidehuman",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -953,7 +964,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "signguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
@@ -964,19 +975,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "videoguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "gongju-national-museum",
-    "capabilityCode": "visual_alarm",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
   },
   {
     "poiSlug": "gongju-national-museum",
@@ -986,23 +986,12 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "auditorium",
-    "verifiedAt": null,
+    "verifiedAt": "2026-01-05",
     "isKtoScored": true
   },
   {
     "poiSlug": "gongju-national-museum",
-    "capabilityCode": "rest_seating",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "gongju-national-museum",
-    "capabilityCode": "shade_indoor",
+    "capabilityCode": "path_continuity",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -1014,23 +1003,34 @@
   {
     "poiSlug": "gongju-national-museum",
     "capabilityCode": "crowd_forecast",
-    "status": "unknown",
+    "status": "unsupported",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
+    "detail": "예측 혼잡도 89.34 (20260913 기준, 향후 30일 예측)",
+    "source": "tats",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-13",
     "isKtoScored": false
   },
   {
     "poiSlug": "gongju-national-museum",
     "capabilityCode": "weather_warning",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "source": "kma",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "weather_forecast",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
     "isKtoScored": false
   },
   {
@@ -1056,6 +1056,39 @@
     "isKtoScored": false
   },
   {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "rest_seating",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "derived_facility",
+    "sourceField": null,
+    "verifiedAt": null,
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "shade_indoor",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "derived_facility",
+    "sourceField": null,
+    "verifiedAt": null,
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "gongju-national-museum",
+    "capabilityCode": "visual_alarm",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "derived_facility",
+    "sourceField": null,
+    "verifiedAt": null,
+    "isKtoScored": false
+  },
+  {
     "poiSlug": "busosanseong",
     "capabilityCode": "access_route",
     "status": "supported",
@@ -1069,12 +1102,12 @@
   {
     "poiSlug": "busosanseong",
     "capabilityCode": "entrance_passage",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "주출입구는 경사로가 있어 휠체어 접근 가능함",
     "source": "kto_with",
     "sourceField": "exit",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1107,7 +1140,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "ticketoffice",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1118,7 +1151,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "helpdog",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1129,7 +1162,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "publictransport",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1151,19 +1184,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidesystem",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "busosanseong",
-    "capabilityCode": "path_continuity",
-    "status": "partial",
-    "absenceKind": null,
-    "detail": "낙화암, 고란사 가는 길은 경사가 심한 돌길이라 휠체어와 유모차 진입 어려움. 부여군 공식 관람코스 3종이 모두 낙화암·고란사를 지난다.",
-    "source": "curated",
-    "sourceField": "https://www.buyeo.go.kr/html/tour/info/info_010101.html · https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c (두 출처가 같은 문장을 쓴다)",
-    "verifiedAt": "2026-09-02",
-    "isKtoScored": false
   },
   {
     "poiSlug": "busosanseong",
@@ -1217,7 +1239,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "babysparechair",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1250,7 +1272,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "audioguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1261,7 +1283,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "bigprint",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1272,7 +1294,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "brailepromotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1283,7 +1305,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "promotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1294,7 +1316,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidehuman",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1305,7 +1327,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "signguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
@@ -1316,12 +1338,67 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "videoguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-02-09",
     "isKtoScored": true
   },
   {
     "poiSlug": "busosanseong",
-    "capabilityCode": "visual_alarm",
+    "capabilityCode": "auditorium",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "kto_with",
+    "sourceField": "auditorium",
+    "verifiedAt": "2026-02-09",
+    "isKtoScored": true
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "absenceKind": null,
+    "detail": "낙화암, 고란사 가는 길은 경사가 심한 돌길이라 휠체어와 유모차 진입 어려움. 부여군 공식 관람코스 3종이 모두 낙화암·고란사를 지난다.",
+    "source": "curated",
+    "sourceField": "https://www.buyeo.go.kr/html/tour/info/info_010101.html · https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c (두 출처가 같은 문장을 쓴다)",
+    "verifiedAt": "2026-09-02",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "crowd_forecast",
+    "status": "unsupported",
+    "absenceKind": null,
+    "detail": "예측 혼잡도 73.71 (20260913 기준, 향후 30일 예측)",
+    "source": "tats",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "weather_warning",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "weather_forecast",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "busosanseong",
+    "capabilityCode": "emergency_distance",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -1332,14 +1409,14 @@
   },
   {
     "poiSlug": "busosanseong",
-    "capabilityCode": "auditorium",
+    "capabilityCode": "aed_distance",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
-    "source": "kto_with",
-    "sourceField": "auditorium",
+    "source": "derived_facility",
+    "sourceField": null,
     "verifiedAt": null,
-    "isKtoScored": true
+    "isKtoScored": false
   },
   {
     "poiSlug": "busosanseong",
@@ -1365,40 +1442,7 @@
   },
   {
     "poiSlug": "busosanseong",
-    "capabilityCode": "crowd_forecast",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "busosanseong",
-    "capabilityCode": "weather_warning",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "busosanseong",
-    "capabilityCode": "emergency_distance",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "busosanseong",
-    "capabilityCode": "aed_distance",
+    "capabilityCode": "visual_alarm",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -1426,7 +1470,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "exit",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1459,7 +1503,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "ticketoffice",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1470,7 +1514,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "helpdog",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1481,7 +1525,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "publictransport",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1503,19 +1547,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidesystem",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "jeongnimsaji",
-    "capabilityCode": "path_continuity",
-    "status": "partial",
-    "absenceKind": null,
-    "detail": "주차장에서 진입로를 거쳐 5층석탑, 석불좌상, 절터 등이 있는 야외 구역과 정림사지박물관 실내 구역 모두 휠체어 진행이 쉽다. 다만 박석이 깔려있어 다소 지나기 불편하다.",
-    "source": "curated",
-    "sourceField": "access.visitkorea 무장애 여행기사 (관광지 상세 페이지가 아니라 기사 본문이 출처다)",
-    "verifiedAt": "2026-09-02",
-    "isKtoScored": false
   },
   {
     "poiSlug": "jeongnimsaji",
@@ -1569,7 +1602,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "babysparechair",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1602,7 +1635,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "audioguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1613,7 +1646,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "bigprint",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1624,7 +1657,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "brailepromotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1635,7 +1668,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "promotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1646,7 +1679,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidehuman",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1657,7 +1690,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "signguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
@@ -1668,19 +1701,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "videoguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "jeongnimsaji",
-    "capabilityCode": "visual_alarm",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
   },
   {
     "poiSlug": "jeongnimsaji",
@@ -1690,51 +1712,51 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "auditorium",
-    "verifiedAt": null,
+    "verifiedAt": "2026-06-01",
     "isKtoScored": true
   },
   {
     "poiSlug": "jeongnimsaji",
-    "capabilityCode": "rest_seating",
-    "status": "unknown",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "jeongnimsaji",
-    "capabilityCode": "shade_indoor",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
+    "detail": "주차장에서 진입로를 거쳐 5층석탑, 석불좌상, 절터 등이 있는 야외 구역과 정림사지박물관 실내 구역 모두 휠체어 진행이 쉽다. 다만 박석이 깔려있어 다소 지나기 불편하다.",
+    "source": "curated",
+    "sourceField": "access.visitkorea 무장애 여행기사 (관광지 상세 페이지가 아니라 기사 본문이 출처다)",
+    "verifiedAt": "2026-09-02",
     "isKtoScored": false
   },
   {
     "poiSlug": "jeongnimsaji",
     "capabilityCode": "crowd_forecast",
-    "status": "unknown",
+    "status": "unsupported",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
+    "detail": "예측 혼잡도 70.63 (20260913 기준, 향후 30일 예측)",
+    "source": "tats",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-13",
     "isKtoScored": false
   },
   {
     "poiSlug": "jeongnimsaji",
     "capabilityCode": "weather_warning",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "source": "kma",
     "sourceField": null,
-    "verifiedAt": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "weather_forecast",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
     "isKtoScored": false
   },
   {
@@ -1760,6 +1782,39 @@
     "isKtoScored": false
   },
   {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "rest_seating",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "derived_facility",
+    "sourceField": null,
+    "verifiedAt": null,
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "shade_indoor",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "derived_facility",
+    "sourceField": null,
+    "verifiedAt": null,
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "jeongnimsaji",
+    "capabilityCode": "visual_alarm",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "derived_facility",
+    "sourceField": null,
+    "verifiedAt": null,
+    "isKtoScored": false
+  },
+  {
     "poiSlug": "buyeo-national-museum",
     "capabilityCode": "access_route",
     "status": "supported",
@@ -1773,23 +1828,23 @@
   {
     "poiSlug": "buyeo-national-museum",
     "capabilityCode": "entrance_passage",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "주출입구는 경사로가 있어 휠체어 접근 가능함",
     "source": "kto_with",
     "sourceField": "exit",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
     "poiSlug": "buyeo-national-museum",
     "capabilityCode": "wheelchair",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
+    "detail": "입구 쪽과 전시관 안쪽에 있고 총 8대 대여가능",
     "source": "kto_with",
     "sourceField": "wheelchair",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1800,7 +1855,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "elevator",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1811,7 +1866,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "ticketoffice",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1822,7 +1877,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "helpdog",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1833,7 +1888,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "publictransport",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1844,7 +1899,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "braileblock",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1855,19 +1910,8 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidesystem",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
-  },
-  {
-    "poiSlug": "buyeo-national-museum",
-    "capabilityCode": "path_continuity",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_route",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
   },
   {
     "poiSlug": "buyeo-national-museum",
@@ -1921,7 +1965,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "babysparechair",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1987,7 +2031,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "promotion",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -1998,7 +2042,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidehuman",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
@@ -2020,12 +2064,23 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "videoguide",
-    "verifiedAt": null,
+    "verifiedAt": "2026-07-21",
     "isKtoScored": true
   },
   {
     "poiSlug": "buyeo-national-museum",
-    "capabilityCode": "visual_alarm",
+    "capabilityCode": "auditorium",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "kto_with",
+    "sourceField": "auditorium",
+    "verifiedAt": "2026-07-21",
+    "isKtoScored": true
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "path_continuity",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
@@ -2036,14 +2091,58 @@
   },
   {
     "poiSlug": "buyeo-national-museum",
-    "capabilityCode": "auditorium",
+    "capabilityCode": "crowd_forecast",
+    "status": "unsupported",
+    "absenceKind": null,
+    "detail": "예측 혼잡도 71.41 (20260913 기준, 향후 30일 예측)",
+    "source": "tats",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "weather_warning",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-13 확인)",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "weather_forecast",
+    "status": "supported",
+    "absenceKind": null,
+    "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "source": "kma",
+    "sourceField": null,
+    "verifiedAt": "2026-09-13",
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "emergency_distance",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,
-    "source": "kto_with",
-    "sourceField": "auditorium",
+    "source": "derived_facility",
+    "sourceField": null,
     "verifiedAt": null,
-    "isKtoScored": true
+    "isKtoScored": false
+  },
+  {
+    "poiSlug": "buyeo-national-museum",
+    "capabilityCode": "aed_distance",
+    "status": "unknown",
+    "absenceKind": null,
+    "detail": null,
+    "source": "derived_facility",
+    "sourceField": null,
+    "verifiedAt": null,
+    "isKtoScored": false
   },
   {
     "poiSlug": "buyeo-national-museum",
@@ -2069,40 +2168,7 @@
   },
   {
     "poiSlug": "buyeo-national-museum",
-    "capabilityCode": "crowd_forecast",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "buyeo-national-museum",
-    "capabilityCode": "weather_warning",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "buyeo-national-museum",
-    "capabilityCode": "emergency_distance",
-    "status": "unknown",
-    "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
-    "isKtoScored": false
-  },
-  {
-    "poiSlug": "buyeo-national-museum",
-    "capabilityCode": "aed_distance",
+    "capabilityCode": "visual_alarm",
     "status": "unknown",
     "absenceKind": null,
     "detail": null,

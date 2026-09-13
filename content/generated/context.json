@@ -1,5 +1,217 @@
 {
-  "crowd": [],
-  "visitors": [],
-  "fetchedAt": "2026-09-06T15:49:23.919Z"
+  "crowd": [
+    {
+      "poiSlug": "gongsanseong",
+      "baseYmd": "20260913",
+      "rate": 82.94,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "muryeong-royal-tombs",
+      "baseYmd": "20260913",
+      "rate": 55.74,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "gongju-national-museum",
+      "baseYmd": "20260913",
+      "rate": 89.34,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "busosanseong",
+      "baseYmd": "20260913",
+      "rate": 73.71,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "jeongnimsaji",
+      "baseYmd": "20260913",
+      "rate": 70.63,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "buyeo-national-museum",
+      "baseYmd": "20260913",
+      "rate": 71.41,
+      "isPredicted": true
+    }
+  ],
+  "visitors": [
+    {
+      "signguCd5": "44150",
+      "signguNm": "공주시",
+      "touDivCd": "2",
+      "touDivNm": "외지인(b)",
+      "windowStart": "20260807",
+      "windowEnd": "20260814",
+      "days": 8,
+      "dailyAverage": 79241.3125,
+      "caveat": "방문자는 관광객과 동일하게 정의되지 않습니다 (출처: 한국관광 데이터랩)"
+    },
+    {
+      "signguCd5": "44760",
+      "signguNm": "부여군",
+      "touDivCd": "2",
+      "touDivNm": "외지인(b)",
+      "windowStart": "20260807",
+      "windowEnd": "20260814",
+      "days": 8,
+      "dailyAverage": 28788.8125,
+      "caveat": "방문자는 관광객과 동일하게 정의되지 않습니다 (출처: 한국관광 데이터랩)"
+    }
+  ],
+  "weather": [
+    {
+      "signguCd5": "44150",
+      "state": "none",
+      "warning": null,
+      "scope": "district",
+      "unknownReason": null,
+      "checkedAt": "2026-09-13"
+    },
+    {
+      "signguCd5": "44760",
+      "state": "none",
+      "warning": null,
+      "scope": "district",
+      "unknownReason": null,
+      "checkedAt": "2026-09-13"
+    }
+  ],
+  "forecast": [
+    {
+      "signguCd5": "44150",
+      "baseAt": "20260913 2000",
+      "today": {
+        "state": "good",
+        "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+        "unknownReason": null
+      },
+      "outlook": [
+        {
+          "dayOffset": 5,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 17,
+          "tmx": 27
+        },
+        {
+          "dayOffset": 6,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 17,
+          "tmx": 29
+        },
+        {
+          "dayOffset": 7,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 18,
+          "tmx": 30
+        },
+        {
+          "dayOffset": 8,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 18,
+          "tmx": 29
+        },
+        {
+          "dayOffset": 9,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 18,
+          "tmx": 27
+        },
+        {
+          "dayOffset": 10,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 17,
+          "tmx": 25
+        }
+      ],
+      "checkedAt": "2026-09-13"
+    },
+    {
+      "signguCd5": "44760",
+      "baseAt": "20260913 2000",
+      "today": {
+        "state": "good",
+        "detail": "구름많음 · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+        "unknownReason": null
+      },
+      "outlook": [
+        {
+          "dayOffset": 5,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 18,
+          "tmx": 27
+        },
+        {
+          "dayOffset": 6,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 19,
+          "tmx": 29
+        },
+        {
+          "dayOffset": 7,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 19,
+          "tmx": 30
+        },
+        {
+          "dayOffset": 8,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 19,
+          "tmx": 30
+        },
+        {
+          "dayOffset": 9,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 19,
+          "tmx": 28
+        },
+        {
+          "dayOffset": 10,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 17,
+          "tmx": 25
+        }
+      ],
+      "checkedAt": "2026-09-13"
+    }
+  ],
+  "fetchedAt": "2026-09-13T14:07:15.761Z"
 }

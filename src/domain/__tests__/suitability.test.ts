@@ -254,6 +254,28 @@ describe('spec properties the golden files must keep', () => {
     expect(result.label).toBe('정보없음');
   });
 
+  /**
+   * Layer B takes the least-served companion, and the home screen tells the visitor the
+   * verdict follows whoever needs the most support. The no-verdict rule took its ratio
+   * over the union of the companions' critical sets instead, so a companion the place
+   * happens to serve well diluted the denominator: with both of a deaf visitor's
+   * critical items unknown, P2b alone gave 정보없음 and hid the score, and P2b with a
+   * wheelchair-using companion gave 주의 and a 95 — on identical evidence, because 2 of
+   * the combined 7 is not a majority even though it is all of what that visitor needs.
+   */
+  it('a well-served companion cannot dilute another companion\'s unknowns', () => {
+    const blindSpot = facts('supported', {
+      sign_guide: { status: 'unknown' },
+      video_caption: { status: 'unknown' },
+    });
+    const alone = calculateSuitability(withPersonas(['P2b'], blindSpot));
+    const together = calculateSuitability(withPersonas(['P2b', 'P1a'], blindSpot));
+
+    expect(alone.label).toBe('정보없음');
+    expect(together.label).toBe('정보없음');
+    expect(together.unknownCriticals).toEqual(alone.unknownCriticals);
+  });
+
   it('the same input produces the same output a hundred times over', () => {
     const found = goldenCases().find((c) => c.name === 'determinism')!;
     const first = JSON.stringify(calculateSuitability(found.input));

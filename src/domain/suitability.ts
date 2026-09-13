@@ -278,10 +278,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     // path to the "go elsewhere" label. A low score alone never produces it.
     label = '대체추천';
     score = Math.min(score, BLOCKED_SCORE_CEILING);
-  } else if (
-    (requiredFacts.length > 0 && unknownCriticals.length / requiredFacts.length > 0.5) ||
-    (requiredFacts.length === 0 && coverage === 0)
-  ) {
+  } else if (noVerdictForAnyPersona(personaIds, byCode) || (requiredFacts.length === 0 && coverage === 0)) {
     // Rule 2. More than half of what matters is unknown, so there is no verdict
     // to give. The second arm covers every case with no critical set to judge on —
     // P0, which has none by definition, and any persona whose whole critical set
@@ -319,4 +316,26 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     })),
     policyVersion: POLICY_VERSION,
   };
+}
+
+/**
+ * Rule 2, asked once per companion rather than once over the union of their critical
+ * sets. Layer B already takes the least-served companion, and the interface promises
+ * the verdict follows whoever needs the most support; taking the ratio over the union
+ * broke that promise in the one direction that matters. Measured: with both of a deaf
+ * visitor's critical items unknown, P2b alone gives 정보없음 and hides the score, and
+ * P2b with a wheelchair-using companion gives 주의 and a 95 — on identical evidence,
+ * because 2 of the combined 7 is not a majority even though it is all of what that
+ * visitor depends on.
+ */
+function noVerdictForAnyPersona(
+  personaIds: ReadonlyArray<PersonaId>,
+  byCode: ReadonlyMap<string, NormalisedFact>,
+): boolean {
+  return personaIds.some((id) => {
+    const required = criticalCodesFor(id).filter((code) => byCode.has(code));
+    if (required.length === 0) return false;
+    const unknown = required.filter((code) => byCode.get(code)!.status === 'unknown').length;
+    return unknown / required.length > 0.5;
+  });
 }

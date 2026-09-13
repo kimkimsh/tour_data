@@ -1,5 +1,7 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
 import { LocaleSwitch } from '@/components/LocaleSwitch';
 import type { Locale } from '@/domain/types';
 
@@ -13,6 +15,9 @@ const NAV = [
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = useTranslations('common');
+  // usePathname from the i18n navigation returns the path without the locale prefix,
+  // which is the same shape NAV holds.
+  const pathname = usePathname();
 
   return (
     <header className="no-print border-b border-[var(--color-rule)]">
@@ -35,13 +40,28 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           className="order-3 w-full sm:order-2 sm:w-auto"
         >
           <ul className="flex flex-wrap gap-x-4 gap-y-1">
-            {NAV.map((item) => (
-              <li key={item.key}>
-                <Link href={item.href} className="inline-flex min-h-[44px] items-center !no-underline hover:!underline">
-                  {t(`nav.${item.key}`)}
-                </Link>
-              </li>
-            ))}
+            {NAV.map((item) => {
+              const current =
+                item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
+              return (
+                <li key={item.key}>
+                  {/* aria-current is the part that matters: five identical links gave a
+                      screen-reader user nothing to locate themselves by. The underline
+                      is the sighted half of the same answer. */}
+                  <Link
+                    href={item.href}
+                    aria-current={current ? 'page' : undefined}
+                    className={
+                      current
+                        ? 'inline-flex min-h-[44px] items-center font-bold !text-[var(--color-ink)] underline decoration-2 underline-offset-[0.35em]'
+                        : 'inline-flex min-h-[44px] items-center !no-underline hover:!underline'
+                    }
+                  >
+                    {t(`nav.${item.key}`)}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 

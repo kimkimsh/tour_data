@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getPois, getRoutes } from '@/lib/data';
@@ -6,7 +7,6 @@ import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { RouteSteps } from '@/components/route/RouteSteps';
 import { RouteExports } from '@/components/route/RouteExports';
-import { Link } from '@/i18n/navigation';
 import { getPersona } from '@/domain/personas';
 import type { ContentLocale, Locale } from '@/domain/types';
 
@@ -28,7 +28,11 @@ export async function generateMetadata({
   // a shared bookmark.
   const pois = await getPois();
   const poi = pois.ok ? pois.data.find((p) => p.slug === slug) : undefined;
-  const title = poi?.i18n[locale as ContentLocale]?.title ?? poi?.i18n.ko?.title ?? slug;
+  if (!poi) {
+    const tc = await getTranslations({ locale, namespace: 'common' });
+    return { title: tc('error.notFoundTitle') };
+  }
+  const title = poi.i18n[locale as ContentLocale]?.title ?? poi.i18n.ko?.title ?? slug;
   return { title: `${title} · ${t('metaTitle')}` };
 }
 
@@ -45,9 +49,13 @@ export default async function RouteGuidePage({
 
   const [pois, routes] = await Promise.all([getPois(), getRoutes()]);
   if (!pois.ok) return <SnapshotProblem result={pois} />;
+  // A failed read is not an absence. Without this the screen below said "경로 안내를
+  // 만들지 않았습니다" — we chose not to write one — for a route that exists and could
+  // not be fetched, which is the one kind of sentence this service refuses to print.
+  if (!routes.ok && routes.kind === 'error') return <SnapshotProblem result={routes} />;
 
   const poi = pois.data.find((p) => p.slug === slug);
-  if (!poi) return <MissingPlace message={tPlace('notFound')} backLabel={tc('nav.places')} />;
+  if (!poi) notFound();
 
   const title = poi.i18n[locale as ContentLocale]?.title ?? poi.i18n.ko?.title ?? poi.slug;
   const route = routes.ok ? routes.data.find((r) => r.poiSlug === slug) : undefined;
@@ -96,7 +104,11 @@ export default async function RouteGuidePage({
         <span aria-hidden="true">⚠ </span>
         {tc('honesty.routeEvidence')}
         <span className="mt-1 block font-normal text-[0.92rem]">
-          {route.evidenceNote} · {route.evidenceLevel} · {route.checkedAt}
+          {/* evidenceLevel is one of desk/photo/field. It reached the screen raw, so a
+              Korean reader was told the evidence for a route they were about to walk
+              was "desk". */}
+          {route.evidenceNote} · {tPlace(`evidenceLevel.${route.evidenceLevel}`)} ·{' '}
+          {route.checkedAt}
         </span>
       </p>
 
@@ -106,26 +118,3 @@ export default async function RouteGuidePage({
   );
 }
 
-/**
- * A slug that names no place in this service.
- *
- * Rendered here rather than through notFound(). Every route in this app sits under a
- * route group with its own root layout, so there is no app/layout.tsx for Next to
- * wrap a not-found render in, and the framework answers with a document that has no
- * lang attribute, no heading and no text. On this service that is the worst page in
- * the build. The cost is the status code: this answers 200 where 404 would be
- * correct. An address outside the route tree entirely still gets a real 404, from
- * src/app/not-found.tsx.
- */
-function MissingPlace({ message, backLabel }: { message: string; backLabel: string }) {
-  return (
-    <div className="grid gap-4">
-      <h1>{message}</h1>
-      <p>
-        <Link href="/places" className="btn btn--filled">
-          {backLabel}
-        </Link>
-      </p>
-    </div>
-  );
-}

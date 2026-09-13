@@ -151,7 +151,7 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
 
       <div className="scroll-x">
         <table className="data-table">
-          <caption>{t('title')}</caption>
+          <caption>{t('assetCaption')}</caption>
           <thead>
             <tr>
               <th scope="col">{t('assetHeader.asset')}</th>
@@ -201,10 +201,13 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
       </section>
 
       <section aria-labelledby="honesty-heading" className="card grid gap-2">
+        {/* The heading used to be the accessibility self-assessment line, which is one
+            of the items below rather than a name for all of them. */}
         <h2 id="honesty-heading" className="subhead">
-          {tc('honesty.a11ySelfCheck')}
+          {t('honestyTitle')}
         </h2>
         <ul className="grid list-disc gap-1 pl-5 text-[0.95rem]">
+          <li>{tc('honesty.a11ySelfCheck')}</li>
           <li>{tc('honesty.routeEvidence')}</li>
           <li>{tc('honesty.crowd')}</li>
           <li>{tc('honesty.visitors')}</li>

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import { LOCALES } from '@/domain/types';
 
 /**
  * Called by scripts/ingest.ts when a run finishes, so a new snapshot reaches the
@@ -19,11 +18,18 @@ export async function POST(request: Request) {
     return new NextResponse('forbidden', { status: 403 });
   }
 
-  // Snapshots feed every page, so the invalidation is per locale layout rather
-  // than per route.
-  for (const locale of LOCALES) revalidatePath(`/${locale}`, 'layout');
+  // The root layout, which every page carries as a tag — `_N_T_/layout` appears in
+  // the tag set of every entry under .next/server/app. Snapshots feed all of them, and
+  // both route groups hold pages that read one.
+  //
+  // Per locale was the earlier form and it dropped nothing. revalidatePath builds its
+  // tag from the *route file path*, so a page under (site)/[locale] is tagged
+  // `_N_T_/(site)/[locale]/layout`; `/ko` never appears as a layout tag, only as the
+  // exact-pathname tag `_N_T_/ko`. Measured: a mutated fixture, a 200 {"ok":true} from
+  // this route, and the previous render still being served afterwards.
+  revalidatePath('/', 'layout');
 
-  return NextResponse.json({ ok: true, locales: LOCALES });
+  return NextResponse.json({ ok: true });
 }
 
 /** Length-independent comparison, so a wrong secret cannot be found byte by byte. */

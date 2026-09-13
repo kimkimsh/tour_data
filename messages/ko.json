@@ -120,7 +120,7 @@
     "cognitiveOption": "낯선 곳이 힘든 아이와 함께",
     "cognitiveHint": "유아차와 함께 가는 경우에만 고를 수 있습니다.",
     "minRuleTitle": "도움이 가장 많이 필요한 분을 기준으로 판정합니다",
-    "minRule": "{persona} 기준으로 계산합니다. 한 사람에게만 결정적인 항목이 다른 사람의 점수에 가려지지 않게 하기 위한 규칙입니다.",
+    "minRule": "여러 조건을 고르면 그중 가장 조건이 맞지 않는 사람을 기준으로 계산합니다. 한 사람에게만 결정적인 항목이 다른 사람의 점수에 가려지지 않게 하기 위한 규칙입니다.",
     "budgetLegend": "얼마나 머무르시나요?",
     "budget": {
       "half_day": "반나절 (3~4시간)",
@@ -145,7 +145,9 @@
     "adjacentSite": "구성유산 인접 시설",
     "mapUnavailable": "이 서비스에는 아직 지도가 없습니다. 위 목록만으로 모든 기능을 쓸 수 있습니다.",
     "calculating": "조건에 맞춰 계산하고 있습니다",
-    "resultsReady": "{count}곳의 판정을 계산했습니다."
+    "resultsReady": "{count}곳의 판정을 계산했습니다.",
+    "current": "현재 화면",
+    "blocked": "이용 불가"
   },
   "place": {
     "eyebrowVerdict": "판정 요약",
@@ -173,15 +175,15 @@
       "weighted": "기여값",
       "known": "확인"
     },
-    "layerA": "A 시설 목록",
+    "layerA": "A 항목 점수",
     "layerB": "B 조건 적합",
     "scoreFormula": "점수 = 100 × {a} × {b} = {score}",
     "roundingNote": "표시값은 소수 3자리 반올림입니다. 점수는 반올림 전 값으로 계산하므로 행별 기여값의 합과 A 합계의 마지막 자리가 다를 수 있습니다.",
-    "confidenceFactors": "커버리지 {coverage} × 신선도 {freshness}",
+    "confidenceFactors": "확인된 비율 {coverage} × 최신성 {freshness}",
     "freshnessNote": "확인한 지 오래됐다는 것은 「확실하지 않다」는 뜻이지 「맞지 않는다」는 뜻이 아니므로, 점수를 깎지 않습니다.",
     "whyCaution": "「주의 필요」가 된 이유",
     "whyCautionUnknown": "다음 필수 항목을 모릅니다 — {items}",
-    "whyCautionCoverage": "내게 중요한 {total}개 중 {known}개만 압니다",
+    "whyCautionCoverage": "판단에 필요한 {total}개 항목 가운데 {known}개만 확인됐습니다",
     "biggestGaps": "정보가 비어 있는 축",
     "axisAllUnknown": "{axis} {count}개 항목 전부 정보 없음",
     "fieldTabs": "분야",
@@ -206,7 +208,16 @@
     "reportsLoading": "제보를 불러오는 중입니다.",
     "reportsReady": "제보 {count}건을 불러왔습니다.",
     "reportsFailed": "제보를 불러오지 못했습니다. 제보가 없다는 뜻이 아니라, 지금은 확인할 수 없다는 뜻입니다.",
-    "reportFlagFailed": "신고하지 못했습니다. 잠시 후 다시 시도해 주세요."
+    "reportFlagFailed": "신고하지 못했습니다. 잠시 후 다시 시도해 주세요.",
+    "unknownCountValue": "{unknown}건 / {total}건 (한국관광공사 항목 기준)",
+    "evidenceLevel": {
+      "desk": "공개 자료 검토",
+      "photo": "사진 확인",
+      "field": "현장 실측"
+    },
+    "photoAlt": "{place} 사진 {index}",
+    "sourceLink": "원문 보기",
+    "blockedItems": "이용 불가"
   },
   "courses": {
     "metaTitle": "코스",
@@ -224,7 +235,8 @@
     "added": "여행 기록에 담았습니다.",
     "empty": "이 시간에 맞는 코스가 아직 없습니다.",
     "calculating": "선택한 조건으로 코스를 계산하는 중입니다.",
-    "ready": "코스를 계산했습니다."
+    "ready": "코스를 계산했습니다.",
+    "pageTitle": "코스"
   },
   "routeGuide": {
     "metaTitle": "경로 안내",
@@ -403,7 +415,7 @@
     "title": "공주·부여 무장애 정보 갭 리포트",
     "eyebrow": "갭 리포트",
     "asOf": "{date} 기준 · 대상 관광지 {places}곳 · 한국관광공사 무장애여행 항목 기준",
-    "fillCaption": "관광지별 채움률. 세 열의 합이 그 관광지의 항목 수입니다.",
+    "fillCaption": "세 열의 합이 그 관광지의 항목 수입니다.",
     "fillHeader": {
       "place": "관광지",
       "kto": "한국관광공사 확인",
@@ -414,9 +426,8 @@
     "fillNote": "「한국관광공사 확인」과 「우리가 확인」을 나눠 세는 이유는, 합치면 우리가 한 칸 채울 때마다 지자체 개선 성과가 올라가기 때문입니다. 인계 성과로 읽을 수 있는 것은 「한국관광공사 확인」 열의 변화뿐입니다.",
     "notRegisteredTitle": "무장애여행 데이터셋 미등록",
     "notRegistered": "{place} — 관광지 자체가 등록돼 있지 않습니다. 항목을 채우기 전에 등록부터 해야 합니다.",
-    "priorityCaption": "개선 우선순위. 정보 없음과 이용 불가 항목만 올라갑니다.",
+    "priorityCaption": "정보 없음과 이용 불가 항목만 올라갑니다.",
     "priorityHeader": {
-      "rank": "순위",
       "place": "관광지",
       "capability": "항목",
       "cause": "원인",
@@ -438,7 +449,10 @@
     "visitorsUnavailable": "방문자 추이는 아직 모으지 못했습니다.",
     "downloadCsv": "CSV 내려받기",
     "csvHint": "CSV (표 계산 프로그램용, 약 {size}KB)",
-    "empty": "개선 우선순위에 올릴 항목이 없습니다."
+    "empty": "개선 우선순위에 올릴 항목이 없습니다.",
+    "fillSectionTitle": "관광지별 채움률",
+    "prioritySectionTitle": "개선 우선순위",
+    "priorityShown": "우선순위가 같은 항목이 많아 상위 {shown}건만 보여줍니다. 전체 {total}건은 아래 CSV에 모두 들어 있습니다."
   },
   "credits": {
     "metaTitle": "출처와 이용 조건",
@@ -450,7 +464,9 @@
       "license": "이용 조건",
       "handling": "우리 처리"
     },
-    "fontNote": "본문 서체는 Pretendard (SIL Open Font License 1.1)이며 이 사이트에서 직접 제공합니다. 외부 서체 서비스를 호출하지 않습니다."
+    "fontNote": "본문 서체는 Pretendard (SIL Open Font License 1.1)이며 이 사이트에서 직접 제공합니다. 외부 서체 서비스를 호출하지 않습니다.",
+    "assetCaption": "자료별 이용 조건과 우리 처리",
+    "honestyTitle": "이 서비스가 스스로 밝히는 것"
   },
   "privacy": {
     "metaTitle": "개인정보 처리방침",

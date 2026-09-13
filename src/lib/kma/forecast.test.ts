@@ -33,6 +33,7 @@ function row(category: string, fcstDate: string, fcstValue: string | number) {
 const NO_DAY: DayForecast = {
   fcstDate: '20260913',
   tmx: null,
+  tmpMax: null,
   tmn: null,
   pop: null,
   pty: null,
@@ -142,10 +143,12 @@ describe('foldVilageRows', () => {
 
   it('ignores categories it does not read, PCP among them', () => {
     // PCP switches to a qualitative code on the extension day, so it is never read.
+    // TMP is read, and lands in tmpMax rather than in tmx: it is an hourly value.
     const days = foldVilageRows([row('PCP', '20260913', '2'), row('TMP', '20260913', 19)]);
     expect(days[0]).toEqual({
       fcstDate: '20260913',
       tmx: null,
+      tmpMax: 19,
       tmn: null,
       pop: null,
       pty: null,
@@ -215,6 +218,30 @@ describe('readDayCondition', () => {
   it('is unknown, not good, when there is no forecast for the day', () => {
     expect(readDayCondition(undefined).state).toBe('unknown');
     expect(readDayCondition(NO_DAY).state).toBe('unknown');
+  });
+
+  /**
+   * TMX is issued once a day at 15:00, so an ingest run after that hour gets an issue
+   * with no daily maximum for today. The heat rule read tmx alone, so those runs
+   * published a 36℃ day as 야외 이동에 무리가 없는 예보 — with the hourly rows that say
+   * 36 already fetched and folded away.
+   */
+  it('reads heat from the hourly rows when the daily maximum has passed', () => {
+    const verdict = readDayCondition({ ...NO_DAY, tmpMax: 36, pop: 0, sky: '1' });
+    expect(verdict.state).toBe('poor');
+    expect(verdict.detail).toContain('36℃');
+    expect(verdict.detail).toContain('남은 시간대');
+  });
+
+  /**
+   * 'good' is an all-clear over two questions, precipitation and temperature. One
+   * readable field used to answer both.
+   */
+  it('does not call a day fine on one readable field', () => {
+    expect(readDayCondition({ ...NO_DAY, sky: '1' }).state).toBe('unknown');
+    expect(readDayCondition({ ...NO_DAY, sky: '1', pop: 10 }).state).toBe('unknown');
+    expect(readDayCondition({ ...NO_DAY, sky: '1', tmx: 20 }).state).toBe('unknown');
+    expect(readDayCondition({ ...NO_DAY, sky: '1', pop: 10, tmx: 20 }).state).toBe('good');
   });
 
   it('calls rain poor and says what it does to the ground', () => {

@@ -56,19 +56,15 @@ export function CapabilityEvidence({
         const items = CAPABILITIES.filter((capability) => capability.axis === axis);
         return (
           <section key={axis} id={`axis-${axis}`} aria-labelledby={`axis-${axis}-heading`}>
-            {/* h3, under the section's own h2. The six axes are parts of "the items
+            {/* h3, under the section's own h2: the six axes are parts of "the items
                 behind the verdict", and at the same level a reader moving by heading
-                cannot tell that they belong to it. */}
+                cannot tell they belong to it.
+
+                The axis name alone. The English key beside it — 진입 ENTRY — was a second
+                name for the heading in a language the Korean screen is not in, and on
+                the English screen it was the same word twice. */}
             <h3 id={`axis-${axis}-heading`} className="subhead">
               {axisLabel(axis, locale)}
-              {/* aria-hidden for the same reason as the persona codes: an adjacent
-                  span with no whitespace is read as one word — "진입entry". */}
-              <span
-                aria-hidden="true"
-                className="ml-2 font-mono text-[0.72rem] font-normal uppercase tracking-[0.12em] text-[var(--color-ink-2)]"
-              >
-                {axis}
-              </span>
             </h3>
             <div>
               {items.map((capability) => {
@@ -91,7 +87,14 @@ export function CapabilityEvidence({
                     provenance={
                       fact
                         ? provenanceLine(fact, locale)
-                        : `${capability.ktoField ?? capability.code} · ${tc('status.unknown')}`
+                        : {
+                            parts: [
+                              { text: capability.ktoField ?? capability.code, mono: true },
+                              { text: tc('status.unknown'), mono: false },
+                            ],
+                            href: null,
+                            hrefLabel: null,
+                          }
                     }
                   />
                 );

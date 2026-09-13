@@ -120,7 +120,7 @@
     "cognitiveOption": "Travelling with a child who finds new places hard",
     "cognitiveHint": "Available when you are travelling with a stroller.",
     "minRuleTitle": "The verdict follows whoever needs the most support",
-    "minRule": "Calculated for {persona}. The rule keeps an item that is decisive for one person from being averaged away by another person's score.",
+    "minRule": "With more than one condition chosen, the calculation follows whichever of them the place serves least. The rule keeps an item that is decisive for one person from being averaged away by another person’s score.",
     "budgetLegend": "How long are you staying?",
     "budget": {
       "half_day": "Half a day (3–4 hours)",
@@ -145,7 +145,9 @@
     "adjacentSite": "Adjacent to a component site",
     "mapUnavailable": "A map is not part of this release. Everything works from the list above.",
     "calculating": "Calculating for your conditions",
-    "resultsReady": "Calculated verdicts for {count} places."
+    "resultsReady": "Calculated verdicts for {count} places.",
+    "current": "Current page",
+    "blocked": "Not available"
   },
   "place": {
     "eyebrowVerdict": "Verdict",
@@ -173,15 +175,15 @@
       "weighted": "Contribution",
       "known": "Known"
     },
-    "layerA": "A Facilities",
+    "layerA": "A Item score",
     "layerB": "B Fit to your conditions",
     "scoreFormula": "Score = 100 × {a} × {b} = {score}",
     "roundingNote": "Displayed values are rounded to three decimals. The score is computed before rounding, so the sum of the rows and the A total can differ in the last digit.",
-    "confidenceFactors": "Coverage {coverage} × freshness {freshness}",
+    "confidenceFactors": "Known {coverage} × recency {freshness}",
     "freshnessNote": "An old check date means uncertainty, not unsuitability, so it does not reduce the score.",
     "whyCaution": "Why the verdict is “check first”",
     "whyCautionUnknown": "Required items we do not know: {items}",
-    "whyCautionCoverage": "Only {known} of the {total} items that matter to you are known",
+    "whyCautionCoverage": "Only {known} of the {total} items the verdict needs are known",
     "biggestGaps": "Axes with no information",
     "axisAllUnknown": "All {count} items on the {axis} axis are unknown",
     "fieldTabs": "Axis",
@@ -206,7 +208,16 @@
     "reportsLoading": "Loading reports.",
     "reportsReady": "Loaded {count} reports.",
     "reportsFailed": "Reports could not be loaded. That does not mean there are none — it means we cannot check right now.",
-    "reportFlagFailed": "Could not flag this report. Try again in a moment."
+    "reportFlagFailed": "Could not flag this report. Try again in a moment.",
+    "unknownCountValue": "{unknown} of {total} (KTO items only)",
+    "evidenceLevel": {
+      "desk": "Desk research",
+      "photo": "Confirmed from photographs",
+      "field": "Measured on site"
+    },
+    "photoAlt": "{place}, photograph {index}",
+    "sourceLink": "Open the source",
+    "blockedItems": "Not available"
   },
   "courses": {
     "metaTitle": "Courses",
@@ -224,7 +235,8 @@
     "added": "Added to your trip record.",
     "empty": "No course for this time budget yet.",
     "calculating": "Building the course for your conditions.",
-    "ready": "Course ready."
+    "ready": "Course ready.",
+    "pageTitle": "Courses"
   },
   "routeGuide": {
     "metaTitle": "Route guide",
@@ -403,7 +415,7 @@
     "title": "Barrier-free information gap report, Gongju and Buyeo",
     "eyebrow": "Gap report",
     "asOf": "As of {date} · {places} places · KTO barrier-free travel items",
-    "fillCaption": "Filled items per place. The three columns add up to that place's item count.",
+    "fillCaption": "The three columns add up to that place’s item count.",
     "fillHeader": {
       "place": "Place",
       "kto": "Confirmed by KTO",
@@ -414,9 +426,8 @@
     "fillNote": "The first two columns are separate because merging them would raise the “municipal improvement” figure every time we fill a cell ourselves. Only the change in “Confirmed by KTO” can be read as handover progress.",
     "notRegisteredTitle": "Not in the barrier-free dataset",
     "notRegistered": "{place} — the place itself is not registered. It has to be registered before any item can be filled in.",
-    "priorityCaption": "Improvement priority. Only unknown and unavailable items appear.",
+    "priorityCaption": "Only unknown and unavailable items appear.",
     "priorityHeader": {
-      "rank": "Rank",
       "place": "Place",
       "capability": "Item",
       "cause": "Cause",
@@ -438,7 +449,10 @@
     "visitorsUnavailable": "The visitor trend has not been collected yet.",
     "downloadCsv": "Download CSV",
     "csvHint": "CSV (for a spreadsheet, about {size} KB)",
-    "empty": "Nothing to list as an improvement priority."
+    "empty": "Nothing to list as an improvement priority.",
+    "fillSectionTitle": "Filled items per place",
+    "prioritySectionTitle": "Improvement priority",
+    "priorityShown": "So many items share the top priority that only the first {shown} are listed. All {total} are in the CSV below."
   },
   "credits": {
     "metaTitle": "Sources and terms",
@@ -450,7 +464,9 @@
       "license": "Terms",
       "handling": "How we handle it"
     },
-    "fontNote": "The typeface is Pretendard (SIL Open Font License 1.1), served from this site. No external font service is contacted."
+    "fontNote": "The typeface is Pretendard (SIL Open Font License 1.1), served from this site. No external font service is contacted.",
+    "assetCaption": "Terms per asset, and how we handle it",
+    "honestyTitle": "What this service says about itself"
   },
   "privacy": {
     "metaTitle": "Privacy policy",

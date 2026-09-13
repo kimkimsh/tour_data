@@ -2,7 +2,6 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { LOCALES } from '@/domain/types';
 import { createServerClient } from '@/lib/supabase/server';
 
 /**
@@ -51,8 +50,9 @@ export async function setReportHidden(raw: unknown): Promise<{ ok: boolean; mess
   if ((data ?? []).length === 0) return { ok: false, message: 'not_permitted' };
 
   // The place page renders its reports from the browser, but the cached layout
-  // still holds counts, so both locales are dropped.
-  for (const locale of LOCALES) revalidatePath(`/${locale}`, 'layout');
+  // still holds counts, so the whole tree is dropped. Not `/${locale}`: that names no
+  // layout tag any page carries — see the note in src/app/api/revalidate/route.ts.
+  revalidatePath('/', 'layout');
   revalidatePath('/admin/reports');
   return { ok: true };
 }

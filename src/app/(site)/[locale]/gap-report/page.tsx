@@ -11,6 +11,12 @@ import { capabilityLabel } from '@/components/place/place-view';
 
 export const revalidate = 3600;
 
+/**
+ * How many priority rows the table prints. The CSV carries every row; this is a
+ * reading limit, not a filter, and the sentence under the table says which it is.
+ */
+const PRIORITY_ROWS_SHOWN = 40;
+
 export async function generateMetadata({
   params,
 }: {
@@ -45,6 +51,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
     pois.data.map((poi) => poi.slug),
   );
   const asOf = latestVerifiedAt(facts.data) ?? '—';
+  const shownPriorities = report.priorities.slice(0, PRIORITY_ROWS_SHOWN);
   const csvKb = Math.max(
     1,
     Math.round(
@@ -63,7 +70,9 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
       </header>
 
       <section aria-labelledby="fill-heading" className="grid gap-3">
-        <h2 id="fill-heading">{t('fillHeader.total')}</h2>
+        {/* Its own heading. Both section headings used to be column-header strings, so
+            the table of filled items was titled "항목 수" — the name of its last column. */}
+        <h2 id="fill-heading">{t('fillSectionTitle')}</h2>
         <div className="scroll-x">
           <table className="data-table">
             <caption>{t('fillCaption')}</caption>
@@ -119,7 +128,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
       ) : null}
 
       <section aria-labelledby="priority-heading" className="grid gap-3">
-        <h2 id="priority-heading">{t('priorityHeader.priority')}</h2>
+        <h2 id="priority-heading">{t('prioritySectionTitle')}</h2>
         {report.priorities.length === 0 ? (
           <p className="blank-slot">{t('empty')}</p>
         ) : (
@@ -128,7 +137,11 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
               <caption>{t('priorityCaption')}</caption>
               <thead>
                 <tr>
-                  <th scope="col">{t('priorityHeader.rank')}</th>
+                  {/* No rank column. Sequential numbers down a column of identical
+                      priorities asserted an order the priority itself denies, and
+                      repeating the tied rank instead gave forty rows all headed "1",
+                      which labels nothing. The table is sorted, the priority is shown,
+                      and the place is what an officer refers to. */}
                   <th scope="col">{t('priorityHeader.place')}</th>
                   <th scope="col">{t('priorityHeader.capability')}</th>
                   {/* "Status", not a status value. This read `tc('status.unknown')`
@@ -140,27 +153,10 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
                 </tr>
               </thead>
               <tbody>
-                {report.priorities.slice(0, 40).map((row, index) => (
+                {shownPriorities.map((row) => (
                   <tr key={`${row.poiSlug}-${row.capabilityCode}`}>
-                    {/* The rank is the row header because it is the first cell, and a
-                        scope="row" header that is not first does not label the cells
-                        before it. The officer refers to rows by rank anyway. */}
-                    <th scope="row" className="tabular">
-                      {index + 1}
-                    </th>
-                    <td>{titles[row.poiSlug] ?? row.poiSlug}</td>
-                    <td>
-                      {capabilityLabel(row.capabilityCode, localeKey)}
-                      {/* aria-hidden: the machine code is here so an officer can
-                          match a row against the dataset, and in the accessibility
-                          tree it fuses with the label — "휠체어wheelchair". */}
-                      <span
-                        aria-hidden="true"
-                        className="ml-2 font-mono text-[0.72rem] text-[var(--color-ink-2)]"
-                      >
-                        {row.capabilityCode}
-                      </span>
-                    </td>
+                    <th scope="row">{titles[row.poiSlug] ?? row.poiSlug}</th>
+                    <td>{capabilityLabel(row.capabilityCode, localeKey)}</td>
                     <td>{statusLabel(row.status, locale)}</td>
                     <td>
                       <CauseMark absenceKind={row.absenceKind} />
@@ -173,6 +169,16 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
             </table>
           </div>
         )}
+        {/* Said out loud. The table showed the first 40 of 80 with nothing on screen to
+            say so, while the CSV button beside it carried all of them. */}
+        {report.priorities.length > shownPriorities.length ? (
+          <p className="text-[0.9rem] text-[var(--color-ink-2)]">
+            {t('priorityShown', {
+              shown: shownPriorities.length,
+              total: report.priorities.length,
+            })}
+          </p>
+        ) : null}
 
         <div className="card">
           <h3 className="subhead">{t('causeLegendTitle')}</h3>

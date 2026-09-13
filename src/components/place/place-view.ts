@@ -65,15 +65,57 @@ export function sourceLabel(source: string, locale: Locale): string {
 }
 
 /**
- * The provenance line: who said it, under which upstream field name, and when it
- * was checked. The field name is shown on purpose — it is what lets a reader go
- * and look the value up themselves.
+ * One piece of a provenance line. `mono` marks the machine tokens — an upstream field
+ * name, a file path, a date — which are the only parts the monospaced face is for.
+ * Korean prose set in it falls back to a system Hangul font at a Latin advance width
+ * and comes out spaced like broken text.
  */
+export interface ProvenancePart {
+  text: string;
+  mono: boolean;
+}
+
+export interface Provenance {
+  /** Who said it, and the check date. Always present. */
+  parts: ProvenancePart[];
+  /** Set when sourceField carries a URL, so the row can link rather than print it. */
+  href: string | null;
+  /** What to show in place of the URL: the note beside it, or its host. */
+  hrefLabel: string | null;
+}
+
+/** The two sources whose on-screen name is a file path rather than an institution. */
+const PATH_SOURCES: ReadonlySet<string> = new Set(['derived_facility']);
+
+/**
+ * A curated fact's sourceField is `https://… (note)`, and printed as text that ran to
+ * five wrapped lines of monospace under every claim on the page — the same ninety
+ * characters twenty-two times, none of them clickable. Split, the note names the
+ * source and the URL becomes the link it always was.
+ *
+ * A KTO fact's sourceField is a field name like `wheelchair`, which has no URL and is
+ * shown as it is: it is what lets a reader look the value up in the dataset.
+ */
+const LEADING_URL = /^(https?:\/\/\S+)(?:\s*\((.+)\))?$/;
+
 export function provenanceLine(
   fact: Pick<Fact, 'source' | 'sourceField' | 'verifiedAt'>,
   locale: Locale,
-): string {
-  return [sourceLabel(fact.source, locale), fact.sourceField, fact.verifiedAt]
-    .filter((part): part is string => Boolean(part))
-    .join(' · ');
+): Provenance {
+  const url = fact.sourceField === null ? null : LEADING_URL.exec(fact.sourceField.trim());
+  const parts: ProvenancePart[] = [
+    { text: sourceLabel(fact.source, locale), mono: PATH_SOURCES.has(fact.source) },
+    { text: url ? '' : (fact.sourceField ?? ''), mono: true },
+    { text: fact.verifiedAt ?? '', mono: true },
+  ].filter((part) => part.text !== '');
+  if (!url) return { parts, href: null, hrefLabel: null };
+  return { parts, href: url[1]!, hrefLabel: url[2] ?? hostOf(url[1]!) };
+}
+
+function hostOf(url: string): string {
+  try {
+    return new URL(url).host;
+  } catch {
+    return url;
+  }
 }

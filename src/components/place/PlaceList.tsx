@@ -100,7 +100,9 @@ export function PlaceList({
                         {title}
                       </Link>
                     </h2>
-                    <p className="mt-1 font-mono text-[0.75rem] uppercase tracking-[0.1em] text-[var(--color-ink-2)]">
+                    {/* Body face: this is a city and a heritage designation, not a
+                        machine token. */}
+                    <p className="mt-1 text-[0.85rem] text-[var(--color-ink-2)]">
                       {place.cityLabel}
                       {place.isUnescoComponent ? ` · ${t('componentSite')}` : ` · ${t('adjacentSite')}`}
                     </p>
@@ -136,7 +138,7 @@ export function PlaceList({
                 {result.knownCriticalBlockers.length > 0 ? (
                   <p className="font-bold text-[var(--color-state-bad)]">
                     <span aria-hidden="true">✕ </span>
-                    {capabilityLabels(result.knownCriticalBlockers, locale)}
+                    {t('blocked')}: {capabilityLabels(result.knownCriticalBlockers, locale)}
                   </p>
                 ) : null}
 

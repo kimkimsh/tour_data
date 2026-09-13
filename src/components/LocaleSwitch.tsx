@@ -27,7 +27,7 @@ export function LocaleSwitch({ locale }: { locale: Locale }) {
     <Link
       href={pathname}
       locale={other}
-      className="order-2 inline-flex min-h-[44px] items-center gap-1 font-mono text-[0.8rem] uppercase tracking-[0.1em]"
+      className="order-2 inline-flex min-h-[44px] items-center gap-1 text-[0.9rem]"
       lang={other}
     >
       <span className="sr-only">{t('langLabel')}: </span>

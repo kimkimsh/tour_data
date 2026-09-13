@@ -1,4 +1,5 @@
 import type { CapabilityStatus } from '@/domain/types';
+import type { Provenance } from '@/components/place/place-view';
 
 /**
  * The one element this service is built around: a claim next to the machinery
@@ -7,7 +8,9 @@ import type { CapabilityStatus } from '@/domain/types';
  * is machine text and looking like machine text is the point.
  *
  * `provenance` is required. A row without it would be an unsourced claim, which is
- * the thing this whole screen exists to refuse.
+ * the thing this whole screen exists to refuse. Where it holds a URL the row links to
+ * it instead of printing it: the address said nothing a reader could act on without
+ * retyping it, and it was the longest thing on the page.
  */
 export function EvidenceRow({
   title,
@@ -23,7 +26,7 @@ export function EvidenceRow({
   statusText: string;
   statusKind: CapabilityStatus;
   quotedDetail: string | null;
-  provenance: string;
+  provenance: Provenance;
   absenceExplanation: string | null;
   derived: boolean;
   derivedLabel: string;
@@ -35,7 +38,7 @@ export function EvidenceRow({
           <h4 className="subhead !tracking-normal">{title}</h4>
           <StatusText kind={statusKind} text={statusText} />
           {derived ? (
-            <span className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-[var(--color-ink-2)]">
+            <span className="text-[0.78rem] text-[var(--color-ink-2)]">
               {derivedLabel}
             </span>
           ) : null}
@@ -59,7 +62,22 @@ export function EvidenceRow({
         ) : null}
       </div>
 
-      <p lang="ko" className="evidence__provenance">{provenance}</p>
+      <p lang="ko" className="evidence__provenance">
+        {provenance.parts.map((part, index) => (
+          <span key={`${part.text}-${index}`}>
+            {index > 0 ? ' · ' : null}
+            <span className={part.mono ? 'font-mono' : undefined}>{part.text}</span>
+          </span>
+        ))}
+        {provenance.href ? (
+          <>
+            {provenance.parts.length > 0 ? ' · ' : null}
+            <a href={provenance.href} target="_blank" rel="noreferrer">
+              {provenance.hrefLabel}
+            </a>
+          </>
+        ) : null}
+      </p>
     </div>
   );
 }

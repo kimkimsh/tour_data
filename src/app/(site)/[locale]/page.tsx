@@ -10,7 +10,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'home' });
-  return { title: t('metaTitle') };
+  const tc = await getTranslations({ locale, namespace: 'common' });
+  // Composed here rather than left to the layout's title template. The template applies
+  // to child segments, and this page is in the same segment as the layout that defines
+  // it — so the one page most likely to be bookmarked was the only one whose tab did
+  // not carry the site's name.
+  return { title: { absolute: `${t('metaTitle')} · ${tc('siteName')}` } };
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {

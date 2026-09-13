@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getContext, getDocent, getFacts, getPois, getRelated, getRoutes, orEmpty } from '@/lib/data';
@@ -11,7 +12,6 @@ import { VerdictPanel } from '@/components/place/VerdictPanel';
 import { CapabilityEvidence, countKtoItems } from '@/components/place/CapabilityEvidence';
 import { ReportsSection } from '@/components/place/ReportsSection';
 import { groupFactsByPoi, type PlaceCardData } from '@/components/place/place-view';
-import { Link } from '@/i18n/navigation';
 
 export const revalidate = 3600;
 
@@ -33,8 +33,14 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   const pois = await getPois();
   const poi = pois.ok ? pois.data.find((p) => p.slug === slug) : undefined;
-  const title = poi?.i18n[locale as ContentLocale]?.title ?? poi?.i18n.ko?.title ?? slug;
-  return { title };
+  // Never the slug. Falling back to it put whatever the caller typed into the title of
+  // a page the caller could then link to — "Account-Suspended-Call-02-1234-5678 ·
+  // 모두의 백제", served 200 from the real domain.
+  if (!poi) {
+    const tc = await getTranslations({ locale, namespace: 'common' });
+    return { title: tc('error.notFoundTitle') };
+  }
+  return { title: poi.i18n[locale as ContentLocale]?.title ?? poi.i18n.ko?.title ?? slug };
 }
 
 export default async function PlacePage({
@@ -53,7 +59,9 @@ export default async function PlacePage({
   if (!facts.ok) return <SnapshotProblem result={facts} />;
 
   const poi = pois.data.find((p) => p.slug === slug);
-  if (!poi) return <MissingPlace message={t('notFound')} backLabel={tc('nav.places')} />;
+  // notFound(), not a rendered stand-in: this segment has its own not-found.tsx, so the
+  // screen arrives inside the real layout and the answer is a 404 rather than a 200.
+  if (!poi) notFound();
 
   const routes = orEmpty(await getRoutes());
   const docent = orEmpty(await getDocent());
@@ -89,7 +97,10 @@ export default async function PlacePage({
         {/* No letter-spacing on this line, unlike the eyebrows elsewhere. It carries a
             designation name — 사적 「공주 공산성」 — and tracking applied to Hangul opens
             the space inside the quotation marks until the name looks like two. */}
-        <p className="font-mono text-[0.78rem] uppercase text-[var(--color-ink-2)]">
+        {/* Not monospaced. It carries a city and a designation name — 공주시 · 사적
+            「공주 공산성」 — and Hangul has no glyphs in the mono stack, so every word
+            landed a Latin advance width apart. */}
+        <p className="text-[0.85rem] tracking-[0.02em] text-[var(--color-ink-2)]">
           {localeKey === 'en' ? poi.cityEn : poi.cityKo}
           {/* The designation name is Korean in both locales: it is the name the Korea
               Heritage Service gazetted, and a translation of it would not resolve. */}
@@ -97,7 +108,12 @@ export default async function PlacePage({
         </p>
         <p className="text-[0.95rem] text-[var(--color-ink-2)]">
           {poi.isUnescoComponent ? tp('componentSite') : tp('adjacentSite')}
-          {poi.unescoComponentNote ? ` — ${poi.unescoComponentNote}` : ''}
+          {/* The note is hand-written Korean in content/pois.json and has no English
+              form, so it is declared rather than served under lang="en", where an
+              English voice sounds Hangul out as phonemes. */}
+          {poi.unescoComponentNote ? (
+            <span lang="ko"> — {poi.unescoComponentNote}</span>
+          ) : null}
         </p>
         {/* Shown as a fact, not folded into the score. v5 dropped the certification
             bonus because it reached one place in six and every other certification
@@ -158,7 +174,9 @@ export default async function PlacePage({
             {t('crowdRate', { value: crowd.rate.toFixed(1) })}
           </p>
           <p className="evidence__provenance mt-1">
-            {isoDate(crowd.baseYmd)} · TatsCnctrRateService · cnctrRate
+            <span className="font-mono">
+              {isoDate(crowd.baseYmd)} · TatsCnctrRateService · cnctrRate
+            </span>
           </p>
         </section>
       ) : null}
@@ -169,7 +187,7 @@ export default async function PlacePage({
           <p className="blank-slot">{t('noPhotos')}</p>
         ) : (
           <ul className="grid gap-5 sm:grid-cols-2">
-            {poi.media.map((media) => (
+            {poi.media.map((media, index) => (
               <li key={media.url} className="grid gap-2">
                 {/* A KOGL type 3 image may not be cropped, filtered or resized. With
                     unoptimized the original bytes are served and no srcset is
@@ -177,7 +195,18 @@ export default async function PlacePage({
                     component that enforces width, height and alt. */}
                 <Image
                   src={media.url}
-                  alt={media.alt}
+                  // Numbered. Where the gallery record carries no title of its own the
+                  // alt fell back to the place name, so seventeen photographs on one
+                  // page announced themselves with the same three syllables and a
+                  // screen-reader user could not tell one from the next. Describing
+                  // what is in them is not available to us — nobody has looked, and
+                  // writing a description we did not check is the one thing this
+                  // service refuses everywhere else.
+                  alt={
+                    media.caption && media.caption !== title
+                      ? media.caption
+                      : t('photoAlt', { place: title, index: index + 1 })
+                  }
                   // The alt, the caption and the credit all come from the Korean
                   // gallery record.
                   lang="ko"
@@ -191,7 +220,7 @@ export default async function PlacePage({
                     낙화암 inside 부소산성, or the bridge across from 공산성 — and an
                     unlabelled photograph under this place's heading claims to be of
                     this place. */}
-                {media.caption ? (
+                {media.caption && media.caption !== title ? (
                   <p lang="ko" className="text-[0.93rem]">
                     {media.caption}
                   </p>
@@ -275,7 +304,7 @@ export default async function PlacePage({
             ))}
           </ul>
           <p className="evidence__provenance">
-            TarRlteTarService1 · {relatedForPoi.baseYm}
+            <span className="font-mono">TarRlteTarService1 · {relatedForPoi.baseYm}</span>
           </p>
         </section>
       ) : null}
@@ -291,26 +320,3 @@ function isoDate(value: string): string {
   return match ? `${match[1]}-${match[2]}-${match[3]}` : value;
 }
 
-/**
- * A slug that names no place in this service.
- *
- * Rendered here rather than through notFound(). Every route in this app sits under a
- * route group with its own root layout, so there is no app/layout.tsx for Next to
- * wrap a not-found render in, and the framework answers with a document that has no
- * lang attribute, no heading and no text. On this service that is the worst page in
- * the build. The cost is the status code: this answers 200 where 404 would be
- * correct. An address outside the route tree entirely still gets a real 404, from
- * src/app/not-found.tsx.
- */
-function MissingPlace({ message, backLabel }: { message: string; backLabel: string }) {
-  return (
-    <div className="grid gap-4">
-      <h1>{message}</h1>
-      <p>
-        <Link href="/places" className="btn btn--filled">
-          {backLabel}
-        </Link>
-      </p>
-    </div>
-  );
-}

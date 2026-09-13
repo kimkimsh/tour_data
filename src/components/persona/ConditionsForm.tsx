@@ -36,8 +36,6 @@ export function ConditionsForm() {
     setAnnouncement(describe(next.personaIds, locale));
   };
 
-  const tightest = tightestPersonaLabel(conditions.personaIds, locale);
-
   return (
     <form
       className="grid gap-8"
@@ -62,19 +60,12 @@ export function ConditionsForm() {
                   checked={checked}
                   onChange={(event) => togglePersona(persona.id, event.target.checked)}
                 />
+                {/* No persona code beside the choice. P1a is a row of a table in the
+                    spec, and printing it here put the document's own filing system on
+                    the one screen every visitor has to get through — a label that reads
+                    as a form number on a question about who they are travelling with. */}
                 <label htmlFor={id} className="min-h-[44px] flex-1 py-1 text-[1.05rem]">
                   {locale === 'ko' ? persona.choiceKo : persona.choiceEn}
-                  {/* aria-hidden: the code is a cross-reference for a reader holding the
-                      spec beside the screen. Left in the accessibility tree it joins the
-                      choice with no separator — "휠체어를 이용해요P1a" is one word to a
-                      screen reader, and the checkbox it names is the one control every
-                      visitor has to get through. */}
-                  <span
-                    aria-hidden="true"
-                    className="ml-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--color-ink-2)]"
-                  >
-                    {persona.id}
-                  </span>
                 </label>
               </div>
 
@@ -111,7 +102,11 @@ export function ConditionsForm() {
       {conditions.personaIds.length >= 2 ? (
         <aside className="callout callout--note">
           <h2 className="subhead">{t('minRuleTitle')}</h2>
-          <p className="mt-1 text-[0.97rem]">{t('minRule', { persona: tightest })}</p>
+          {/* The rule is stated without naming a persona. It used to name the one with
+              the shortest rest limit, which is the itinerary's tightest companion and
+              not necessarily the one Layer B actually takes the minimum over — so the
+              screen asserted a basis for the calculation that could be the wrong one. */}
+          <p className="mt-1 text-[0.97rem]">{t('minRule')}</p>
         </aside>
       ) : null}
 
@@ -157,12 +152,3 @@ function describe(personaIds: PersonaId[], locale: string): string {
   return locale === 'ko' ? `선택: ${names.join(', ')}` : `Selected: ${names.join(', ')}`;
 }
 
-function tightestPersonaLabel(personaIds: PersonaId[], locale: string): string {
-  if (personaIds.length === 0) return locale === 'ko' ? '일반 방문' : 'General visit';
-  // The one whose rest limit is shortest is the one the itinerary and the warning
-  // copy are about; it is also, in practice, the least-served fit.
-  const tightest = personaIds.reduce((a, b) =>
-    getPersona(a).restLimitMinutes <= getPersona(b).restLimitMinutes ? a : b,
-  );
-  return locale === 'ko' ? getPersona(tightest).labelKo : getPersona(tightest).labelEn;
-}

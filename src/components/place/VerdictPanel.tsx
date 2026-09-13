@@ -101,16 +101,22 @@ export function VerdictPanel({
             <span className="sr-only">{t('score', { score: result.score })}</span>
           </span>
         )}
-        <span className="ml-auto rounded-full border border-[var(--color-rule-strong)] px-3 py-1 text-[0.88rem]">
-          {t('confidence', { value: result.evidenceConfidence })}
+        {/* The figure and the sentence that qualifies it, in one block at the end of
+            the row. Apart, the pill sat at the right margin and its explanation began
+            at the left margin of the next line, so nothing tied them together. */}
+        <span className="ml-auto max-w-[19rem] text-right">
+          <span className="inline-block rounded-full border border-[var(--color-rule-strong)] px-3 py-1 text-[0.88rem]">
+            {t('confidence', { value: result.evidenceConfidence })}
+          </span>
+          {/* Body text, not a title attribute: that never appears on a touch device,
+              never appears for a keyboard user, and is read inconsistently. The
+              distinction it draws — confidence is not the score — is the one people
+              get wrong. */}
+          <span className="mt-1 block text-[0.86rem] leading-snug text-[var(--color-ink-2)]">
+            {t('confidenceHint')}
+          </span>
         </span>
       </div>
-
-      {/* This sentence used to live only in a title attribute, which never appears on
-          a touch device, never appears for a keyboard user, and is read inconsistently.
-          The distinction it draws — confidence is not the score — is the one people
-          get wrong, so it is body text. */}
-      <p className="text-[0.92rem] text-[var(--color-ink-2)]">{t('confidenceHint')}</p>
 
       {result.label === '정보없음' ? (
         <p className="blank-slot text-[1.02rem]">
@@ -133,9 +139,11 @@ export function VerdictPanel({
       ) : null}
 
       {result.knownCriticalBlockers.length > 0 ? (
+        // Named, like the line above it. A bare "✕ 점자블록" leaves the reader to work
+        // out which of the four states it means, next to a line that does say.
         <p className="text-[1.05rem] font-bold text-[var(--color-state-bad)]">
           <span aria-hidden="true">✕ </span>
-          {capabilityLabels(result.knownCriticalBlockers, locale)}
+          {t('blockedItems')}: {capabilityLabels(result.knownCriticalBlockers, locale)}
         </p>
       ) : null}
 
@@ -149,8 +157,10 @@ export function VerdictPanel({
           </>
         ) : null}
         <dt className="font-bold">{tc('status.unknown')}</dt>
+        {/* The value repeats no part of its own label. The row read
+            "정보 없음 | 정보 없음 17건 / 22건", which looks like a rendering fault. */}
         <dd>
-          {tc('unknownCountScoped', {
+          {t('unknownCountValue', {
             unknown: result.ktoUnknownCount,
             total: result.ktoTotalCount,
           })}

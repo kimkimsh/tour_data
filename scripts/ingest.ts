@@ -96,7 +96,12 @@ const STAGE_ORDER = [
 ] as const;
 type Stage = (typeof STAGE_ORDER)[number];
 
-const ODII_MATCH_RADIUS_M = 1000;
+/**
+ * How close an undeclared Odii theme has to be before ingest mentions it. It selects
+ * nothing — `odiiThemeIds` in content/pois.json does that — and only decides which
+ * unclaimed themes are worth a person's attention.
+ */
+const ODII_REVIEW_RADIUS_M = 1000;
 const VISITOR_WINDOW_DAYS = 8;
 
 /**
@@ -760,7 +765,7 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
       facts.push({
         poiSlug: poi.slug,
         capabilityCode: capability.code,
-        status: notApplicable ? 'unknown' : resolveStatus(raw),
+        status: notApplicable ? 'unknown' : resolveStatus(raw, capability.code),
         absenceKind: notApplicable ? 'not_applicable' : null,
         detail: raw?.trim() ? raw.trim() : null,
         source: 'kto_with',
@@ -1052,37 +1057,51 @@ async function buildDocent(pois: PoiInput[]): Promise<void> {
 
   const stories: z.infer<typeof DocentPayload> = [];
 
-  for (const poi of pois) {
-    const matches = themes.items.filter((theme) => {
-      const reading = readThemeCoord(theme);
-      return reading.ok && distanceMeters(poi.coord, reading.coord) <= ODII_MATCH_RADIUS_M;
-    });
-    if (matches.length === 0) continue;
+  const byTid = new Map(themes.items.filter((theme) => theme.tid).map((theme) => [theme.tid!, theme]));
+  reportUndeclaredThemes(pois, themes.items);
 
-    for (const theme of matches) {
-      if (!theme.tid || !theme.tlid) continue;
+  for (const poi of pois) {
+    // seq numbers the stories of a place, not of a theme. A place can hold several
+    // themes — 무령왕릉과 왕릉원 holds the tomb park's own tour and the exhibition hall's —
+    // and restarting at 1 inside each of them gave one screen two sections numbered 1,
+    // which collided as React keys, collided again as the DOM ids the headings are
+    // labelled by, and interleaved the two tours when the list sorted on it.
+    const seqByLocale = new Map<string, number>();
+
+    for (const tid of poi.odiiThemeIds) {
+      const theme = byTid.get(tid);
+      if (!theme) {
+        warn(`${poi.slug}: odiiThemeIds names tid ${tid}, which themeBasedList does not list`);
+        continue;
+      }
+      if (!theme.tlid) {
+        warn(`${poi.slug}: Odii theme ${tid} (${theme.title ?? '?'}) has no tlid`);
+        continue;
+      }
       for (const locale of ['ko', 'en'] as const) {
-        const result = await getOdiiStories(theme.tid, theme.tlid, locale);
+        const result = await getOdiiStories(tid, theme.tlid, locale);
         if (!result.ok) {
           abortOnQuota(result, `${poi.slug} storyBasedList (${locale})`);
           warn(`${poi.slug}: storyBasedList (${locale}) failed — ${result.message}`);
           continue;
         }
-        for (const [index, story] of result.items.entries()) {
+        for (const story of result.items) {
           // readStoryCoord exists because addr1/addr2 hold coordinates in this
           // response while the same names hold an address in themeBasedList.
           readStoryCoord(story);
+          const seq = (seqByLocale.get(locale) ?? 0) + 1;
+          seqByLocale.set(locale, seq);
           stories.push({
             poiSlug: poi.slug,
             locale,
-            seq: index + 1,
+            seq,
             title: story.title ?? '',
             script: story.script ?? null,
             easyScript: readEasyScript(poi.slug, locale),
             audioUrl: story.audioUrl ? toHttps(story.audioUrl) : null,
             imageUrl: story.imageUrl ? await resolveImageUrl(story.imageUrl) : null,
             playTimeS: story.playTime ?? null,
-            odiiTid: story.tid ?? theme.tid,
+            odiiTid: story.tid ?? tid,
             odiiStid: story.stid ?? null,
           });
         }
@@ -1092,6 +1111,32 @@ async function buildDocent(pois: PoiInput[]): Promise<void> {
 
   const payload = DocentPayload.parse(stories);
   await publish('docent', payload, payload.length, '한국관광공사 Odii themeBasedList + storyBasedList');
+}
+
+/**
+ * Names every theme near a place that no place claims. Odii adds themes, and without
+ * this the only way to learn that 부여 궁남지 now has a tour is for somebody to read the
+ * catalogue by hand. It writes a line and changes nothing: which themes are about a
+ * place is an editorial judgment, and 백제문화단지's theme sits 115m from the royal tombs.
+ */
+function reportUndeclaredThemes(
+  pois: PoiInput[],
+  themes: ReadonlyArray<Parameters<typeof readThemeCoord>[0]>,
+): void {
+  const claimed = new Set(pois.flatMap((poi) => poi.odiiThemeIds));
+  for (const theme of themes) {
+    if (!theme.tid || claimed.has(theme.tid)) continue;
+    const reading = readThemeCoord(theme);
+    if (!reading.ok) continue;
+    const near = pois
+      .map((poi) => ({ poi, m: Math.round(distanceMeters(poi.coord, reading.coord)) }))
+      .filter((row) => row.m <= ODII_REVIEW_RADIUS_M)
+      .sort((a, b) => a.m - b.m)[0];
+    if (!near) continue;
+    warn(
+      `Odii theme ${theme.tid} (${theme.title ?? '?'}) is ${near.m}m from ${near.poi.slug} and is claimed by no place. Add it to odiiThemeIds or leave it out on purpose.`,
+    );
+  }
 }
 
 /** Plain-language text is written by a person; the API does not provide one. */

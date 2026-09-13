@@ -6,6 +6,7 @@ import { Link } from '@/i18n/navigation';
 import { REPORT_CATEGORIES } from '@/domain/types';
 import type { ReportCategory } from '@/domain/types';
 import { createBrowserClient } from '@/lib/supabase/browser';
+import { seoulToday } from '@/domain/today';
 
 const DETAIL_MAX = 500;
 
@@ -87,6 +88,11 @@ export function ReportForm({
       if (!response.ok) return fail('form', t('error.failed'));
 
       setPosted(true);
+    } catch {
+      // fetch rejects rather than resolving when the network is gone, and without this
+      // the rejection left the handler unhandled: the button un-greyed, nothing was
+      // said, and the visitor was looking at a form that had silently done nothing.
+      fail('form', t('error.failed'));
     } finally {
       setBusy(false);
     }
@@ -178,10 +184,13 @@ export function ReportForm({
         <label htmlFor={`${groupId}-date`} className="font-bold">
           {t('whenSeen')}
         </label>
+        {/* max stops the picker offering a day that has not happened. The server
+            refuses one anyway; this is the part the visitor can see. */}
         <input
           id={`${groupId}-date`}
           type="date"
           className="field"
+          max={seoulToday()}
           value={occurredOn}
           onChange={(event) => setOccurredOn(event.target.value)}
         />

@@ -118,6 +118,27 @@ const NEGATED_NEARBY = /(없|아니|불가|미설치|않|못)/;
 const PRESENT_NEARBY = /(있|존재|많|만)/;
 const NEARBY_WINDOW = 8;
 
+/**
+ * Ends the polarity window. Past one of these the marker belongs to a list, not to
+ * the noun the window opened on: '계단·엘리베이터 없음' negates both members, and the
+ * second is a facility whose absence is the opposite news from the first's.
+ *
+ * Without this the window reached over 엘리베이터, read 없음 as the stairs' absence,
+ * and deleted the lift along with the window — so a stated absence of a lift was
+ * published as a confirmed one. Truncated, the barrier goes unpolarised, which makes
+ * it ambiguous, which leaves the whole sentence for NEGATION to read.
+ */
+const LIST_SEPARATOR = /[·,/]|및|또는|와\s|과\s/;
+
+/**
+ * Says the field does not apply here, which is not a claim that anything is missing.
+ * Read as a negation it produced the harshest verdict in the system — 대체추천 with the
+ * score capped at 49 — out of a sentence that never mentioned a barrier. Marking an
+ * item not-applicable removes it from every mean, and that stays a person's call in
+ * content/curated-facts.json; all this function may say is that it did not find out.
+ */
+const NOT_APPLICABLE = /해당\s*(사항\s*)?없/;
+
 const NEEDS_CHECKING = /(미확인|확인\s*필요|확인\s*요|문의\s*필요|파악\s*중)/;
 
 /**
@@ -135,7 +156,7 @@ const NEEDS_CHECKING = /(미확인|확인\s*필요|확인\s*요|문의\s*필요|
  * state a facility has stopped working.
  */
 const NEGATION =
-  /(없|불가|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되]|해당\s*없)/;
+  /(없|불가|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되])/;
 const CONDITIONAL =
   /(일부|제한|사전\s*문의|예약\s*필요|협의|평일만|우천\s*시|동절기|어려움|어렵|동반\s*필요)/;
 
@@ -175,7 +196,9 @@ function scanBarriers(s: string): BarrierScan {
   for (const match of s.matchAll(BARRIER_NOUN)) {
     const start = match.index;
     const end = start + match[0].length;
-    const window = s.slice(end, end + NEARBY_WINDOW);
+    const separator = LIST_SEPARATOR.exec(s.slice(end, end + NEARBY_WINDOW));
+    const windowLength = separator ? separator.index : NEARBY_WINDOW;
+    const window = s.slice(end, end + windowLength);
     if (NEGATED_NEARBY.test(window)) absent = true;
     else if (PRESENT_NEARBY.test(window)) present = true;
     else {
@@ -184,7 +207,7 @@ function scanBarriers(s: string): BarrierScan {
     }
     // Drop the noun and its window so the remaining text can be read on its own.
     rest += s.slice(cursor, start);
-    cursor = Math.min(s.length, end + NEARBY_WINDOW);
+    cursor = Math.min(s.length, end + windowLength);
   }
 
   return { present, absent, ambiguous, rest: rest + s.slice(cursor) };
@@ -228,12 +251,16 @@ function hasUnnegatedPresence(s: string): boolean {
  * verbatim next to the verdict, and curated-facts.json overrides anything this
  * function gets wrong.
  */
-export function resolveStatus(raw: string | null | undefined): CapabilityStatus {
+export function resolveStatus(
+  raw: string | null | undefined,
+  capabilityCode?: string,
+): CapabilityStatus {
   const s = (raw ?? '').trim();
   if (s === '') return 'unknown';
 
   // A statement that the value itself needs checking outranks every rule below.
   if (NEEDS_CHECKING.test(s)) return 'unknown';
+  if (NOT_APPLICABLE.test(s)) return 'unknown';
 
   const barrier = scanBarriers(s);
   const conditional = CONDITIONAL.test(s);
@@ -248,8 +275,26 @@ export function resolveStatus(raw: string | null | undefined): CapabilityStatus 
   // dropped for want of a marker and 가능 decided the sentence on its own.
   if (barrier.ambiguous) return 'unknown';
   if (hasUnnegatedPresence(rest)) return 'supported';
-  // A barrier confirmed absent, with nothing else said, is still good news.
-  if (barrier.absent) return 'supported';
+  // A barrier confirmed absent, with nothing else said, is good news only where the
+  // barrier is the subject. '계단 없음' under `route` says the way in is step-free;
+  // under `elevator` it says nothing whatever about a lift, and answering 'supported'
+  // there printed 엘리베이터 확인됨 for a building nobody had checked.
+  if (barrier.absent && isPathField(capabilityCode)) return 'supported';
 
   return 'unknown';
+}
+
+/**
+ * The three codes whose subject is the path itself rather than a named facility. A
+ * caller that names no code gets the conservative answer, because a sentence with no
+ * field attached cannot be read as a verdict about one.
+ */
+const PATH_FIELD_CODES: ReadonlySet<string> = new Set([
+  'access_route',
+  'entrance_passage',
+  'path_continuity',
+]);
+
+function isPathField(capabilityCode: string | undefined): boolean {
+  return capabilityCode !== undefined && PATH_FIELD_CODES.has(capabilityCode);
 }

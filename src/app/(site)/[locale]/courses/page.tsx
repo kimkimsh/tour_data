@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getDocent, getFacts, getPois, getRoutes, orEmpty } from '@/lib/data';
 import { itineraries } from '@/lib/content';
-import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { CourseView } from '@/components/course/CourseView';
 import { groupFactsByPoi, type PlaceCardData } from '@/components/place/place-view';
@@ -47,10 +46,10 @@ export default async function CoursesPage({ params }: { params: Promise<{ locale
 
   return (
     <div className="grid gap-8">
-      <section className="grid gap-3">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
-        <h1>{t('metaTitle')}</h1>
-      </section>
+      {/* No eyebrow. It read "코스" directly above an h1 reading "코스", above a card
+          whose own eyebrow read "코스" — the word three times in a column, naming
+          nothing the heading had not. */}
+      <h1>{t('pageTitle')}</h1>
 
       <CourseView
         templates={itineraries}

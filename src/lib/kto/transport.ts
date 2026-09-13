@@ -307,15 +307,33 @@ function faultFromJson(decoded: unknown, httpStatus: number, call: string, body:
   };
 }
 
-function isRetryable(failure: KtoFail): boolean {
+/** A 429 or a 5xx: the gateway is up but did not answer the question. */
+export function isTransientStatus(httpStatus: number | null): boolean {
+  return httpStatus === 429 || (httpStatus ?? 0) >= 500;
+}
+
+/**
+ * True when the failure carries no upstream verdict of its own. Every TRANSPORT_CODES
+ * value means "we could not get an answer out of this response", as against a real
+ * resultCode, which is the gateway telling us something.
+ */
+function isTransportOnly(code: string): boolean {
+  return (Object.values(TRANSPORT_CODES) as readonly string[]).includes(code);
+}
+
+export function isRetryable(failure: KtoFail): boolean {
   const code = failure.resultCode;
   if ((RETRYABLE_RESULT_CODES as readonly string[]).includes(code)) return true;
   if (code === TRANSPORT_CODES.network || code === TRANSPORT_CODES.timeout) return true;
   // A gateway 5xx or a 429 is the same transient class as resultCode 04. Any other status
   // is a caller mistake and repeating it just spends quota.
-  if (code === TRANSPORT_CODES.http) {
-    return failure.httpStatus === 429 || (failure.httpStatus ?? 0) >= 500;
-  }
+  //
+  // The status is read for every transport-level code, not only TRANSPORT_CODES.http.
+  // The body is sniffed before the status is, so the gateway's own HTML error page —
+  // which begins with '<' — was parsed as a fault envelope, came back as
+  // transport/xml-body, and fell out of this function as non-retryable. A brief outage
+  // then skipped the backoff entirely and was booked as contact.
+  if (isTransportOnly(code)) return isTransientStatus(failure.httpStatus);
   return false;
 }
 
@@ -497,7 +515,15 @@ export async function gatewayRequest(
       await sleep(RETRY_BASE_DELAY_MS * 2 ** (attempt - 1));
     }
   }
-  if (failure.resultCode === TRANSPORT_CODES.network || failure.resultCode === TRANSPORT_CODES.timeout) {
+  // A 429 or 5xx that survived every retry counts as not reached, the same as a refused
+  // connection. The counter exists so ingest can tell "we asked and were told nothing is
+  // there" from "we never got an answer", and a gateway that returned 503 three times
+  // running told us nothing about the data.
+  if (
+    failure.resultCode === TRANSPORT_CODES.network ||
+    failure.resultCode === TRANSPORT_CODES.timeout ||
+    (isTransportOnly(failure.resultCode) && isTransientStatus(failure.httpStatus))
+  ) {
     gatewayUnreachable += 1;
   } else {
     gatewayReached += 1;

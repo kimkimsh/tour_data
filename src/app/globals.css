@@ -295,11 +295,24 @@
     }
   }
 
+  /*
+    The body face, not the monospaced one. The rail is mostly Korean — an institution's
+    name, a page title, a note somebody wrote — and Hangul has no glyphs in a Latin
+    monospace stack, so it fell back to a system font at the fallback's advance width
+    and came out gapped between every word, twenty-two times down a page. The machine
+    tokens inside it keep the monospaced face, applied per part: a field name, a file
+    path, a date.
+  */
   .evidence__provenance {
-    font-family: var(--font-mono);
     font-size: var(--text-provenance);
+    line-height: 1.55;
     color: var(--color-ink-2);
     overflow-wrap: anywhere;
+  }
+
+  .evidence__provenance .font-mono {
+    font-family: var(--font-mono);
+    font-size: 0.95em;
   }
 
   /* An unknown value is not styled as a failure. It is a labelled empty slot, the

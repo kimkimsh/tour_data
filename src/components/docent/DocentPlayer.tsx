@@ -117,7 +117,7 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
           <span
             role="img"
             aria-label={t('ttsBadgeLabel')}
-            className="rounded-full border border-[var(--color-rule-strong)] px-3 py-1 font-mono text-[0.75rem] uppercase tracking-[0.1em]"
+            className="rounded-full border border-[var(--color-rule-strong)] px-3 py-1 text-[0.8rem]"
           >
             {t('ttsBadge')}
           </span>

@@ -138,6 +138,15 @@ export interface DayForecast {
   fcstDate: string;
   /** 일 최고기온, °C. Absent late in the day for today, and on the extension day. */
   tmx: number | null;
+  /**
+   * Highest hourly 기온 the issue still carries for this day, °C.
+   *
+   * TMX appears once per day, at 15:00, so an issue taken after that hour has today's
+   * daily maximum behind it and drops the row. The heat rule was guarded on tmx alone
+   * and therefore never ran on those issues: 36℃ hours were fetched, folded away by a
+   * switch with no TMP case, and the day published as 야외 이동에 무리가 없는 예보.
+   */
+  tmpMax: number | null;
   /** 일 최저기온, °C. Only the 0200 issue carries today's. */
   tmn: number | null;
   /** Highest 강수확률 across the day, %. */
@@ -247,11 +256,14 @@ function worst(values: string[], order: readonly string[]): string | null {
 export function foldVilageRows(
   rows: ReadonlyArray<{ category?: string; fcstDate?: string; fcstValue?: string | number }>,
 ): DayForecast[] {
-  const byDate = new Map<string, { tmx: number[]; tmn: number[]; pop: number[]; pty: string[]; sky: string[] }>();
+  const byDate = new Map<
+    string,
+    { tmx: number[]; tmn: number[]; tmp: number[]; pop: number[]; pty: string[]; sky: string[] }
+  >();
   for (const row of rows) {
     if (row.category === undefined || row.fcstDate === undefined || row.fcstValue === undefined) continue;
     if (!READ_CATEGORIES.has(row.category)) continue;
-    const bucket = byDate.get(row.fcstDate) ?? { tmx: [], tmn: [], pop: [], pty: [], sky: [] };
+    const bucket = byDate.get(row.fcstDate) ?? { tmx: [], tmn: [], tmp: [], pop: [], pty: [], sky: [] };
     const text = String(row.fcstValue).trim();
     const numeric = Number(text);
     // +900 and beyond is KMA's missing marker, not a temperature.
@@ -262,6 +274,9 @@ export function foldVilageRows(
         break;
       case 'TMN':
         if (!isMissing) bucket.tmn.push(numeric);
+        break;
+      case 'TMP':
+        if (!isMissing) bucket.tmp.push(numeric);
         break;
       case 'POP':
         if (!isMissing) bucket.pop.push(numeric);
@@ -283,6 +298,7 @@ export function foldVilageRows(
     .map(([fcstDate, bucket]) => ({
       fcstDate,
       tmx: bucket.tmx.length > 0 ? Math.max(...bucket.tmx) : null,
+      tmpMax: bucket.tmp.length > 0 ? Math.max(...bucket.tmp) : null,
       tmn: bucket.tmn.length > 0 ? Math.min(...bucket.tmn) : null,
       pop: bucket.pop.length > 0 ? Math.max(...bucket.pop) : null,
       // Worst, not first: an afternoon of rain matters even if the morning is dry.
@@ -472,9 +488,14 @@ export function readDayCondition(day: DayForecast | undefined): DayCondition {
   const skyLabel = day.sky === null ? undefined : SKY_LABELS[day.sky];
   const ptyLabel = day.pty === null || day.pty === DRY ? undefined : PTY_LABELS[day.pty];
 
+  // The day's own maximum where the issue still carries it, otherwise the warmest hour
+  // it does carry. The two are not the same claim, so the sentence says which.
+  const high = day.tmx ?? day.tmpMax;
+  const highIsDaily = day.tmx !== null;
+
   const parts: string[] = [];
   if (skyLabel !== undefined) parts.push(skyLabel);
-  if (day.tmx !== null) parts.push(`최고 ${day.tmx}℃`);
+  if (high !== null) parts.push(highIsDaily ? `최고 ${high}℃` : `남은 시간대 최고 ${high}℃`);
   if (day.tmn !== null) parts.push(`최저 ${day.tmn}℃`);
   if (day.pop !== null) parts.push(`강수확률 ${day.pop}%`);
   const summary = parts.length > 0 ? parts.join(' · ') : null;
@@ -487,10 +508,10 @@ export function readDayCondition(day: DayForecast | undefined): DayCondition {
       unknownReason: null,
     };
   }
-  if (day.tmx !== null && day.tmx >= HOT_DAY_TMX) {
+  if (high !== null && high >= HOT_DAY_TMX) {
     return {
       state: 'poor',
-      detail: `최고기온 ${day.tmx}℃ 예보${tail}. 그늘 없는 구간이 긴 곳은 피하는 편이 낫습니다 (기온 기준이며 폭염 특보 판정이 아닙니다)`,
+      detail: `${highIsDaily ? '최고기온' : '남은 시간대 최고기온'} ${high}℃ 예보${tail}. 그늘 없는 구간이 긴 곳은 피하는 편이 낫습니다 (기온 기준이며 폭염 특보 판정이 아닙니다)`,
       unknownReason: null,
     };
   }
@@ -508,11 +529,21 @@ export function readDayCondition(day: DayForecast | undefined): DayCondition {
       unknownReason: null,
     };
   }
-  if (summary === null) {
+  // 'good' is an all-clear, and an all-clear needs both of the things the rules above
+  // can disqualify a day on. With only one of them read, the checks that did not run
+  // cannot be counted as having passed — a day carrying a sky code and nothing else
+  // used to come out as 야외 이동에 무리가 없는 예보 with no temperature behind it.
+  const knowsPrecipitation = day.pty !== null || day.pop !== null;
+  const knowsTemperature = high !== null || day.tmn !== null;
+  if (!knowsPrecipitation || !knowsTemperature) {
+    const missing = [
+      knowsPrecipitation ? null : '강수',
+      knowsTemperature ? null : '기온',
+    ].filter((part): part is string => part !== null);
     return {
       state: 'unknown',
       detail: null,
-      unknownReason: '예보에 읽을 수 있는 값이 없었습니다',
+      unknownReason: `예보에 ${missing.join('·')} 값이 없어 판단하지 않았습니다`,
     };
   }
   return { state: 'good', detail: `${summary}. 야외 이동에 무리가 없는 예보입니다`, unknownReason: null };

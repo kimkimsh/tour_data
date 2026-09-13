@@ -51,6 +51,19 @@ export const PoiInputSchema = z.object({
   unescoComponentNote: z.string().nullable(),
   depthTier: z.enum(DEPTH_TIERS),
   odiiKeyword: z.string().min(1),
+  /**
+   * The Odii themes that are about this place, named by their tid.
+   *
+   * Declared rather than matched. Ingest used to claim every theme within a kilometre,
+   * which cannot tell "near" from "of": 무령왕릉과 왕릉원 and 국립공주박물관 are 700m apart
+   * and collected an identical set, and a folktale theme 115m from the tombs is about
+   * 백제문화단지, forty kilometres away. No radius separates those from 공주 공산성 at 341m,
+   * because distance was never the question being asked.
+   *
+   * Ingest still enumerates the catalogue, and reports a declared id it cannot find
+   * and an undeclared theme close enough to be worth a look. Both are for a person.
+   */
+  odiiThemeIds: z.array(z.string().min(1)),
   /** Name as the crowding dataset spells it. Null until the P0-5 probe confirms it. */
   tatsName: z.string().nullable(),
   /** 32-hex related-POI key, filled in by ingest from searchKeyword1. */

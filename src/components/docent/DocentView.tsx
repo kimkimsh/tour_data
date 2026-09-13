@@ -76,14 +76,22 @@ export function DocentView({ stories, uiLocale }: { stories: Docent[]; uiLocale:
         ) : null}
       </div>
 
-      {forLocale.map((story) => (
-        <section key={`${story.locale}-${story.seq}`} aria-labelledby={`story-${story.seq}`} className="grid gap-4">
-          <h2 id={`story-${story.seq}`} className="item-head">
-            {story.title}
-          </h2>
-          <DocentPlayer story={story} easyMode={easyMode} />
-        </section>
-      ))}
+      {/* The id carries the theme as well as the sequence. A place can hold more than
+          one Odii theme, and two headings sharing `story-1` made aria-labelledby name
+          whichever came first — so half the sections on this page announced another
+          section's title. Ingest now numbers per place, and this survives it not
+          having yet. */}
+      {forLocale.map((story) => {
+        const key = `${story.locale}-${story.odiiTid}-${story.odiiStid ?? story.seq}`;
+        return (
+          <section key={key} aria-labelledby={`story-${key}`} className="grid gap-4">
+            <h2 id={`story-${key}`} className="item-head">
+              {story.title}
+            </h2>
+            <DocentPlayer story={story} easyMode={easyMode} />
+          </section>
+        );
+      })}
     </div>
   );
 }

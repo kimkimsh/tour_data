@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
@@ -12,6 +11,7 @@ import { VerdictPanel } from '@/components/place/VerdictPanel';
 import { CapabilityEvidence, countKtoItems } from '@/components/place/CapabilityEvidence';
 import { ReportsSection } from '@/components/place/ReportsSection';
 import { groupFactsByPoi, type PlaceCardData } from '@/components/place/place-view';
+import { Link } from '@/i18n/navigation';
 
 export const revalidate = 3600;
 
@@ -53,7 +53,7 @@ export default async function PlacePage({
   if (!facts.ok) return <SnapshotProblem result={facts} />;
 
   const poi = pois.data.find((p) => p.slug === slug);
-  if (!poi) notFound();
+  if (!poi) return <MissingPlace message={t('notFound')} backLabel={tc('nav.places')} />;
 
   const routes = orEmpty(await getRoutes());
   const docent = orEmpty(await getDocent());
@@ -86,9 +86,14 @@ export default async function PlacePage({
     <article className="grid gap-12">
       <header className="grid gap-2">
         <h1>{title}</h1>
-        <p className="font-mono text-[0.78rem] uppercase tracking-[0.1em] text-[var(--color-ink-2)]">
+        {/* No letter-spacing on this line, unlike the eyebrows elsewhere. It carries a
+            designation name — 사적 「공주 공산성」 — and tracking applied to Hangul opens
+            the space inside the quotation marks until the name looks like two. */}
+        <p className="font-mono text-[0.78rem] uppercase text-[var(--color-ink-2)]">
           {localeKey === 'en' ? poi.cityEn : poi.cityKo}
-          {poi.heritageLabel ? ` · ${poi.heritageLabel}` : ''}
+          {/* The designation name is Korean in both locales: it is the name the Korea
+              Heritage Service gazetted, and a translation of it would not resolve. */}
+          {poi.heritageLabel ? <span lang="ko"> · {poi.heritageLabel}</span> : null}
         </p>
         <p className="text-[0.95rem] text-[var(--color-ink-2)]">
           {poi.isUnescoComponent ? tp('componentSite') : tp('adjacentSite')}
@@ -103,13 +108,22 @@ export default async function PlacePage({
             {poi.certifications.map((cert) => (
               <li key={`${cert.grade}-${cert.sourceNote}`} className="text-[0.95rem]">
                 <span className="badge badge--visitable">{tc(`certification.${cert.grade}`)}</span>
-                <span className="evidence__provenance ml-2">{cert.sourceNote}</span>
+                <span lang="ko" className="evidence__provenance ml-2">
+                  {cert.sourceNote}
+                </span>
               </li>
             ))}
           </ul>
         ) : null}
+        {/* The overview is whatever the locale's own TourAPI service returned, and
+            the English service falls back to the Korean row when it has none. */}
         {i18n?.overview ? (
-          <p className="mt-2 max-w-[var(--container-prose)]">{i18n.overview}</p>
+          <p
+            lang={poi.i18n[locale as ContentLocale]?.overview ? localeKey : 'ko'}
+            className="mt-2 max-w-[var(--container-prose)]"
+          >
+            {i18n.overview}
+          </p>
         ) : null}
       </header>
 
@@ -136,9 +150,15 @@ export default async function PlacePage({
           <h2 id="crowd-heading" className="subhead">
             {tc('honesty.crowd')}
           </h2>
-          <p className="mt-2 tabular text-[1.4rem] font-extrabold">{crowd.rate}</p>
+          {/* The figure with its scale, not on its own. cnctrRate has no documented
+              unit, denominator or ceiling, so "82.94" printed large told a reader
+              nothing they could act on — and the same number is banded into a word
+              two sections above, where it reads as 혼잡. */}
+          <p className="mt-2 tabular text-[1.4rem] font-extrabold">
+            {t('crowdRate', { value: crowd.rate.toFixed(1) })}
+          </p>
           <p className="evidence__provenance mt-1">
-            {crowd.baseYmd} · TatsCnctrRateService · cnctrRate
+            {isoDate(crowd.baseYmd)} · TatsCnctrRateService · cnctrRate
           </p>
         </section>
       ) : null}
@@ -158,12 +178,27 @@ export default async function PlacePage({
                 <Image
                   src={media.url}
                   alt={media.alt}
+                  // The alt, the caption and the credit all come from the Korean
+                  // gallery record.
+                  lang="ko"
                   width={640}
                   height={427}
                   unoptimized={media.noTransform}
                   className={media.noTransform ? 'h-auto w-full object-contain' : 'h-auto w-full'}
                 />
-                <p className="evidence__provenance">{media.attribution}</p>
+                {/* The photographer's own title for the shot. The gallery search is
+                    a keyword match, so some of these name a neighbouring subject —
+                    낙화암 inside 부소산성, or the bridge across from 공산성 — and an
+                    unlabelled photograph under this place's heading claims to be of
+                    this place. */}
+                {media.caption ? (
+                  <p lang="ko" className="text-[0.93rem]">
+                    {media.caption}
+                  </p>
+                ) : null}
+                <p lang="ko" className="evidence__provenance">
+                  {media.attribution}
+                </p>
               </li>
             ))}
           </ul>
@@ -182,7 +217,10 @@ export default async function PlacePage({
                 (facility.coord ? Math.round(distanceMeters(poi.coord, facility.coord)) : null);
               return (
                 <li key={`${facility.kind}-${facility.name}`} className="evidence">
-                  <div>
+                  {/* Facility names, notes and source lines are Korean in both
+                      locales — they name real places and cite Korean pages — so the
+                      language is declared rather than left to an English voice. */}
+                  <div lang="ko">
                     <p className="font-bold">
                       {facility.name}
                       {distance !== null ? (
@@ -200,7 +238,7 @@ export default async function PlacePage({
                       </p>
                     ) : null}
                   </div>
-                  <p className="evidence__provenance">
+                  <p lang="ko" className="evidence__provenance">
                     {facility.sourceNote} · {facility.checkedAt}
                   </p>
                 </li>
@@ -223,7 +261,8 @@ export default async function PlacePage({
             <span aria-hidden="true">⚠ </span>
             {tc('honesty.related')}
           </p>
-          <ul className="flex flex-wrap gap-x-4 gap-y-1">
+          {/* Korean place names straight from the related-attractions dataset. */}
+          <ul lang="ko" className="flex flex-wrap gap-x-4 gap-y-1">
             {relatedForPoi.items.map((item) => (
               <li key={item.code}>
                 {item.name}
@@ -241,5 +280,37 @@ export default async function PlacePage({
         </section>
       ) : null}
     </article>
+  );
+}
+
+const KTO_COMPACT_DATE = /^(\d{4})(\d{2})(\d{2})$/;
+
+/** YYYYMMDD is a KTO request parameter, not a date anybody reads. */
+function isoDate(value: string): string {
+  const match = KTO_COMPACT_DATE.exec(value);
+  return match ? `${match[1]}-${match[2]}-${match[3]}` : value;
+}
+
+/**
+ * A slug that names no place in this service.
+ *
+ * Rendered here rather than through notFound(). Every route in this app sits under a
+ * route group with its own root layout, so there is no app/layout.tsx for Next to
+ * wrap a not-found render in, and the framework answers with a document that has no
+ * lang attribute, no heading and no text. On this service that is the worst page in
+ * the build. The cost is the status code: this answers 200 where 404 would be
+ * correct. An address outside the route tree entirely still gets a real 404, from
+ * src/app/not-found.tsx.
+ */
+function MissingPlace({ message, backLabel }: { message: string; backLabel: string }) {
+  return (
+    <div className="grid gap-4">
+      <h1>{message}</h1>
+      <p>
+        <Link href="/places" className="btn btn--filled">
+          {backLabel}
+        </Link>
+      </p>
+    </div>
   );
 }

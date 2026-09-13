@@ -103,16 +103,21 @@ test('changing the conditions changes the order and the labels', async ({ page }
   await page.goto('/ko');
   await page.getByLabel('휠체어를 이용해요').check();
   await page.getByRole('button', { name: '관광지 보기' }).click();
-  const wheelchairOrder = await page
-    .getByRole('list', { name: '관광지 목록' })
-    .getByRole('heading', { level: 2 })
-    .allTextContents();
+  // The list is client-rendered from localStorage, so until the scoreboard has run
+  // the screen shows its calculating state and there is no list to read. Waiting for
+  // the list itself, rather than reading straight after the click, is what makes the
+  // two reads below comparable — an empty result here says nothing about the order.
+  const wheelchairList = page.getByRole('list', { name: '관광지 목록' });
+  await expect(wheelchairList).toBeVisible();
+  const wheelchairOrder = await wheelchairList.getByRole('heading', { level: 2 }).allTextContents();
 
   await page.goto('/ko');
   await page.getByLabel('휠체어를 이용해요').uncheck();
   await page.getByLabel('귀가 잘 안 들려요').check();
   await page.getByRole('button', { name: '관광지 보기' }).click();
-  const deafSummary = await page.getByRole('list', { name: '관광지 목록' }).textContent();
+  const deafList = page.getByRole('list', { name: '관광지 목록' });
+  await expect(deafList).toBeVisible();
+  const deafSummary = await deafList.textContent();
 
   // The verdict for deaf visitors is expected to be mostly "not enough information":
   // the two capabilities it depends on are the ones KTO's own service does not even

@@ -143,8 +143,16 @@ export function CourseView({
                     <Link href={`/places/${leg.poiSlug}`} className="text-[1.06rem] font-bold">
                       {place?.title ?? leg.poiSlug}
                     </Link>
+                    {/* The arrow form only when the conditions actually moved the
+                        number. "체류 90분 → 90분" is the same figure twice and reads
+                        as a rendering fault. */}
                     <span className="tabular text-[0.95rem]">
-                      {t('stay', { base: leg.baseStayMinutes, adjusted: leg.adjustedStayMinutes })}
+                      {leg.adjustedStayMinutes === leg.baseStayMinutes
+                        ? t('stayPlain', { minutes: leg.baseStayMinutes })
+                        : t('stay', {
+                            base: leg.baseStayMinutes,
+                            adjusted: leg.adjustedStayMinutes,
+                          })}
                     </span>
                   </p>
 

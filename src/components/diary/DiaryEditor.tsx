@@ -91,7 +91,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
     async (kind: 'text' | 'gpx', fallbackName: string) => {
       let response: Response;
       try {
-        response = await fetch(`/api/export/${kind}`, {
+        response = await fetch(`/api/export/${kind}?locale=${locale}`, {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify(entry),
@@ -119,7 +119,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
       anchor.click();
       anchor.remove();
     },
-    [announce, entry, t],
+    [announce, entry, locale, t],
   );
 
   if (!loaded || !conditionsLoaded) {

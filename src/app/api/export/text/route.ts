@@ -1,8 +1,10 @@
 import { z } from 'zod';
+import { getTranslations } from 'next-intl/server';
 
 import { buildDiaryDocument, diaryToText } from '@/domain/diary';
+import { diaryLabels } from '@/lib/diary-labels';
 import { getPois, getRoutes } from '@/lib/data';
-import { PERSONA_IDS, type DiaryEntry } from '@/domain/types';
+import { PERSONA_IDS, type DiaryEntry, type Locale } from '@/domain/types';
 
 /**
  * The trip record as plain text: no markup, no table drawing, one piece of
@@ -86,7 +88,15 @@ export async function POST(request: Request) {
 
   // Typed, so the compiler is what checks the request schema against the contract.
   const entry: DiaryEntry = parsed.data;
-  const text = diaryToText(buildDiaryDocument(entry, { pois: pois.data, routes: routes.data }));
+  // The record is written in the language the visitor was reading. Without this the
+  // file came out Korean whatever the screen said.
+  const requested = new URL(request.url).searchParams.get('locale');
+  const locale: Locale = requested === 'en' ? 'en' : 'ko';
+  const labels = diaryLabels(await getTranslations({ locale, namespace: 'diary' }));
+  const text = diaryToText(
+    buildDiaryDocument(entry, { pois: pois.data, routes: routes.data }, labels, locale),
+    labels,
+  );
 
   const asciiName = `${FILE_STEM_ASCII}-${entry.date}.txt`;
   const koreanName = `${FILE_STEM_KO}-${entry.date}.txt`;

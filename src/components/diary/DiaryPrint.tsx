@@ -2,9 +2,11 @@
 
 import { Fragment, useId } from 'react';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { buildDiaryDocument } from '@/domain/diary';
+import { diaryLabels } from '@/lib/diary-labels';
+import type { Locale } from '@/domain/types';
 import type { Poi, Route } from '@/domain/snapshot-schema';
 import { useDiary } from './useDiary';
 
@@ -25,6 +27,7 @@ const PHOTO_HEIGHT = 427;
 export function DiaryPrint({ pois, routes }: { pois: Poi[]; routes: Route[] }) {
   const t = useTranslations('diary');
   const tc = useTranslations('common');
+  const locale = useLocale() as Locale;
   const { entry, loaded } = useDiary();
   const groupId = useId();
 
@@ -32,7 +35,7 @@ export function DiaryPrint({ pois, routes }: { pois: Poi[]; routes: Route[] }) {
     return <p role="status">{t('loading')}</p>;
   }
 
-  const doc = buildDiaryDocument(entry, { pois, routes });
+  const doc = buildDiaryDocument(entry, { pois, routes }, diaryLabels(t), locale);
 
   const openPrintDialog = async () => {
     // A font that arrives after the dialog opens reflows the page mid-print and

@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { AXES } from '@/domain/types';
-import type { Axis, Locale } from '@/domain/types';
+import type { Axis, CapabilityStatus, Locale } from '@/domain/types';
 import { CAPABILITIES, getCapability } from '@/domain/capabilities';
 import { AXIS_LABEL } from '@/domain/suitability';
 import type { Fact } from '@/domain/snapshot-schema';
@@ -56,12 +56,20 @@ export function CapabilityEvidence({
         const items = CAPABILITIES.filter((capability) => capability.axis === axis);
         return (
           <section key={axis} id={`axis-${axis}`} aria-labelledby={`axis-${axis}-heading`}>
-            <h2 id={`axis-${axis}-heading`} className="subhead">
+            {/* h3, under the section's own h2. The six axes are parts of "the items
+                behind the verdict", and at the same level a reader moving by heading
+                cannot tell that they belong to it. */}
+            <h3 id={`axis-${axis}-heading`} className="subhead">
               {axisLabel(axis, locale)}
-              <span className="ml-2 font-mono text-[0.72rem] font-normal uppercase tracking-[0.12em] text-[var(--color-ink-2)]">
+              {/* aria-hidden for the same reason as the persona codes: an adjacent
+                  span with no whitespace is read as one word — "진입entry". */}
+              <span
+                aria-hidden="true"
+                className="ml-2 font-mono text-[0.72rem] font-normal uppercase tracking-[0.12em] text-[var(--color-ink-2)]"
+              >
                 {axis}
               </span>
-            </h2>
+            </h3>
             <div>
               {items.map((capability) => {
                 const fact = byCode.get(capability.code);
@@ -70,10 +78,11 @@ export function CapabilityEvidence({
                   <EvidenceRow
                     key={capability.code}
                     title={locale === 'ko' ? capability.labelKo : capability.labelEn}
-                    statusText={tc(`status.${status}`)}
+                    statusText={statusWord(status, axis, fact?.absenceKind ?? null, tc)}
                     statusKind={status}
                     quotedDetail={fact?.detail ?? null}
                     derived={capability.ktoField === null}
+                    derivedLabel={tc('derivedLabel')}
                     absenceExplanation={
                       status === 'unknown'
                         ? tc(`absence.${fact?.absenceKind ?? 'null'}`)
@@ -98,9 +107,9 @@ export function CapabilityEvidence({
 
       {etcNotes.length > 0 ? (
         <section aria-labelledby="etc-heading" className="card">
-          <h2 id="etc-heading" className="subhead">
+          <h3 id="etc-heading" className="subhead">
             {t('etcNotes')}
-          </h2>
+          </h3>
           <p className="mt-1 text-[0.9rem] text-[var(--color-ink-2)]">{t('etcNotesHint')}</p>
           <ul className="mt-3 grid gap-3">
             {etcNotes.map((note) => (
@@ -118,6 +127,27 @@ export function CapabilityEvidence({
 
 function axisLabel(axis: Axis, locale: Locale): string {
   return locale === 'ko' ? AXIS_LABEL[axis].ko : AXIS_LABEL[axis].en;
+}
+
+/**
+ * The four status words answer "can you use this facility", and on the context axis
+ * there is no facility to use. A crowding forecast of 82 was rendered "이용 불가",
+ * which on a barrier-free service reads as "you cannot go" rather than "it will be
+ * busy"; the same word sat under 기상 특보 and 응급실 거리. Those five items get a
+ * vocabulary about the condition instead.
+ *
+ * A capability that does not apply to this kind of place gets its own word too. The
+ * explanation underneath already said 해당하지 않는 항목 while the badge said
+ * 정보 없음, which are different claims.
+ */
+function statusWord(
+  status: CapabilityStatus,
+  axis: Axis,
+  absenceKind: string | null,
+  tc: (key: string) => string,
+): string {
+  if (status === 'unknown' && absenceKind === 'not_applicable') return tc('status.notApplicable');
+  return axis === 'context' ? tc(`contextStatus.${status}`) : tc(`status.${status}`);
 }
 
 /** Counts the KTO-scored items, excluding the ones that cannot apply to this place. */

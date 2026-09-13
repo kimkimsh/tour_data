@@ -226,7 +226,9 @@ export function ReportForm({
           aria-describedby={errorFor('consent') ? `${groupId}-consent-error` : undefined}
         />
         <label htmlFor={`${groupId}-consent`} className="flex-1 py-1 font-bold">
-          <span className="mr-2 text-[var(--color-state-bad)]">[{t('consentRequired')}]</span>
+          {/* The trailing space is inside the span. Without it the accessible name
+              runs the marker into the sentence — "[필수]위 내용이…". */}
+          <span className="mr-1 text-[var(--color-state-bad)]">[{t('consentRequired')}] </span>
           {t('consent')}
         </label>
       </div>

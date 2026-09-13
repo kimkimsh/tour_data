@@ -64,7 +64,15 @@ export function ConditionsForm() {
                 />
                 <label htmlFor={id} className="min-h-[44px] flex-1 py-1 text-[1.05rem]">
                   {locale === 'ko' ? persona.choiceKo : persona.choiceEn}
-                  <span className="ml-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--color-ink-2)]">
+                  {/* aria-hidden: the code is a cross-reference for a reader holding the
+                      spec beside the screen. Left in the accessibility tree it joins the
+                      choice with no separator — "휠체어를 이용해요P1a" is one word to a
+                      screen reader, and the checkbox it names is the one control every
+                      visitor has to get through. */}
+                  <span
+                    aria-hidden="true"
+                    className="ml-2 font-mono text-[0.72rem] uppercase tracking-[0.1em] text-[var(--color-ink-2)]"
+                  >
                     {persona.id}
                   </span>
                 </label>

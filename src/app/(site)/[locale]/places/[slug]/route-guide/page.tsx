@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getPois, getRoutes } from '@/lib/data';
@@ -7,6 +6,7 @@ import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { RouteSteps } from '@/components/route/RouteSteps';
 import { RouteExports } from '@/components/route/RouteExports';
+import { Link } from '@/i18n/navigation';
 import { getPersona } from '@/domain/personas';
 import type { ContentLocale, Locale } from '@/domain/types';
 
@@ -23,7 +23,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: 'routeGuide' });
-  return { title: `${slug} · ${t('metaTitle')}` };
+  // The place's name, not its slug. A tab reading "gongsanseong · 경로 안내" is the
+  // database key on display, and it is what a reader sees first in history and in
+  // a shared bookmark.
+  const pois = await getPois();
+  const poi = pois.ok ? pois.data.find((p) => p.slug === slug) : undefined;
+  const title = poi?.i18n[locale as ContentLocale]?.title ?? poi?.i18n.ko?.title ?? slug;
+  return { title: `${title} · ${t('metaTitle')}` };
 }
 
 export default async function RouteGuidePage({
@@ -35,12 +41,13 @@ export default async function RouteGuidePage({
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: 'routeGuide' });
   const tc = await getTranslations({ locale, namespace: 'common' });
+  const tPlace = await getTranslations({ locale, namespace: 'place' });
 
   const [pois, routes] = await Promise.all([getPois(), getRoutes()]);
   if (!pois.ok) return <SnapshotProblem result={pois} />;
 
   const poi = pois.data.find((p) => p.slug === slug);
-  if (!poi) notFound();
+  if (!poi) return <MissingPlace message={tPlace('notFound')} backLabel={tc('nav.places')} />;
 
   const title = poi.i18n[locale as ContentLocale]?.title ?? poi.i18n.ko?.title ?? poi.slug;
   const route = routes.ok ? routes.data.find((r) => r.poiSlug === slug) : undefined;
@@ -95,6 +102,30 @@ export default async function RouteGuidePage({
 
       <RouteSteps route={route} />
       <RouteExports route={route} fileName={slug} />
+    </div>
+  );
+}
+
+/**
+ * A slug that names no place in this service.
+ *
+ * Rendered here rather than through notFound(). Every route in this app sits under a
+ * route group with its own root layout, so there is no app/layout.tsx for Next to
+ * wrap a not-found render in, and the framework answers with a document that has no
+ * lang attribute, no heading and no text. On this service that is the worst page in
+ * the build. The cost is the status code: this answers 200 where 404 would be
+ * correct. An address outside the route tree entirely still gets a real 404, from
+ * src/app/not-found.tsx.
+ */
+function MissingPlace({ message, backLabel }: { message: string; backLabel: string }) {
+  return (
+    <div className="grid gap-4">
+      <h1>{message}</h1>
+      <p>
+        <Link href="/places" className="btn btn--filled">
+          {backLabel}
+        </Link>
+      </p>
     </div>
   );
 }

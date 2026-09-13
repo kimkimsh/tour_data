@@ -15,13 +15,16 @@ import { usePathname } from 'next/navigation';
  */
 export function RouteFocus() {
   const pathname = usePathname();
-  const firstRender = useRef(true);
+  // The path this component was mounted at, not a "have I run yet" flag. React runs
+  // an effect twice on mount in development, and a boolean guard flips on the first
+  // pass and lets the second one through — so every fresh page load put a focus ring
+  // around its own h1 before the reader had touched anything. Comparing paths cannot
+  // be fooled by a repeated run, because the path has not changed.
+  const focusedFor = useRef(pathname);
 
   useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+    if (focusedFor.current === pathname) return;
+    focusedFor.current = pathname;
     const target =
       document.querySelector<HTMLElement>('main h1') ??
       document.getElementById('main-content');
@@ -29,6 +32,11 @@ export function RouteFocus() {
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
     target.setAttribute('data-route-focus', '');
     target.focus();
+    // Dropped on blur so the ring belongs to this one arrival. Left in place, a later
+    // mouse click on the heading would draw a keyboard focus ring.
+    target.addEventListener('blur', () => target.removeAttribute('data-route-focus'), {
+      once: true,
+    });
   }, [pathname]);
 
   return null;

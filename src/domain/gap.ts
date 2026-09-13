@@ -65,7 +65,10 @@ function fillCatalogue(
         capabilityCode: capability.code,
         status: 'unknown',
         absenceKind: null,
-        source: capability.ktoField === null ? 'derived' : 'kto_with',
+        // derived_facility, not 'derived': that string is not a FactSource, and
+        // suitability.normaliseFacts synthesizes the same missing row under the
+        // real one. Two screens naming one absent row two different ways.
+        source: capability.ktoField === null ? 'derived_facility' : 'kto_with',
         isKtoScored: capability.ktoField !== null,
         verifiedAt: null,
         detail: null,
@@ -119,6 +122,11 @@ export function computeGapReport(
     if (feasibility === null) continue;
     const capability = getCapability(fact.capabilityCode);
     if (!capability) continue;
+    // KTO items only, the same denominator the fill table and the page header use.
+    // The derived items are ours — a forecast, a distance from a content file — and
+    // listing them as an improvement priority asks a municipal officer to fill in a
+    // cell that exists in no system they can reach.
+    if (capability.ktoField === null) continue;
 
     const impact = impactOf(fact.capabilityCode);
     const severity = severityOf(fact.status);
@@ -145,22 +153,25 @@ export function computeGapReport(
       b.priority - a.priority ||
       (unknownCountByPoi.get(b.poiSlug) ?? 0) - (unknownCountByPoi.get(a.poiSlug) ?? 0) ||
       catalogueIndex(a.capabilityCode) - catalogueIndex(b.capabilityCode) ||
-      a.poiSlug.localeCompare(b.poiSlug),
+      // Code-point order, not localeCompare. Collation with no locale argument
+      // follows the runtime's ICU data and default locale, so the same snapshot can
+      // order two equal rows one way in Node and another in a browser — which is
+      // the thing the tie-breakers above exist to prevent.
+      (a.poiSlug < b.poiSlug ? -1 : a.poiSlug > b.poiSlug ? 1 : 0),
   );
 
   return { fill, priorities, notRegisteredPoiSlugs };
 }
 
-export const GAP_CSV_HEADER = [
-  '관광지',
-  '항목코드',
-  '항목명',
-  '상태',
-  '부재유형',
-  '우선순위',
-  '출처',
-  '확인일',
-] as const;
+/**
+ * The file is handed to a person, so its header row follows the locale the person
+ * asked for. A Korean header over English place names was the earlier state, and it
+ * made the file unreadable to the only audience the English column set exists for.
+ */
+const GAP_CSV_HEADER: Record<'ko' | 'en', readonly string[]> = {
+  ko: ['관광지', '항목코드', '항목명', '상태', '부재유형', '우선순위', '출처', '확인일'],
+  en: ['Place', 'Item code', 'Item', 'Status', 'Cause', 'Priority', 'Source', 'Checked on'],
+};
 
 const STATUS_LABEL_KO: Record<SuitabilityFactInput['status'], string> = {
   supported: '확인됨',
@@ -230,20 +241,37 @@ export function absenceLabel(absenceKind: SuitabilityFactInput['absenceKind'], l
   return ABSENCE_LABEL_EN[absenceKind] ?? 'Cause not established';
 }
 
+/**
+ * A spreadsheet treats a cell that opens with =, +, -, @, tab or CR as a formula,
+ * and quoting does not stop it — Excel evaluates `"=1+1"`. This file exists to be
+ * opened in Excel by a municipal officer, and the place-name column is upstream text
+ * from the KTO response, so the value is not ours to vouch for. A leading apostrophe
+ * is the form Excel and LibreOffice both read as "this is literal text".
+ */
+const FORMULA_LEAD = /^[=+\-@\t\r]/;
+
 function csvCell(value: string): string {
-  return /[",\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+  const safe = FORMULA_LEAD.test(value) ? `'${value}` : value;
+  // \r as well as \n: a lone CR inside a value splits the record, because the rows
+  // below are joined with \r\n.
+  return /[",\n\r]/.test(safe) ? `"${safe.replace(/"/g, '""')}"` : safe;
 }
 
-export function gapRowsToCsv(rows: ReadonlyArray<GapRow>, poiTitles: Record<string, string>): string {
-  const lines = [GAP_CSV_HEADER.join(',')];
+export function gapRowsToCsv(
+  rows: ReadonlyArray<GapRow>,
+  poiTitles: Record<string, string>,
+  locale: string,
+): string {
+  const lang = locale === 'en' ? 'en' : 'ko';
+  const lines = [GAP_CSV_HEADER[lang].join(',')];
   for (const row of rows) {
     lines.push(
       [
         csvCell(poiTitles[row.poiSlug] ?? row.poiSlug),
         csvCell(row.capabilityCode),
-        csvCell(row.labelKo),
-        csvCell(statusLabelKo(row.status)),
-        csvCell(absenceLabelKo(row.absenceKind)),
+        csvCell(lang === 'ko' ? row.labelKo : (getCapability(row.capabilityCode)?.labelEn ?? row.labelKo)),
+        csvCell(statusLabel(row.status, locale)),
+        csvCell(absenceLabel(row.absenceKind, locale)),
         row.priority.toFixed(2),
         csvCell(row.source),
         csvCell(row.verifiedAt ?? ''),

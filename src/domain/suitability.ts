@@ -11,7 +11,7 @@ import {
   type SuitabilityLabel,
   type SuitabilityResult,
 } from './types';
-import { CAPABILITIES } from './capabilities';
+import { CAPABILITIES, catalogueIndex } from './capabilities';
 import { GRADE_WEIGHT, criticalCodesFor, gradeFor, relevantCodesFor } from './personas';
 
 /**
@@ -40,7 +40,9 @@ export const AXIS_LABEL: Record<Axis, { ko: string; en: string }> = {
   facility: { ko: '편의시설', en: 'Facilities' },
   information: { ko: '정보안내', en: 'Information' },
   rest: { ko: '휴식', en: 'Rest' },
-  context: { ko: '상황', en: 'Conditions' },
+  // 'Situation', not 'Conditions': the visitor's own conditions are named that on
+  // every screen, and 'the distances on the conditions axis' could not be read.
+  context: { ko: '상황', en: 'Situation' },
 };
 
 /**
@@ -204,11 +206,21 @@ function pickAlternatives(
 
   // Better label first, then the higher score inside the same label.
   // A score comparison alone would make six equally sparse POIs recommend each other.
-  const sameLabelHigher = candidates.filter(
-    (c) => LABEL_RANK[c.label] === selfRank && c.score > self.score,
-  );
+  //
+  // '대체추천' is excluded from the same-label arm, which is the whole reason the
+  // comparison is on labels rather than scores: a place with a confirmed critical
+  // barrier is never somewhere to go instead, however much higher its number is.
+  const sameLabelHigher =
+    self.label === '대체추천'
+      ? []
+      : candidates.filter((c) => LABEL_RANK[c.label] === selfRank && c.score > self.score);
   return [...better, ...sameLabelHigher]
-    .sort((a, b) => LABEL_RANK[a.label] - LABEL_RANK[b.label] || b.score - a.score)
+    .sort(
+      (a, b) =>
+        LABEL_RANK[a.label] - LABEL_RANK[b.label] ||
+        b.score - a.score ||
+        (a.poiSlug < b.poiSlug ? -1 : a.poiSlug > b.poiSlug ? 1 : 0),
+    )
     .slice(0, 3);
 }
 
@@ -248,10 +260,15 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
   const requiredFacts = requiredCodes.map((code) => byCode.get(code)!);
   const knownCriticalBlockers = requiredFacts
     .filter((f) => f.status === 'unsupported')
-    .map((f) => f.capabilityCode);
+    .map((f) => f.capabilityCode)
+    .sort((a, b) => catalogueIndex(a) - catalogueIndex(b));
+  // Catalogue order, not selection order. These names are printed beside the badge,
+  // and taking them in the order the personas were flatMapped made the sentence on
+  // screen depend on which condition chip the visitor tapped first.
   const unknownCriticals = requiredFacts
     .filter((f) => f.status === 'unknown')
-    .map((f) => f.capabilityCode);
+    .map((f) => f.capabilityCode)
+    .sort((a, b) => catalogueIndex(a) - catalogueIndex(b));
 
   let score = score0;
   let label: SuitabilityLabel;
@@ -263,10 +280,14 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     score = Math.min(score, BLOCKED_SCORE_CEILING);
   } else if (
     (requiredFacts.length > 0 && unknownCriticals.length / requiredFacts.length > 0.5) ||
-    (personaIds.length === 0 && coverage === 0)
+    (requiredFacts.length === 0 && coverage === 0)
   ) {
     // Rule 2. More than half of what matters is unknown, so there is no verdict
-    // to give. The second arm covers P0, which has no critical set at all.
+    // to give. The second arm covers every case with no critical set to judge on —
+    // P0, which has none by definition, and any persona whose whole critical set
+    // turned out not to apply to this kind of place. Guarding that arm on
+    // personaIds.length alone left the second case scored: nothing known, nothing
+    // required, and a number on screen anyway.
     label = '정보없음';
   } else {
     label = score0 >= VISITABLE_THRESHOLD ? '방문가능' : '주의';

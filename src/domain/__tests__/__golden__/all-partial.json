@@ -364,7 +364,7 @@
       {
         "axis": "context",
         "labelKo": "상황",
-        "labelEn": "Conditions",
+        "labelEn": "Situation",
         "weight": 0.10000000000000003,
         "rawScore": 0.5,
         "weighted": 0.05000000000000002,

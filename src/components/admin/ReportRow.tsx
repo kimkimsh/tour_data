@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { REPORT_CATEGORIES } from '@/domain/types';
 import type { ReportCategory } from '@/domain/types';
 import { setReportHidden } from '@/app/(admin)/admin/reports/actions';
+import { seoulToday } from '@/domain/today';
 
 export interface AdminReport {
   id: string;
@@ -71,11 +72,11 @@ export function ReportRow({
       status: '',
       detail: report.detail ?? '',
       source: t('copySource', { id: report.id.slice(0, 6) }),
-      checkedAt: new Date().toISOString().slice(0, 10),
+      checkedAt: seoulToday(),
     };
     await navigator.clipboard.writeText(JSON.stringify(fragment, null, 2));
-    // The whole sentence, including the "paste it and commit" half that used to be
-    // dropped: that instruction is the audit step this feature depends on.
+    // The whole sentence, including the "paste it and commit" half: that instruction
+    // is the audit step this feature depends on.
     announce(`${t('copied')} (${new Date().toLocaleTimeString()})`);
   };
 

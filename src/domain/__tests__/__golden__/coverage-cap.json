@@ -366,7 +366,7 @@
       {
         "axis": "context",
         "labelKo": "상황",
-        "labelEn": "Conditions",
+        "labelEn": "Situation",
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
@@ -400,8 +400,8 @@
       },
       {
         "capabilityCode": "parking",
-        "labelKo": "주차",
-        "reason": "주차 정보 없음",
+        "labelKo": "장애인 주차구역",
+        "reason": "장애인 주차구역 정보 없음",
         "axis": "facility"
       },
       {

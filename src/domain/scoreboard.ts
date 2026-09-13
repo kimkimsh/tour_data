@@ -76,6 +76,8 @@ export function sortScoreboard(entries: ScoreboardEntry[]): ScoreboardEntry[] {
     (a, b) =>
       labelRank(a.result.label) - labelRank(b.result.label) ||
       b.result.score - a.result.score ||
-      a.poiSlug.localeCompare(b.poiSlug),
+      // Code-point order. localeCompare with no locale follows the runtime's ICU
+      // data, so the server and the browser can disagree about two equal rows.
+      (a.poiSlug < b.poiSlug ? -1 : a.poiSlug > b.poiSlug ? 1 : 0),
   );
 }

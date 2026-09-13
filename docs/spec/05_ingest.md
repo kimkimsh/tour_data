@@ -163,8 +163,17 @@ export type Axis = typeof CAPABILITIES[number]['axis'];
 //   방향을 정하기 때문이다 — `단차 없음`(좋음)과 `엘리베이터 없음`(나쁨)은 같은
 //   `없음`이고, 앞의 명사가 장애물인지 시설인지만 다르다.
 const BARRIER_NOUN = /(단차|문턱|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;
-const NEGATED_NEARBY = /(없|아니|불가|미설치|않)/;   // 명사 뒤 8자 안에서만 본다
-const PRESENT_NEARBY = /(있|존재|많)/;
+const NEGATED_NEARBY = /(없|아니|불가|미설치|않|못)/;  // 명사 뒤 8자 안에서만 본다
+const PRESENT_NEARBY = /(있|존재|많|만)/;             // '만'은 배타 조사 — '계단으로만'
+
+// ★★ 부정은 **구절 목록이 아니라 형태**다. 한국어의 부정은 접미이므로 부정형 안에는
+//    언제나 그 동사 어간이 그대로 들어 있다. 어간만 보는 긍정 사전과 어미까지 붙은
+//    연어만 나열한 부정 사전을 짝지으면, 나열에 없는 부정 표현이 전부 긍정으로 넘어간다.
+const NEGATION =
+  /(없|불가|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되]|해당\s*없)/;
+
+// 시설 어간은 **후보**일 뿐이다. 어간 뒤 10자 안에 부정 표지가 있으면 존재의 증거가 아니다.
+const PRESENCE_STEM = /(있음|있습니다|있다|있어요|설치되어|설치돼|설치되었|가능|운영|대여|비치|제공|완비)/g;
 
 export function resolveStatus(raw: string | null | undefined): CapabilityStatus {
   const s = (raw ?? '').trim();
@@ -182,12 +191,26 @@ export function resolveStatus(raw: string | null | undefined): CapabilityStatus 
   // ③ 장애물 구절을 걷어낸 나머지 문장으로 판정한다
   if (CONDITIONAL.test(barrier.rest)) return 'partial';   // 일부·제한·어려움·사전문의…
   if (NEGATION.test(barrier.rest))   return 'unsupported'; // 시설 부재는 부재다
-  if (PRESENCE.test(barrier.rest))   return 'supported';
+  // 극성을 읽지 못한 장애물 명사는 아래 긍정 판정을 전부 막는다
+  if (barrier.ambiguous)             return 'unknown';
+  if (hasUnnegatedPresence(barrier.rest)) return 'supported';
   if (barrier.absent)                return 'supported';   // 장애물만 없다고 확인된 경우
 
   return 'unknown';
 }
 ```
+
+> **★★ 세 번째 방향이 가장 무거웠다 — 확인된 부재를 「확인됨」으로 발행했다.**
+>
+> 부정 사전이 `설치되지\s*않`·`운영하지\s*않`처럼 **어미까지 붙은 특정 연어**를 나열하는 동안, 긍정 사전은 `설치되어`·`운영`·`제공`·`대여`·`가능` 같은 **어간**을 봤다. 한국어에서 부정은 접미이므로 **부정형 문장 안에는 언제나 그 어간이 들어 있다.** 나열에 없는 부정 표현은 부정 사전을 그냥 지나쳐 긍정 사전에 걸렸다.
+>
+> 실측: `장애인용 화장실이 설치되어 있지 않습니다` → **`supported`**. `운영 안 함`·`대여하지 않음`·`휠체어 대여 안 됨`·`엘리베이터 고장으로 운영 중단`·`계단으로만 이동 가능` → **전부 `supported`**.
+>
+> `restroom`은 P1a·P1b·P3의 필수 항목이다. `supported`가 되면 `knownCriticalBlockers`에도 `unknownCriticals`에도 들어가지 않아 §6.4 규칙 1이 발동하지 않는다. **장애인 화장실이 없는 곳이 휠체어 이용자에게 「방문가능」으로 보일 수 있었다.**
+>
+> **고친 방향은 목록을 늘리는 것이 아니다.** ① 부정을 **형태**로 본다(장형 `-지 않-`·`-지 못-`, 단형 `안 V`·`못 V`, 존재 `없-`, 접두 `미-`·`불-`, 그리고 시설이 멈췄다는 말). ② **긍정도 국소적으로 읽는다** — 시설 어간 뒤 창에 부정 표지가 있으면 그 어간은 증거가 아니다. `scanBarriers()`가 장애물 명사에 쓰는 기법을 동사에 그대로 쓴다. ③ **극성을 읽지 못한 장애물 명사는 긍정 판정을 막는다** — `계단으로만 이동 가능`은 `계단`이 조용히 버려지고 `가능`이 문장을 혼자 결정하던 경로다.
+>
+> 기록은 [`../work_log/09_review_and_polish.md`](../work_log/09_review_and_polish.md) §1.
 
 > **★ 방향은 두 번 틀렸고, 두 번 다 비용이 실제 헛걸음이었다.**
 >
@@ -200,7 +223,7 @@ export function resolveStatus(raw: string | null | undefined): CapabilityStatus 
 >
 > `계단만 있음`은 이 구조가 아니면 잡을 수 없다. 긍정 어휘(`있음`)가 문장에 있으므로 어디서든 매칭하는 규칙은 `supported`를 낸다 — **실제로 계단뿐인 입구에 「확인된 항목: 엘리베이터」가 찍혔다.**
 
-**회귀 테스트가 이 함수의 유일한 보증이다.** `src/domain/__tests__/resolve-status.test.ts`에 42건이 있고, 전부 실제 문장이다 — KTO `detailWithTour2` 응답, 공주시·부여군 편의시설 표, 그리고 위 두 오류가 만든 문장들. **골든 적합도 케이스는 상태를 직접 넣기 때문에 이 단계를 절대 통과하지 않는다**(`suitability.test.ts`는 `status: 'supported'`를 받는다). 한국어 문장이 기계 판정으로 바뀌는 지점을 시험하는 곳은 이 파일뿐이다.
+**회귀 테스트가 이 함수의 유일한 보증이다.** `src/domain/__tests__/resolve-status.test.ts`에 **54건**이 있고, 전부 실제 문장이다 — KTO `detailWithTour2` 응답, 공주시·부여군 편의시설 표, 그리고 위 두 오류가 만든 문장들. **골든 적합도 케이스는 상태를 직접 넣기 때문에 이 단계를 절대 통과하지 않는다**(`suitability.test.ts`는 `status: 'supported'`를 받는다). 한국어 문장이 기계 판정으로 바뀌는 지점을 시험하는 곳은 이 파일뿐이다.
 
 **중요한 안전장치:** 이 정규식은 여전히 완벽하지 않다. 그래서
 

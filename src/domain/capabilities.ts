@@ -24,8 +24,8 @@ export interface Capability {
 export const CAPABILITIES: readonly Capability[] = [
   // entry
   { code: 'access_route', ktoField: 'route', labelKo: '접근로', labelEn: 'Route to entrance', axis: 'entry' },
-  { code: 'entrance_passage', ktoField: 'exit', labelKo: '출입통로', labelEn: 'Entrance', axis: 'entry' },
-  { code: 'wheelchair', ktoField: 'wheelchair', labelKo: '휠체어', labelEn: 'Wheelchair rental', axis: 'entry' },
+  { code: 'entrance_passage', ktoField: 'exit', labelKo: '출입통로', labelEn: 'Entrance doorway', axis: 'entry' },
+  { code: 'wheelchair', ktoField: 'wheelchair', labelKo: '휠체어 대여', labelEn: 'Wheelchair rental', axis: 'entry' },
   { code: 'elevator', ktoField: 'elevator', labelKo: '엘리베이터', labelEn: 'Elevator', axis: 'entry' },
   { code: 'ticket_office', ktoField: 'ticketoffice', labelKo: '매표소', labelEn: 'Ticket office', axis: 'entry' },
   { code: 'help_dog', ktoField: 'helpdog', labelKo: '보조견 동반', labelEn: 'Assistance dogs', axis: 'entry' },
@@ -35,24 +35,24 @@ export const CAPABILITIES: readonly Capability[] = [
   { code: 'guide_system', ktoField: 'guidesystem', labelKo: '유도 안내 설비', labelEn: 'Wayfinding signage', axis: 'continuity' },
   { code: 'path_continuity', ktoField: null, labelKo: '경로 연속성', labelEn: 'Route continuity', axis: 'continuity' },
   // facility
-  { code: 'restroom', ktoField: 'restroom', labelKo: '화장실', labelEn: 'Accessible toilet', axis: 'facility' },
-  { code: 'parking', ktoField: 'parking', labelKo: '주차', labelEn: 'Accessible parking', axis: 'facility' },
-  { code: 'stroller', ktoField: 'stroller', labelKo: '유모차', labelEn: 'Stroller rental', axis: 'facility' },
+  { code: 'restroom', ktoField: 'restroom', labelKo: '장애인 화장실', labelEn: 'Accessible restroom', axis: 'facility' },
+  { code: 'parking', ktoField: 'parking', labelKo: '장애인 주차구역', labelEn: 'Accessible parking', axis: 'facility' },
+  { code: 'stroller', ktoField: 'stroller', labelKo: '유아차 대여', labelEn: 'Stroller rental', axis: 'facility' },
   { code: 'nursing_room', ktoField: 'lactationroom', labelKo: '수유실', labelEn: 'Baby feeding room', axis: 'facility' },
   { code: 'baby_chair', ktoField: 'babysparechair', labelKo: '유아용 보조의자', labelEn: 'High chair', axis: 'facility' },
-  { code: 'room', ktoField: 'room', labelKo: '객실', labelEn: 'Wheelchair-accessible room', axis: 'facility' },
-  { code: 'hearing_room', ktoField: 'hearingroom', labelKo: '객실(청각)', labelEn: 'Hearing-accessible room', axis: 'facility' },
+  { code: 'room', ktoField: 'room', labelKo: '휠체어 이용 가능 객실', labelEn: 'Wheelchair-accessible room', axis: 'facility' },
+  { code: 'hearing_room', ktoField: 'hearingroom', labelKo: '청각장애인 편의 객실', labelEn: 'Hearing-accessible room', axis: 'facility' },
   // information
   { code: 'audio_guide', ktoField: 'audioguide', labelKo: '오디오 가이드', labelEn: 'Audio guide', axis: 'information' },
   { code: 'big_print', ktoField: 'bigprint', labelKo: '큰 활자 홍보물', labelEn: 'Large print information', axis: 'information' },
   { code: 'braille_promotion', ktoField: 'brailepromotion', labelKo: '점자 홍보물·표지', labelEn: 'Braille information and signage', axis: 'information' },
   { code: 'promotion_material', ktoField: 'promotion', labelKo: '홍보물', labelEn: 'Printed information', axis: 'information' },
   { code: 'guide_human', ktoField: 'guidehuman', labelKo: '안내요원', labelEn: 'Staff assistance', axis: 'information' },
-  { code: 'sign_guide', ktoField: 'signguide', labelKo: '수화 안내', labelEn: 'Korean Sign Language (KSL)', axis: 'information' },
+  { code: 'sign_guide', ktoField: 'signguide', labelKo: '수어 안내', labelEn: 'Korean Sign Language (KSL)', axis: 'information' },
   { code: 'video_caption', ktoField: 'videoguide', labelKo: '자막 영상 안내', labelEn: 'Captioned video', axis: 'information' },
   { code: 'visual_alarm', ktoField: null, labelKo: '시각 경보기', labelEn: 'Visual fire alarm', axis: 'information' },
   // rest
-  { code: 'auditorium', ktoField: 'auditorium', labelKo: '관람석', labelEn: 'Accessible seating', axis: 'rest' },
+  { code: 'auditorium', ktoField: 'auditorium', labelKo: '장애인 관람석', labelEn: 'Accessible seating', axis: 'rest' },
   { code: 'rest_seating', ktoField: null, labelKo: '휴식 좌석', labelEn: 'Rest seating', axis: 'rest' },
   { code: 'shade_indoor', ktoField: null, labelKo: '그늘·실내 휴게', labelEn: 'Shade or indoor rest', axis: 'rest' },
   // context
@@ -108,21 +108,54 @@ export const KTO_ETC_FIELDS = [
  */
 const BARRIER_NOUN = /(단차|문턱|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;
 
-/** Looked for in the few characters after a barrier noun, not across the sentence. */
-const NEGATED_NEARBY = /(없|아니|불가|미설치|않)/;
-const PRESENT_NEARBY = /(있|존재|많)/;
+/**
+ * Looked for in the few characters after a barrier noun, not across the sentence.
+ *
+ * '만' is in the presence set because it is the exclusivity particle: '계단으로만',
+ * '계단만' assert that the barrier is the only way through.
+ */
+const NEGATED_NEARBY = /(없|아니|불가|미설치|않|못)/;
+const PRESENT_NEARBY = /(있|존재|많|만)/;
 const NEARBY_WINDOW = 8;
 
 const NEEDS_CHECKING = /(미확인|확인\s*필요|확인\s*요|문의\s*필요|파악\s*중)/;
+
+/**
+ * Korean negates by suffix, so a negation marker is a *shape*, not a phrase. An
+ * earlier version listed specific collocations — 설치되지 않, 운영하지 않, 제공하지 않 —
+ * while PRESENCE matched bare stems, and the two sets were asymmetric in the one
+ * direction that matters: every negated form of a facility verb still contains that
+ * verb, so any phrasing outside the closed list fell through to PRESENCE and a
+ * stated absence was published as a confirmed facility. Measured:
+ * '장애인용 화장실이 설치되어 있지 않습니다' → supported, '운영 안 함' → supported,
+ * '대여하지 않음' → supported.
+ *
+ * The general markers below are what Korean actually uses: 장형 부정 (-지 않-, -지 못-),
+ * 단형 부정 (안 V, 못 V), 존재 부정 (없-), the 미-/불- prefixes, and the words that
+ * state a facility has stopped working.
+ */
 const NEGATION =
-  /(없음|없다|없습니다|없으|불가|미설치|미운영|미제공|설치되지\s*않|설치\s*안|운영하지\s*않|제공하지\s*않|해당\s*없음)/;
+  /(없|불가|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되]|해당\s*없)/;
 const CONDITIONAL =
   /(일부|제한|사전\s*문의|예약\s*필요|협의|평일만|우천\s*시|동절기|어려움|어렵|동반\s*필요)/;
-const PRESENCE = /(있음|있습니다|있다|설치되어|설치돼|가능|운영|대여|비치|제공|완비)/;
+
+/**
+ * Facility stems. A match is a candidate for 'supported', never a verdict: the
+ * window after it has to be clear of a negation marker first, for the reason in the
+ * NEGATION docblock.
+ */
+const PRESENCE_STEM = /(있음|있습니다|있다|있어요|설치되어|설치돼|설치되었|가능|운영|대여|비치|제공|완비)/g;
+const PRESENCE_WINDOW = 10;
 
 interface BarrierScan {
   present: boolean;
   absent: boolean;
+  /**
+   * A barrier noun was found and the window around it said neither "present" nor
+   * "absent". The noun is still in the sentence and still unexplained, so the
+   * sentence has not been read — it must not fall through to a positive verdict.
+   */
+  ambiguous: boolean;
   /** The sentence with each polarised barrier phrase removed. */
   rest: string;
 }
@@ -135,6 +168,7 @@ interface BarrierScan {
 function scanBarriers(s: string): BarrierScan {
   let present = false;
   let absent = false;
+  let ambiguous = false;
   let rest = '';
   let cursor = 0;
 
@@ -144,13 +178,29 @@ function scanBarriers(s: string): BarrierScan {
     const window = s.slice(end, end + NEARBY_WINDOW);
     if (NEGATED_NEARBY.test(window)) absent = true;
     else if (PRESENT_NEARBY.test(window)) present = true;
-    else continue;
+    else {
+      ambiguous = true;
+      continue;
+    }
     // Drop the noun and its window so the remaining text can be read on its own.
     rest += s.slice(cursor, start);
     cursor = Math.min(s.length, end + NEARBY_WINDOW);
   }
 
-  return { present, absent, rest: rest + s.slice(cursor) };
+  return { present, absent, ambiguous, rest: rest + s.slice(cursor) };
+}
+
+/**
+ * True when a facility stem appears with no negation marker behind it. Same local
+ * -polarity technique scanBarriers uses on barrier nouns, applied to the verbs —
+ * because in Korean the marker that flips a verb comes after the verb.
+ */
+function hasUnnegatedPresence(s: string): boolean {
+  for (const match of s.matchAll(PRESENCE_STEM)) {
+    const end = match.index + match[0].length;
+    if (!NEGATION.test(s.slice(end, end + PRESENCE_WINDOW))) return true;
+  }
+  return false;
 }
 
 /**
@@ -193,7 +243,11 @@ export function resolveStatus(raw: string | null | undefined): CapabilityStatus 
   const rest = barrier.rest;
   if (CONDITIONAL.test(rest)) return 'partial';
   if (NEGATION.test(rest)) return 'unsupported';
-  if (PRESENCE.test(rest)) return 'supported';
+  // A barrier noun nobody could read the polarity of blocks every positive verdict
+  // below. '계단으로만 이동 가능' used to reach 'supported' this way: the stairs were
+  // dropped for want of a marker and 가능 decided the sentence on its own.
+  if (barrier.ambiguous) return 'unknown';
+  if (hasUnnegatedPresence(rest)) return 'supported';
   // A barrier confirmed absent, with nothing else said, is still good news.
   if (barrier.absent) return 'supported';
 

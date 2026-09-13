@@ -43,6 +43,22 @@ const CASES: ReadonlyArray<readonly [string, CapabilityStatus, string]> = [
   ['운영하지 않음', 'unsupported', 'not operated'],
   ['해당 없음', 'unsupported', 'stated as not applicable'],
 
+  // A facility negation phrased outside the old closed list. Every one of these
+  // returned 'supported' — a stated absence published as a confirmed facility —
+  // because the presence stem sits inside the negated predicate.
+  ['장애인용 화장실이 설치되어 있지 않습니다', 'unsupported', '-지 않- around 설치되어'],
+  ['운영 안 함', 'unsupported', '단형 부정 in front of 운영'],
+  ['제공 안 함', 'unsupported', '단형 부정 in front of 제공'],
+  ['대여하지 않음', 'unsupported', '-지 않- around 대여'],
+  ['비치하지 않음', 'unsupported', '-지 않- around 비치'],
+  ['휠체어 대여 안 됨', 'unsupported', '안 됨 after 대여'],
+  ['엘리베이터 고장으로 운영 중단', 'unsupported', 'a facility that has stopped'],
+  ['엘리베이터 없어요', 'unsupported', '해요체 negation — 없어, not 없음'],
+  ['수유실 없어요', 'unsupported', '해요체 negation'],
+  ['엘리베이터 미비', 'unsupported', '미- prefix'],
+  ['경사로 파손', 'unsupported', 'the ramp is broken'],
+  ['계단으로만 이동 가능', 'unsupported', 'stairs only — 가능 used to decide this alone'],
+
   // Conditional
   ['일부 구간 이용 불가', 'partial', 'part of it is unusable — must not become 대체추천'],
   ['일부 가능', 'partial', 'partly possible'],

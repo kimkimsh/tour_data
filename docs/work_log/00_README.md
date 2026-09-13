@@ -19,6 +19,7 @@
 | 06 | [`06_review_round.md`](./06_review_round.md) | **구현 후 적대적 검토에서 나온 41건과 그 처리.** 가장 중요한 문서 |
 | 07 | [`07_merge_and_handover.md`](./07_merge_and_handover.md) | main 병합, 그리고 막힌 것을 사람이 풀 수 있는 형태로 바꾼 기록 |
 | 08 | [`08_data_go_live.md`](./08_data_go_live.md) | **키가 들어오고 실제 데이터가 붙기까지.** API 11종·Supabase 연결, 그 과정에서 드러난 버그와 스펙 오류 |
+| 09 | [`09_review_and_polish.md`](./09_review_and_polish.md) | **브라우저로 전 화면을 열어 보고 고친 것.** 안전 판정 역전, 화면에 새던 원시 데이터, 접근성 트리·문안·영문 |
 
 ---
 
@@ -38,14 +39,10 @@
 
 ## 지금 상태 한 줄
 
-**실제 데이터가 붙었다.** 공공데이터포털 API 11종과 Supabase가 모두 연결됐고, `pnpm ingest`가 경고 0건으로 완주해 6개 스냅샷을 데이터베이스에 올렸다 — `accessibility` 198행 · `docent` 222행 · `pois` 6행 · `context` 12행 · `related` 3행 · `routes` 2행. 무장애 항목이 더 이상 전부 `정보 없음`이 아니다.
+**데이터가 붙었고, 화면을 직접 열어 보고 고쳤다.** 공공데이터포털 API 11종과 Supabase가 연결돼 `pnpm ingest`가 6개 스냅샷을 올리고, 09번 회차에서 전 화면을 브라우저로 돌며 판정·문안·접근성 결함을 고쳤다.
 
-`pnpm typecheck`·`lint`·`test`(146건)·`validate:content`·`build`가 통과한다. **`validate:content`는 초록이다** — 6곳의 `ktoContentId`가 실제 값으로 채워졌다.
+가장 무거웠던 것은 **`resolveStatus()`가 확인된 부재를 「확인됨」으로 발행**하고 있었던 것이다 — 「장애인용 화장실이 설치되어 있지 않습니다」가 `supported`였다. 09번 §1.
 
-**아직 안 닫힌 것 두 개:** `resolveStatus()`가 실제 문장 144개를 어떻게 판정하는지 사람이 눈으로 대조하지 않았고, 이미지 460장이 **전부** `/api/image-proxy`를 거친다. 둘 다 [`08_data_go_live.md`](./08_data_go_live.md) §7.
+`pnpm typecheck`·`lint`·`test`(160건)·`validate:content`·`build`·`e2e`(24건, axe 20경로)가 전부 통과한다.
 
-**이번 회차에서 안 돌린 것:** `pnpm e2e`와 `pnpm probe`. 항목 수가 32개 → 33개로 바뀐 뒤 e2e를 돌린 적이 없다 ([`08_data_go_live.md`](./08_data_go_live.md) §8).
-
-자세히는 [`08_data_go_live.md`](./08_data_go_live.md), 그전 상태는 [`04_open_items.md`](./04_open_items.md), 검토에서 잡힌 것은 [`06_review_round.md`](./06_review_round.md).
-
-**막힌 것을 실제로 푸는 절차는 [`../guide/`](../guide/)에 있다** — 키를 어디서 받아 어디에 넣는지, 그리고 사람이 정해야 하는 5가지가 각각 숫자로 얼마나 달라지는지.
+**남아 있는 것 셋** — NVDA 수동 검증(Windows 필요), `flag_report` 호출 제한(스키마 변경이라 사람 결정), 안전시설 좌표(공식 출처에 없음). 09번 §12.

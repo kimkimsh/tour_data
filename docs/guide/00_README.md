@@ -39,14 +39,15 @@
 pnpm validate:content
 ```
 
-지금은 이게 **빨간불**이고, 그게 맞다:
+**2026-09-13 기준 초록불이다:**
 
 ```
-content validation failed (1):
-  - pois.json: 6 place(s) still carry ktoContentId "UNRESOLVED"
+content validation passed: 6 places, 20 facilities, 1 certifications, 54 curated facts
 ```
 
-**이 한 줄이 「아직 API 키를 안 넣었다」는 뜻이다.** 01번과 03번을 끝내면 초록불이 되고, 그때 CI도 같이 초록불이 된다.
+6곳의 `ktoContentId`가 `UNRESOLVED`이던 것이 실제 값으로 채워졌다 (공산성 `125949`, 무령왕릉과 왕릉원 `126681`, 국립공주박물관 `129787`, 부소산성 `125988`, 정림사지 `126650`, 국립부여박물관 `130062`). 각 값은 `KorWithService2/areaBasedSyncList2`로 찾고 `KorService2/detailCommon2` 좌표와 대조해서(오차 최대 5.5m) 확인했다. 집중률 API가 쓰는 `tatsName`도 같은 방식으로 채웠다.
+
+이 파일이 다시 빨간불이 되는 건 **누가 `content/` 안의 사실을 손으로 고쳤을 때**다.
 
 ---
 

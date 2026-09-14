@@ -1,5 +1,7 @@
 # 02 — Supabase 프로젝트 만들기
 
+> **프로젝트는 이미 있다** — `ap-northeast-2`(서울). 이 문서를 다시 보는 경우는 **프로젝트를 새로 만들 때, 마이그레이션을 추가할 때, 관리자를 추가할 때**다. 평소 운영은 [`05_operations.md`](./05_operations.md)에 있다.
+>
 > **끝나면:** 방문자 제보 기능이 동작하고, 관리자 화면에 로그인할 수 있다.
 > **걸리는 시간:** 30분
 > **돈:** 무료 (Free 플랜으로 충분하다)
@@ -195,4 +197,6 @@ http://localhost:3000/admin/reports 에서 그 이메일과 비밀번호로 로�
 
 ## 끝났으면
 
-→ [`03_first_run.md`](./03_first_run.md)
+프로젝트를 새로 만들었으면 **`.env.local`과 GitHub 저장소 시크릿과 Vercel 환경변수 세 곳**을 고친다([`05_operations.md`](./05_operations.md) §1).
+
+처음부터 붙이는 중이면 → [`03_first_run.md`](./03_first_run.md)

@@ -1,0 +1,193 @@
+# 05 — 평소 운영
+
+> **이 문서가 무엇인가**
+> 설정이 끝난 뒤 실제로 하는 일들. 수집을 돌리고, 배포하고, 데이터가 이상해 보일 때 어디를 보는가.
+>
+> 01–03번은 **처음 붙일 때** 보는 문서다. 이건 **지금** 보는 문서다.
+
+---
+
+## 1. 매일 저절로 도는 것
+
+`.github/workflows/ingest.yml` — **매일 04:00 KST** (cron은 UTC `0 19 * * *`).
+
+```
+pnpm ingest
+   → 공공데이터포털·기상청 호출
+   → Supabase data_snapshots 6개 갱신
+   → POST /api/revalidate  (캐시 무효화)
+   → content/generated/*.json 변경분을 main에 커밋
+   → Vercel이 그 커밋을 배포
+```
+
+**직접 돌리려면** GitHub의 Actions 탭에서 `ingest` → `Run workflow`.
+
+### 필요한 저장소 시크릿 5개
+
+| 이름 | 무엇 |
+|---|---|
+| `KTO_SERVICE_KEY_DECODING` | 공공데이터포털 일반 인증키 — **Decoding 쪽** |
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | 서버 전용 키. 스냅샷을 쓰는 유일한 권한 |
+| `NEXT_PUBLIC_SITE_URL` | `https://modu-baekje.vercel.app` — 캐시 무효화를 부를 주소 |
+| `REVALIDATE_SECRET` | `/api/revalidate`의 공유 비밀 |
+
+같은 다섯 개가 로컬 `.env.local`에도 있다. Vercel 환경변수는 그중 `SUPABASE_SERVICE_ROLE_KEY`와 `KTO_SERVICE_KEY_DECODING`을 **쓰지 않는다** — 화면은 수집을 하지 않기 때문이다.
+
+---
+
+## 2. 손으로 수집 돌리기
+
+```bash
+pnpm ingest --dry-run          # 파일에만 쓴다. 데이터베이스는 건드리지 않는다
+pnpm ingest                    # 진짜. Supabase에 쓰고 캐시를 무효화한다
+pnpm ingest --only=docent      # 한 단계만
+```
+
+단계 이름은 `bootstrap, pois, routes, context, accessibility, docent, related`.
+
+**단계끼리 의존한다.** `aed_distance`와 `emergency_distance`는 `pois` 단계가 계산한 `facilities[].distanceM`을 읽는다. `content/facilities.json`에 좌표를 넣고 `--only=accessibility`만 돌리면 **아무것도 안 바뀐다** — `--only=pois,accessibility`로 돌려야 한다.
+
+### 수집이 스스로 멈추는 경우
+
+| 메시지 | 뜻 | 할 일 |
+|---|---|---|
+| `daily quota reached` | 하루 한도(오퍼레이션당 1,000건) 초과 | 내일 다시. **아무것도 저장되지 않았다** |
+| `gateway was never reached` | 게이트웨이에 한 번도 못 닿았다 | 네트워크. **아무것도 저장되지 않았다** |
+| `resultCode 12` | 없거나 폐기된 오퍼레이션 | `docs/spec/03_external_data.md` 확인 |
+
+**「아무것도 저장되지 않았다」가 설계다.** 절반만 저장하면 다음 실행이 「데이터가 있다」고 보고 나머지를 영영 안 가져온다. 그리고 「못 물어봤다」와 「물어봤는데 없다더라」가 빈 배열로는 구분이 안 되므로, 못 물어본 실행은 발행 자격이 없다.
+
+### 경고는 나오지만 멈추지는 않는 것
+
+**`Odii theme NNN (이름) is NNNm from <관광지> and is claimed by no place.`**
+근처에 있는데 어느 관광지도 자기 것이라고 선언하지 않은 오디오 테마다. **거리는 선택 기준이 아니라 점검 기준이다** — 「백제문화단지」 테마가 무령왕릉에서 115m, 「공주 공산성」 테마가 공산성에서 341m이므로 반경으로는 갈라지지 않는다. 새 테마가 정말 그 관광지 것이면 `content/pois.json`의 `odiiThemeIds`에 tid를 넣고, 아니면 그대로 둔다. 지금 네 건(371 공주 산성시장 · 2838 전설따라 설화따라-부여군 · 2968 부여 궁남지 · 2980 부여 관북리 유적)은 **일부러 뺀 것**이다.
+
+**`weather warnings unavailable`** — 기상특보 조회 실패. 6곳 전부 「정보 없음」이 되고 **「특보 없음」이 되지는 않는다.**
+
+**`특보 문구가 도 단위이거나…`** — 특보는 있는데 이 시군구에 해당하는지 확정 불가. 이것도 「정보 없음」이다.
+
+---
+
+## 3. 배포
+
+`main`에 푸시하면 Vercel이 배포한다. 그게 전부다.
+
+```bash
+pnpm typecheck && pnpm lint && pnpm validate:content && pnpm test && pnpm build:fixtures && pnpm e2e
+git push origin main
+```
+
+CI(`.github/workflows/ci.yml`)가 e2e까지 포함해 같은 것을 돌린다.
+
+### 배포 뒤 확인하는 것
+
+```bash
+curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://modu-baekje.vercel.app/
+# 307 https://modu-baekje.vercel.app/ko   ← 307이 아니면 프록시가 안 실린 것이다
+```
+
+**`/`가 404면 `src/proxy.ts`를 확인한다.** 이 프로젝트는 `src/app`을 쓰므로 Next 16은 `src/proxy.ts`에서만 프록시를 찾는다. 저장소 루트에 두면 **조용히** 프록시 0개로 빌드되고, `/` → `/ko`를 보내는 것이 프록시뿐이라 첫 화면이 404가 된다. 증거는 `.next/server/middleware-manifest.json`에 `"middleware": {}`로 남는다. (`../work_log/10_second_audit.md` §1)
+
+---
+
+## 4. 봇이 `main`에 커밋한다 — 푸시 전에 rebase
+
+야간 수집이 `chore(ingest): daily snapshot`을 직접 올린다. 로컬에서 `pnpm ingest`를 돌린 뒤 그냥 푸시하면 거절당한다.
+
+```bash
+git fetch origin
+git rebase origin/main
+# content/generated/* 충돌이 나면 로컬 쪽을 택한다
+git checkout --theirs content/generated/<파일>
+git add content/generated/<파일> && git rebase --continue
+```
+
+**로컬 쪽을 택하는 이유**: 그 파일은 같은 실행이 Supabase에 쓴 것과 **같아야 한다.** 화면은 Supabase를 읽고 파일은 git 이력용이므로, 둘이 갈라지면 이력이 화면을 설명하지 못한다.
+
+---
+
+## 5. 화면이 이상할 때 어디를 보는가
+
+| 증상 | 먼저 볼 곳 |
+|---|---|
+| 수집은 됐는데 화면이 안 바뀐다 | `/api/revalidate`가 200 `{"ok":true}`를 주는지. 그리고 **정말 무효화됐는지** — 예전에 이 엔드포인트는 성공을 보고하면서 아무것도 안 했다 (`../work_log/10_second_audit.md` §2) |
+| 어떤 항목이 「확인됨」인데 틀렸다 | `content/curated-facts.json`에 출처·확인일을 붙여 한 줄 넣으면 그게 이긴다. 규칙 자체가 틀렸으면 `src/domain/capabilities.ts`의 `resolveStatus` |
+| 사진이 안 뜬다 | `<img>` 개수가 아니라 **디코드된 픽셀**을 센다. 예전에 태그는 다 있는데 한 장도 렌더된 적이 없었다 (`../work_log/09_review_and_polish.md` §12b) |
+| 오디오 해설에 딴 곳 이야기가 있다 | `content/pois.json`의 `odiiThemeIds` |
+| 「정보 없음」이 갑자기 늘었다 | 조건을 여러 개 골랐는지 본다. 판정은 **그중 가장 조건이 안 맞는 사람**을 기준으로 한다 (`10_second_audit.md` §5) |
+
+### 현장 사실을 손으로 고치는 법
+
+`content/curated-facts.json`에 한 줄 추가한다. 같은 `(poiSlug, capabilityCode)`가 수집값을 덮어쓴다.
+
+```json
+{
+  "poiSlug": "gongsanseong",
+  "capabilityCode": "elevator",
+  "status": "unsupported",
+  "detail": "무엇을 확인했는지 한 문장",
+  "source": "https://… 또는 기관 이름",
+  "checkedAt": "2026-09-14"
+}
+```
+
+`source`와 `checkedAt`은 **필수**다. `pnpm validate:content`가 막는다.
+
+시설 좌표(응급실·자동심장충격기)는 `content/facilities.json`이다. 좌표를 넣었으면 `pnpm ingest --only=pois,accessibility`를 돌려야 거리가 생긴다.
+
+---
+
+## 6. 좌표를 못 찾을 때 — 이름으로 말고 위치로 찾는다
+
+응급실과 자동심장충격기 거리는 `content/facilities.json`의 좌표에서 계산한다. 공공 API(`B552657` 응급의료·AED)는 이 계정이 **신청하지 않아 `resultCode 30`**이므로, 좌표는 OpenStreetMap에서 가져와 두 경로로 교차 확인한다.
+
+**이름으로 검색하면 자주 실패한다.** 웅진백제역사관은 Nominatim 이름 검색에 걸리지 않았다 — OSM에 **「웅진백제문화역사관」**으로, 어순이 다르게 들어 있기 때문이다. 그래서 한 건이 오래 빈칸으로 남아 있었다.
+
+**되는 방법은 좌표 주변을 훑는 것이다.** Overpass로 관광지 좌표 반경 안의 실제 지물을 받아 이름을 눈으로 고르고, 그 OSM id를 Nominatim으로 다시 조회해 좌표가 일치하는지 본다.
+
+```bash
+# 1) 관광지 좌표 반경 600m 안의 후보
+curl -s --data-urlencode 'data=
+[out:json][timeout:40];
+(
+  nwr(around:600,36.46052611578204,127.11250769165848)["tourism"="museum"];
+  nwr(around:600,36.46052611578204,127.11250769165848)["amenity"="defibrillator"];
+);
+out center tags;' https://overpass-api.de/api/interpreter
+
+# 2) 고른 id를 Nominatim으로 교차 확인
+curl -s -H 'User-Agent: modu-baekje/1.0' \
+  'https://nominatim.openstreetmap.org/lookup?osm_ids=W558646581&format=json&extratags=1'
+```
+
+두 값이 몇 미터 안에서 일치하면 쓴다. 지금 들어간 아홉 건은 **1–27m** 안에서 일치했다.
+
+**`sourceNote`에 OSM id와 ODbL을 반드시 적는다.** 이름이 출처와 다르면 그 차이도 적는다 — 나중에 누가 같은 건물인지 되짚을 수 있어야 한다.
+
+```
+좌표는 OpenStreetMap way/558646581 웅진백제문화역사관 (tourism=museum, ODbL)
+— OSM 표기는 「문화역사」로 어순이 다르지만 주소가 왕릉로 37로 같고 …
+```
+
+**직선거리라는 말을 문장 안에 넣는다.** 산성에서는 걸어가는 길이 훨씬 길다. 출처 주석에만 적고 화면 문장에 안 적으면, 읽는 사람은 걷는 거리로 읽는다.
+
+---
+
+## 7. 관리자 화면
+
+`https://modu-baekje.vercel.app/admin/reports` — 이메일·비밀번호 로그인.
+
+들어갈 수 있는 계정은 `admin_users` 테이블에 있는 것뿐이다. 추가는 [`02_supabase.md`](./02_supabase.md) 마지막의 SQL 한 줄.
+
+**할 수 있는 것**: 제보 숨기기(사유 포함), 숨김 해제, 항목으로 복사. 마지막 것은 클립보드에 JSON 한 줄을 넣어 줄 뿐이고 — `capabilityCode`와 `status`는 사람이 채워서 `curated-facts.json`에 붙여 넣는다. **제보가 저절로 사실이 되는 경로는 없다.**
+
+---
+
+## 8. 아직 안 된 것
+
+| | 왜 |
+|---|---|
+| **NVDA 수동 접근성 점검** | Windows가 필요하다. 그때까지 화면 문구가 「아직 안 했다」고 말한다 |
+| **`flag_report` 호출 제한** | 익명 세션도 `authenticated`라서 지금 제한이 아무도 막지 못한다. 피해 경로는 관리자 화면 쪽에서 막혀 있다. 고치려면 `003_report_flags.sql`이 필요하다 |
+| **도메인 연결** | `*.vercel.app`을 쓴다 |

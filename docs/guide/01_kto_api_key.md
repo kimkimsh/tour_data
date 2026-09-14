@@ -1,5 +1,7 @@
 # 01 — 공공데이터포털 API 키 받기 (한국관광공사 + 기상청)
 
+> **키는 이미 있다.** 이 문서를 다시 보는 경우는 **키가 만료됐거나, 데이터셋을 새로 신청할 때**다. 평소 운영은 [`05_operations.md`](./05_operations.md)에 있다.
+>
 > **끝나면:** `.env.local` 파일에 키 한 줄이 들어가고, `pnpm probe`가 돌아간다.
 > **걸리는 시간:** 신청 30분 + 승인 대기 (자동승인이면 즉시, 아니면 1–2일)
 > **돈:** 무료
@@ -210,4 +212,6 @@ warn  gongsanseong: gallerySearchList1 failed — PhotoGalleryService1/gallerySe
 
 ## 끝났으면
 
-→ [`03_first_run.md`](./03_first_run.md)로 간다. Supabase는 아직 없어도 된다.
+키를 바꿨으면 **`.env.local`과 GitHub 저장소 시크릿 양쪽**을 고친다 — 야간 수집은 저장소 시크릿을 읽는다([`05_operations.md`](./05_operations.md) §1).
+
+처음부터 붙이는 중이면 → [`03_first_run.md`](./03_first_run.md). Supabase는 아직 없어도 된다.

@@ -12,6 +12,7 @@ import { VerdictPanel } from '@/components/place/VerdictPanel';
 import { CapabilityEvidence, countKtoItems } from '@/components/place/CapabilityEvidence';
 import { ReportsSection } from '@/components/place/ReportsSection';
 import { groupFactsByPoi, type PlaceCardData } from '@/components/place/place-view';
+import { SourceText } from '@/components/SourceText';
 
 export const revalidate = 3600;
 
@@ -125,7 +126,7 @@ export default async function PlacePage({
               <li key={`${cert.grade}-${cert.sourceNote}`} className="text-[0.95rem]">
                 <span className="badge badge--visitable">{tc(`certification.${cert.grade}`)}</span>
                 <span lang="ko" className="evidence__provenance ml-2">
-                  {cert.sourceNote}
+                  <SourceText>{cert.sourceNote}</SourceText>
                 </span>
               </li>
             ))}
@@ -268,7 +269,7 @@ export default async function PlacePage({
                     ) : null}
                   </div>
                   <p lang="ko" className="evidence__provenance">
-                    {facility.sourceNote} · {facility.checkedAt}
+                    <SourceText>{facility.sourceNote}</SourceText> · {facility.checkedAt}
                   </p>
                 </li>
               );

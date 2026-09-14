@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Eyebrow } from '@/components/Eyebrow';
 import { safetyDirectory } from '@/lib/content';
+import { SourceText } from '@/components/SourceText';
 
 export const revalidate = 3600;
 
@@ -193,7 +194,7 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
               <strong>{locale === 'ko' ? contact.labelKo : contact.labelEn}</strong>{' '}
               <span className="font-mono">{contact.tel}</span>
               <span lang="ko" className="ml-2 text-[var(--color-ink-2)]">
-                {contact.sourceNote} · {contact.checkedAt}
+                <SourceText>{contact.sourceNote}</SourceText> · {contact.checkedAt}
               </span>
             </li>
           ))}

@@ -32,7 +32,19 @@ pnpm ingest
 | `NEXT_PUBLIC_SITE_URL` | `https://modu-baekje.vercel.app` — 캐시 무효화를 부를 주소 |
 | `REVALIDATE_SECRET` | `/api/revalidate`의 공유 비밀 |
 
-같은 다섯 개가 로컬 `.env.local`에도 있다. Vercel 환경변수는 그중 `SUPABASE_SERVICE_ROLE_KEY`와 `KTO_SERVICE_KEY_DECODING`을 **쓰지 않는다** — 화면은 수집을 하지 않기 때문이다.
+같은 다섯 개가 로컬 `.env.local`에도 있다.
+
+**세 곳이 서로 다른 것을 필요로 한다.** 하나만 고치고 끝내는 것이 흔한 실수다.
+
+| | 필요한 것 |
+|---|---|
+| **로컬 `.env.local`** | 다섯 개 전부 (수집도 돌리고 화면도 띄우므로) |
+| **GitHub 저장소 시크릿** | 위 표의 다섯 개 |
+| **Vercel 환경변수** | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `REVALIDATE_SECRET` · `NEXT_PUBLIC_SITE_URL` |
+
+Vercel에 `SUPABASE_SERVICE_ROLE_KEY`와 `KTO_SERVICE_KEY_DECODING`은 **필요 없다.** 화면은 수집을 하지 않기 때문이고, 그건 구조로 강제돼 있다 — `src/lib/supabase/admin.ts`(서비스 롤 키를 읽는 유일한 파일)와 `src/lib/kto/transport.ts`는 **`scripts/ingest.ts`에서만** 불린다. `src/app`과 `src/components`가 `src/lib/kto/`를 import하는 것은 ESLint `no-restricted-imports`가 막는다(`docs/spec/02_stack.md` §2 규칙2).
+
+반대로 `NEXT_PUBLIC_SUPABASE_ANON_KEY`는 **화면에만** 필요하다. 방문자 제보의 익명 세션이 그 키로 만들어지고, 수집은 쓰지 않는다.
 
 ---
 

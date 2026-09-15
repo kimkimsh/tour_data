@@ -449,3 +449,13 @@ Loading the image 'https://ssl.pstatic.net/static/maps/mantle/1x/openhand.cur' v
 개발 서버는 http라서 SDK가 `nrbe.map.naver.net`·`static.naver.net`을 부른다. 배포본은 https라서 **같은 것을 `nrbe.pstatic.net`·`ssl.pstatic.net`에서 가져온다.** CSP를 개발 세션에서 본 것만으로 썼으니 로컬은 통과하고 배포본만 막힌 것이다.
 
 네 호스트를 전부 적었다. 그리고 이건 `curl`로는 절대 안 잡힌다 — 캔버스는 하이드레이션 뒤에 생기므로 HTML에는 `map-canvas`가 없고, 실제로 HTML만 보고 「배포본에 지도가 아직 없다」고 한 번 잘못 읽었다. 배포 뒤 브라우저로 여는 절차를 `docs/guide/05_operations.md`에 명령까지 적어 넣었다.
+
+### 10.7 배포본 최종 확인
+
+```
+14개 경로 × 데스크톱(1440)·모바일(390)   전부 200 · 가로 넘침 0
+예상 밖 콘솔 오류 0 (NELO 차단만 남음, 의도한 것)
+/ko/places  지도 타일 정상 · 마커 13 · 사진 42/42 디코드
+/ko/places  모바일은 스크롤 뒤 23/23 디코드 (나머지는 lazy)
+도슨트 오디오 duration 124.667938
+```

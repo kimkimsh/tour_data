@@ -310,29 +310,31 @@
         "poiSlug": "busosanseong",
         "title": "부소산성",
         "score": 52,
-        "label": "주의"
+        "label": "주의",
+        "city": "부여군"
       },
       {
         "poiSlug": "jeongnimsaji",
         "title": "정림사지",
         "score": 48,
-        "label": "주의"
+        "label": "주의",
+        "city": "부여군"
       }
     ]
   },
   "expected": {
-    "score": 96,
+    "score": 100,
     "label": "주의",
-    "layerA": 0.9675000000000002,
-    "layerB": 0.9885964912280701,
+    "layerA": 1.0000000000000002,
+    "layerB": 1,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
         "weight": 0.30000000000000004,
-        "rawScore": 0.8916666666666666,
-        "weighted": 0.2675,
+        "rawScore": 1,
+        "weighted": 0.30000000000000004,
         "knownCount": 5,
         "totalCount": 6
       },
@@ -403,6 +405,15 @@
       }
     ],
     "alternatives": [],
+    "relevantKnownCount": 13,
+    "relevantTotalCount": 14,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom"
+    ],
     "ktoUnknownCount": 1,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -572,6 +583,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

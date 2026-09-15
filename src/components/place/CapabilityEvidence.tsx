@@ -5,7 +5,6 @@ import { CAPABILITIES, getCapability } from '@/domain/capabilities';
 import { AXIS_LABEL } from '@/domain/suitability';
 import type { Fact } from '@/domain/snapshot-schema';
 import { EvidenceRow } from '@/components/EvidenceRow';
-import { Eyebrow } from '@/components/Eyebrow';
 import { provenanceLine } from './place-view';
 
 /**
@@ -40,10 +39,10 @@ export function CapabilityEvidence({
 
   return (
     <section className="grid gap-5" aria-labelledby="evidence-heading">
-      <Eyebrow as="h2" id="evidence-heading">{t('eyebrowEvidence')}</Eyebrow>
+      <h2 id="evidence-heading" className="section-head">{t('headingEvidence')}</h2>
 
       <nav aria-label={t('fieldTabs')}>
-        <ul className="flex flex-wrap gap-x-4 gap-y-1 text-[0.92rem]">
+        <ul className="flex flex-wrap gap-x-4 gap-y-1 t-sm">
           {AXES.map((axis) => (
             <li key={axis}>
               <a href={`#axis-${axis}`}>{axisLabel(axis, locale)}</a>
@@ -113,7 +112,7 @@ export function CapabilityEvidence({
           <h3 id="etc-heading" className="subhead">
             {t('etcNotes')}
           </h3>
-          <p className="mt-1 text-[0.9rem] text-[var(--color-ink-2)]">{t('etcNotesHint')}</p>
+          <p className="mt-1 t-sm text-[var(--color-ink-2)]">{t('etcNotesHint')}</p>
           <ul className="mt-3 grid gap-3">
             {etcNotes.map((note) => (
               <li key={note.sourceField}>

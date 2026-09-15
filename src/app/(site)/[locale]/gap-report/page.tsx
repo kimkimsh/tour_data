@@ -4,7 +4,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getContext, getFacts, getPois } from '@/lib/data';
 import { absenceLabel, computeGapReport, gapRowsToCsv, statusLabel } from '@/domain/gap';
 import type { GapFact } from '@/domain/gap';
-import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import type { ContentLocale, Locale } from '@/domain/types';
 import { capabilityLabel } from '@/components/place/place-view';
@@ -12,10 +11,16 @@ import { capabilityLabel } from '@/components/place/place-view';
 export const revalidate = 3600;
 
 /**
- * How many priority rows the table prints. The CSV carries every row; this is a
- * reading limit, not a filter, and the sentence under the table says which it is.
+ * How many rows each place gets on screen. The CSV carries all of them.
+ *
+ * A flat "top 40" stopped working the moment the catalogue grew past six places: the
+ * places with the least data filled the whole table with their own blanks, three of
+ * them took thirty-three rows between them, and the places an officer has actually
+ * been working on dropped off the screen. Everything at the top of that list scores
+ * the same 1.00 anyway — critical somewhere, unknown, no cause recorded — so the order
+ * inside it was never carrying information. Each place's own worst three is.
  */
-const PRIORITY_ROWS_SHOWN = 40;
+const PRIORITY_ROWS_PER_PLACE = 3;
 
 export async function generateMetadata({
   params,
@@ -51,7 +56,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
     pois.data.map((poi) => poi.slug),
   );
   const asOf = latestVerifiedAt(facts.data) ?? '—';
-  const shownPriorities = report.priorities.slice(0, PRIORITY_ROWS_SHOWN);
+  const shownPriorities = topPerPlace(report.priorities, PRIORITY_ROWS_PER_PLACE);
   const csvKb = Math.max(
     1,
     Math.round(
@@ -62,9 +67,8 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
   return (
     <div className="grid gap-10">
       <header className="grid gap-2">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('title')}</h1>
-        <p className="text-[0.95rem] text-[var(--color-ink-2)]">
+        <p className="t-sm text-[var(--color-ink-2)]">
           {t('asOf', { date: asOf, places: report.fill.length })}
         </p>
       </header>
@@ -79,10 +83,22 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
             <thead>
               <tr>
                 <th scope="col">{t('fillHeader.place')}</th>
-                <th scope="col">{t('fillHeader.kto')}</th>
-                <th scope="col">{t('fillHeader.curated')}</th>
-                <th scope="col">{t('fillHeader.unknown')}</th>
-                <th scope="col">{t('fillHeader.total')}</th>
+                {/* The heading of a number column sits over its numbers. Left-aligned
+                    headings above right-aligned figures put 「한국관광공사 확인」 250px
+                    from the digit it counts, and the pair stopped reading as one
+                    column. */}
+                <th scope="col" className="tabular">
+                  {t('fillHeader.kto')}
+                </th>
+                <th scope="col" className="tabular">
+                  {t('fillHeader.curated')}
+                </th>
+                <th scope="col" className="tabular">
+                  {t('fillHeader.unknown')}
+                </th>
+                <th scope="col" className="tabular">
+                  {t('fillHeader.total')}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -103,7 +119,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         {/* The two filled columns stay apart on purpose: merged, the figure would
             rise every time we fill a cell ourselves, and the number is meant to be
             readable as municipal progress. */}
-        <p className="max-w-[var(--container-prose)] text-[0.9rem] text-[var(--color-ink-2)]">
+        <p className="max-w-[var(--container-prose)] t-sm text-[var(--color-ink-2)]">
           {t('fillNote')}
         </p>
       </section>
@@ -149,7 +165,9 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
                       announced each cell as "Unknown, No information". */}
                   <th scope="col">{t('priorityHeader.status')}</th>
                   <th scope="col">{t('priorityHeader.cause')}</th>
-                  <th scope="col">{t('priorityHeader.priority')}</th>
+                  <th scope="col" className="tabular">
+                    {t('priorityHeader.priority')}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -172,8 +190,9 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         {/* Said out loud. The table showed the first 40 of 80 with nothing on screen to
             say so, while the CSV button beside it carried all of them. */}
         {report.priorities.length > shownPriorities.length ? (
-          <p className="text-[0.9rem] text-[var(--color-ink-2)]">
+          <p className="t-sm text-[var(--color-ink-2)]">
             {t('priorityShown', {
+              perPlace: PRIORITY_ROWS_PER_PLACE,
               shown: shownPriorities.length,
               total: report.priorities.length,
             })}
@@ -182,7 +201,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
 
         <div className="card">
           <h3 className="subhead">{t('causeLegendTitle')}</h3>
-          <ul className="mt-2 grid gap-1 text-[0.93rem]">
+          <ul className="mt-2 grid gap-1 t-sm">
             <li>
               <span aria-hidden="true">○ </span>
               {t('causeLegend.unknown')}
@@ -196,7 +215,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
               {t('causeLegend.intrinsic')}
             </li>
           </ul>
-          <p className="mt-3 text-[0.9rem] text-[var(--color-ink-2)]">{t('causeNote')}</p>
+          <p className="mt-3 t-sm text-[var(--color-ink-2)]">{t('causeNote')}</p>
         </div>
       </section>
 
@@ -206,7 +225,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         </h2>
         {contextResult.ok && contextResult.data.visitors.length > 0 ? (
           <>
-            <p className="text-[0.95rem]">
+            <p className="t-sm">
               {t('visitorsWindow', {
                 start: isoDate(contextResult.data.visitors[0]!.windowStart),
                 end: isoDate(contextResult.data.visitors[0]!.windowEnd),
@@ -222,19 +241,19 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
                     // precision the underlying figure does not carry.
                     value: Math.round(row.dailyAverage).toLocaleString(locale),
                   })}{' '}
-                  <span className="text-[0.9rem] text-[var(--color-ink-2)]">
+                  <span className="t-sm text-[var(--color-ink-2)]">
                     {t('visitorsDivision', { division: divisionName(row.touDivCd, row.touDivNm, localeKey) })}
                   </span>
                 </li>
               ))}
             </ul>
-            <p className="text-[0.9rem] text-[var(--color-ink-2)]">{t('visitorsDelay')}</p>
+            <p className="t-sm text-[var(--color-ink-2)]">{t('visitorsDelay')}</p>
             {/* role="note" and never hidden: the caveat is the reason this figure is
                 allowed on the page at all. The Korean literal is frozen by a Zod
                 z.literal in the snapshot schema, so the English page gets the message
                 file's translation of the same sentence rather than Korean it cannot
                 read. */}
-            <p role="note" className="text-[0.9rem]" lang={localeKey}>
+            <p role="note" className="t-sm" lang={localeKey}>
               {localeKey === 'ko'
                 ? contextResult.data.visitors[0]!.caveat
                 : tc('honesty.visitors')}
@@ -255,13 +274,30 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
             {/* Format and size, before the click. The bytes are the same ones the route
                 returns, from the same pure function over the same rows, so the figure
                 cannot drift away from the file. */}
-            <span className="ml-2 font-normal text-[0.85rem]">{t('csvHint', { size: csvKb })}</span>
+            <span className="ml-2 font-normal t-xs">{t('csvHint', { size: csvKb })}</span>
           </a>
         </p>
-        <p className="text-[0.9rem] text-[var(--color-ink-2)]">{tc('honesty.gapScope', { count: report.fill.length })}</p>
+        <p className="t-sm text-[var(--color-ink-2)]">{tc('honesty.gapScope', { count: report.fill.length })}</p>
       </section>
     </div>
   );
+}
+
+/**
+ * The first `perPlace` rows of each place, in the order computeGapReport already put
+ * them. That order is global, so taking the head of each place's slice keeps every
+ * place's own ranking while giving each of them the same amount of the screen.
+ */
+function topPerPlace<T extends { poiSlug: string }>(rows: readonly T[], perPlace: number): T[] {
+  const taken = new Map<string, number>();
+  const out: T[] = [];
+  for (const row of rows) {
+    const count = taken.get(row.poiSlug) ?? 0;
+    if (count >= perPlace) continue;
+    taken.set(row.poiSlug, count + 1);
+    out.push(row);
+  }
+  return out;
 }
 
 function CauseMark({ absenceKind }: { absenceKind: string | null }) {

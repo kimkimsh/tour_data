@@ -2,7 +2,6 @@
 
 import { useEffect } from 'react';
 import { useTranslations } from 'next-intl';
-import { Eyebrow } from '@/components/Eyebrow';
 
 /**
  * The same screen as (site)/[locale]/error.tsx, for the other root layout.
@@ -27,9 +26,8 @@ export default function AdminError({
 
   return (
     <div className="grid gap-4">
-      <Eyebrow>{t('error.unexpectedEyebrow')}</Eyebrow>
       <h1>{t('error.loadFailedTitle')}</h1>
-      <p className="text-[1.02rem]">{t('error.loadFailedBody')}</p>
+      <p>{t('error.loadFailedBody')}</p>
       <p>
         <button type="button" className="btn btn--filled" onClick={reset}>
           {t('retry')}

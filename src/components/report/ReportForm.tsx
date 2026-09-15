@@ -118,7 +118,7 @@ export function ReportForm({
         tabIndex={-1}
         className="callout callout--note grid max-w-[var(--container-prose)] gap-4"
       >
-        <p className="text-[1.05rem] font-bold">{t('done')}</p>
+        <p className="font-bold">{t('done')}</p>
         <p>
           <Link href={`/places/${poiSlug}#visitor-reports`} className="btn btn--filled">
             {t('goPlace')}
@@ -133,7 +133,7 @@ export function ReportForm({
       <p role="note" className="callout callout--note">
         {t('publicNotice')}
       </p>
-      <p className="text-[0.95rem] text-[var(--color-ink-2)]">{t('noLocationNotice')}</p>
+      <p className="t-sm text-[var(--color-ink-2)]">{t('noLocationNotice')}</p>
 
       <div className="grid gap-2">
         <label htmlFor={`${groupId}-place`} className="font-bold">
@@ -213,10 +213,10 @@ export function ReportForm({
           }
           aria-invalid={errorFor('detail') !== null}
         />
-        <p id={`${groupId}-detail-hint`} className="text-[0.9rem] text-[var(--color-ink-2)]">
+        <p id={`${groupId}-detail-hint`} className="t-sm text-[var(--color-ink-2)]">
           {t('detailHint')}
         </p>
-        <p className="tabular text-[0.85rem] text-[var(--color-ink-2)]">
+        <p className="tabular t-xs text-[var(--color-ink-2)]">
           {detail.length} / {DETAIL_MAX}
         </p>
         <FieldError id={`${groupId}-detail-error`} message={errorFor('detail')} />

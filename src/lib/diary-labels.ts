@@ -13,6 +13,7 @@ export function diaryLabels(t: (key: string) => string): DiaryLabels {
     title: t('title'),
     notSelected: t('notSelected'),
     cognitive: t('cognitive'),
+    visitedLabel: t('visitedLabel'),
     visited: t('visited'),
     notVisited: t('notVisited'),
     designation: t('designation'),

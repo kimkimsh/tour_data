@@ -308,18 +308,18 @@
     "scoredAlternatives": []
   },
   "expected": {
-    "score": 29,
+    "score": 0,
     "label": "정보없음",
-    "layerA": 0.3500000000000001,
-    "layerB": 0.8374999999999999,
+    "layerA": 0,
+    "layerB": 0.75,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
-        "weight": 0.30000000000000004,
-        "rawScore": 0.35000000000000003,
-        "weighted": 0.10500000000000002,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 6
       },
@@ -327,9 +327,9 @@
         "axis": "continuity",
         "labelKo": "이동",
         "labelEn": "Movement",
-        "weight": 0.18000000000000002,
-        "rawScore": 0.35,
-        "weighted": 0.063,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 4
       },
@@ -337,9 +337,9 @@
         "axis": "facility",
         "labelKo": "편의시설",
         "labelEn": "Facilities",
-        "weight": 0.18000000000000002,
-        "rawScore": 0.35000000000000003,
-        "weighted": 0.06300000000000001,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 7
       },
@@ -347,9 +347,9 @@
         "axis": "information",
         "labelKo": "정보안내",
         "labelEn": "Information",
-        "weight": 0.14000000000000004,
-        "rawScore": 0.35000000000000003,
-        "weighted": 0.049000000000000016,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 8
       },
@@ -357,9 +357,9 @@
         "axis": "rest",
         "labelKo": "휴식",
         "labelEn": "Rest",
-        "weight": 0.10000000000000003,
-        "rawScore": 0.3499999999999999,
-        "weighted": 0.035,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 3
       },
@@ -367,9 +367,9 @@
         "axis": "context",
         "labelKo": "상황",
         "labelEn": "Situation",
-        "weight": 0.10000000000000003,
-        "rawScore": 0.35,
-        "weighted": 0.03500000000000001,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 5
       }
@@ -583,6 +583,12 @@
       }
     ],
     "alternatives": [],
+    "relevantKnownCount": 0,
+    "relevantTotalCount": 8,
+    "requiredCodes": [
+      "sign_guide",
+      "video_caption"
+    ],
     "ktoUnknownCount": 24,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -752,6 +758,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

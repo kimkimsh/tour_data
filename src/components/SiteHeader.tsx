@@ -23,10 +23,10 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     <header className="no-print border-b border-[var(--color-rule)]">
       <div className="shell flex flex-wrap items-center justify-between gap-3 py-3">
         <Link href="/" className="!no-underline">
-          <span className="block text-[1.28rem] font-extrabold tracking-[-0.03em]">
+          <span className="block t-lg font-extrabold tracking-[-0.03em]">
             {t('siteName')}
           </span>
-          <span className="block font-mono text-[0.7rem] uppercase tracking-[0.14em] text-[var(--color-gilt)]">
+          <span className="block font-mono t-xs uppercase tracking-[0.14em] text-[var(--color-gilt)]">
             Gongju · Buyeo
           </span>
         </Link>

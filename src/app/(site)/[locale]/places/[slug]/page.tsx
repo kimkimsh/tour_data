@@ -6,13 +6,13 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { getContext, getDocent, getFacts, getPois, getRelated, getRoutes, orEmpty } from '@/lib/data';
 import { distanceMeters } from '@/domain/geo';
 import type { ContentLocale, Locale } from '@/domain/types';
-import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { VerdictPanel } from '@/components/place/VerdictPanel';
 import { CapabilityEvidence, countKtoItems } from '@/components/place/CapabilityEvidence';
 import { ReportsSection } from '@/components/place/ReportsSection';
-import { groupFactsByPoi, type PlaceCardData } from '@/components/place/place-view';
+import { groupFactsByPoi, toPlaceCardData, type PlaceCardData } from '@/components/place/place-view';
 import { SourceText } from '@/components/SourceText';
+import { PlaceMap } from '@/components/map/PlaceMap';
 
 export const revalidate = 3600;
 
@@ -54,6 +54,7 @@ export default async function PlacePage({
   const t = await getTranslations({ locale, namespace: 'place' });
   const tc = await getTranslations({ locale, namespace: 'common' });
   const tp = await getTranslations({ locale, namespace: 'places' });
+  const tm = await getTranslations({ locale, namespace: 'map' });
 
   const [pois, facts] = await Promise.all([getPois(), getFacts()]);
   if (!pois.ok) return <SnapshotProblem result={pois} />;
@@ -75,72 +76,95 @@ export default async function PlacePage({
   const poiFacts = facts.data.filter((fact) => fact.poiSlug === poi.slug);
   const counts = countKtoItems(poiFacts);
 
-  const places: PlaceCardData[] = pois.data.map((p) => ({
-    slug: p.slug,
-    title: p.i18n[locale as ContentLocale]?.title ?? p.i18n.ko?.title ?? p.slug,
-    cityLabel: localeKey === 'en' ? p.cityEn : p.cityKo,
-    heritageLabel: p.heritageLabel,
-    isUnescoComponent: p.isUnescoComponent,
-    unescoComponentNote: p.unescoComponentNote,
-    hasRoute: routes.some((route) => route.poiSlug === p.slug),
-    hasDocent: docent.some((story) => story.poiSlug === p.slug),
-  }));
+  const places: PlaceCardData[] = pois.data.map((p) =>
+    toPlaceCardData(p, localeKey, {
+      hasRoute: routes.some((route) => route.poiSlug === p.slug),
+      hasDocent: docent.some((story) => story.poiSlug === p.slug),
+    }),
+  );
 
   const crowd = contextResult.ok
     ? contextResult.data.crowd.find((row) => row.poiSlug === poi.slug)
     : undefined;
   const relatedForPoi = related.find((row) => row.poiSlug === poi.slug);
+  const headerPhoto = poi.media.find((m) => m.kind === 'photo') ?? poi.media[0];
 
   return (
     <article className="grid gap-12">
-      <header className="grid gap-2">
-        <h1>{title}</h1>
-        {/* No letter-spacing on this line, unlike the eyebrows elsewhere. It carries a
-            designation name — 사적 「공주 공산성」 — and tracking applied to Hangul opens
-            the space inside the quotation marks until the name looks like two. */}
-        {/* Not monospaced. It carries a city and a designation name — 공주시 · 사적
-            「공주 공산성」 — and Hangul has no glyphs in the mono stack, so every word
-            landed a Latin advance width apart. */}
-        <p className="text-[0.85rem] tracking-[0.02em] text-[var(--color-ink-2)]">
-          {localeKey === 'en' ? poi.cityEn : poi.cityKo}
-          {/* The designation name is Korean in both locales: it is the name the Korea
-              Heritage Service gazetted, and a translation of it would not resolve. */}
-          {poi.heritageLabel ? <span lang="ko"> · {poi.heritageLabel}</span> : null}
-        </p>
-        <p className="text-[0.95rem] text-[var(--color-ink-2)]">
-          {poi.isUnescoComponent ? tp('componentSite') : tp('adjacentSite')}
-          {/* The note is hand-written Korean in content/pois.json and has no English
-              form, so it is declared rather than served under lang="en", where an
-              English voice sounds Hangul out as phonemes. */}
-          {poi.unescoComponentNote ? (
-            <span lang="ko"> — {poi.unescoComponentNote}</span>
-          ) : null}
-        </p>
-        {/* Shown as a fact, not folded into the score. v5 dropped the certification
-            bonus because it reached one place in six and every other certification
-            found belonged to an ancillary building — but the designation itself is
-            verified and worth a visitor's attention, so it says so and cites itself. */}
-        {poi.certifications.length > 0 ? (
-          <ul className="mt-1 grid gap-1">
-            {poi.certifications.map((cert) => (
-              <li key={`${cert.grade}-${cert.sourceNote}`} className="text-[0.95rem]">
-                <span className="badge badge--visitable">{tc(`certification.${cert.grade}`)}</span>
-                <span lang="ko" className="evidence__provenance ml-2">
-                  <SourceText>{cert.sourceNote}</SourceText>
-                </span>
-              </li>
-            ))}
-          </ul>
-        ) : null}
-        {/* The overview is whatever the locale's own TourAPI service returned, and
-            the English service falls back to the Korean row when it has none. */}
-        {i18n?.overview ? (
-          <p
-            lang={poi.i18n[locale as ContentLocale]?.overview ? localeKey : 'ko'}
-            className="mt-2 max-w-[var(--container-prose)]"
-          >
-            {i18n.overview}
+      <header className="page-split">
+        <div className="grid gap-2">
+          <h1>{title}</h1>
+          {/* No letter-spacing on this line, unlike the eyebrows elsewhere. It carries a
+              designation name — 사적 「공주 공산성」 — and tracking applied to Hangul opens
+              the space inside the quotation marks until the name looks like two. */}
+          {/* Not monospaced. It carries a city and a designation name — 공주시 · 사적
+              「공주 공산성」 — and Hangul has no glyphs in the mono stack, so every word
+              landed a Latin advance width apart. */}
+          <p className="t-xs tracking-[0.02em] text-[var(--color-ink-2)]">
+            {localeKey === 'en' ? poi.cityEn : poi.cityKo}
+            {/* The designation name is Korean in both locales: it is the name the Korea
+                Heritage Service gazetted, and a translation of it would not resolve. */}
+            {poi.heritageLabel ? <span lang="ko"> · {poi.heritageLabel}</span> : null}
           </p>
+          <p className="t-sm text-[var(--color-ink-2)]">
+            {tp(`role.${poi.placeRole}`)}
+            {/* The note is hand-written Korean in content/pois.json and has no English
+                form, so it is declared rather than served under lang="en", where an
+                English voice sounds Hangul out as phonemes. */}
+            {poi.unescoComponentNote ? (
+              <span lang="ko"> — {poi.unescoComponentNote}</span>
+            ) : null}
+          </p>
+          {/* Shown as a fact, not folded into the score. v5 dropped the certification
+              bonus because it reached one place in six and every other certification
+              found belonged to an ancillary building — but the designation itself is
+              verified and worth a visitor's attention, so it says so and cites itself. */}
+          {poi.certifications.length > 0 ? (
+            <ul className="mt-1 grid gap-1">
+              {poi.certifications.map((cert) => (
+                <li key={`${cert.grade}-${cert.sourceNote}`} className="t-sm">
+                  <span className="badge badge--visitable">{tc(`certification.${cert.grade}`)}</span>
+                  <span lang="ko" className="evidence__provenance ml-2">
+                    <SourceText>{cert.sourceNote}</SourceText>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
+          {/* The overview is whatever the locale's own TourAPI service returned, and
+              the English service falls back to the Korean row when it has none. */}
+          {i18n?.overview ? (
+            <p
+              lang={poi.i18n[locale as ContentLocale]?.overview ? localeKey : 'ko'}
+              className="mt-2 max-w-[var(--container-prose)]"
+            >
+              {i18n.overview}
+            </p>
+          ) : null}
+        </div>
+
+        {/* One photograph, beside the description rather than behind the title. Text
+            over an image cannot be held to a contrast ratio, and this build fails on
+            contrast. The gallery of everything we hold is further down the page; this
+            is the picture that says which place you are reading about. */}
+        {headerPhoto ? (
+          <figure
+            className={
+              headerPhoto.noTransform
+                ? 'tile__figure tile__figure--contain'
+                : 'tile__figure'
+            }
+          >
+            <Image
+              src={headerPhoto.url}
+              alt=""
+              width={520}
+              height={390}
+              unoptimized={headerPhoto.noTransform}
+              sizes="(min-width: 64rem) 18rem, 100vw"
+              priority
+            />
+          </figure>
         ) : null}
       </header>
 
@@ -171,7 +195,7 @@ export default async function PlacePage({
               unit, denominator or ceiling, so "82.94" printed large told a reader
               nothing they could act on — and the same number is banded into a word
               two sections above, where it reads as 혼잡. */}
-          <p className="mt-2 tabular text-[1.4rem] font-extrabold">
+          <p className="mt-2 tabular t-lg font-extrabold">
             {t('crowdRate', { value: crowd.rate.toFixed(1) })}
           </p>
           <p className="evidence__provenance mt-1">
@@ -183,7 +207,7 @@ export default async function PlacePage({
       ) : null}
 
       <section aria-labelledby="photos-heading" className="grid gap-3">
-        <Eyebrow as="h2" id="photos-heading">{t('eyebrowPhotos')}</Eyebrow>
+        <h2 id="photos-heading" className="section-head">{t('headingPhotos')}</h2>
         {poi.media.length === 0 ? (
           <p className="blank-slot">{t('noPhotos')}</p>
         ) : (
@@ -222,7 +246,7 @@ export default async function PlacePage({
                     unlabelled photograph under this place's heading claims to be of
                     this place. */}
                 {media.caption && media.caption !== title ? (
-                  <p lang="ko" className="text-[0.93rem]">
+                  <p lang="ko" className="t-sm">
                     {media.caption}
                   </p>
                 ) : null}
@@ -235,8 +259,49 @@ export default async function PlacePage({
         )}
       </section>
 
+      {/* The place and the facilities the section below lists, on one surface. The
+          list is still the thing that carries the phone numbers, the opening hours and
+          the source of every coordinate; this shows where they are in relation to each
+          other, which a column of distances in metres cannot. */}
+      <section aria-labelledby="place-map-heading" className="grid gap-3">
+        <h2 id="place-map-heading" className="section-head">
+          {tm('heading')}
+        </h2>
+        <PlaceMap
+          labelledBy="place-map-heading"
+          center={poi.coord}
+          zoom={15}
+          pins={[
+            {
+              slug: poi.slug,
+              title,
+              lat: poi.coord.lat,
+              lng: poi.coord.lng,
+              verdict: null,
+              tone: 'unknown',
+              href: null,
+            },
+            ...poi.facilities.flatMap((facility) =>
+              facility.coord === null
+                ? []
+                : [
+                    {
+                      slug: `${poi.slug}-${facility.kind}-${facility.name}`,
+                      title: facility.name,
+                      lat: facility.coord.lat,
+                      lng: facility.coord.lng,
+                      verdict: tc(`facility.${facility.kind}`),
+                      tone: 'plain' as const,
+                      href: null,
+                    },
+                  ],
+            ),
+          ]}
+        />
+      </section>
+
       <section aria-labelledby="safety-heading" className="grid gap-3">
-        <Eyebrow as="h2" id="safety-heading">{t('eyebrowSafety')}</Eyebrow>
+        <h2 id="safety-heading" className="section-head">{t('headingSafety')}</h2>
         {poi.facilities.length === 0 ? (
           <p className="blank-slot">{tc('status.unknown')}</p>
         ) : (
@@ -259,7 +324,7 @@ export default async function PlacePage({
                         </span>
                       ) : null}
                     </p>
-                    {facility.detail ? <p className="text-[0.95rem]">{facility.detail}</p> : null}
+                    {facility.detail ? <p className="t-sm">{facility.detail}</p> : null}
                     {facility.phone ? (
                       <p className="mt-1">
                         <a href={`tel:${facility.phone.replace(/[^+\d]/g, '')}`} className="btn">
@@ -276,7 +341,7 @@ export default async function PlacePage({
             })}
           </ul>
         )}
-        <p className="text-[0.88rem] text-[var(--color-ink-2)]">{t('safetyNote')}</p>
+        <p className="t-xs text-[var(--color-ink-2)]">{t('safetyNote')}</p>
       </section>
 
       {relatedForPoi && relatedForPoi.items.length > 0 ? (
@@ -284,7 +349,7 @@ export default async function PlacePage({
           aria-labelledby="related-heading"
           className="callout callout--caution grid gap-3"
         >
-          <Eyebrow as="h2" id="related-heading">{t('eyebrowRelated')}</Eyebrow>
+          <h2 id="related-heading" className="section-head">{t('headingRelated')}</h2>
           {/* Kept visually apart from the alternatives block above: these places were
               never scored and their accessibility was never checked. */}
           <p className="font-bold">
@@ -297,7 +362,7 @@ export default async function PlacePage({
               <li key={item.code}>
                 {item.name}
                 {item.categoryLcls ? (
-                  <span className="ml-1 text-[0.85rem] text-[var(--color-ink-2)]">
+                  <span className="ml-1 t-xs text-[var(--color-ink-2)]">
                     {item.categoryLcls}
                   </span>
                 ) : null}

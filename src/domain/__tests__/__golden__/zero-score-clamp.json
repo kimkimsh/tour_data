@@ -586,6 +586,15 @@
       }
     ],
     "alternatives": [],
+    "relevantKnownCount": 14,
+    "relevantTotalCount": 14,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom"
+    ],
     "ktoUnknownCount": 0,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -755,6 +764,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

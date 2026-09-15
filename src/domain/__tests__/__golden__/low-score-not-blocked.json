@@ -308,18 +308,18 @@
     "scoredAlternatives": []
   },
   "expected": {
-    "score": 46,
+    "score": 100,
     "label": "주의",
-    "layerA": 0.5101785714285716,
-    "layerB": 0.8945175438596492,
+    "layerA": 1,
+    "layerB": 1,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
-        "weight": 0.30000000000000004,
-        "rawScore": 0.6749999999999999,
-        "weighted": 0.2025,
+        "weight": 0.4545454545454546,
+        "rawScore": 1,
+        "weighted": 0.4545454545454546,
         "knownCount": 3,
         "totalCount": 6
       },
@@ -327,9 +327,9 @@
         "axis": "continuity",
         "labelKo": "이동",
         "labelEn": "Movement",
-        "weight": 0.18000000000000002,
-        "rawScore": 0.5125000000000001,
-        "weighted": 0.09225000000000003,
+        "weight": 0.27272727272727276,
+        "rawScore": 1,
+        "weighted": 0.27272727272727276,
         "knownCount": 1,
         "totalCount": 4
       },
@@ -337,9 +337,9 @@
         "axis": "facility",
         "labelKo": "편의시설",
         "labelEn": "Facilities",
-        "weight": 0.18000000000000002,
-        "rawScore": 0.5357142857142858,
-        "weighted": 0.09642857142857146,
+        "weight": 0.27272727272727276,
+        "rawScore": 1,
+        "weighted": 0.27272727272727276,
         "knownCount": 2,
         "totalCount": 7
       },
@@ -347,9 +347,9 @@
         "axis": "information",
         "labelKo": "정보안내",
         "labelEn": "Information",
-        "weight": 0.14000000000000004,
-        "rawScore": 0.35000000000000003,
-        "weighted": 0.049000000000000016,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 8
       },
@@ -357,9 +357,9 @@
         "axis": "rest",
         "labelKo": "휴식",
         "labelEn": "Rest",
-        "weight": 0.10000000000000003,
-        "rawScore": 0.3499999999999999,
-        "weighted": 0.035,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 3
       },
@@ -367,9 +367,9 @@
         "axis": "context",
         "labelKo": "상황",
         "labelEn": "Situation",
-        "weight": 0.10000000000000003,
-        "rawScore": 0.35,
-        "weighted": 0.03500000000000001,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
         "knownCount": 0,
         "totalCount": 5
       }
@@ -546,6 +546,15 @@
       }
     ],
     "alternatives": [],
+    "relevantKnownCount": 6,
+    "relevantTotalCount": 14,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom"
+    ],
     "ktoUnknownCount": 18,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -715,6 +724,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

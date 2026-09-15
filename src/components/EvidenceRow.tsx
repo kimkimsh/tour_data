@@ -38,7 +38,7 @@ export function EvidenceRow({
           <h4 className="subhead !tracking-normal">{title}</h4>
           <StatusText kind={statusKind} text={statusText} />
           {derived ? (
-            <span className="text-[0.78rem] text-[var(--color-ink-2)]">
+            <span className="t-xs text-[var(--color-ink-2)]">
               {derivedLabel}
             </span>
           ) : null}
@@ -51,14 +51,14 @@ export function EvidenceRow({
         {quotedDetail ? (
           <blockquote
             lang="ko"
-            className="mt-2 border-l-2 border-[var(--color-rule-strong)] pl-3 text-[0.97rem]"
+            className="mt-2 border-l-2 border-[var(--color-rule-strong)] pl-3 t-sm"
           >
             {quotedDetail}
           </blockquote>
         ) : null}
 
         {statusKind === 'unknown' ? (
-          <p className="blank-slot mt-2 text-[0.94rem]">{absenceExplanation}</p>
+          <p className="blank-slot mt-2 t-sm">{absenceExplanation}</p>
         ) : null}
       </div>
 
@@ -105,7 +105,7 @@ function StatusText({ kind, text }: { kind: CapabilityStatus; text: string }) {
           ? 'var(--color-state-warn)'
           : 'var(--color-ink-2)';
   return (
-    <span className="text-[0.93rem] font-bold" style={{ color: colour }}>
+    <span className="t-sm font-bold" style={{ color: colour }}>
       <span aria-hidden="true">{STATUS_MARK[kind]} </span>
       {text}
     </span>

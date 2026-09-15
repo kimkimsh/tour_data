@@ -62,7 +62,7 @@ export function DiaryPrint({ pois, routes }: { pois: Poi[]; routes: Route[] }) {
             {tc('back')}
           </Link>
         </p>
-        <p className="no-print text-[0.92rem] text-[var(--color-ink-2)]">{t('printHint')}</p>
+        <p className="no-print t-sm text-[var(--color-ink-2)]">{t('printHint')}</p>
       </header>
 
       {doc.sections.length === 0 ? <p className="blank-slot">{t('empty')}</p> : null}

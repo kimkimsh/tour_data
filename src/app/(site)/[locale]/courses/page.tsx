@@ -5,8 +5,8 @@ import { getDocent, getFacts, getPois, getRoutes, orEmpty } from '@/lib/data';
 import { itineraries } from '@/lib/content';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { CourseView } from '@/components/course/CourseView';
-import { groupFactsByPoi, type PlaceCardData } from '@/components/place/place-view';
-import type { ContentLocale, Locale } from '@/domain/types';
+import { groupFactsByPoi, type PlaceCardData, toPlaceCardData } from '@/components/place/place-view';
+import type { Locale } from '@/domain/types';
 
 export const revalidate = 3600;
 
@@ -33,16 +33,12 @@ export default async function CoursesPage({ params }: { params: Promise<{ locale
   const docent = orEmpty(await getDocent());
   const localeKey = locale as Locale;
 
-  const places: PlaceCardData[] = pois.data.map((poi) => ({
-    slug: poi.slug,
-    title: poi.i18n[locale as ContentLocale]?.title ?? poi.i18n.ko?.title ?? poi.slug,
-    cityLabel: localeKey === 'en' ? poi.cityEn : poi.cityKo,
-    heritageLabel: poi.heritageLabel,
-    isUnescoComponent: poi.isUnescoComponent,
-    unescoComponentNote: poi.unescoComponentNote,
-    hasRoute: routes.some((route) => route.poiSlug === poi.slug),
-    hasDocent: docent.some((story) => story.poiSlug === poi.slug),
-  }));
+  const places: PlaceCardData[] = pois.data.map((poi) =>
+    toPlaceCardData(poi, localeKey, {
+      hasRoute: routes.some((route) => route.poiSlug === poi.slug),
+      hasDocent: docent.some((story) => story.poiSlug === poi.slug),
+    }),
+  );
 
   return (
     <div className="grid gap-8">

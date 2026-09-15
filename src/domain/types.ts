@@ -64,6 +64,18 @@ export const CERTIFICATION_GRADES = [
 ] as const;
 export type CertificationGrade = (typeof CERTIFICATION_GRADES)[number];
 
+/**
+ * What a place is to this service, and the reason a boolean no longer does.
+ *
+ * The screens used to print one of two sentences off `isUnescoComponent`: 구성유산, or
+ * 구성유산 인접 시설. That was true while the catalogue held six places — four component
+ * assets and the two national museums beside them — and became false the moment a
+ * Baekje site that is neither was added. A place is not "adjacent to a component" just
+ * because it is not one.
+ */
+export const PLACE_ROLES = ['unesco_component', 'baekje_museum', 'baekje_related'] as const;
+export type PlaceRole = (typeof PLACE_ROLES)[number];
+
 export const FACILITY_KINDS = [
   'restroom',
   'aed',
@@ -143,6 +155,8 @@ export interface AlternativePoi {
   title: string;
   score: number;
   label: SuitabilityLabel;
+  /** Same city as the place being judged. The scoreboard filters on it. */
+  city: string;
 }
 
 export interface SuitabilityResult {
@@ -165,6 +179,22 @@ export interface SuitabilityResult {
   coverage: number;
   /** 0..100. Never multiplied into score. */
   evidenceConfidence: number;
+
+  /**
+   * The two figures `coverage` is the ratio of. Returned rather than left to the
+   * screens: three of them used to recount from the raw fact array, which holds only
+   * the codes ingest wrote, while this result counts over the filled catalogue. A POI
+   * added before its next accessibility run made the sentence read "0개 항목 중 5개를
+   * 모릅니다".
+   */
+  relevantKnownCount: number;
+  relevantTotalCount: number;
+
+  /**
+   * The capabilities this verdict was taken over — the union of the chosen personas'
+   * critical items, or GENERAL_VERDICT_CODES when no condition was chosen.
+   */
+  requiredCodes: string[];
 
   knownCriticalBlockers: string[];
   unknownCriticals: string[];
@@ -246,6 +276,8 @@ export interface ItineraryResult {
   templateId: string;
   legs: ItineraryLeg[];
   stayMultiplier: number;
+  /** Which selected condition the multiplier is the largest of. */
+  stayMultiplierSource: PersonaId | 'P0' | 'cognitive';
   restLimitMinutes: number;
   totalMinutes: number;
   warnings: ItineraryWarning[];

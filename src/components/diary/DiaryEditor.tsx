@@ -5,7 +5,6 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { getPersona } from '@/domain/personas';
 import type { DiaryEntry } from '@/domain/types';
-import { Eyebrow } from '@/components/Eyebrow';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
 import { useConditions } from '@/components/persona/usePersona';
 import { useDiary } from './useDiary';
@@ -215,7 +214,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
             onChange={(event) => update({ ...entry, date: event.target.value })}
           />
           {dateMissing ? (
-            <p id={`${groupId}-date-error`} className="text-[0.92rem] font-bold">
+            <p id={`${groupId}-date-error`} className="t-sm font-bold">
               {t('dateRequired')}
             </p>
           ) : null}
@@ -225,7 +224,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
           <p className="font-bold">{t('companions')}</p>
           <p>{companionLabel}</p>
           <p>
-            <Link href="/" className="text-[0.95rem]">
+            <Link href="/" className="t-sm">
               {tc('changeConditions')}
             </Link>
           </p>
@@ -264,7 +263,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
               />
               <label
                 htmlFor={`${groupId}-${place.poiSlug}-visited`}
-                className="flex-1 py-1 text-[1.05rem]"
+                className="flex-1 py-1"
               >
                 {t('visited')}
               </label>
@@ -371,7 +370,9 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
       </div>
 
       <section aria-labelledby={`${groupId}-exports`} className="grid gap-3">
-        <Eyebrow as="h2" id={`${groupId}-exports`}>{t('exports')}</Eyebrow>
+        <h2 id={`${groupId}-exports`} className="section-head">
+          {t('exports')}
+        </h2>
         <p className="flex flex-wrap gap-3">
           <Link href="/diary/print" className="btn">
             {t('openPrint')}
@@ -382,7 +383,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
             onClick={() => void download('text', 'trip-record.txt')}
           >
             {t('exportText')}
-            <span className="font-normal text-[0.85rem]">
+            <span className="font-normal t-xs">
               {t('exportTextHint', { size: kilobytes(textBytes) })}
             </span>
           </button>
@@ -392,14 +393,14 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
             onClick={() => void download('gpx', 'trip-record.gpx')}
           >
             {t('exportGpx')}
-            <span className="font-normal text-[0.85rem]">
+            <span className="font-normal t-xs">
               {tr('gpxFileNote', {
                 size: kilobytes(GPX_BYTES_HEADER + gpxPointCount * GPX_BYTES_PER_POINT),
               })}
             </span>
           </button>
         </p>
-        <p className="text-[0.92rem] text-[var(--color-ink-2)]">{t('printHint')}</p>
+        <p className="t-sm text-[var(--color-ink-2)]">{t('printHint')}</p>
       </section>
 
     </div>

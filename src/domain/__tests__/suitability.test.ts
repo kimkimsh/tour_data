@@ -134,26 +134,40 @@ describe('spec properties the golden files must keep', () => {
     expect(result.label).toBe('주의');
   });
 
-  it('coverage below the threshold caps the label even at a high score', () => {
-    const result = run('coverage-cap');
-    expect(result.unknownCriticals).toEqual([]);
-    expect(result.coverage).toBeLessThan(0.65);
-    expect(result.score).toBeGreaterThanOrEqual(75);
-    expect(result.label).toBe('주의');
+  it('an unchecked item the visitor does not depend on moves coverage, not the score', () => {
+    const fewer = run('low-coverage-criticals-known');
+    const more = run('low-coverage-criticals-known-more');
+
+    expect(fewer.unknownCriticals).toEqual([]);
+    expect(more.unknownCriticals).toEqual([]);
+    // Three more unknowns, none of them critical for this persona.
+    expect(more.coverage).toBeLessThan(fewer.coverage);
+    expect(more.evidenceConfidence).toBeLessThan(fewer.evidenceConfidence);
+    // The assertions that fail if the coverage cap is reintroduced.
+    expect(more.score).toBe(fewer.score);
+    expect(more.label).toBe(fewer.label);
+    expect(more.coverage).toBeLessThan(0.65);
+    expect(more.label).toBe('방문가능');
   });
 
-  it('caps on the far side of the coverage threshold and not on the near side', () => {
-    const atThreshold = run('coverage-boundary');
-    expect(atThreshold.coverage).toBeGreaterThanOrEqual(0.65);
-    expect(atThreshold.unknownCriticals).toEqual([]);
-    expect(atThreshold.label).toBe('방문가능');
+  it('a verdict is reachable with no condition chosen', () => {
+    // The defect v6 exists to remove: under v5 the model's ceiling on data this sparse
+    // was 62 while the band needed 75, so 방문가능 could not be produced by any input.
+    const reachable = run('general-verdict-reachable');
+    expect(reachable.requiredCodes).toEqual([
+      'access_route',
+      'entrance_passage',
+      'elevator',
+      'restroom',
+    ]);
+    expect(reachable.unknownCriticals).toEqual([]);
+    expect(reachable.score).toBeGreaterThanOrEqual(75);
+    expect(reachable.label).toBe('방문가능');
 
-    // One more unknown, nothing else changed. This is the assertion that fails if the
-    // comparison moves by one fact in either direction.
-    const belowThreshold = run('coverage-boundary-capped');
-    expect(belowThreshold.coverage).toBeLessThan(0.65);
-    expect(belowThreshold.unknownCriticals).toEqual([]);
-    expect(belowThreshold.label).toBe('주의');
+    // One of those four unchecked, nothing else changed.
+    const capped = run('general-verdict-one-unknown');
+    expect(capped.unknownCriticals).toEqual(['elevator']);
+    expect(capped.label).toBe('주의');
   });
 
   it('the score is exactly A x B — nothing else multiplies it', () => {
@@ -211,7 +225,51 @@ describe('spec properties the golden files must keep', () => {
     expect(above.label).toBe('방문가능');
   });
 
-  it('not_applicable leaves the denominator instead of scoring 0.35', () => {
+  it('unknown leaves the denominator, the way not_applicable does', () => {
+    const all = run('p1a-all-supported');
+    const someUnknown = calculateSuitability(
+      withPersonas(
+        ['P1a'],
+        facts('supported', {
+          parking: { status: 'unknown' },
+          nursing_room: { status: 'unknown' },
+          baby_chair: { status: 'unknown' },
+        }),
+      ),
+    );
+    expect(someUnknown.score).toBe(all.score);
+    expect(someUnknown.layerA).toBeCloseTo(all.layerA, 12);
+    const facility = someUnknown.axes.find((a) => a.axis === 'facility');
+    // The three unknowns are all on the facility axis; its mean is taken over what is left.
+    expect(facility?.knownCount).toBe(4);
+    expect(facility?.totalCount).toBe(7);
+    expect(facility?.rawScore).toBeCloseTo(1, 12);
+  });
+
+  it('an axis with nothing known leaves the weighted sum and keeps its row', () => {
+    const result = calculateSuitability(
+      withPersonas(
+        ['P1a'],
+        facts('supported', {
+          crowd_forecast: { status: 'unknown' },
+          weather_warning: { status: 'unknown' },
+          weather_forecast: { status: 'unknown' },
+          emergency_distance: { status: 'unknown' },
+          aed_distance: { status: 'unknown' },
+        }),
+      ),
+    );
+    const context = result.axes.find((a) => a.axis === 'context');
+    expect(context?.knownCount).toBe(0);
+    expect(context?.weight).toBe(0);
+    expect(context?.totalCount).toBe(5);
+    // The other five weights are scaled back to 1.00, so an all-supported remainder
+    // still scores 100 rather than losing the context axis's 0.10.
+    expect(result.axes.reduce((sum, a) => sum + a.weight, 0)).toBeCloseTo(1, 12);
+    expect(result.score).toBe(100);
+  });
+
+  it('not_applicable leaves the denominator, and is not counted as an item', () => {
     const result = run('not-applicable-excluded');
     expect(result.ktoTotalCount).toBe(22);
     const facility = result.axes.find((a) => a.axis === 'facility');
@@ -226,9 +284,9 @@ describe('spec properties the golden files must keep', () => {
   it('never offers a blocked place as the alternative to a blocked place', () => {
     const blocked = withPersonas(['P1a'], facts('unknown', { elevator: { status: 'unsupported' } }), {
       scoredAlternatives: [
-        { poiSlug: 'busosanseong', title: '부소산성', label: '대체추천', score: 45 },
-        { poiSlug: 'jeongnimsaji', title: '정림사지', label: '대체추천', score: 40 },
-        { poiSlug: 'gongsanseong', title: '공산성', label: '주의', score: 52 },
+        { poiSlug: 'busosanseong', title: '부소산성', label: '대체추천', score: 45 , city: '부여군' },
+        { poiSlug: 'jeongnimsaji', title: '정림사지', label: '대체추천', score: 40 , city: '부여군' },
+        { poiSlug: 'gongsanseong', title: '공산성', label: '주의', score: 52 , city: '부여군' },
       ],
     });
     const result = calculateSuitability(blocked);

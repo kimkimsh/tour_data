@@ -11,6 +11,7 @@ import {
   LOCALES,
   MEDIA_KINDS,
   PERSONA_IDS,
+  PLACE_ROLES,
   ROUTE_STEP_ACTIONS,
 } from './types';
 
@@ -49,7 +50,7 @@ export const PoiSchema = z.object({
   /** Heritage designation name only. Designation numbers are not used. */
   heritageLabel: z.string().nullable(),
   /** Whether this POI is a UNESCO component of the Baekje Historic Areas. */
-  isUnescoComponent: z.boolean(),
+  placeRole: z.enum(PLACE_ROLES),
   /**
    * Set when the place is only part of a component, so the screen can say so
    * instead of printing the component's full name as if it were this one place.

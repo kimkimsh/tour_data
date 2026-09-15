@@ -381,6 +381,14 @@
     "unknownCriticals": [],
     "deductions": [],
     "alternatives": [],
+    "relevantKnownCount": 21,
+    "relevantTotalCount": 21,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "elevator",
+      "restroom"
+    ],
     "ktoUnknownCount": 0,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -550,6 +558,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

@@ -383,6 +383,16 @@
     "unknownCriticals": [],
     "deductions": [],
     "alternatives": [],
+    "relevantKnownCount": 25,
+    "relevantTotalCount": 25,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom",
+      "stroller"
+    ],
     "ktoUnknownCount": 0,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -552,6 +562,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

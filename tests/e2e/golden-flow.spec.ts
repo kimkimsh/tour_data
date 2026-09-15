@@ -1,5 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
 
+// The screen strings come from the message file rather than being typed here, so
+// rewording a label cannot fail a test that is about whether the element exists.
+import ko from '../../messages/ko.json';
+
 /**
  * The demonstration script, written as a test. If this passes, the walkthrough works.
  *
@@ -78,7 +82,7 @@ test('a visitor can reach a verdict, its basis, a route and the gap report', asy
   for (const axis of ['entry', 'continuity', 'facility', 'information', 'rest', 'context']) {
     await expect(page.locator(`#axis-${axis}-heading`)).toBeVisible();
   }
-  await expect(page.getByText('파생 항목').first()).toBeVisible();
+  await expect(page.getByText(ko.common.derivedLabel).first()).toBeVisible();
 
   await page.getByRole('group').filter({ hasText: '이 점수가 나온 계산' }).first().click();
   await expect(page.getByText(/점수 = 100 ×/)).toBeVisible();

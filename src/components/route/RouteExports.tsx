@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { toGpx } from '@/domain/gpx';
 import type { Route } from '@/domain/snapshot-schema';
@@ -18,6 +19,7 @@ const GOOGLE_WAYPOINT_LIMIT = 3;
  */
 export function RouteExports({ route, fileName }: { route: Route; fileName: string }) {
   const t = useTranslations('routeGuide');
+  const lastObjectUrl = useRef<string | null>(null);
   const points = route.steps
     .filter((step) => step.coord !== null)
     .map((step) => ({ lat: step.coord!.lat, lng: step.coord!.lng, name: step.title }));
@@ -32,11 +34,18 @@ export function RouteExports({ route, fileName }: { route: Route; fileName: stri
 
   const download = () => {
     const url = URL.createObjectURL(new Blob([gpx], { type: 'application/gpx+xml' }));
+    // Revoking straight after click cancels the download in some browsers, so the
+    // previous URL is released when the next export replaces it instead.
+    if (lastObjectUrl.current !== null) URL.revokeObjectURL(lastObjectUrl.current);
+    lastObjectUrl.current = url;
+
     const anchor = document.createElement('a');
     anchor.href = url;
     anchor.download = `${fileName}.gpx`;
+    // Firefox ignores a click on an anchor that is not in the document.
+    document.body.append(anchor);
     anchor.click();
-    URL.revokeObjectURL(url);
+    anchor.remove();
   };
 
   const first = points[0]!;
@@ -66,7 +75,7 @@ export function RouteExports({ route, fileName }: { route: Route; fileName: stri
     <p className="flex flex-wrap gap-3">
       <button type="button" className="btn" onClick={download}>
         {t('downloadGpx')}
-        <span className="font-normal text-[0.85rem]">{t('gpxFileNote', { size: sizeKb })}</span>
+        <span className="font-normal t-xs">{t('gpxFileNote', { size: sizeKb })}</span>
       </button>
       <a className="btn" href={kakaoUrl} rel="noreferrer noopener">
         {t('openInKakao')}

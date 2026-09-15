@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getPois, getRoutes } from '@/lib/data';
-import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { RouteSteps } from '@/components/route/RouteSteps';
 import { RouteExports } from '@/components/route/RouteExports';
@@ -63,10 +62,9 @@ export default async function RouteGuidePage({
   if (!route) {
     return (
       <div className="grid gap-4">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{title}</h1>
         <p className="blank-slot">{t('none')}</p>
-        <p className="text-[0.95rem] text-[var(--color-ink-2)]">{t('noneHint')}</p>
+        <p className="t-sm text-[var(--color-ink-2)]">{t('noneHint')}</p>
       </div>
     );
   }
@@ -76,17 +74,16 @@ export default async function RouteGuidePage({
   return (
     <div className="grid gap-8">
       <header className="grid gap-2">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>
           {title} — {route.title}
         </h1>
         {route.totalDistanceM !== null && route.totalMinutes !== null ? (
-          <p className="tabular text-[1.05rem]">
+          <p className="tabular">
             {t('summary', { distance: route.totalDistanceM, minutes: route.totalMinutes })}
           </p>
         ) : null}
         {route.personaFlags.length > 0 ? (
-          <p className="text-[0.95rem] text-[var(--color-ink-2)]">
+          <p className="t-sm text-[var(--color-ink-2)]">
             {t('personaFor')}:{' '}
             {route.personaFlags
               .map((id) => (localeKey === 'ko' ? getPersona(id).labelKo : getPersona(id).labelEn))
@@ -103,7 +100,7 @@ export default async function RouteGuidePage({
       >
         <span aria-hidden="true">⚠ </span>
         {tc('honesty.routeEvidence')}
-        <span className="mt-1 block font-normal text-[0.92rem]">
+        <span className="mt-1 block font-normal t-sm">
           {/* evidenceLevel is one of desk/photo/field. It reached the screen raw, so a
               Korean reader was told the evidence for a route they were about to walk
               was "desk". */}

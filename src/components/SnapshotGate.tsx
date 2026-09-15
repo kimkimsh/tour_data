@@ -25,9 +25,10 @@ export function SnapshotProblem({
     <section className="callout callout--caution" role="status">
       <h1>{missing ? t('noSnapshotTitle') : t('loadFailedTitle')}</h1>
       <p className="mt-2">{missing ? t('noSnapshotBody') : t('loadFailedBody')}</p>
-      {/* Which snapshot, and nothing else. result.message can carry a Postgres error
-          or a Zod issue naming a table, a column or a policy, and this page is public. */}
-      <p className="evidence__provenance mt-3">{result.message.split(':')[0]}</p>
+      {/* Which snapshot, and nothing else. The key is its own field because
+          result.message does not always start with one — the unconfigured-deployment
+          message is a whole sentence with no colon in it, and this page is public. */}
+      <p className="evidence__provenance mt-3">{result.snapshot}</p>
       {missing ? null : (
         <p className="mt-3">
           <RetryButton label={tc('retry')} />

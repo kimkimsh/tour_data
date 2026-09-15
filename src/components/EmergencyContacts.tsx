@@ -40,7 +40,7 @@ export function EmergencyContacts({ contacts }: { contacts: SafetyContact[] }) {
           <Dialog.Title className="border-b-2 border-[var(--color-state-bad)] pb-2">
             {t('title')}
           </Dialog.Title>
-          <Dialog.Description className="mt-2 text-[0.95rem] text-[var(--color-ink-2)]">
+          <Dialog.Description className="mt-2 t-sm text-[var(--color-ink-2)]">
             {t('hint')}
           </Dialog.Description>
 
@@ -55,7 +55,7 @@ export function EmergencyContacts({ contacts }: { contacts: SafetyContact[] }) {
                   <span className="font-mono tabular">{contact.tel}</span>
                 </a>
                 {contact.note ? (
-                  <p lang="ko" className="mt-1 text-[0.88rem] text-[var(--color-ink-2)]">
+                  <p lang="ko" className="mt-1 t-xs text-[var(--color-ink-2)]">
                     {contact.note}
                   </p>
                 ) : null}

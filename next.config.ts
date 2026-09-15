@@ -1,10 +1,33 @@
 import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from 'next';
 
+import { AUDIO_HOSTS } from './src/config/media-hosts';
+
 // KTO image hosts. Ingest rewrites http to https before storing and probes the result
 // with a HEAD request; an asset whose https form does not serve is stored as an
 // /api/image-proxy path instead (docs/spec/03_external_data.md section 4.3).
 const KTO_IMAGE_HOSTS = ['tong.visitkorea.or.kr', 'cdn.visitkorea.or.kr'] as const;
+
+/**
+ * NAVER Maps v3, measured rather than copied from the documentation.
+ *
+ * The SDK comes from oapi, and so does the key check — as JSONP, which is a <script>
+ * and lands in script-src rather than connect-src. The style manifests behave the same
+ * way: nrbe answers `/styles/basic.json?callback=…` with executable JavaScript, so
+ * that host is a script source as well as an image source. static.naver.net serves the
+ * sprite sheets and the drag cursor.
+ *
+ * No scheme, deliberately. A bare host matches the page's own scheme, which keeps the
+ * http form usable under `next dev` while a deployed https page still refuses it —
+ * CSP only ever relaxes http to https, never the other way.
+ *
+ * kr-col-ext.nelo.navercorp.com is deliberately absent. It is NELO, NAVER's error
+ * collector, and the map draws its tiles, its markers and its controls without it,
+ * measured with the host blocked. A telemetry endpoint allowed in to quiet a console
+ * warning is a data flow this service's privacy policy would then have to declare.
+ */
+const NAVER_MAP_SCRIPT_HOSTS = ['oapi.map.naver.com', 'nrbe.map.naver.net'] as const;
+const NAVER_MAP_ASSET_HOSTS = ['nrbe.map.naver.net', 'static.naver.net'] as const;
 
 /**
  * The proxy path is same-origin, and same-origin used to be enough. Next 16 stopped
@@ -31,9 +54,9 @@ const IMAGE_PROXY_PATHNAME = '/api/image-proxy';
  * What the browser is allowed to fetch, load and do on these pages.
  *
  * The list is the real inventory, not a template: the fonts are self-hosted
- * (docs/work_log/03_deviations.md D-6), there is no analytics script and no map SDK,
- * and the only images that are not ours come from the two KTO hosts the image config
- * above already names. `frame-ancestors 'none'` is what X-Frame-Options used to say,
+ * (docs/work_log/03_deviations.md D-6), there is no analytics script, the map SDK is
+ * NAVER's and nothing else third-party runs, and the only images that are not ours
+ * come from the two KTO hosts the image config above names plus NAVER's tiles. `frame-ancestors 'none'` is what X-Frame-Options used to say,
  * in the header that superseded it.
  *
  * 'unsafe-inline' on styles is Tailwind v4's inline `<style>` element, and on scripts
@@ -42,15 +65,22 @@ const IMAGE_PROXY_PATHNAME = '/api/image-proxy';
  */
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
-  `img-src 'self' data: blob: ${KTO_IMAGE_HOSTS.map((host) => `https://${host}`).join(' ')}`,
-  // Odii serves the audio guide; the transcript beside it is ours.
-  "media-src 'self' https://tong.visitkorea.or.kr https://cdn.visitkorea.or.kr",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  `img-src 'self' data: blob: ${KTO_IMAGE_HOSTS.map((host) => `https://${host}`).join(' ')} ${NAVER_MAP_ASSET_HOSTS.join(' ')}`,
+  // Odii's audio, and the captions the player builds from the transcript it already
+  // has on screen. The caption track is a data: URL because the text is generated in
+  // the browser from paragraphs that arrived with the page — there is no file to
+  // fetch, and inventing a route to serve one back would be a round trip to ourselves.
+  // data: buys no script execution here; media-src governs <audio> and <video> only.
+  `media-src 'self' data: ${AUDIO_HOSTS.map((host) => `https://${host}`).join(' ')}`,
+  // 'unsafe-eval' is React Refresh's, and it is only ever loaded by `next dev`. A
+  // production bundle never calls eval, so shipping the permission buys an attacker
+  // a string-to-code path in exchange for nothing.
+  `script-src 'self' 'unsafe-inline' ${NAVER_MAP_SCRIPT_HOSTS.join(' ')}${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",
-  // The Supabase project, and nothing else. Visitor reports are the only thing this
-  // app sends anywhere at run time.
-  "connect-src 'self' https://*.supabase.co",
+  // The Supabase project and the map's own tile requests. Visitor reports are still
+  // the only thing this app itself sends anywhere at run time.
+  `connect-src 'self' https://*.supabase.co ${NAVER_MAP_SCRIPT_HOSTS.join(' ')} ${NAVER_MAP_ASSET_HOSTS.join(' ')}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

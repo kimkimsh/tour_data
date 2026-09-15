@@ -1,5 +1,5 @@
 {
-  "name": "coverage-boundary-capped",
+  "name": "low-coverage-criticals-known",
   "input": {
     "facts": [
       {
@@ -22,11 +22,11 @@
       },
       {
         "capabilityCode": "wheelchair",
-        "status": "unknown",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
@@ -76,11 +76,11 @@
       },
       {
         "capabilityCode": "guide_system",
-        "status": "unknown",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
@@ -157,20 +157,20 @@
       },
       {
         "capabilityCode": "audio_guide",
-        "status": "unknown",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "big_print",
-        "status": "unknown",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
@@ -193,11 +193,11 @@
       },
       {
         "capabilityCode": "guide_human",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -301,26 +301,26 @@
       }
     ],
     "personaIds": [
-      "P1b"
+      "P1a"
     ],
     "cognitiveOption": false,
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
   "expected": {
-    "score": 77,
-    "label": "주의",
-    "layerA": 0.8077857142857146,
-    "layerB": 0.9580645161290322,
+    "score": 100,
+    "label": "방문가능",
+    "layerA": 1.0000000000000002,
+    "layerB": 1,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
         "weight": 0.30000000000000004,
-        "rawScore": 0.7833333333333333,
-        "weighted": 0.23500000000000004,
-        "knownCount": 4,
+        "rawScore": 1,
+        "weighted": 0.30000000000000004,
+        "knownCount": 5,
         "totalCount": 6
       },
       {
@@ -328,9 +328,9 @@
         "labelKo": "이동",
         "labelEn": "Movement",
         "weight": 0.18000000000000002,
-        "rawScore": 0.5125000000000001,
-        "weighted": 0.09225000000000003,
-        "knownCount": 1,
+        "rawScore": 1,
+        "weighted": 0.18000000000000002,
+        "knownCount": 2,
         "totalCount": 4
       },
       {
@@ -338,8 +338,8 @@
         "labelKo": "편의시설",
         "labelEn": "Facilities",
         "weight": 0.18000000000000002,
-        "rawScore": 0.9071428571428571,
-        "weighted": 0.1632857142857143,
+        "rawScore": 1,
+        "weighted": 0.18000000000000002,
         "knownCount": 6,
         "totalCount": 7
       },
@@ -348,9 +348,9 @@
         "labelKo": "정보안내",
         "labelEn": "Information",
         "weight": 0.14000000000000004,
-        "rawScore": 0.8375,
-        "weighted": 0.11725000000000003,
-        "knownCount": 6,
+        "rawScore": 1,
+        "weighted": 0.14000000000000004,
+        "knownCount": 7,
         "totalCount": 8
       },
       {
@@ -375,17 +375,11 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.6190476190476191,
-    "evidenceConfidence": 62,
+    "coverage": 0.6428571428571429,
+    "evidenceConfidence": 64,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "deductions": [
-      {
-        "capabilityCode": "wheelchair",
-        "labelKo": "휠체어 대여",
-        "reason": "휠체어 대여 정보 없음",
-        "axis": "entry"
-      },
       {
         "capabilityCode": "ticket_office",
         "labelKo": "매표소",
@@ -396,12 +390,6 @@
         "capabilityCode": "public_transport",
         "labelKo": "대중교통",
         "reason": "대중교통 정보 없음",
-        "axis": "continuity"
-      },
-      {
-        "capabilityCode": "guide_system",
-        "labelKo": "유도 안내 설비",
-        "reason": "유도 안내 설비 정보 없음",
         "axis": "continuity"
       },
       {
@@ -417,20 +405,23 @@
         "axis": "facility"
       },
       {
-        "capabilityCode": "audio_guide",
-        "labelKo": "오디오 가이드",
-        "reason": "오디오 가이드 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "big_print",
-        "labelKo": "큰 활자 홍보물",
-        "reason": "큰 활자 홍보물 정보 없음",
+        "capabilityCode": "guide_human",
+        "labelKo": "안내요원",
+        "reason": "안내요원 정보 없음",
         "axis": "information"
       }
     ],
     "alternatives": [],
-    "ktoUnknownCount": 7,
+    "relevantKnownCount": 9,
+    "relevantTotalCount": 14,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom"
+    ],
+    "ktoUnknownCount": 4,
     "ktoTotalCount": 24,
     "dataDates": [
       {
@@ -445,7 +436,7 @@
       },
       {
         "capabilityCode": "wheelchair",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
@@ -475,7 +466,7 @@
       },
       {
         "capabilityCode": "guide_system",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
@@ -520,12 +511,12 @@
       },
       {
         "capabilityCode": "audio_guide",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "big_print",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
@@ -540,7 +531,7 @@
       },
       {
         "capabilityCode": "guide_human",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -599,6 +590,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

@@ -36,11 +36,8 @@ export default function NotFound() {
       <body>
         <main id="main-content" className="shell py-12">
           <div className="grid gap-4">
-            <p className="eyebrow">
-              <span>{t.error.notFoundEyebrow}</span>
-            </p>
             <h1>{t.error.notFoundTitle}</h1>
-            <p className="text-[1.02rem]">{t.error.notFoundBody}</p>
+            <p>{t.error.notFoundBody}</p>
             <p className="flex flex-wrap gap-2">
               <Link href="/ko/places" className="btn btn--filled">
                 {t.nav.places}

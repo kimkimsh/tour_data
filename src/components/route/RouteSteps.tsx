@@ -70,9 +70,7 @@ export function RouteSteps({ route }: { route: Route }) {
       <ol aria-label={t('stepsLabel')} className="grid gap-5">
         {visible.map((step) => (
           <li key={step.seq} className="card grid gap-3">
-            <p className="eyebrow">
-              <span>{t('step', { seq: step.seq })}</span>
-            </p>
+            <p className="step-mark">{t('step', { seq: step.seq })}</p>
             {/* alt="" because nobody wrote a description of this photo, and repeating
                 the heading that follows it announces the same words twice while
                 claiming to describe an image. The step text is the accessible
@@ -88,10 +86,10 @@ export function RouteSteps({ route }: { route: Route }) {
               />
             ) : null}
             <h2 className="item-head">{step.title}</h2>
-            <p className="text-[1.06rem]">{step.easyText}</p>
-            {step.detail ? <p className="text-[0.97rem]">{step.detail}</p> : null}
+            <p>{step.easyText}</p>
+            {step.detail ? <p className="t-sm">{step.detail}</p> : null}
 
-            <dl className="flex flex-wrap gap-x-6 gap-y-1 text-[0.93rem]">
+            <dl className="flex flex-wrap gap-x-6 gap-y-1 t-sm">
               {/* div, not span: only div, dt and dd may be children of a dl, and a
                   span between them breaks the term-to-value mapping that is the whole
                   reason for using a dl here. */}

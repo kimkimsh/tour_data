@@ -28,9 +28,14 @@ import {
  * build:fixtures and pnpm start:fixtures do. See resolveSource().
  */
 
+/**
+ * `snapshot` is the only part of a failure a public screen may render. `message`
+ * carries Postgres errors, Zod issues and the deployment instructions below, every
+ * one of which names something internal.
+ */
 export type SnapshotResult<T> =
   | { ok: true; data: T; source: DataSource }
-  | { ok: false; kind: 'missing' | 'error'; message: string };
+  | { ok: false; kind: 'missing' | 'error'; snapshot: SnapshotKey; message: string };
 
 export type DataSource = 'supabase' | 'fixtures';
 
@@ -71,7 +76,7 @@ async function readSnapshot<T>(
   try {
     source = resolveSource();
   } catch (error) {
-    return { ok: false, kind: 'error', message: (error as Error).message };
+    return { ok: false, kind: 'error', snapshot: key, message: (error as Error).message };
   }
 
   let payload: unknown;
@@ -79,10 +84,10 @@ async function readSnapshot<T>(
     try {
       payload = await readFixture(key);
     } catch (error) {
-      return { ok: false, kind: 'error', message: `${key}: ${(error as Error).message}` };
+      return { ok: false, kind: 'error', snapshot: key, message: `${key}: ${(error as Error).message}` };
     }
     if (payload === undefined) {
-      return { ok: false, kind: 'missing', message: `${key}: no fixture file` };
+      return { ok: false, kind: 'missing', snapshot: key, message: `${key}: no fixture file` };
     }
   } else {
     const { data, error } = await getPublicDb()
@@ -92,15 +97,20 @@ async function readSnapshot<T>(
       .maybeSingle();
     // maybeSingle, not single: single() reports "no row" as an error, and the two
     // have to reach the screen as different states.
-    if (error) return { ok: false, kind: 'error', message: `${key}: ${error.message}` };
-    if (!data) return { ok: false, kind: 'missing', message: `${key}: no snapshot row` };
+    if (error) return { ok: false, kind: 'error', snapshot: key, message: `${key}: ${error.message}` };
+    if (!data) return { ok: false, kind: 'missing', snapshot: key, message: `${key}: no snapshot row` };
     payload = data.payload;
   }
 
   const parsed = schema.safeParse(payload);
   if (!parsed.success) {
     // A shape that no longer matches is a broken snapshot, not an empty one.
-    return { ok: false, kind: 'error', message: `${key}: ${parsed.error.issues[0]?.message ?? 'invalid shape'}` };
+    return {
+      ok: false,
+      kind: 'error',
+      snapshot: key,
+      message: `${key}: ${parsed.error.issues[0]?.message ?? 'invalid shape'}`,
+    };
   }
   return { ok: true, data: parsed.data, source };
 }

@@ -3,10 +3,20 @@
 import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
-import { Eyebrow } from '@/components/Eyebrow';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
 import { createBrowserClient } from '@/lib/supabase/browser';
 import type { ReportCategory } from '@/domain/types';
+
+/**
+ * created_at is a timestamptz, which PostgREST serialises as UTC. Slicing the string
+ * printed that UTC calendar day, so a report filed at 07:00 KST was dated the day
+ * before. Every date this service shows is the Korean calendar date.
+ */
+const SEOUL_DATE = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' });
+
+function seoulDate(timestamp: string): string {
+  return SEOUL_DATE.format(new Date(timestamp));
+}
 
 interface ReportRow {
   id: string;
@@ -75,26 +85,33 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
    * without this the route answers 401.
    */
   const flag = async (id: string) => {
-    const supabase = createBrowserClient();
-    const { data: session } = await supabase.auth.getSession();
-    if (!session.session) {
-      const { error } = await supabase.auth.signInAnonymously();
-      if (error) {
-        setAnnouncement(`${t('reportFlagFailed')} (${new Date().toLocaleTimeString()})`);
-        return;
+    try {
+      const supabase = createBrowserClient();
+      const { data: session } = await supabase.auth.getSession();
+      if (!session.session) {
+        const { error } = await supabase.auth.signInAnonymously();
+        if (error) {
+          setAnnouncement(`${t('reportFlagFailed')} (${new Date().toLocaleTimeString()})`);
+          return;
+        }
       }
-    }
 
-    const response = await fetch('/api/report/flag', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ id }),
-    });
-    // The text has to change for the region to announce again on a second flag.
-    const stamp = new Date().toLocaleTimeString();
-    setAnnouncement(
-      response.ok ? `${t('reportFlagged')} (${stamp})` : `${t('reportFlagFailed')} (${stamp})`,
-    );
+      const response = await fetch('/api/report/flag', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ id }),
+      });
+      // The text has to change for the region to announce again on a second flag.
+      const stamp = new Date().toLocaleTimeString();
+      setAnnouncement(
+        response.ok ? `${t('reportFlagged')} (${stamp})` : `${t('reportFlagFailed')} (${stamp})`,
+      );
+    } catch {
+      // fetch rejects rather than resolving when the network is gone, and getSession
+      // rejects the same way. Without this the handler rejected unhandled: nothing was
+      // announced and the button looked inert.
+      setAnnouncement(`${t('reportFlagFailed')} (${new Date().toLocaleTimeString()})`);
+    }
   };
 
   return (
@@ -103,11 +120,11 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
       aria-labelledby="reports-heading"
       className="grid gap-4 rounded border-2 border-dashed border-[var(--color-rule-strong)] p-5"
     >
-      <Eyebrow as="h2" id="reports-heading">{t('eyebrowReports')}</Eyebrow>
+      <h2 id="reports-heading" className="section-head">{t('headingReports')}</h2>
 
       {/* Separated from the checked facts by border, ground and wording. Mixing the
           two would cost both of them their credibility. */}
-      <p className="text-[0.95rem]">{t('reportsDisclaimer')}</p>
+      <p className="t-sm">{t('reportsDisclaimer')}</p>
 
       {/* One region for the whole section, mounted outside the branch below so it
           survives the swap. Its text used to be an ellipsis, which announces nothing,
@@ -157,15 +174,15 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
               {report.detail ? <p className="mt-1">{report.detail}</p> : null}
               <p className="mt-1 flex flex-wrap items-center gap-3">
                 <span className="evidence__provenance">
-                  {t('reportPostedOn', { date: report.created_at.slice(0, 10) })}
+                  {t('reportPostedOn', { date: seoulDate(report.created_at) })}
                 </span>
                 {/* The visible word is the same on every row, so the name carries the
                     category and date: a list of identical "신고" links is unusable from
                     a screen reader's link list. */}
                 <button
                   type="button"
-                  className="inline-flex min-h-[44px] items-center px-2 text-[0.88rem] underline"
-                  aria-label={`${t('reportFlag')} — ${tr(`category.${report.category}`)}, ${report.created_at.slice(0, 10)}`}
+                  className="inline-flex min-h-[44px] items-center px-2 t-xs underline"
+                  aria-label={`${t('reportFlag')} — ${tr(`category.${report.category}`)}, ${seoulDate(report.created_at)}`}
                   onClick={() => flag(report.id)}
                 >
                   {t('reportFlag')}

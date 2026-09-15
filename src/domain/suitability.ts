@@ -12,17 +12,37 @@ import {
   type SuitabilityResult,
 } from './types';
 import { CAPABILITIES, catalogueIndex } from './capabilities';
-import { GRADE_WEIGHT, criticalCodesFor, gradeFor, relevantCodesFor } from './personas';
+import {
+  GENERAL_VERDICT_CODES,
+  GRADE_WEIGHT,
+  criticalCodesFor,
+  gradeFor,
+  relevantCodesFor,
+} from './personas';
 
 /**
- * v5 drops the certification layer. v4's score was A x B x C, where C was a bonus of
- * up to 12% for a barrier-free certification. It reached one place in six, and every
- * other certification found belonged to an ancillary building — a visitor centre, a
- * toilet block — so applying it would have credited a site for a building's award.
- * The score is A x B now, and a certification is shown as a fact rather than added to
- * a number (docs/work_log/04_open_items.md, decision 3).
+ * v6 takes unknown out of the score.
+ *
+ * v5 gave an unknown item the value 0.35 and left it in every denominator, so a
+ * missing field lowered the score, lowered the label through the coverage cap, and
+ * lowered the confidence figure — the same absence charged three times. Measured over
+ * the six places actually in the database, that put the ceiling of the whole model at
+ * 62 while '방문가능' needed 75: no place, for any set of conditions, could reach the
+ * label. One of four verdicts was unreachable by arithmetic.
+ *
+ * The rule the spec already applies to stale data — "an old check date lowers
+ * confidence, not score" — now applies to absent data as well. The score answers "of
+ * what has been checked, how well does this place serve you"; how much has been
+ * checked is the coverage figure beside it, and whether the things this visitor
+ * depends on are among the checked ones is what decides the label.
+ *
+ * v5 dropped the certification layer before that: v4's score was A x B x C, where C
+ * was a bonus of up to 12% for a barrier-free certification. It reached one place in
+ * six, and every other certification found belonged to an ancillary building — a
+ * visitor centre, a toilet block — so applying it would have credited a site for a
+ * building's award. A certification is shown as a fact instead.
  */
-export const POLICY_VERSION = 'suitability-v5';
+export const POLICY_VERSION = 'suitability-v6';
 
 /** docs/spec/06_suitability.md section 3. Sums to 1.00. */
 export const AXIS_WEIGHT: Record<Axis, number> = {
@@ -46,19 +66,17 @@ export const AXIS_LABEL: Record<Axis, { ko: string; en: string }> = {
 };
 
 /**
- * unknown = 0.35 means "not knowing is better than absent but does not count as
- * present". The label rules and the coverage cap are the safety net that keeps
- * this value from reading as optimism.
+ * Only the three statuses that assert something. An unknown item has no value here
+ * because it takes no part in the score: it leaves the denominator the way a
+ * not_applicable item does, and is reported through coverage instead.
  */
-export const STATUS_VALUE: Record<CapabilityStatus, number> = {
+export const STATUS_VALUE: Record<Exclude<CapabilityStatus, 'unknown'>, number> = {
   supported: 1.0,
   partial: 0.5,
   unsupported: 0.0,
-  unknown: 0.35,
 };
 
-const VISITABLE_THRESHOLD = 75;
-const COVERAGE_CAP_THRESHOLD = 0.65;
+export const VISITABLE_THRESHOLD = 75;
 const BLOCKED_SCORE_CEILING = 49;
 
 /** Higher is better. Used for sorting and for the alternatives trigger. */
@@ -107,28 +125,33 @@ function normaliseFacts(facts: ReadonlyArray<SuitabilityFactInput>): NormalisedF
   });
 }
 
+/**
+ * An axis contributes its mean over the items whose status is known. An axis with
+ * nothing known has no mean to contribute, so it leaves the weighted sum and the
+ * remaining weights are scaled back to 1.00 — the same treatment a wholly
+ * not_applicable axis already had. Its row is still returned, with knownCount 0 and
+ * weight 0, because the screen names those axes as the biggest gaps.
+ */
 function buildAxes(facts: NormalisedFact[]): AxisBreakdown[] {
   const present: Array<{ axis: Axis; rawScore: number; knownCount: number; totalCount: number }> = [];
   for (const axis of AXES) {
     const items = facts.filter((f) => f.axis === axis && !f.excluded);
     if (items.length === 0) continue;
-    const rawScore = items.reduce((sum, f) => sum + STATUS_VALUE[f.status], 0) / items.length;
-    present.push({
-      axis,
-      rawScore,
-      knownCount: items.filter((f) => f.status !== 'unknown').length,
-      totalCount: items.length,
-    });
+    const known = items.filter((f) => f.status !== 'unknown');
+    const rawScore =
+      known.length === 0
+        ? 0
+        : known.reduce((sum, f) => sum + STATUS_VALUE[f.status as KnownStatus], 0) / known.length;
+    present.push({ axis, rawScore, knownCount: known.length, totalCount: items.length });
   }
 
-  // A whole axis can be not_applicable. Its raw score is undefined, so the axis
-  // leaves the weighted sum and the remaining weights are scaled back to 1.00.
-  // Left undefined, NaN would spread silently through the score.
-  const weightSum = present.reduce((sum, a) => sum + AXIS_WEIGHT[a.axis], 0);
+  const weightSum = present
+    .filter((a) => a.knownCount > 0)
+    .reduce((sum, a) => sum + AXIS_WEIGHT[a.axis], 0);
   const scale = weightSum === 0 ? 0 : 1 / weightSum;
 
   return present.map((a) => {
-    const weight = AXIS_WEIGHT[a.axis] * scale;
+    const weight = a.knownCount === 0 ? 0 : AXIS_WEIGHT[a.axis] * scale;
     return {
       axis: a.axis,
       labelKo: AXIS_LABEL[a.axis].ko,
@@ -142,11 +165,18 @@ function buildAxes(facts: NormalisedFact[]): AxisBreakdown[] {
   });
 }
 
+type KnownStatus = Exclude<CapabilityStatus, 'unknown'>;
+
+/**
+ * Graded mean over the items this persona depends on, taken only over the ones whose
+ * status is known. Nothing known returns 0, which the caller turns into the floor of
+ * layer B; the label rules reach 정보없음 before that number is ever shown.
+ */
 function personaFit(facts: NormalisedFact[], personaId: PersonaId | null): number {
   let numerator = 0;
   let denominator = 0;
   for (const fact of facts) {
-    if (fact.excluded) continue;
+    if (fact.excluded || fact.status === 'unknown') continue;
     const weight =
       personaId === null ? GRADE_WEIGHT.other : GRADE_WEIGHT[gradeFor(personaId, fact.capabilityCode)];
     numerator += STATUS_VALUE[fact.status] * weight;
@@ -254,8 +284,16 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
 
   const evidenceConfidence = Math.round(100 * coverage * freshness);
 
-  const requiredCodes = Array.from(
-    new Set(personaIds.flatMap((id) => criticalCodesFor(id))),
+  // What the verdict is taken over. With conditions chosen that is the union of their
+  // critical items; with none chosen there is no critical set, so the four items more
+  // than one persona depends on stand in — see GENERAL_VERDICT_CODES. Handing the
+  // no-condition case the whole catalogue instead made '방문가능' a claim about 수어 안내
+  // for a visitor who never said they needed it, and no place in the dataset could
+  // clear it.
+  const requiredCodes = (
+    personaIds.length === 0
+      ? [...GENERAL_VERDICT_CODES]
+      : Array.from(new Set(personaIds.flatMap((id) => criticalCodesFor(id))))
   ).filter((code) => byCode.has(code));
   const requiredFacts = requiredCodes.map((code) => byCode.get(code)!);
   const knownCriticalBlockers = requiredFacts
@@ -278,20 +316,24 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     // path to the "go elsewhere" label. A low score alone never produces it.
     label = '대체추천';
     score = Math.min(score, BLOCKED_SCORE_CEILING);
-  } else if (noVerdictForAnyPersona(personaIds, byCode) || (requiredFacts.length === 0 && coverage === 0)) {
-    // Rule 2. More than half of what matters is unknown, so there is no verdict
-    // to give. The second arm covers every case with no critical set to judge on —
-    // P0, which has none by definition, and any persona whose whole critical set
-    // turned out not to apply to this kind of place. Guarding that arm on
-    // personaIds.length alone left the second case scored: nothing known, nothing
-    // required, and a number on screen anyway.
+  } else if (
+    noVerdictForAnyPersona(personaIds, byCode, requiredCodes) ||
+    requiredFacts.length === 0
+  ) {
+    // Rule 2. More than half of what the verdict rests on is unknown, so there is no
+    // verdict to give. The second arm covers the case where the whole required set
+    // turned out not to apply to this kind of place, which leaves nothing to judge on.
     label = '정보없음';
+  } else if (unknownCriticals.length > 0) {
+    // Rule 3. Something the verdict rests on has not been checked. The screen prints
+    // the names beside the badge, which is the only actionable thing on the card.
+    label = '주의';
   } else {
+    // Rule 4. Everything the verdict rests on is known and none of it blocks, so the
+    // score decides. Coverage no longer caps here: it was a second charge for the same
+    // absence rule 3 already answers, taken over items this visitor does not depend on,
+    // and its threshold sat above anything the corpus reaches.
     label = score0 >= VISITABLE_THRESHOLD ? '방문가능' : '주의';
-    // Rule 4. The cap only ever lowers a visitable verdict to a caution verdict.
-    if (unknownCriticals.length > 0 || coverage < COVERAGE_CAP_THRESHOLD) {
-      label = '주의';
-    }
   }
 
   return {
@@ -307,6 +349,9 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     unknownCriticals,
     deductions: buildDeductions(facts),
     alternatives: pickAlternatives({ label, score }, input.scoredAlternatives),
+    relevantKnownCount: relevantFacts.filter((f) => f.status !== 'unknown').length,
+    relevantTotalCount: relevantFacts.length,
+    requiredCodes,
     ktoUnknownCount: included.filter((f) => f.isKtoScored && f.status === 'unknown').length,
     ktoTotalCount: included.filter((f) => f.isKtoScored).length,
     dataDates: included.map((f) => ({
@@ -331,9 +376,13 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
 function noVerdictForAnyPersona(
   personaIds: ReadonlyArray<PersonaId>,
   byCode: ReadonlyMap<string, NormalisedFact>,
+  generalCodes: ReadonlyArray<string>,
 ): boolean {
-  return personaIds.some((id) => {
-    const required = criticalCodesFor(id).filter((code) => byCode.has(code));
+  const sets =
+    personaIds.length === 0
+      ? [generalCodes]
+      : personaIds.map((id) => criticalCodesFor(id).filter((code) => byCode.has(code)));
+  return sets.some((required) => {
     if (required.length === 0) return false;
     const unknown = required.filter((code) => byCode.get(code)!.status === 'unknown').length;
     return unknown / required.length > 0.5;

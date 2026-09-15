@@ -309,18 +309,18 @@
     "scoredAlternatives": []
   },
   "expected": {
-    "score": 94,
+    "score": 100,
     "label": "주의",
-    "layerA": 0.9561250000000003,
-    "layerB": 0.9819444444444445,
+    "layerA": 1.0000000000000002,
+    "layerB": 1,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
         "weight": 0.30000000000000004,
-        "rawScore": 0.8916666666666666,
-        "weighted": 0.2675,
+        "rawScore": 1,
+        "weighted": 0.30000000000000004,
         "knownCount": 5,
         "totalCount": 6
       },
@@ -349,8 +349,8 @@
         "labelKo": "정보안내",
         "labelEn": "Information",
         "weight": 0.14000000000000004,
-        "rawScore": 0.91875,
-        "weighted": 0.12862500000000004,
+        "rawScore": 1,
+        "weighted": 0.14000000000000004,
         "knownCount": 7,
         "totalCount": 8
       },
@@ -398,6 +398,17 @@
       }
     ],
     "alternatives": [],
+    "relevantKnownCount": 18,
+    "relevantTotalCount": 20,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom",
+      "sign_guide",
+      "video_caption"
+    ],
     "ktoUnknownCount": 2,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -567,6 +578,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

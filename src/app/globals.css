@@ -35,14 +35,24 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
 
-  --text-eyebrow: 0.75rem;
-  --text-eyebrow--line-height: 1.2;
+  /*
+    Six steps and nothing between them. The screens used to carry 23 one-off
+    text-[…rem] values across 113 places, six of which were smaller than the .subhead
+    they overrode — a scale that is declared in one file and contradicted in every
+    other is not a scale. Anything not on this list is a bug.
+  */
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1.1875rem;
+  --text-lg: 1.5rem;
   --text-provenance: 0.8125rem;
   --text-provenance--line-height: 1.5;
 
   --spacing-rail: 15rem;
   --container-shell: 68rem;
   --container-prose: 40rem;
+  /* Where the measure-plus-rail layout turns on. Below it the rail stacks under. */
+  --rail-breakpoint: 48rem;
 }
 
 /*
@@ -244,24 +254,88 @@
     border: 0;
   }
 
-  /* The eyebrow carries the section's role, set in the gilt tone that also marks
-     every verdict of caution. It is a label, never a decorative flourish. */
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: var(--text-eyebrow);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-gilt);
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+  /*
+    The step sizes, as classes. Written out so a grep for a size finds every use of
+    it, which a Tailwind arbitrary value never allowed.
+  */
+  .t-xs {
+    font-size: var(--text-xs);
+    line-height: 1.5;
+  }
+  .t-sm {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+  .t-md {
+    font-size: var(--text-md);
+    line-height: 1.45;
+  }
+  .t-lg {
+    font-size: var(--text-lg);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
   }
 
-  .eyebrow::after {
-    content: "";
-    flex: 1 1 auto;
-    block-size: 1px;
-    background: var(--color-rule);
+  /*
+    A section's top edge, drawn rather than labelled.
+
+    Every section used to open with a tracked-out monospaced gilt label above its
+    heading, and on six screens that label was the heading's own words again —
+    「갭 리포트」 over 「공주·부여 무장애 정보 갭 리포트」. A rule the width of the column
+    separates sections without naming them twice.
+  */
+  .section-head {
+    border-block-start: 2px solid var(--color-ink);
+    padding-block-start: 0.7rem;
+  }
+
+  /*
+    A step's number in a sequence that really is one — the on-site route guide, where
+    the order is the instruction. Nowhere else: a number down the side of a list whose
+    order carries no meaning asserts one.
+  */
+  .step-mark {
+    font-variant-numeric: tabular-nums;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-gilt);
+  }
+
+  /*
+    Measure plus rail, for a screen whose main column is a form or a piece of prose.
+    Above the breakpoint the rail carries something the main column needs and cannot
+    hold — a count, a caveat, a standing explanation — and below it the rail falls
+    underneath in source order. It exists because at 1280px the whole site was a
+    40rem column of text with 400px of nothing beside it.
+  */
+  .page-split {
+    display: grid;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (min-width: 64rem) {
+    .page-split {
+      grid-template-columns: minmax(0, 1fr) 18rem;
+      gap: 3.5rem;
+    }
+  }
+
+  .page-split__aside {
+    border-block-start: 2px solid var(--color-ink);
+    padding-block-start: 0.9rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  /* The sentence under a page title. One per screen. */
+  .lede {
+    max-inline-size: var(--container-prose);
+    font-size: var(--text-md);
+    line-height: 1.55;
+    color: var(--color-ink-2);
+    text-wrap: pretty;
   }
 
   /*
@@ -270,15 +344,28 @@
     name, and the date it was checked. The provenance column is monospaced on
     purpose — it is machine text, and looking like machine text is the point.
   */
-  .evidence {
+  .evidence,
+  .record {
     display: grid;
     gap: 0.35rem 1.5rem;
     padding-block: 1rem;
     border-block-start: 1px solid var(--color-rule);
   }
 
+  /*
+    A ruled row with no fill. The same shape as .evidence for anything that is a list
+    entry rather than a sourced claim — a facility, an alternative, a course stop. It
+    exists because those were all .card, and twenty-one grey slabs down a page make
+    every one of them look equally important, which is the thing a reader uses a page
+    layout to find out.
+  */
+  .record:last-child {
+    border-block-end: 1px solid var(--color-rule);
+  }
+
   @media (min-width: 48rem) {
-    .evidence {
+    .evidence,
+    .record--railed {
       grid-template-columns: 1fr var(--spacing-rail);
       align-items: start;
     }
@@ -323,6 +410,205 @@
     padding: 0.5rem 0.75rem;
     color: var(--color-ink-2);
     background: transparent;
+  }
+
+  /*
+    The verdict block. The one filled surface on the place screen, and the only place
+    on the site where a single element is allowed to be loud.
+
+    The order is deliberate and is the v6 scoring change made visible: the label, then
+    what the label rests on, then how much has been checked, and the score last. A
+    score set large and first reads as a measurement, and this one is a mean over
+    whatever happened to be filled in — the figure a visitor can act on is which of
+    their own requirements is still unchecked.
+  */
+  .verdict {
+    background: var(--color-surface);
+    border-block-start: 3px solid var(--color-rule-strong);
+    padding: 1.25rem;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .verdict--visitable {
+    border-block-start-color: var(--color-badge-visitable);
+  }
+  .verdict--caution {
+    border-block-start-color: var(--color-badge-caution);
+  }
+  .verdict--blocked {
+    border-block-start-color: var(--color-badge-blocked);
+  }
+  .verdict--unknown {
+    border-block-start-color: var(--color-badge-unknown);
+  }
+
+  /* A figure with the words that say what it counts, never a bare number. */
+  .stat {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .stat__figure {
+    font-size: var(--text-lg);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat__label {
+    font-size: var(--text-xs);
+    line-height: 1.4;
+    color: var(--color-ink-2);
+  }
+
+  .stat-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.25rem;
+  }
+
+  /*
+    A place in a list: picture, decision, evidence summary, in one scannable row.
+    The picture is 4:3 and fixed-width so a row of them shares one baseline grid; it
+    is never a background, because text over a photograph cannot be held to a contrast
+    ratio and this app's build fails on contrast.
+  */
+  .tile {
+    display: grid;
+    gap: 0.9rem 1.5rem;
+    padding-block: 1.4rem;
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .tile:last-child {
+    border-block-end: 1px solid var(--color-rule);
+  }
+
+  @media (min-width: 40rem) {
+    .tile {
+      grid-template-columns: 12rem 1fr;
+      align-items: start;
+    }
+  }
+
+  .tile__figure {
+    margin: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    aspect-ratio: 4 / 3;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .tile__figure img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* A KOGL type 3 image may not be cropped, so it is fitted whole instead. */
+  .tile__figure--contain img {
+    object-fit: contain;
+  }
+
+  .tile__figure--empty {
+    color: var(--color-ink-2);
+    font-size: var(--text-xs);
+    padding: 0.5rem;
+    text-align: center;
+  }
+
+  /*
+    The map block. Controls first in source order, then the tile surface, then the
+    sentence that says what the surface is for.
+
+    .map-canvas is the only element in this app excluded from the automated
+    accessibility scan, and the exclusion covers the provider's tiles and nothing else:
+    the controls sit outside it, and the markers inside it are real anchors with
+    accessible names, so both are still scanned. A block that hid its own controls
+    from the checker would be exempting itself rather than excluding what a checker
+    cannot read.
+  */
+  .map {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .map__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .map__btn {
+    inline-size: 44px;
+    block-size: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-rule-strong);
+    border-radius: 3px;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-size: var(--text-md);
+    line-height: 1;
+  }
+
+  .map__btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .map-canvas {
+    block-size: clamp(18rem, 42vw, 26rem);
+    inline-size: 100%;
+    border: 1px solid var(--color-rule-strong);
+    background: var(--color-surface);
+  }
+
+  /*
+    The marker. Fill, glyph and accessible name all carry the verdict, so none of the
+    three is doing it alone — the same rule the list badge follows, and the reason the
+    values come from the badge tokens: they are the four fills chosen to sit under
+    white text.
+  */
+  .map-pin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 32px;
+    block-size: 32px;
+    border-radius: 999px;
+    border: 2px solid var(--color-paper);
+    background: var(--color-badge-unknown);
+    color: var(--color-badge-ink);
+    font-size: var(--text-xs);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.35);
+  }
+
+  .map-pin--visitable {
+    background: var(--color-badge-visitable);
+  }
+  .map-pin--caution {
+    background: var(--color-badge-caution);
+  }
+  .map-pin--blocked {
+    background: var(--color-badge-blocked);
+  }
+  .map-pin--plain {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  /* Squared off, so shape separates a facility from a place at a glance. */
+  .map-pin--plain {
+    border-radius: 4px;
   }
 
   .badge {
@@ -494,6 +780,10 @@
   .data-table td.tabular {
     text-align: end;
     font-variant-numeric: tabular-nums;
+    /* Shrink to content. Left to share the width equally, a column holding one digit
+       took 283px and its heading sat at the far end of it. */
+    inline-size: 1%;
+    white-space: nowrap;
   }
 
   .data-table thead th {
@@ -566,8 +856,16 @@
   }
 }
 
-.print-running-footer {
-  display: none;
+/*
+  Scoped to screen. Unscoped, this matched in print too, at the same specificity as
+  the @media print rule above and later in the file — so the running footer the
+  licence terms ask for was `display: none` on every printed page, under a @page
+  bottom margin widened to make room for it.
+*/
+@media screen {
+  .print-running-footer {
+    display: none;
+  }
 }
 
 @page {

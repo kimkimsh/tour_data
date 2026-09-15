@@ -5,6 +5,7 @@ import {
   CERTIFICATION_GRADES,
   DEPTH_TIERS,
   FACILITY_KINDS,
+  PLACE_ROLES,
 } from './types';
 import { LatLngSchema, RouteSchema } from './snapshot-schema';
 import { CAPABILITIES } from './capabilities';
@@ -21,6 +22,17 @@ import { CAPABILITIES } from './capabilities';
  */
 
 const CAPABILITY_CODES = CAPABILITIES.map((c) => c.code) as [string, ...string[]];
+
+/**
+ * Placeholder written into content/pois.json until the P0-1 probe returns a real id.
+ *
+ * It lives here rather than in scripts/validate-content.ts because that file is a
+ * program, not a module: its body runs at import, ending in process.exit(1) on a bad
+ * file. Importing the constant from it made `pnpm ingest` run the whole content
+ * validator as a side effect of loading, before stage 0, and report the failure with
+ * no stage name attached.
+ */
+export const UNRESOLVED_CONTENT_ID = 'UNRESOLVED';
 
 /** Gongju and Buyeo sit inside these bounds. A swapped pair lands in the Pacific. */
 export const KoreanLatLng = z.object({
@@ -45,9 +57,9 @@ export const PoiInputSchema = z.object({
   cityEn: z.string().min(1),
   /** Designation name only. Designation numbers are not used at all. */
   heritageLabel: z.string().nullable(),
-  /** A UNESCO component of the Baekje Historic Areas, or an adjacent facility. */
-  isUnescoComponent: z.boolean(),
-  /** Set when the POI is only part of a component, so the screen can say so. */
+  /** What this place is to the service. Decides the line under its name. */
+  placeRole: z.enum(PLACE_ROLES),
+  /** Set when the name on screen and the designated asset are not the same thing. */
   unescoComponentNote: z.string().nullable(),
   depthTier: z.enum(DEPTH_TIERS),
   odiiKeyword: z.string().min(1),

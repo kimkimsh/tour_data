@@ -9,6 +9,12 @@ import type {
 export interface ScoreboardPoi {
   slug: string;
   title: string;
+  /**
+   * The city the place is in. Alternatives are drawn from the same one: a visitor
+   * reading 공산성 is standing in 공주, and offering them a better-scoring place forty
+   * kilometres away in 부여 is not an alternative to today's visit.
+   */
+  city: string;
 }
 
 export interface ScoreboardInput {
@@ -51,6 +57,7 @@ export function buildScoreboard(input: ScoreboardInput): ScoreboardEntry[] {
     title: poi.title,
     score: result.score,
     label: result.label,
+    city: poi.city,
   }));
 
   return base.map(({ poi }) => ({
@@ -61,7 +68,9 @@ export function buildScoreboard(input: ScoreboardInput): ScoreboardEntry[] {
       personaIds: input.personaIds,
       cognitiveOption: input.cognitiveOption,
       calculationDate: input.calculationDate,
-      scoredAlternatives: candidates.filter((c) => c.poiSlug !== poi.slug),
+      scoredAlternatives: candidates.filter(
+        (c) => c.poiSlug !== poi.slug && c.city === poi.city,
+      ),
     }),
   }));
 }

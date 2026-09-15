@@ -308,18 +308,18 @@
     "scoredAlternatives": []
   },
   "expected": {
-    "score": 87,
+    "score": 100,
     "label": "정보없음",
-    "layerA": 0.9025000000000003,
-    "layerB": 0.9657894736842105,
+    "layerA": 1.0000000000000002,
+    "layerB": 1,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
         "weight": 0.30000000000000004,
-        "rawScore": 0.6749999999999999,
-        "weighted": 0.2025,
+        "rawScore": 1,
+        "weighted": 0.30000000000000004,
         "knownCount": 3,
         "totalCount": 6
       },
@@ -404,6 +404,15 @@
       }
     ],
     "alternatives": [],
+    "relevantKnownCount": 11,
+    "relevantTotalCount": 14,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom"
+    ],
     "ktoUnknownCount": 3,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -573,6 +582,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

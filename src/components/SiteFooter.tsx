@@ -15,12 +15,12 @@ export function SiteFooter() {
         {/* The address is a link rather than a printed string. The sentence is fixed by
             docs/spec/08_accessibility_legal.md section 3.3 and keeps its wording; a URL
             a reader has to retype is attribution nobody can follow. */}
-        <p className="text-[0.88rem] text-[var(--color-ink-2)]">
+        <p className="t-xs text-[var(--color-ink-2)]">
           {t('sourceBefore')}
           <a href={TOURAPI_URL}>{TOURAPI_URL}</a>
           {t('sourceAfter')}
         </p>
-        <ul className="flex flex-wrap gap-x-5 gap-y-1 text-[0.9rem]">
+        <ul className="flex flex-wrap gap-x-5 gap-y-1 t-sm">
           <li>
             <Link href="/credits">{t('credits')}</Link>
           </li>

@@ -24,14 +24,12 @@ import {
   PoisInput,
   RouteInput,
   SafetyDirectoryInput,
+  UNRESOLVED_CONTENT_ID,
 } from '../src/domain/content-schema';
 import { REPORT_CATEGORIES } from '../src/domain/types';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'content');
-
-/** Written into content/pois.json until the P0-1 probe returns a real id. */
-export const UNRESOLVED_CONTENT_ID = 'UNRESOLVED';
 
 const problems: string[] = [];
 const notes: string[] = [];

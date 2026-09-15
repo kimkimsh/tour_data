@@ -20,9 +20,9 @@ function unknownOn(codes: string[], base: CapabilityStatus = 'supported'): Suita
 
 /**
  * Marks the first `count` capabilities that are relevant to `personaId` but not
- * critical for it as unknown. Used to drive coverage to an exact fraction while
- * leaving every critical known, which is the only way cases 9c and 10 mean
- * anything: they are about the coverage cap, not about missing criticals.
+ * critical for it as unknown. Drives coverage down while leaving every critical
+ * known, which is what separates "we have not checked much" from "we have not
+ * checked what this visitor depends on" — v6 answers those two differently.
  */
 function coverageCase(personaId: PersonaId, unknownSupportingCount: number): SuitabilityFactInput[] {
   const criticals = new Set(PERSONA_CRITICALS[personaId]);
@@ -52,9 +52,9 @@ const PERSONA_CRITICALS: Record<PersonaId, string[]> = {
  * The 74/75 pair cannot be written by hand: score is a step function of which
  * capabilities carry which status, and the axis weights make the steps uneven.
  * The sweep walks a rotating catalogue order, filling s items with supported and
- * the next p with partial, and keeps the first assignment that also satisfies the
- * conditions under which the label caps do not fire (no unknown critical,
- * coverage >= 0.65) — otherwise the case would prove nothing about the band.
+ * the next p with partial, and keeps the first assignment that also leaves every
+ * item the verdict rests on known — otherwise rule 3 answers before the band does
+ * and the case proves nothing about the band.
  */
 const scoreInputCache = new Map<number, SuitabilityInput>();
 
@@ -76,7 +76,6 @@ export function findScoreInput(target: number): SuitabilityInput {
         const result = calculateSuitability(candidate);
         if (result.score !== target) continue;
         if (result.unknownCriticals.length > 0) continue;
-        if (result.coverage < 0.65) continue;
         scoreInputCache.set(target, candidate);
         return candidate;
       }
@@ -85,13 +84,15 @@ export function findScoreInput(target: number): SuitabilityInput {
   throw new Error(`no fact assignment produces a score of exactly ${target}`);
 }
 
+// The scoreboard filters candidates to one city before they get here, so every
+// fixture is already in the same city as the place under test.
 const ALTERNATIVES_ALL_CAUTION: AlternativePoi[] = [
-  { poiSlug: 'busosanseong', title: '부소산성', score: 52, label: '주의' },
-  { poiSlug: 'jeongnimsaji', title: '정림사지', score: 48, label: '주의' },
+  { poiSlug: 'busosanseong', title: '부소산성', score: 52, label: '주의', city: '부여군' },
+  { poiSlug: 'jeongnimsaji', title: '정림사지', score: 48, label: '주의', city: '부여군' },
 ];
 
 const ALTERNATIVES_WITH_BETTER: AlternativePoi[] = [
-  { poiSlug: 'gongju-national-museum', title: '국립공주박물관', score: 81, label: '방문가능' },
+  { poiSlug: 'gongju-national-museum', title: '국립공주박물관', score: 81, label: '방문가능', city: '부여군' },
   ...ALTERNATIVES_ALL_CAUTION,
 ];
 
@@ -130,14 +131,36 @@ export function goldenCases(): GoldenCase[] {
       name: 'critical-unknown-boundary',
       input: withPersonas(['P2b'], unknownOn(['sign_guide'])),
     },
-    { name: 'coverage-cap', input: withPersonas(['P1a'], coverageCase('P1a', 5)) },
-    // The pair that pins the comparison in rule 4. Seven unknowns is the most P1b can
-    // carry and still clear the threshold; eight is the first that does not. Coverage is
-    // a ratio of whole facts, so it lands on k/n and cannot be written to equal the
-    // threshold exactly — what a test can prove is that the cap fires between these two
-    // and nowhere else, which is what an off-by-one in `<` would break.
-    { name: 'coverage-boundary', input: withPersonas(['P1b'], coverageCase('P1b', 7)) },
-    { name: 'coverage-boundary-capped', input: withPersonas(['P1b'], coverageCase('P1b', 8)) },
+    // v5 capped the label at 주의 whenever coverage fell under 0.65, which charged the
+    // same absence a second time and, on the real corpus, fired every time. These two
+    // hold the replacement rule still: an unchecked item the visitor does not depend on
+    // moves coverage and confidence and leaves the score and the label alone.
+    { name: 'low-coverage-criticals-known', input: withPersonas(['P1a'], coverageCase('P1a', 5)) },
+    { name: 'low-coverage-criticals-known-more', input: withPersonas(['P1a'], coverageCase('P1a', 8)) },
+    // No condition chosen, so the verdict rests on GENERAL_VERDICT_CODES. The pair is
+    // the regression guard for the defect that prompted v6: under v5 no assignment of
+    // statuses could reach 방문가능, because unknown items held the score under the band.
+    {
+      name: 'general-verdict-reachable',
+      input: input({
+        facts: facts('unknown', {
+          access_route: { status: 'supported', verifiedAt: RECENT_DATE },
+          entrance_passage: { status: 'supported', verifiedAt: RECENT_DATE },
+          elevator: { status: 'supported', verifiedAt: RECENT_DATE },
+          restroom: { status: 'supported', verifiedAt: RECENT_DATE },
+        }),
+      }),
+    },
+    {
+      name: 'general-verdict-one-unknown',
+      input: input({
+        facts: facts('unknown', {
+          access_route: { status: 'supported', verifiedAt: RECENT_DATE },
+          entrance_passage: { status: 'supported', verifiedAt: RECENT_DATE },
+          restroom: { status: 'supported', verifiedAt: RECENT_DATE },
+        }),
+      }),
+    },
     {
       name: 'stale-data',
       input: withPersonas(['P1a'], facts('supported', {}, OLD_DATE)),

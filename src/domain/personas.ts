@@ -153,13 +153,35 @@ export function gradeFor(personaId: PersonaId, capabilityCode: string): Grade {
   return CELL_TO_GRADE[row[PERSONA_COLUMN[personaId]]];
 }
 
-/** P0: nothing selected. Every capability counts as other, so personaFit is a plain mean. */
-export function gradeForP0(): Grade {
-  return 'other';
-}
-
 export function criticalCodesFor(personaId: PersonaId): string[] {
   return CAPABILITIES.filter((c) => gradeFor(personaId, c.code) === 'critical').map((c) => c.code);
+}
+
+/**
+ * What a verdict rests on when the visitor has named no condition.
+ *
+ * P0 has no critical set — that is its definition — and the label rules need one,
+ * because '방문 가능' is a claim about the things the verdict was taken over. Handing
+ * P0 the whole catalogue makes the claim cover 수어 안내 and 점자 홍보물 for someone who
+ * never said they needed either, and no place in the dataset clears it.
+ *
+ * These four are the items at least two of the five personas treat as critical, so
+ * they are the ones this matrix already says are load-bearing for more than one kind
+ * of visitor. assertPersonaMatrix checks that claim against the matrix rather than
+ * trusting this list, so editing one row of MATRIX cannot leave the list behind.
+ */
+export const GENERAL_VERDICT_CODES = [
+  'access_route',
+  'entrance_passage',
+  'elevator',
+  'restroom',
+] as const;
+
+/** Codes at least `minimum` personas treat as critical. */
+function codesCriticalForAtLeast(minimum: number): string[] {
+  return CAPABILITIES.filter(
+    (c) => PERSONAS.filter((p) => gradeFor(p.id, c.code) === 'critical').length >= minimum,
+  ).map((c) => c.code);
 }
 
 export function relevantCodesFor(personaIds: readonly PersonaId[]): string[] {
@@ -200,6 +222,15 @@ export function assertPersonaMatrix(): void {
   if (derivedCriticals.length > 0) {
     throw new Error(
       `derived capabilities must never be critical (section 4.2): ${derivedCriticals.join(', ')}`,
+    );
+  }
+  const shared = codesCriticalForAtLeast(2);
+  const declared = [...GENERAL_VERDICT_CODES];
+  if (shared.join(',') !== declared.join(',')) {
+    throw new Error(
+      `GENERAL_VERDICT_CODES claims to be the items critical for two or more personas, ` +
+        `but the matrix now says that set is [${shared.join(', ')}] and the list says ` +
+        `[${declared.join(', ')}]`,
     );
   }
 }

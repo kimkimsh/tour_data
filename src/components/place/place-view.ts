@@ -1,6 +1,17 @@
 import { getCapability } from '@/domain/capabilities';
-import type { Locale, SuitabilityFactInput } from '@/domain/types';
-import type { Fact } from '@/domain/snapshot-schema';
+import type { ContentLocale, Locale, PlaceRole, SuitabilityFactInput } from '@/domain/types';
+import type { Fact, Poi } from '@/domain/snapshot-schema';
+
+/**
+ * One photograph of a place, chosen on the server so every client gets the same one.
+ * `noTransform` is a KOGL type 3 licence: the image may not be cropped, so the tile
+ * fits it whole instead of filling the frame with it.
+ */
+export interface PlaceThumbnail {
+  url: string;
+  alt: string;
+  noTransform: boolean;
+}
 
 /** Lean shape the client screens need. Kept small so it survives serialisation cheaply. */
 export interface PlaceCardData {
@@ -8,10 +19,40 @@ export interface PlaceCardData {
   title: string;
   cityLabel: string;
   heritageLabel: string | null;
-  isUnescoComponent: boolean;
+  placeRole: PlaceRole;
   unescoComponentNote: string | null;
   hasRoute: boolean;
   hasDocent: boolean;
+  thumbnail: PlaceThumbnail | null;
+  coord: { lat: number; lng: number };
+}
+
+/**
+ * The card shape, built once so the list screen and the detail screen cannot disagree
+ * about what a place is called or which photograph stands for it.
+ *
+ * The thumbnail is the first photograph in the snapshot, which is the order the
+ * gallery ranking left them in — a choice made at ingest, where somebody can see the
+ * picture, rather than in the browser where nobody can.
+ */
+export function toPlaceCardData(
+  poi: Poi,
+  locale: Locale,
+  options: { hasRoute: boolean; hasDocent: boolean },
+): PlaceCardData {
+  const photo = poi.media.find((m) => m.kind === 'photo') ?? poi.media[0];
+  return {
+    slug: poi.slug,
+    title: poi.i18n[locale as ContentLocale]?.title ?? poi.i18n.ko?.title ?? poi.slug,
+    cityLabel: locale === 'en' ? poi.cityEn : poi.cityKo,
+    heritageLabel: poi.heritageLabel,
+    placeRole: poi.placeRole,
+    unescoComponentNote: poi.unescoComponentNote,
+    hasRoute: options.hasRoute,
+    hasDocent: options.hasDocent,
+    thumbnail: photo ? { url: photo.url, alt: photo.alt, noTransform: photo.noTransform } : null,
+    coord: poi.coord,
+  };
 }
 
 export function capabilityLabel(code: string, locale: Locale): string {

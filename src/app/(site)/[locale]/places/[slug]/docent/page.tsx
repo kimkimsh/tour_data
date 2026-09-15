@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getDocent, getPois } from '@/lib/data';
-import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { DocentView } from '@/components/docent/DocentView';
 import type { ContentLocale, Locale } from '@/domain/types';
@@ -55,14 +54,13 @@ export default async function DocentPage({
   return (
     <div className="grid gap-8">
       <header className="grid gap-2">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('title', { place: title })}</h1>
       </header>
 
       {stories.length === 0 ? (
         <div className="grid gap-2">
           <p className="blank-slot">{t('none')}</p>
-          <p className="text-[0.95rem] text-[var(--color-ink-2)]">{t('noneHint')}</p>
+          <p className="t-sm text-[var(--color-ink-2)]">{t('noneHint')}</p>
           <p>
             <a
               className="btn"

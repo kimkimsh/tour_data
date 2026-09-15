@@ -308,10 +308,10 @@
     "scoredAlternatives": []
   },
   "expected": {
-    "score": 97,
+    "score": 100,
     "label": "주의",
-    "layerA": 0.9886250000000003,
-    "layerB": 0.9855555555555555,
+    "layerA": 1.0000000000000002,
+    "layerB": 1,
     "axes": [
       {
         "axis": "entry",
@@ -348,8 +348,8 @@
         "labelKo": "정보안내",
         "labelEn": "Information",
         "weight": 0.14000000000000004,
-        "rawScore": 0.91875,
-        "weighted": 0.12862500000000004,
+        "rawScore": 1,
+        "weighted": 0.14000000000000004,
         "knownCount": 7,
         "totalCount": 8
       },
@@ -390,6 +390,12 @@
       }
     ],
     "alternatives": [],
+    "relevantKnownCount": 7,
+    "relevantTotalCount": 8,
+    "requiredCodes": [
+      "sign_guide",
+      "video_caption"
+    ],
     "ktoUnknownCount": 1,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -559,6 +565,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

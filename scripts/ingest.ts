@@ -37,6 +37,7 @@ import {
 } from '../src/domain/snapshot-schema';
 import { CAPABILITIES, KTO_ETC_FIELDS, resolveStatus } from '../src/domain/capabilities';
 import { distanceMeters } from '../src/domain/geo';
+import { AUDIO_HOSTS } from '../src/config/media-hosts';
 import { CONTENT_LOCALES, type ContentLocale } from '../src/domain/types';
 import {
   CertificationsInput,
@@ -44,6 +45,7 @@ import {
   FacilitiesInput,
   PoisInput,
   RouteInput,
+  UNRESOLVED_CONTENT_ID,
   type CuratedFact,
   type PoiInput,
 } from '../src/domain/content-schema';
@@ -75,7 +77,6 @@ import {
 import { ktoTimestampToIsoDate, readStoryCoord, readThemeCoord } from '../src/lib/kto/schemas';
 import { getWeatherWarnings, kmaRegionFor, readWarningFor } from '../src/lib/kma/warnings';
 import { getMidOutlook, getShortTermForecast, readDayCondition } from '../src/lib/kma/forecast';
-import { UNRESOLVED_CONTENT_ID } from './validate-content';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = join(ROOT, 'content');
@@ -311,6 +312,26 @@ function toHttps(url: string): string {
   return url.replace(/^http:\/\//, 'https://');
 }
 
+/**
+ * The same URL back, unless its host is one Content-Security-Policy will not let the
+ * browser play — in which case the run stops here.
+ *
+ * Storing such a URL is worse than storing none: the player renders, the controls
+ * work, and the fetch is refused by the policy without firing the error handler the
+ * player listens for. src/config/media-hosts.ts is the list to edit, and editing it
+ * changes the response header in the same commit.
+ */
+function checkedAudioUrl(url: string, poiSlug: string): string {
+  const host = new URL(url).hostname;
+  if (!(AUDIO_HOSTS as readonly string[]).includes(host)) {
+    exit(
+      `${poiSlug}: Odii returned audio on ${host}, which Content-Security-Policy blocks. ` +
+        `Add it to AUDIO_HOSTS in src/config/media-hosts.ts and redeploy, then run again.`,
+    );
+  }
+  return url;
+}
+
 const IMAGE_PROBE_TIMEOUT_MS = 6000;
 const probedImageUrls = new Map<string, string>();
 
@@ -537,7 +558,7 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
       cityKo: poi.cityKo,
       cityEn: poi.cityEn,
       heritageLabel: poi.heritageLabel,
-      isUnescoComponent: poi.isUnescoComponent,
+      placeRole: poi.placeRole,
       unescoComponentNote: poi.unescoComponentNote,
       ktoModifiedAt: ktoTimestampToIsoDate(koRow?.modifiedtime),
       i18n,
@@ -1098,7 +1119,7 @@ async function buildDocent(pois: PoiInput[]): Promise<void> {
             title: story.title ?? '',
             script: story.script ?? null,
             easyScript: readEasyScript(poi.slug, locale),
-            audioUrl: story.audioUrl ? toHttps(story.audioUrl) : null,
+            audioUrl: story.audioUrl ? checkedAudioUrl(toHttps(story.audioUrl), poi.slug) : null,
             imageUrl: story.imageUrl ? await resolveImageUrl(story.imageUrl) : null,
             playTimeS: story.playTime ?? null,
             odiiTid: story.tid ?? tid,
@@ -1147,9 +1168,17 @@ function readEasyScript(slug: string, locale: string): string | null {
 
 // ── stage 6: related ───────────────────────────────────────────────────────────
 
+/**
+ * The month searchKeyword1 is keyed by, as a Korean calendar month.
+ *
+ * Read from seoulToday() rather than getUTCMonth(). The nightly workflow fires at
+ * 19:00 UTC, which is 04:00 KST the next day, so on the first of a Korean month the
+ * UTC clock still reads the last day of the previous month and stepping back one from
+ * there lands two months behind.
+ */
 function lastMonthYm(): string {
-  const now = new Date();
-  const date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
+  const [year, month] = seoulToday().split('-');
+  const date = new Date(Date.UTC(Number(year), Number(month) - 2, 1));
   return `${date.getUTCFullYear()}${String(date.getUTCMonth() + 1).padStart(2, '0')}`;
 }
 

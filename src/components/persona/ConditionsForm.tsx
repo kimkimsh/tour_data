@@ -45,7 +45,7 @@ export function ConditionsForm() {
       }}
     >
       <fieldset className="grid gap-3">
-        <legend className="text-[1.1rem] font-bold">{t('conditionsLegend')}</legend>
+        <legend className="t-md font-bold">{t('conditionsLegend')}</legend>
 
         {PERSONAS.map((persona) => {
           const id = `${groupId}-${persona.id}`;
@@ -64,7 +64,7 @@ export function ConditionsForm() {
                     spec, and printing it here put the document's own filing system on
                     the one screen every visitor has to get through — a label that reads
                     as a form number on a question about who they are travelling with. */}
-                <label htmlFor={id} className="min-h-[44px] flex-1 py-1 text-[1.05rem]">
+                <label htmlFor={id} className="min-h-[44px] flex-1 py-1">
                   {locale === 'ko' ? persona.choiceKo : persona.choiceEn}
                 </label>
               </div>
@@ -86,7 +86,7 @@ export function ConditionsForm() {
                     <label htmlFor={`${groupId}-cognitive`} className="block min-h-[44px] py-1">
                       {t('cognitiveOption')}
                     </label>
-                    <p id={`${groupId}-cognitive-hint`} className="text-[0.88rem] text-[var(--color-ink-2)]">
+                    <p id={`${groupId}-cognitive-hint`} className="t-xs text-[var(--color-ink-2)]">
                       {t('cognitiveHint')}
                     </p>
                   </div>
@@ -106,12 +106,12 @@ export function ConditionsForm() {
               the shortest rest limit, which is the itinerary's tightest companion and
               not necessarily the one Layer B actually takes the minimum over — so the
               screen asserted a basis for the calculation that could be the wrong one. */}
-          <p className="mt-1 text-[0.97rem]">{t('minRule')}</p>
+          <p className="mt-1 t-sm">{t('minRule')}</p>
         </aside>
       ) : null}
 
       <fieldset className="grid gap-2">
-        <legend className="text-[1.1rem] font-bold">{t('budgetLegend')}</legend>
+        <legend className="t-md font-bold">{t('budgetLegend')}</legend>
         {BUDGET_MODES.map((mode) => {
           const id = `${groupId}-budget-${mode}`;
           return (
@@ -124,7 +124,7 @@ export function ConditionsForm() {
                 checked={conditions.budgetMode === mode}
                 onChange={() => setConditions({ ...conditions, budgetMode: mode as BudgetMode })}
               />
-              <label htmlFor={id} className="min-h-[44px] flex-1 py-1 text-[1.05rem]">
+              <label htmlFor={id} className="min-h-[44px] flex-1 py-1">
                 {t(`budget.${mode}`)}
               </label>
             </div>

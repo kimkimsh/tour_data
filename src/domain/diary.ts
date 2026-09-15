@@ -14,6 +14,7 @@ export interface DiaryLabels {
   title: string;
   notSelected: string;
   cognitive: string;
+  visitedLabel: string;
   visited: string;
   notVisited: string;
   designation: string;
@@ -60,7 +61,7 @@ export function buildDiaryDocument(
 
     const route = snapshot.routes.find((r) => r.poiSlug === place.poiSlug);
     const lines: Array<{ label: string; value: string }> = [
-      { label: labels.visited, value: place.visited ? labels.visited : labels.notVisited },
+      { label: labels.visitedLabel, value: place.visited ? labels.visited : labels.notVisited },
     ];
     // The designation name and the evidence note exist in Korean only — they are
     // quotations from the Korea Heritage Service and from our own route file, not

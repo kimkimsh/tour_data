@@ -381,6 +381,17 @@
     "unknownCriticals": [],
     "deductions": [],
     "alternatives": [],
+    "relevantKnownCount": 14,
+    "relevantTotalCount": 14,
+    "requiredCodes": [
+      "help_dog",
+      "braille_block",
+      "guide_system",
+      "audio_guide",
+      "big_print",
+      "braille_promotion",
+      "guide_human"
+    ],
     "ktoUnknownCount": 0,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -550,6 +561,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v5"
+    "policyVersion": "suitability-v6"
   }
 }

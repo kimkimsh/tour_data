@@ -4,17 +4,31 @@ import { useMemo } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { buildScoreboard } from '@/domain/scoreboard';
-import { getPersona, relevantCodesFor } from '@/domain/personas';
+import { getPersona } from '@/domain/personas';
 import { POLICY_VERSION } from '@/domain/suitability';
-import type { Locale, PersonaId, SuitabilityFactInput, SuitabilityResult } from '@/domain/types';
+import type {
+  Locale,
+  SuitabilityFactInput,
+  SuitabilityLabel,
+  SuitabilityResult,
+} from '@/domain/types';
 import { VerdictBadge } from '@/components/VerdictBadge';
-import { Eyebrow } from '@/components/Eyebrow';
 import { useConditions } from '@/components/persona/usePersona';
 import { capabilityLabel, capabilityLabels, type PlaceCardData } from './place-view';
 import { useToday } from '@/components/useClientValue';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
 
-const COVERAGE_CAP_THRESHOLD = 0.65;
+const VERDICT_MODIFIER: Record<SuitabilityLabel, string> = {
+  방문가능: 'visitable',
+  주의: 'caution',
+  대체추천: 'blocked',
+  정보없음: 'unknown',
+};
+
+/** Items with a status, which is the set the score is the mean over. */
+function knownCount(facts: readonly SuitabilityFactInput[]): number {
+  return facts.filter((f) => f.status !== 'unknown' && f.absenceKind !== 'not_applicable').length;
+}
 
 /**
  * The verdict, and — behind one disclosure — every number the verdict came from.
@@ -46,7 +60,7 @@ export function VerdictPanel({
   const board = useMemo(() => {
     if (!loaded || today === null) return null;
     return buildScoreboard({
-      pois: places.map((p) => ({ slug: p.slug, title: p.title })),
+      pois: places.map((p) => ({ slug: p.slug, title: p.title, city: p.cityLabel })),
       factsByPoi,
       personaIds: conditions.personaIds,
       cognitiveOption: conditions.cognitiveOption,
@@ -59,9 +73,9 @@ export function VerdictPanel({
   if (!entry) {
     return (
       <section className="grid gap-4" aria-labelledby="verdict-heading">
-        <Eyebrow as="h2" id="verdict-heading">
-          {t('eyebrowVerdict')}
-        </Eyebrow>
+        <h2 id="verdict-heading" className="section-head">
+          {t('headingVerdict')}
+        </h2>
         {/* Mounted before the verdict exists and kept in place through the swap: a
             region replaced by its own content announces nothing. */}
         <LiveRegion message={tp('calculating')} />
@@ -79,93 +93,100 @@ export function VerdictPanel({
           .map((id) => (locale === 'ko' ? getPersona(id).labelKo : getPersona(id).labelEn))
           .join(' · ');
   const confirmed = facts.filter((f) => f.status === 'supported').map((f) => f.capabilityCode);
-  const relevantTotal = relevantKnownTotal(conditions.personaIds, facts);
 
   return (
     <section className="grid gap-4" aria-labelledby="verdict-heading">
-      <Eyebrow as="h2" id="verdict-heading">
-        {t('eyebrowVerdict')}
-      </Eyebrow>
+      <h2 id="verdict-heading" className="section-head">
+        {t('headingVerdict')}
+      </h2>
       <LiveRegion message={tc(`label.${result.label}`)} />
 
-      <div className="flex flex-wrap items-center gap-3">
-        <VerdictBadge label={result.label} text={tc(`label.${result.label}`)} size="lg" />
-        {result.label === '정보없음' ? (
-          <span className="tabular text-[1.4rem] text-[var(--color-ink-2)]">
-            <span aria-hidden="true">—</span>
-            <span className="sr-only">{t('scoreHidden')}</span>
+      {/*
+        The order inside this block is the argument: the verdict, then what the verdict
+        rests on, then the two figures, then the conditions it was taken under. The
+        score used to open it at 2.1rem, which reads as a measurement — and it is a mean
+        over whichever fields happened to be filled in. What a visitor can act on is
+        which of their own requirements is still unchecked, so that line comes first.
+      */}
+      <div className={`verdict verdict--${VERDICT_MODIFIER[result.label]}`}>
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <VerdictBadge label={result.label} text={tc(`label.${result.label}`)} size="lg" />
+          <span className="t-sm text-[var(--color-ink-2)]">
+            {t('verdictBasis', { items: capabilityLabels(result.requiredCodes, locale) })}
           </span>
-        ) : (
-          <span className="tabular text-[2.1rem] font-extrabold leading-none tracking-[-0.03em]">
-            <span aria-hidden="true">{result.score}</span>
-            <span className="sr-only">{t('score', { score: result.score })}</span>
-          </span>
-        )}
-        {/* The figure and the sentence that qualifies it, in one block at the end of
-            the row. Apart, the pill sat at the right margin and its explanation began
-            at the left margin of the next line, so nothing tied them together. */}
-        <span className="ml-auto max-w-[19rem] text-right">
-          <span className="inline-block rounded-full border border-[var(--color-rule-strong)] px-3 py-1 text-[0.88rem]">
-            {t('confidence', { value: result.evidenceConfidence })}
-          </span>
-          {/* Body text, not a title attribute: that never appears on a touch device,
-              never appears for a keyboard user, and is read inconsistently. The
-              distinction it draws — confidence is not the score — is the one people
-              get wrong. */}
-          <span className="mt-1 block text-[0.86rem] leading-snug text-[var(--color-ink-2)]">
-            {t('confidenceHint')}
-          </span>
-        </span>
-      </div>
-
-      {result.label === '정보없음' ? (
-        <p className="blank-slot text-[1.02rem]">
-          <strong>{t('scoreHiddenReason')}</strong>
-          {result.unknownCriticals.length > 0 ? (
-            <span className="mt-1 block">
-              {t('needCheckItems')}: {capabilityLabels(result.unknownCriticals, locale)}
-            </span>
-          ) : null}
         </p>
-      ) : null}
 
-      {/* Required by the label rule: a caution verdict that does not name what to
-          check leaves the visitor with nothing to act on. */}
-      {result.unknownCriticals.length > 0 && result.label !== '정보없음' ? (
-        <p className="text-[1.05rem] font-bold text-[var(--color-state-warn)]">
-          <span aria-hidden="true">⚠ </span>
-          {t('needCheckItems')}: {capabilityLabels(result.unknownCriticals, locale)}
-        </p>
-      ) : null}
-
-      {result.knownCriticalBlockers.length > 0 ? (
-        // Named, like the line above it. A bare "✕ 점자블록" leaves the reader to work
-        // out which of the four states it means, next to a line that does say.
-        <p className="text-[1.05rem] font-bold text-[var(--color-state-bad)]">
-          <span aria-hidden="true">✕ </span>
-          {t('blockedItems')}: {capabilityLabels(result.knownCriticalBlockers, locale)}
-        </p>
-      ) : null}
-
-      <dl className="grid gap-1 text-[0.98rem] sm:grid-cols-[7rem_1fr]">
-        <dt className="font-bold">{t('conditions')}</dt>
-        <dd>{personaLabel}</dd>
-        {confirmed.length > 0 ? (
-          <>
-            <dt className="font-bold">{t('confirmedItems')}</dt>
-            <dd>{capabilityLabels(confirmed, locale)}</dd>
-          </>
+        {result.knownCriticalBlockers.length > 0 ? (
+          // Named, like the line below it. A bare "✕ 점자블록" leaves the reader to work
+          // out which of the four states it means, next to a line that does say.
+          <p className="t-md font-bold text-[var(--color-state-bad)]">
+            <span aria-hidden="true">✕ </span>
+            {t('blockedItems')}: {capabilityLabels(result.knownCriticalBlockers, locale)}
+          </p>
         ) : null}
-        <dt className="font-bold">{tc('status.unknown')}</dt>
-        {/* The value repeats no part of its own label. The row read
-            "정보 없음 | 정보 없음 17건 / 22건", which looks like a rendering fault. */}
-        <dd>
-          {t('unknownCountValue', {
-            unknown: result.ktoUnknownCount,
-            total: result.ktoTotalCount,
-          })}
-        </dd>
-      </dl>
+
+        {/* Required by the label rule: a caution verdict that does not name what to
+            check leaves the visitor with nothing to act on. */}
+        {result.unknownCriticals.length > 0 ? (
+          <p className="t-md font-bold text-[var(--color-state-warn)]">
+            <span aria-hidden="true">⚠ </span>
+            {t('needCheckItems')}: {capabilityLabels(result.unknownCriticals, locale)}
+          </p>
+        ) : null}
+
+        {result.label === '정보없음' ? (
+          <p className="blank-slot t-sm">{t('scoreHiddenReason')}</p>
+        ) : null}
+
+        <div className="stat-row">
+          {result.label === '정보없음' ? null : (
+            <p className="stat">
+              <span className="stat__figure">
+                <span aria-hidden="true">{result.score}</span>
+                <span className="sr-only">{t('score', { score: result.score })}</span>
+              </span>
+              <span className="stat__label">{t('scoreBasis', { count: knownCount(facts) })}</span>
+            </p>
+          )}
+          <p className="stat">
+            <span className="stat__figure">
+              {t('coverageValue', {
+                known: result.relevantKnownCount,
+                total: result.relevantTotalCount,
+              })}
+            </span>
+            <span className="stat__label">{t('coverageBasis')}</span>
+          </p>
+          <p className="stat">
+            <span className="stat__figure">{result.evidenceConfidence}</span>
+            {/* Body text, not a title attribute: that never appears on a touch device,
+                never appears for a keyboard user, and is read inconsistently. The
+                distinction it draws — confidence is not the score — is the one people
+                get wrong. */}
+            <span className="stat__label">{t('confidenceBasis')}</span>
+          </p>
+        </div>
+
+        <dl className="grid gap-x-3 gap-y-1 t-sm sm:grid-cols-[7rem_1fr]">
+          <dt className="font-bold">{t('conditions')}</dt>
+          <dd>{personaLabel}</dd>
+          {confirmed.length > 0 ? (
+            <>
+              <dt className="font-bold">{t('confirmedItems')}</dt>
+              <dd>{capabilityLabels(confirmed, locale)}</dd>
+            </>
+          ) : null}
+          <dt className="font-bold">{tc('status.unknown')}</dt>
+          {/* The value repeats no part of its own label. The row read
+              "정보 없음 | 정보 없음 17건 / 22건", which looks like a rendering fault. */}
+          <dd>
+            {t('unknownCountValue', {
+              unknown: result.ktoUnknownCount,
+              total: result.ktoTotalCount,
+            })}
+          </dd>
+        </dl>
+      </div>
 
       <p className="flex flex-wrap gap-2">
         {hasRoute ? (
@@ -183,12 +204,12 @@ export function VerdictPanel({
         </Link>
       </p>
 
-      <CalculationDisclosure result={result} relevantTotal={relevantTotal} locale={locale} />
+      <CalculationDisclosure result={result} locale={locale} />
 
       {result.alternatives.length > 0 ? (
         <section aria-labelledby="alternatives-heading" className="grid gap-3">
-          <Eyebrow as="h2" id="alternatives-heading">{t('eyebrowAlternatives')}</Eyebrow>
-          <p className="text-[0.95rem] text-[var(--color-ink-2)]">{t('alternativesHint')}</p>
+          <h2 id="alternatives-heading" className="section-head">{t('headingAlternatives')}</h2>
+          <p className="t-sm text-[var(--color-ink-2)]">{t('alternativesHint')}</p>
           <ul className="grid gap-2">
             {result.alternatives.map((alt) => (
               <li key={alt.poiSlug} className="flex flex-wrap items-center gap-3">
@@ -206,11 +227,9 @@ export function VerdictPanel({
 
 function CalculationDisclosure({
   result,
-  relevantTotal,
   locale,
 }: {
   result: SuitabilityResult;
-  relevantTotal: { known: number; total: number };
   locale: Locale;
 }) {
   const t = useTranslations('place');
@@ -219,7 +238,7 @@ function CalculationDisclosure({
 
   return (
     <details className="card">
-      <summary className="cursor-pointer text-[1.02rem] font-bold">{t('openCalc')}</summary>
+      <summary className="cursor-pointer font-bold">{t('openCalc')}</summary>
 
       <div className="mt-4 grid gap-5">
         <div className="scroll-x">
@@ -263,55 +282,53 @@ function CalculationDisclosure({
           <dd className="tabular">{result.layerB.toFixed(3)}</dd>
         </dl>
 
-        <p className="text-[1.02rem] font-bold">
+        <p className="font-bold">
           {t('scoreFormula', {
             a: result.layerA.toFixed(3),
             b: result.layerB.toFixed(3),
             score: result.score,
           })}
         </p>
-        <p className="text-[0.88rem] text-[var(--color-ink-2)]">{t('roundingNote')}</p>
+        <p className="t-xs text-[var(--color-ink-2)]">{t('roundingNote')}</p>
 
         <div className="border-t border-[var(--color-rule)] pt-4">
-          <p className="text-[1.02rem] font-bold">
+          <p className="font-bold">
             {t('confidence', { value: result.evidenceConfidence })}
           </p>
           {/* The two factors named, not printed bare. "0.60 × 0.90" beside a sentence
               is a debug line: nothing on the row says which number is which. */}
-          <p className="mt-1 text-[0.95rem]">
-            {t('whyCautionCoverage', { known: relevantTotal.known, total: relevantTotal.total })}
+          <p className="mt-1 t-sm">
+            {t('whyCautionCoverage', {
+              known: result.relevantKnownCount,
+              total: result.relevantTotalCount,
+            })}
           </p>
-          <p className="mt-1 text-[0.95rem] tabular">
+          <p className="mt-1 t-sm tabular">
             {t('confidenceFactors', {
               coverage: result.coverage.toFixed(2),
               freshness: result.freshness.toFixed(2),
             })}
           </p>
-          <p className="mt-1 text-[0.88rem] text-[var(--color-ink-2)]">{t('freshnessNote')}</p>
+          <p className="mt-1 t-xs text-[var(--color-ink-2)]">{t('freshnessNote')}</p>
         </div>
 
         {result.label === '주의' ? (
           <div>
             <h3 className="subhead">{t('whyCaution')}</h3>
-            <ul className="mt-1 grid gap-1 text-[0.95rem]">
-              {result.unknownCriticals.length > 0 ? (
-                <li>
-                  {t('whyCautionUnknown', {
+            <p className="mt-1 t-sm">
+              {result.unknownCriticals.length > 0
+                ? t('whyCautionUnknown', {
                     items: capabilityLabels(result.unknownCriticals, locale),
-                  })}
-                </li>
-              ) : null}
-              {result.coverage < COVERAGE_CAP_THRESHOLD ? (
-                <li>{t('whyCautionCoverage', { known: relevantTotal.known, total: relevantTotal.total })}</li>
-              ) : null}
-            </ul>
+                  })
+                : t('whyCautionScore', { score: result.score })}
+            </p>
           </div>
         ) : null}
 
         {emptyAxes.length > 0 ? (
           <div>
             <h3 className="subhead">{t('biggestGaps')}</h3>
-            <ul className="mt-1 grid gap-1 text-[0.95rem]">
+            <ul className="mt-1 grid gap-1 t-sm">
               {emptyAxes.map((axis) => (
                 <li key={axis.axis}>
                   {t('axisAllUnknown', {
@@ -325,7 +342,7 @@ function CalculationDisclosure({
         ) : null}
 
         {result.deductions.length > 0 ? (
-          <p className="text-[0.92rem] text-[var(--color-ink-2)]">
+          <p className="t-sm text-[var(--color-ink-2)]">
             {result.deductions
               .slice(0, 8)
               .map((d) => capabilityLabel(d.capabilityCode, locale))
@@ -342,21 +359,3 @@ function CalculationDisclosure({
   );
 }
 
-/**
- * Known-to-total over the capabilities the chosen conditions care about — the same
- * set the coverage figure is taken over, so the sentence on screen and the number
- * in the result cannot disagree.
- */
-function relevantKnownTotal(
-  personaIds: readonly PersonaId[],
-  facts: readonly SuitabilityFactInput[],
-): { known: number; total: number } {
-  const relevant = new Set(relevantCodesFor(personaIds));
-  const included = facts.filter(
-    (f) => relevant.has(f.capabilityCode) && f.absenceKind !== 'not_applicable',
-  );
-  return {
-    known: included.filter((f) => f.status !== 'unknown').length,
-    total: included.length,
-  };
-}

@@ -27,6 +27,25 @@ export interface AdminReport {
 const REASON_CODES = ['abuse', 'false', 'duplicate', 'privacy', 'other'] as const;
 
 /**
+ * created_at is a timestamptz, which PostgREST serialises as UTC. Slicing the string
+ * put a UTC wall clock in front of an operator who works nine hours ahead of it, with
+ * nothing on the row to say which zone it was.
+ */
+const SEOUL_TIME_ZONE = 'Asia/Seoul';
+const SEOUL_DATE = new Intl.DateTimeFormat('en-CA', { timeZone: SEOUL_TIME_ZONE });
+const SEOUL_CLOCK = new Intl.DateTimeFormat('en-GB', {
+  timeZone: SEOUL_TIME_ZONE,
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
+
+function seoulStamp(timestamp: string): string {
+  const at = new Date(timestamp);
+  return `${SEOUL_DATE.format(at)} ${SEOUL_CLOCK.format(at)}`;
+}
+
+/**
  * One report, with the two things an operator does: hide it, or copy it into the
  * shape a curated fact takes.
  *
@@ -74,7 +93,14 @@ export function ReportRow({
       source: t('copySource', { id: report.id.slice(0, 6) }),
       checkedAt: seoulToday(),
     };
-    await navigator.clipboard.writeText(JSON.stringify(fragment, null, 2));
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(fragment, null, 2));
+    } catch {
+      // A denied permission or a page served over plain http rejects here. Saying so is
+      // what stops the operator pasting whatever the clipboard held before.
+      announce(`${t('copyFailed')} (${new Date().toLocaleTimeString()})`);
+      return;
+    }
     // The whole sentence, including the "paste it and commit" half: that instruction
     // is the audit step this feature depends on.
     announce(`${t('copied')} (${new Date().toLocaleTimeString()})`);
@@ -104,14 +130,14 @@ export function ReportRow({
       {report.detail ? <p>{report.detail}</p> : null}
 
       <p className="evidence__provenance">
-        {report.created_at.slice(0, 16).replace('T', ' ')}
+        {seoulStamp(report.created_at)}
         {report.hidden_reason ? ` · ${t('hideReason')} ${reasonLabel(report.hidden_reason, t)}` : ''}
       </p>
 
       <div className="flex flex-wrap items-end gap-3">
         {report.is_hidden ? null : (
           <span className="grid gap-1">
-            <label htmlFor={`reason-${report.id}`} className="text-[0.85rem]">
+            <label htmlFor={`reason-${report.id}`} className="t-xs">
               {t('hideReason')}
             </label>
             <select

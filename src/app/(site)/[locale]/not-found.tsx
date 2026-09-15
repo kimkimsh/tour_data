@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 
 import { Link } from '@/i18n/navigation';
-import { Eyebrow } from '@/components/Eyebrow';
 
 /**
  * The screen for an address inside the localised tree that names nothing.
@@ -21,9 +20,8 @@ export default async function LocaleNotFound() {
 
   return (
     <div className="grid gap-4">
-      <Eyebrow>{t('error.notFoundEyebrow')}</Eyebrow>
       <h1>{t('error.notFoundTitle')}</h1>
-      <p className="text-[1.02rem]">{t('error.notFoundBody')}</p>
+      <p>{t('error.notFoundBody')}</p>
       <p className="flex flex-wrap gap-2">
         <Link href="/places" className="btn btn--filled">
           {t('nav.places')}

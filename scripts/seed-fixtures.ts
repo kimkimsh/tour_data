@@ -91,7 +91,7 @@ const poisPayload: Poi[] = pois.map((poi) => ({
   cityKo: poi.cityKo,
   cityEn: poi.cityEn,
   heritageLabel: poi.heritageLabel,
-  isUnescoComponent: poi.isUnescoComponent,
+  placeRole: poi.placeRole,
   unescoComponentNote: poi.unescoComponentNote,
   // No collection has happened, so there is no upstream modification date to stand
   // in for a check date.

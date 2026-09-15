@@ -4,7 +4,6 @@ import { createServerClient, isSupabaseConfigured } from '@/lib/supabase/server'
 import { AdminSignIn } from '@/components/admin/AdminSignIn';
 import { ReportList } from '@/components/admin/ReportList';
 import type { AdminReport } from '@/components/admin/ReportRow';
-import { Eyebrow } from '@/components/Eyebrow';
 
 /**
  * The operator's one screen: hide what should not be public, and pick out what is
@@ -61,9 +60,8 @@ export default async function AdminReportsPage({
   if (!auth.user) {
     return (
       <div className="grid gap-5">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('signIn')}</h1>
-        <p className="text-[0.95rem] text-[var(--color-ink-2)]">{t('signInHint')}</p>
+        <p className="t-sm text-[var(--color-ink-2)]">{t('signInHint')}</p>
         <AdminSignIn deniedMessage={null} />
       </div>
     );
@@ -92,7 +90,6 @@ export default async function AdminReportsPage({
   if (!membership) {
     return (
       <div className="grid gap-5">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('signIn')}</h1>
         <AdminSignIn deniedMessage={t('denied')} />
       </div>
@@ -132,17 +129,45 @@ export default async function AdminReportsPage({
   const fetched = (data ?? []) as AdminReport[];
   const hasNext = fetched.length > PAGE_SIZE;
   const reports = hasNext ? fetched.slice(0, PAGE_SIZE) : fetched;
-  const hiddenCount = reports.filter((row) => row.is_hidden).length;
-  const flaggedCount = reports.filter((row) => row.flagged_at !== null).length;
+
+  /**
+   * `count` is PostgREST's exact count over the whole filtered table. Counting
+   * is_hidden and flagged_at over `reports` counted one page of it, so page 2 of 300
+   * reported three hidden in total. These two ask the table the same question the
+   * total asks, under the same view filter.
+   */
+  const scopedCount = (only: 'hidden' | 'flagged') => {
+    let counter = supabase.from('barrier_reports').select('id', { head: true, count: 'exact' });
+    if (view === 'flagged') counter = counter.not('flagged_at', 'is', null);
+    if (view === 'unflagged') counter = counter.is('flagged_at', null);
+    if (view === 'hidden') counter = counter.eq('is_hidden', true);
+    return only === 'hidden'
+      ? counter.eq('is_hidden', true)
+      : counter.not('flagged_at', 'is', null);
+  };
+
+  const [hidden, flagged] = await Promise.all([scopedCount('hidden'), scopedCount('flagged')]);
+  if (hidden.error) console.error(`admin hidden count failed: ${hidden.error.message}`);
+  if (flagged.error) console.error(`admin flagged count failed: ${flagged.error.message}`);
+
+  // A count that did not come back is not rendered as zero, and not as this page's own
+  // length either — the whole line goes, and the page number stands on its own.
+  const counts =
+    count === null || hidden.count === null || flagged.count === null
+      ? null
+      : { total: count, hidden: hidden.count, flagged: flagged.count };
 
   return (
     <div className="grid gap-6">
       <header className="grid gap-2">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('title')}</h1>
-        <p className="tabular text-[0.95rem] text-[var(--color-ink-2)]">
-          {t('counts', { total: count ?? reports.length, hidden: hiddenCount, flagged: flaggedCount })}
-          {' · '}
+        <p className="tabular t-sm text-[var(--color-ink-2)]">
+          {counts === null ? null : (
+            <>
+              {t('counts', counts)}
+              {' · '}
+            </>
+          )}
           {t('page', { page })}
         </p>
       </header>
@@ -183,7 +208,7 @@ export default async function AdminReportsPage({
         ) : null}
       </nav>
 
-      <p className="text-[0.9rem] text-[var(--color-ink-2)]">{t('copyHint')}</p>
+      <p className="t-sm text-[var(--color-ink-2)]">{t('copyHint')}</p>
     </div>
   );
 }

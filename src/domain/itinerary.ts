@@ -79,10 +79,33 @@ export function buildItinerary(query: ItineraryQuery): ItineraryResult | null {
     templateId: template.id,
     legs,
     stayMultiplier,
+    stayMultiplierSource: largestSource(query, stayMultiplier),
     restLimitMinutes,
     totalMinutes,
     warnings,
   };
+}
+
+/**
+ * Where the binding stay multiplier came from. The counterpart to tightestSource, and
+ * it exists for the same reason: the two are different attributes of different
+ * personas. Picking the name from the rest limit put 「영유아 동반 가족 기준 체류 시간
+ * ×1.25」 on screen, where 1.25 is the wheelchair multiplier, and with the cognitive
+ * option on it attributed that option's 1.40 to P3, whose own multiplier is 1.20.
+ */
+function largestSource(
+  query: ItineraryQuery,
+  stayMultiplier: number,
+): PersonaId | 'P0' | 'cognitive' {
+  if (
+    query.cognitiveOption &&
+    query.personaIds.includes('P3') &&
+    stayMultiplier === COGNITIVE_OPTION.stayMultiplier
+  ) {
+    return 'cognitive';
+  }
+  const match = query.personaIds.find((id) => getPersona(id).stayMultiplier === stayMultiplier);
+  return match ?? 'P0';
 }
 
 /**

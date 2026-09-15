@@ -62,6 +62,9 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
     const utterance = new SpeechSynthesisUtterance(paragraphs.join('\n'));
     utterance.lang = story.locale === 'en' ? 'en-US' : 'ko-KR';
     utterance.onend = () => setSpeaking(false);
+    // A voice that fails never fires onend, and without this the button stayed on
+    // "stop" with nothing left to stop.
+    utterance.onerror = () => setSpeaking(false);
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
     setSpeaking(true);
@@ -81,7 +84,7 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
       ) : failed ? (
         <div className="blank-slot grid gap-2">
           <p className="font-bold">{t('audioFailed')}</p>
-          <p className="text-[0.95rem]">{t('audioFailedHint')}</p>
+          <p className="t-sm">{t('audioFailedHint')}</p>
         </div>
       ) : (
         <audio
@@ -117,7 +120,7 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
           <span
             role="img"
             aria-label={t('ttsBadgeLabel')}
-            className="rounded-full border border-[var(--color-rule-strong)] px-3 py-1 text-[0.8rem]"
+            className="rounded-full border border-[var(--color-rule-strong)] px-3 py-1 t-xs"
           >
             {t('ttsBadge')}
           </span>

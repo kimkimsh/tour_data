@@ -1,5 +1,5 @@
 {
-  "name": "layer-c-cap",
+  "name": "low-coverage-criticals-known-more",
   "input": {
     "facts": [
       {
@@ -40,11 +40,11 @@
       },
       {
         "capabilityCode": "ticket_office",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -58,11 +58,11 @@
       },
       {
         "capabilityCode": "public_transport",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -85,11 +85,11 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": false
       },
       {
@@ -103,11 +103,11 @@
       },
       {
         "capabilityCode": "parking",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -193,11 +193,11 @@
       },
       {
         "capabilityCode": "guide_human",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -229,20 +229,20 @@
       },
       {
         "capabilityCode": "auditorium",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
         "capabilityCode": "rest_seating",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": false
       },
       {
@@ -256,6 +256,15 @@
       },
       {
         "capabilityCode": "crowd_forecast",
+        "status": "unknown",
+        "absenceKind": null,
+        "detail": null,
+        "source": "derived_facility",
+        "verifiedAt": null,
+        "isKtoScored": false
+      },
+      {
+        "capabilityCode": "weather_warning",
         "status": "supported",
         "absenceKind": null,
         "detail": null,
@@ -264,7 +273,7 @@
         "isKtoScored": false
       },
       {
-        "capabilityCode": "weather_warning",
+        "capabilityCode": "weather_forecast",
         "status": "supported",
         "absenceKind": null,
         "detail": null,
@@ -291,26 +300,10 @@
         "isKtoScored": false
       }
     ],
-    "personaIds": [],
-    "cognitiveOption": false,
-    "certifications": [
-      {
-        "grade": "bf_excellent",
-        "validUntil": null
-      },
-      {
-        "grade": "bf_general",
-        "validUntil": null
-      },
-      {
-        "grade": "bf_preliminary",
-        "validUntil": null
-      },
-      {
-        "grade": "open_tourism",
-        "validUntil": null
-      }
+    "personaIds": [
+      "P1a"
     ],
+    "cognitiveOption": false,
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
@@ -319,7 +312,6 @@
     "label": "방문가능",
     "layerA": 1.0000000000000002,
     "layerB": 1,
-    "layerC": 1.12,
     "axes": [
       {
         "axis": "entry",
@@ -328,7 +320,7 @@
         "weight": 0.30000000000000004,
         "rawScore": 1,
         "weighted": 0.30000000000000004,
-        "knownCount": 6,
+        "knownCount": 5,
         "totalCount": 6
       },
       {
@@ -338,7 +330,7 @@
         "weight": 0.18000000000000002,
         "rawScore": 1,
         "weighted": 0.18000000000000002,
-        "knownCount": 4,
+        "knownCount": 2,
         "totalCount": 4
       },
       {
@@ -348,7 +340,7 @@
         "weight": 0.18000000000000002,
         "rawScore": 1,
         "weighted": 0.18000000000000002,
-        "knownCount": 7,
+        "knownCount": 6,
         "totalCount": 7
       },
       {
@@ -358,7 +350,7 @@
         "weight": 0.14000000000000004,
         "rawScore": 1,
         "weighted": 0.14000000000000004,
-        "knownCount": 8,
+        "knownCount": 7,
         "totalCount": 8
       },
       {
@@ -368,28 +360,86 @@
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
-        "knownCount": 3,
+        "knownCount": 1,
         "totalCount": 3
       },
       {
         "axis": "context",
         "labelKo": "상황",
-        "labelEn": "Conditions",
+        "labelEn": "Situation",
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
         "knownCount": 4,
-        "totalCount": 4
+        "totalCount": 5
       }
     ],
     "freshness": 1,
-    "coverage": 1,
-    "evidenceConfidence": 100,
+    "coverage": 0.42857142857142855,
+    "evidenceConfidence": 43,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
-    "deductions": [],
+    "deductions": [
+      {
+        "capabilityCode": "ticket_office",
+        "labelKo": "매표소",
+        "reason": "매표소 정보 없음",
+        "axis": "entry"
+      },
+      {
+        "capabilityCode": "public_transport",
+        "labelKo": "대중교통",
+        "reason": "대중교통 정보 없음",
+        "axis": "continuity"
+      },
+      {
+        "capabilityCode": "path_continuity",
+        "labelKo": "경로 연속성",
+        "reason": "경로 연속성 정보 없음",
+        "axis": "continuity"
+      },
+      {
+        "capabilityCode": "parking",
+        "labelKo": "장애인 주차구역",
+        "reason": "장애인 주차구역 정보 없음",
+        "axis": "facility"
+      },
+      {
+        "capabilityCode": "guide_human",
+        "labelKo": "안내요원",
+        "reason": "안내요원 정보 없음",
+        "axis": "information"
+      },
+      {
+        "capabilityCode": "auditorium",
+        "labelKo": "장애인 관람석",
+        "reason": "장애인 관람석 정보 없음",
+        "axis": "rest"
+      },
+      {
+        "capabilityCode": "rest_seating",
+        "labelKo": "휴식 좌석",
+        "reason": "휴식 좌석 정보 없음",
+        "axis": "rest"
+      },
+      {
+        "capabilityCode": "crowd_forecast",
+        "labelKo": "예측 혼잡도",
+        "reason": "예측 혼잡도 정보 없음",
+        "axis": "context"
+      }
+    ],
     "alternatives": [],
-    "ktoUnknownCount": 0,
+    "relevantKnownCount": 6,
+    "relevantTotalCount": 14,
+    "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom"
+    ],
+    "ktoUnknownCount": 5,
     "ktoTotalCount": 24,
     "dataDates": [
       {
@@ -414,7 +464,7 @@
       },
       {
         "capabilityCode": "ticket_office",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -424,7 +474,7 @@
       },
       {
         "capabilityCode": "public_transport",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -439,7 +489,7 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "derived_facility"
       },
       {
@@ -449,7 +499,7 @@
       },
       {
         "capabilityCode": "parking",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -499,7 +549,7 @@
       },
       {
         "capabilityCode": "guide_human",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -519,12 +569,12 @@
       },
       {
         "capabilityCode": "auditorium",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
         "capabilityCode": "rest_seating",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "derived_facility"
       },
       {
@@ -534,11 +584,16 @@
       },
       {
         "capabilityCode": "crowd_forecast",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "derived_facility"
       },
       {
         "capabilityCode": "weather_warning",
+        "verifiedAt": "2026-08-01",
+        "source": "derived_facility"
+      },
+      {
+        "capabilityCode": "weather_forecast",
         "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },
@@ -553,6 +608,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v4"
+    "policyVersion": "suitability-v6"
   }
 }

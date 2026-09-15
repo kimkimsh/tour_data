@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Eyebrow } from '@/components/Eyebrow';
 import { safetyDirectory } from '@/lib/content';
 import { SourceText } from '@/components/SourceText';
 
@@ -134,6 +133,16 @@ const ASSETS: readonly AssetRow[] = [
     handling: '이 사이트에서 직접 제공합니다. 외부 서체 서비스를 호출하지 않습니다.',
     handlingEn: 'Self-hosted. No external font service is called.',
   },
+  {
+    asset: '네이버 지도 (NAVER Maps JavaScript API v3)',
+    assetEn: 'NAVER Maps JavaScript API v3',
+    license: '네이버클라우드 이용약관. 지도 위의 제공사 표기는 그대로 둡니다.',
+    licenseEn: "NAVER Cloud terms of service. The provider's own attribution stays on the map.",
+    handling:
+      '목록 아래 보조 수단으로만 씁니다. 지도를 불러오지 못해도 화면의 나머지는 그대로 동작합니다.',
+    handlingEn:
+      'A companion to the list, never a replacement. When it fails to load the rest of the screen is unaffected.',
+  },
 ] as const;
 
 export default async function CreditsPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -145,7 +154,6 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
   return (
     <article className="grid gap-8">
       <header className="grid gap-2">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('title')}</h1>
         <p className="max-w-[var(--container-prose)]">{t('intro')}</p>
       </header>
@@ -190,7 +198,7 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
         </h2>
         <ul className="grid gap-1">
           {safetyDirectory.map((contact) => (
-            <li key={contact.id} className="text-[0.95rem]">
+            <li key={contact.id} className="t-sm">
               <strong>{locale === 'ko' ? contact.labelKo : contact.labelEn}</strong>{' '}
               <span className="font-mono">{contact.tel}</span>
               <span lang="ko" className="ml-2 text-[var(--color-ink-2)]">
@@ -207,7 +215,7 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
         <h2 id="honesty-heading" className="subhead">
           {t('honestyTitle')}
         </h2>
-        <ul className="grid list-disc gap-1 pl-5 text-[0.95rem]">
+        <ul className="grid list-disc gap-1 pl-5 t-sm">
           <li>{tc('honesty.a11ySelfCheck')}</li>
           <li>{tc('honesty.routeEvidence')}</li>
           <li>{tc('honesty.crowd')}</li>
@@ -216,7 +224,7 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
           <li>{tc('honesty.reportsExcluded')}</li>
           <li>{tc('honesty.handover')}</li>
         </ul>
-        <p className="text-[0.9rem] text-[var(--color-ink-2)]">{t('fontNote')}</p>
+        <p className="t-sm text-[var(--color-ink-2)]">{t('fontNote')}</p>
       </section>
     </article>
   );

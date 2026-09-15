@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { Eyebrow } from '@/components/Eyebrow';
+import { Link } from '@/i18n/navigation';
 
 export const revalidate = 3600;
 
@@ -33,9 +33,8 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
   return (
     <article className="grid max-w-[var(--container-prose)] gap-6">
       <header className="grid gap-2">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('title')}</h1>
-        <p className="text-[0.95rem] text-[var(--color-ink-2)]">{t('updated', { date: UPDATED })}</p>
+        <p className="t-sm text-[var(--color-ink-2)]">{t('updated', { date: UPDATED })}</p>
       </header>
 
       {locale === 'en' ? (
@@ -81,10 +80,16 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
         <ul className="grid list-disc gap-1 pl-5">
           <li>Supabase Inc. — 데이터베이스. 리전은 서울(ap-northeast-2)입니다.</li>
           <li>Vercel Inc. — 웹 호스팅.</li>
+          <li>
+            네이버클라우드 주식회사 — 지도. 관광지 목록 화면과 관광지 상세 화면에서 지도를 그릴
+            때, 브라우저가 네이버클라우드 서버에 직접 요청을 보냅니다. 그 요청에는 접속 IP 주소,
+            브라우저 종류, 요청 시각, 어느 화면에서 요청했는지가 담깁니다. 이 서비스가 제보 내용이나
+            익명 식별자를 지도 쪽으로 보내는 일은 없습니다.
+          </li>
         </ul>
         <p className="mt-2">
-          본문 서체는 이 사이트에서 직접 제공하므로 외부 서체 서비스로 요청이 나가지 않습니다. 지도
-          기능은 이번 범위에 없으므로 지도 사업자에게 위탁하는 처리도 없습니다.
+          본문 서체는 이 사이트에서 직접 제공하므로 외부 서체 서비스로 요청이 나가지 않습니다.
+          지도 사업자의 오류 수집 서버로 가는 요청은 보안 정책에서 차단해 두었습니다.
         </p>
       </Section>
 
@@ -92,6 +97,7 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
         <ul className="grid list-disc gap-1 pl-5">
           <li>Vercel Inc.(미국) — 이전 항목은 공개된 관광 정보와 요청 로그입니다.</li>
           <li>개인정보(익명 식별자·제보 내용)는 서울 리전 Supabase에만 저장됩니다.</li>
+          <li>네이버클라우드 주식회사는 국내 사업자이며, 지도 요청은 국외로 나가지 않습니다.</li>
         </ul>
       </Section>
 
@@ -130,7 +136,9 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
 
       <Section n={12} title="개인정보 보호책임자">
         <p>
-          이름과 연락처는 배포 시 이 자리에 기재합니다. 기재 전에는 서비스를 공개하지 않습니다.
+          이름과 연락처는 이 자리에 기재할 예정이며, 아직 기재하지 못했습니다. 그때까지는{' '}
+          <Link href="/report">제보 화면</Link>으로 요청을 보내시면 확인합니다. 다만 제보 내용은
+          검수 없이 바로 공개되므로 이름·연락처는 적지 마십시오.
         </p>
       </Section>
 
@@ -167,7 +175,7 @@ function Section({ n, title, children }: { n: number; title: string; children: R
   return (
     <section lang="ko" aria-labelledby={`privacy-${n}`} className="grid gap-2">
       <h2 id={`privacy-${n}`} className="subhead">
-        <span className="mr-2 font-mono text-[0.8rem] text-[var(--color-gilt)]">
+        <span className="mr-2 font-mono t-xs text-[var(--color-gilt)]">
           {String(n).padStart(2, '0')}
         </span>
         {title}

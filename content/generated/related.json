@@ -1066,5 +1066,374 @@
         "rank": 50
       }
     ]
+  },
+  {
+    "poiSlug": "baekje-cultural-land",
+    "baseYm": "202608",
+    "items": [
+      {
+        "code": "6a2b5e998a8ceb0141a1042b97b31c97",
+        "name": "국립부여박물관",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 1
+      },
+      {
+        "code": "024972f10aedfc9bc12e000bd470db87",
+        "name": "궁남지",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 2
+      },
+      {
+        "code": "cb394485c4bf32500ffc3ffc555b4b68",
+        "name": "롯데리조트/부여",
+        "signguNm": "부여군",
+        "categoryLcls": "숙박",
+        "rank": 3
+      },
+      {
+        "code": "8b177c3fbec83c6abfd3e722e7aec424",
+        "name": "구드래선착장",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 4
+      },
+      {
+        "code": "082ffbeb2f2d74c113b1006ad7754c81",
+        "name": "장원막국수",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 5
+      },
+      {
+        "code": "c685ad72ffb861d5d723e6651d3a97b1",
+        "name": "낙화암",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 6
+      },
+      {
+        "code": "ac1b1bec62e89fa10c4d5c72a3e62ac9",
+        "name": "메밀꽃필무렵",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 7
+      },
+      {
+        "code": "4c5c7d6f4fc7b1e6ceb8e500b472a877",
+        "name": "무드빌리지",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 8
+      },
+      {
+        "code": "c5e71220e1708239212be6f3af5b0530",
+        "name": "솔내음",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 9
+      },
+      {
+        "code": "e93841c9c1119a6da1b248e771a3dc4f",
+        "name": "정림사지5층석탑",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 10
+      },
+      {
+        "code": "11007722202c1e5b5f485bc46d3bd47c",
+        "name": "시골통닭",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 11
+      },
+      {
+        "code": "b4c20e50a27a3c16c1b6566ecac9d13a",
+        "name": "서동한우/본점",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 12
+      },
+      {
+        "code": "16a10d9f9bff2382b95632946b9687c1",
+        "name": "파크아트빌라스",
+        "signguNm": "부여군",
+        "categoryLcls": "숙박",
+        "rank": 13
+      },
+      {
+        "code": "9a2a03e4f50a44407ce69f54aab2cd9f",
+        "name": "정림사지",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 14
+      },
+      {
+        "code": "2868bd1bab44392933cccdb27e92144a",
+        "name": "앳267",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 15
+      },
+      {
+        "code": "b0e1b953ab00570bd2393c0ef814fbcc",
+        "name": "백제궁수라간",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 16
+      },
+      {
+        "code": "389f9d09f671f901437bd1f5ea64b842",
+        "name": "연꽃이야기",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 17
+      },
+      {
+        "code": "bf3a39edf8d2e7576c4088cabd822434",
+        "name": "만다린/[중식]",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 18
+      },
+      {
+        "code": "7b8ca7fa41a4b8e1646827fd99725473",
+        "name": "사비향",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 19
+      },
+      {
+        "code": "860da204afadf6600b992a0e411b1d06",
+        "name": "정림사지박물관",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 20
+      },
+      {
+        "code": "85a67acd46d13450e3dee46c0dee87ae",
+        "name": "에펠제과",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 21
+      },
+      {
+        "code": "0d3e456d8ed0c38ba5297eb40eb06dbf",
+        "name": "사랑나무",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 22
+      },
+      {
+        "code": "12e21ae6745a3ce6110ef66527dbffda",
+        "name": "삼정식당",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 23
+      },
+      {
+        "code": "6eb7134c9d9fcad8462c78d35528f031",
+        "name": "롯데아울렛/부여점",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 24
+      },
+      {
+        "code": "c77c243198ac3a59f1eb92e0c7292d63",
+        "name": "연옥이네밥상",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 25
+      },
+      {
+        "code": "5cff7182fc61544ca095433ff146c200",
+        "name": "부여해장국",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 26
+      },
+      {
+        "code": "4952e5ce808e25b464e6b0e55df44a30",
+        "name": "비비비",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 27
+      },
+      {
+        "code": "d57f15f2bbadbf538622956701729626",
+        "name": "일월에",
+        "signguNm": "부여군",
+        "categoryLcls": "숙박",
+        "rank": 28
+      },
+      {
+        "code": "8d7e8fdf7bf7658c5c5a4c0ef78678ef",
+        "name": "부여왕릉원",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 29
+      },
+      {
+        "code": "15a17c02135e90f2f512fe715073bfa7",
+        "name": "차돌식당",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 30
+      },
+      {
+        "code": "16242d64e2b53cc9844accd3f55caa88",
+        "name": "무량사",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 31
+      },
+      {
+        "code": "b2e8e0cdb21c96c3835c18cd067f396c",
+        "name": "구드래한우타운",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 32
+      },
+      {
+        "code": "20a2d8094074f1179e7a413025ff5af8",
+        "name": "스타벅스/충남부여DT점",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 33
+      },
+      {
+        "code": "f10e25197f8b38d93e346e083e060faf",
+        "name": "높은댕이",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 34
+      },
+      {
+        "code": "51ad21cd048a70fa2d4cd8b3c1d29ece",
+        "name": "할매솥뚜껑삼겹살/부여점",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 35
+      },
+      {
+        "code": "41d089907b19cfb09720c3f8aa93b916",
+        "name": "부여중앙시장",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 36
+      },
+      {
+        "code": "1617f81ae7b2fd8e61e50d8b40c0e91b",
+        "name": "서동요오픈세트장",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 37
+      },
+      {
+        "code": "f839454f82d51107430ecc4736dbd52a",
+        "name": "왕곰탕",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 38
+      },
+      {
+        "code": "534170b224323ddde36321db09f997ba",
+        "name": "쌀밥애찌개담다",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 39
+      },
+      {
+        "code": "f24417bb67463f98ee671336165053fd",
+        "name": "백마강테마파크전망대",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 40
+      },
+      {
+        "code": "de86d307e308e911d5ca633e6f74976e",
+        "name": "백강막국수",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 41
+      },
+      {
+        "code": "4ca70a38f59a6cff249148bf5fde3ece",
+        "name": "뷰띠크호텔이틀",
+        "signguNm": "부여군",
+        "categoryLcls": "숙박",
+        "rank": 42
+      },
+      {
+        "code": "44375822f64191a42e31ee181156693f",
+        "name": "엄가네곰탕",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 43
+      },
+      {
+        "code": "f1fefe6584d3a23f5b3f964b855498c6",
+        "name": "배꼽",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 44
+      },
+      {
+        "code": "ba842d47563a5dd0817d9673753dcc3a",
+        "name": "굿뜨래웰빙마을",
+        "signguNm": "부여군",
+        "categoryLcls": "관광지",
+        "rank": 45
+      },
+      {
+        "code": "279e48ff0fdb5e079391e37901b11177",
+        "name": "부여막국수",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 46
+      },
+      {
+        "code": "52498f93bb5c1825ebf59bb810a10ec8",
+        "name": "공산성",
+        "signguNm": "공주시",
+        "categoryLcls": "관광지",
+        "rank": 47
+      },
+      {
+        "code": "739b8deca6c3d668b99a9283540eee1c",
+        "name": "윤가석갈비/본점",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 48
+      },
+      {
+        "code": "88582fd8f577e8d1dbf9bfd137a75719",
+        "name": "신사우물갈비/부여점",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 49
+      },
+      {
+        "code": "c118ae111e985b39112791a60ea73700",
+        "name": "카페온휴",
+        "signguNm": "부여군",
+        "categoryLcls": "음식",
+        "rank": 50
+      }
+    ]
+  },
+  {
+    "poiSlug": "gudeurae-sculpture-park",
+    "baseYm": "202608",
+    "items": [
+      {
+        "code": "29ba45215277b969e2bf155f127f1224",
+        "name": "신진항",
+        "signguNm": "태안군",
+        "categoryLcls": "관광지",
+        "rank": 1
+      }
+    ]
   }
 ]

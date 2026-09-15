@@ -15,7 +15,6 @@ import type {
   SuitabilityFactInput,
 } from '@/domain/types';
 import { VerdictBadge } from '@/components/VerdictBadge';
-import { Eyebrow } from '@/components/Eyebrow';
 import { useConditions } from '@/components/persona/usePersona';
 import { capabilityLabels, type PlaceCardData } from '@/components/place/place-view';
 import { useToday } from '@/components/useClientValue';
@@ -41,6 +40,7 @@ export function CourseView({
   const t = useTranslations('courses');
   const tc = useTranslations('common');
   const th = useTranslations('home');
+  const tp = useTranslations('places');
   const locale = useLocale() as Locale;
   const { conditions, loaded, setConditions } = useConditions();
   const today = useToday();
@@ -59,7 +59,7 @@ export function CourseView({
   const scores = useMemo(() => {
     if (!loaded || today === null) return null;
     const board = buildScoreboard({
-      pois: places.map((p) => ({ slug: p.slug, title: p.title })),
+      pois: places.map((p) => ({ slug: p.slug, title: p.title, city: p.cityLabel })),
       factsByPoi,
       personaIds: conditions.personaIds,
       cognitiveOption: conditions.cognitiveOption,
@@ -74,7 +74,7 @@ export function CourseView({
   return (
     <div className="grid gap-8">
       <fieldset className="grid gap-2">
-        <legend className="text-[1.05rem] font-bold">{t('budgetLegend')}</legend>
+        <legend className="font-bold">{t('budgetLegend')}</legend>
         <div className="flex flex-wrap gap-x-6 gap-y-2">
           {BUDGET_MODES.map((mode) => {
             const id = `${groupId}-${mode}`;
@@ -108,11 +108,16 @@ export function CourseView({
       ) : template === undefined ? (
         <p className="blank-slot">{t('empty')}</p>
       ) : (
-        <section className="card grid gap-4" aria-labelledby="course-heading">
-          <Eyebrow as="h2" id="course-heading">{t('eyebrow')}</Eyebrow>
-          <h2>{locale === 'ko' ? template.titleKo : template.titleEn}</h2>
+        <section className="grid gap-4" aria-labelledby="course-heading">
+          {/* The course's own title labels the section. It used to be labelled by a
+              second heading reading 「코스」, so a screen reader announcing the region
+              said the word the page is already titled with, while the line naming
+              which course this is was a sibling heading nothing pointed at. */}
+          <h2 id="course-heading" className="section-head">
+            {locale === 'ko' ? template.titleKo : template.titleEn}
+          </h2>
 
-          <p className="text-[1.1rem] font-bold">
+          <p className="t-lg font-bold">
             {itinerary.totalMinutes >= 60
               ? t('total', {
                   hours: Math.floor(itinerary.totalMinutes / 60),
@@ -121,9 +126,9 @@ export function CourseView({
               : t('totalMinutesOnly', { minutes: itinerary.totalMinutes })}
           </p>
           {conditions.personaIds.length > 0 ? (
-            <p className="text-[0.95rem] text-[var(--color-ink-2)]">
+            <p className="t-sm text-[var(--color-ink-2)]">
               {t('multiplierNote', {
-                persona: tightestLabel(conditions.personaIds, locale),
+                persona: warningSourceLabel(itinerary.stayMultiplierSource, locale, tc, th),
                 multiplier: itinerary.stayMultiplier.toFixed(2),
               })}
             </p>
@@ -137,16 +142,16 @@ export function CourseView({
               return (
                 <li key={leg.poiSlug} className="grid gap-1">
                   <p className="flex flex-wrap items-baseline gap-x-3">
-                    <span className="font-mono text-[0.8rem] text-[var(--color-gilt)]" aria-hidden="true">
-                      {String(index + 1).padStart(2, '0')}
+                    <span className="step-mark" aria-hidden="true">
+                      {index + 1}
                     </span>
-                    <Link href={`/places/${leg.poiSlug}`} className="text-[1.06rem] font-bold">
+                    <Link href={`/places/${leg.poiSlug}`} className="font-bold">
                       {place?.title ?? leg.poiSlug}
                     </Link>
                     {/* The arrow form only when the conditions actually moved the
                         number. "체류 90분 → 90분" is the same figure twice and reads
                         as a rendering fault. */}
-                    <span className="tabular text-[0.95rem]">
+                    <span className="tabular t-sm">
                       {leg.adjustedStayMinutes === leg.baseStayMinutes
                         ? t('stayPlain', { minutes: leg.baseStayMinutes })
                         : t('stay', {
@@ -162,16 +167,20 @@ export function CourseView({
                       {result.label === '정보없음' ? null : (
                         <span className="tabular font-bold">{result.score}</span>
                       )}
+                      {/* Named, not listed bare. A capability name on its own beside a
+                          badge does not say whether it is confirmed, missing or simply
+                          unchecked, and the place list beside it does say. */}
                       {result.unknownCriticals.length > 0 ? (
-                        <span className="text-[0.9rem] text-[var(--color-state-warn)]">
-                          {capabilityLabels(result.unknownCriticals, locale)}
+                        <span className="t-sm text-[var(--color-state-warn)]">
+                          <span aria-hidden="true">⚠ </span>
+                          {tp('needCheck')}: {capabilityLabels(result.unknownCriticals, locale)}
                         </span>
                       ) : null}
                     </p>
                   ) : null}
 
                   {leg.transferToNextMinutes !== null ? (
-                    <p className="mt-1 border-l-2 border-[var(--color-rule)] pl-3 text-[0.95rem]">
+                    <p className="mt-1 border-l-2 border-[var(--color-rule)] pl-3 t-sm">
                       <span aria-hidden="true">↓ </span>
                       {t('transfer', { minutes: leg.transferToNextMinutes })}
                     </p>
@@ -193,7 +202,7 @@ export function CourseView({
           </ol>
 
           {template.note ? (
-            <p className="text-[0.9rem] text-[var(--color-ink-2)]">{template.note}</p>
+            <p className="t-sm text-[var(--color-ink-2)]">{template.note}</p>
           ) : null}
 
           <p>
@@ -211,14 +220,6 @@ export function CourseView({
       )}
     </div>
   );
-}
-
-function tightestLabel(personaIds: readonly string[], locale: Locale): string {
-  const ids = personaIds as ReadonlyArray<Parameters<typeof getPersona>[0]>;
-  const tightest = ids.reduce((a, b) =>
-    getPersona(a).restLimitMinutes <= getPersona(b).restLimitMinutes ? a : b,
-  );
-  return locale === 'ko' ? getPersona(tightest).labelKo : getPersona(tightest).labelEn;
 }
 
 /**

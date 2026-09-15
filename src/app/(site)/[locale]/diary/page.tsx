@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getPois, getRoutes, orEmpty } from '@/lib/data';
-import { Eyebrow } from '@/components/Eyebrow';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import { DiaryEditor, type DiaryPlaceOption } from '@/components/diary/DiaryEditor';
 import type { ContentLocale } from '@/domain/types';
@@ -50,7 +49,6 @@ export default async function DiaryPage({ params }: { params: Promise<{ locale: 
   return (
     <div className="grid gap-8">
       <section className="grid gap-3">
-        <Eyebrow>{t('eyebrow')}</Eyebrow>
         <h1>{t('title')}</h1>
         <p className="max-w-[var(--container-prose)]">{t('storedLocally')}</p>
       </section>

@@ -19,6 +19,12 @@
       "isPredicted": true
     },
     {
+      "poiSlug": "gomanaru",
+      "baseYmd": "20260915",
+      "rate": 33.49,
+      "isPredicted": true
+    },
+    {
       "poiSlug": "busosanseong",
       "baseYmd": "20260915",
       "rate": 31.77,
@@ -34,6 +40,36 @@
       "poiSlug": "buyeo-national-museum",
       "baseYmd": "20260915",
       "rate": 37.25,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "buyeo-royal-tombs",
+      "baseYmd": "20260915",
+      "rate": 31.21,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "buyeo-naseong",
+      "baseYmd": "20260915",
+      "rate": 37.45,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "baekje-cultural-land",
+      "baseYmd": "20260915",
+      "rate": 30.75,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "gungnamji",
+      "baseYmd": "20260915",
+      "rate": 33.16,
+      "isPredicted": true
+    },
+    {
+      "poiSlug": "gudeurae-sculpture-park",
+      "baseYmd": "20260915",
+      "rate": 23.45,
       "isPredicted": true
     }
   ],
@@ -82,7 +118,7 @@
   "forecast": [
     {
       "signguCd5": "44150",
-      "baseAt": "20260915 0500",
+      "baseAt": "20260915 1100",
       "today": {
         "state": "good",
         "detail": "구름많음 · 최고 26℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
@@ -157,7 +193,7 @@
     },
     {
       "signguCd5": "44760",
-      "baseAt": "20260915 0500",
+      "baseAt": "20260915 1100",
       "today": {
         "state": "good",
         "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
@@ -231,5 +267,5 @@
       "checkedAt": "2026-09-15"
     }
   ],
-  "fetchedAt": "2026-09-14T22:13:13.197Z"
+  "fetchedAt": "2026-09-15T02:20:20.421Z"
 }

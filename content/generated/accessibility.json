@@ -282,7 +282,7 @@
     "detail": "여유 — 집중률 35.1 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -290,10 +290,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -301,10 +301,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 26℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -315,7 +315,7 @@
     "detail": "충청남도 공주의료원 응급실 직선거리 1,627m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -645,7 +645,7 @@
     "detail": "여유 — 집중률 15.1 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -653,10 +653,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -664,10 +664,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 26℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -678,7 +678,7 @@
     "detail": "충청남도 공주의료원 응급실 직선거리 330m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -689,7 +689,7 @@
     "detail": "웅진백제역사관 (해설사 데스크 옆) 직선거리 25m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1008,7 +1008,7 @@
     "detail": "여유 — 집중률 31.6 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1016,10 +1016,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1027,10 +1027,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 26℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1041,7 +1041,7 @@
     "detail": "충청남도 공주의료원 응급실 직선거리 816m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1371,7 +1371,7 @@
     "detail": "여유 — 집중률 31.8 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1379,10 +1379,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1390,10 +1390,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1404,7 +1404,7 @@
     "detail": "건양대학교 부여병원 응급실 직선거리 1,546m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1734,7 +1734,7 @@
     "detail": "여유 — 집중률 37.7 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1742,10 +1742,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1753,10 +1753,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1767,7 +1767,7 @@
     "detail": "건양대학교 부여병원 응급실 직선거리 1,152m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -1778,7 +1778,7 @@
     "detail": "정림사지박물관 로비 직선거리 182m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2097,7 +2097,7 @@
     "detail": "여유 — 집중률 37.3 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2105,10 +2105,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2116,10 +2116,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2130,7 +2130,7 @@
     "detail": "건양대학교 부여병원 응급실 직선거리 1,559m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2141,7 +2141,7 @@
     "detail": "어린이박물관 직선거리 10m",
     "source": "derived_facility",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2460,7 +2460,7 @@
     "detail": "여유 — 집중률 31.2 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2468,10 +2468,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2479,10 +2479,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2823,7 +2823,7 @@
     "detail": "여유 — 집중률 37.5 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2831,10 +2831,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -2842,10 +2842,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3186,7 +3186,7 @@
     "detail": "여유 — 집중률 30.8 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3194,10 +3194,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3205,10 +3205,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3557,10 +3557,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3568,10 +3568,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3912,7 +3912,7 @@
     "detail": "여유 — 집중률 33.2 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3920,10 +3920,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -3931,10 +3931,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -4275,7 +4275,7 @@
     "detail": "여유 — 집중률 23.4 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -4283,10 +4283,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -4294,10 +4294,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -4638,7 +4638,7 @@
     "detail": "여유 — 집중률 33.5 (40 이하 여유 · 70 이하 보통). 2026-09-15 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -4646,10 +4646,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-15 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-16 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {
@@ -4657,10 +4657,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "구름많음 · 최고 26℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-15",
+    "verifiedAt": "2026-09-16",
     "isKtoScored": false
   },
   {

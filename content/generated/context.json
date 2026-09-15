@@ -104,7 +104,7 @@
       "warning": null,
       "scope": "district",
       "unknownReason": null,
-      "checkedAt": "2026-09-15"
+      "checkedAt": "2026-09-16"
     },
     {
       "signguCd5": "44760",
@@ -112,53 +112,53 @@
       "warning": null,
       "scope": "district",
       "unknownReason": null,
-      "checkedAt": "2026-09-15"
+      "checkedAt": "2026-09-16"
     }
   ],
   "forecast": [
     {
       "signguCd5": "44150",
-      "baseAt": "20260915 1100",
+      "baseAt": "20260916 0500",
       "today": {
         "state": "good",
-        "detail": "구름많음 · 최고 26℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+        "detail": "맑음 · 최고 27℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
         "unknownReason": null
       },
       "outlook": [
         {
           "dayOffset": 4,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
           "tmn": 16,
-          "tmx": 29
+          "tmx": 28
         },
         {
           "dayOffset": 5,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
           "tmn": 16,
           "tmx": 29
         },
         {
           "dayOffset": 6,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
           "tmn": 16,
-          "tmx": 29
+          "tmx": 28
         },
         {
           "dayOffset": 7,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
-          "tmn": 16,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
+          "tmn": 15,
           "tmx": 28
         },
         {
@@ -176,7 +176,7 @@
           "pmWeather": "구름많음",
           "amRainPct": 20,
           "pmRainPct": 20,
-          "tmn": 15,
+          "tmn": 16,
           "tmx": 28
         },
         {
@@ -185,55 +185,55 @@
           "pmWeather": "구름많음",
           "amRainPct": 20,
           "pmRainPct": 20,
-          "tmn": 15,
+          "tmn": 16,
           "tmx": 28
         }
       ],
-      "checkedAt": "2026-09-15"
+      "checkedAt": "2026-09-16"
     },
     {
       "signguCd5": "44760",
-      "baseAt": "20260915 1100",
+      "baseAt": "20260916 0500",
       "today": {
         "state": "good",
-        "detail": "구름많음 · 최고 27℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+        "detail": "맑음 · 최고 28℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
         "unknownReason": null
       },
       "outlook": [
         {
           "dayOffset": 4,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
-          "tmn": 18,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
+          "tmn": 17,
           "tmx": 29
         },
         {
           "dayOffset": 5,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
           "tmn": 17,
-          "tmx": 30
+          "tmx": 29
         },
         {
           "dayOffset": 6,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
           "tmn": 17,
-          "tmx": 30
+          "tmx": 29
         },
         {
           "dayOffset": 7,
-          "amWeather": "구름많음",
-          "pmWeather": "구름많음",
-          "amRainPct": 20,
-          "pmRainPct": 20,
-          "tmn": 17,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
+          "tmn": 16,
           "tmx": 29
         },
         {
@@ -264,8 +264,8 @@
           "tmx": 28
         }
       ],
-      "checkedAt": "2026-09-15"
+      "checkedAt": "2026-09-16"
     }
   ],
-  "fetchedAt": "2026-09-15T02:27:12.245Z"
+  "fetchedAt": "2026-09-15T21:51:24.833Z"
 }

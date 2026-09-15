@@ -46,6 +46,25 @@ Vercel에 `SUPABASE_SERVICE_ROLE_KEY`와 `KTO_SERVICE_KEY_DECODING`은 **필요 
 
 반대로 `NEXT_PUBLIC_SUPABASE_ANON_KEY`와 `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`는 **화면에만** 필요하다. 방문자 제보의 익명 세션이 앞의 키로 만들어지고, 지도는 뒤의 키로 그려진다. 수집은 둘 다 쓰지 않는다.
 
+### 배포 뒤 지도는 브라우저로 한 번 열어 봐야 한다
+
+지도 제공사는 **http와 https에서 다른 호스트를 쓴다.** 개발 서버(http)에서는 `nrbe.map.naver.net`·`static.naver.net`, 배포본(https)에서는 `nrbe.pstatic.net`·`ssl.pstatic.net`이다. 그래서 로컬에서 본 것만으로 Content-Security-Policy를 쓰면 로컬은 통과하고 배포본은 타일이 전부 막힌다 — 실제로 한 번 그랬고, 화면에는 회색 사각형 위에 마커 13개만 떠 있었다.
+
+`curl`로는 안 잡힌다. 캔버스는 하이드레이션 뒤에 만들어지므로 HTML에는 없다. 배포가 끝나면 브라우저로 열어서 **콘솔에 CSP 위반이 NELO 하나뿐인지** 보면 된다.
+
+```bash
+pnpm exec node -e "
+const {chromium}=require('@playwright/test');
+(async()=>{const b=await chromium.launch();const p=await (await b.newContext()).newPage();
+const e=[];p.on('console',m=>{if(m.type()==='error')e.push(m.text().slice(0,90))});
+await p.goto('https://modu-baekje.vercel.app/ko/places',{waitUntil:'networkidle'});
+await p.waitForTimeout(6000);
+console.log(await p.evaluate(()=>({canvas:!!document.querySelector('.map-canvas'),pins:document.querySelectorAll('.map-pin').length})));
+console.log([...new Set(e)]);await b.close();})()"
+```
+
+`{canvas:true, pins:13}`이고 오류가 `kr-col-ext.nelo.navercorp.com` 하나면 정상이다. `nrbe`나 `pstatic`이 오류에 보이면 그 호스트가 `next.config.ts`의 목록에서 빠진 것이다.
+
 ### 지도 키는 값보다 등록이 중요하다
 
 `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`는 비밀이 아니다. 브라우저가 내려받는 스크립트 주소에 그대로 실린다. 실제로 이 키를 제한하는 것은 **NCP 콘솔의 Web 서비스 URL 목록**이다.

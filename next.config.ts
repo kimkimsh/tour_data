@@ -9,25 +9,45 @@ import { AUDIO_HOSTS } from './src/config/media-hosts';
 const KTO_IMAGE_HOSTS = ['tong.visitkorea.or.kr', 'cdn.visitkorea.or.kr'] as const;
 
 /**
- * NAVER Maps v3, measured rather than copied from the documentation.
+ * NAVER Maps v3, measured rather than copied from the documentation — and measured on
+ * both schemes, because the SDK does not use the same hosts on each.
  *
- * The SDK comes from oapi, and so does the key check — as JSONP, which is a <script>
- * and lands in script-src rather than connect-src. The style manifests behave the same
- * way: nrbe answers `/styles/basic.json?callback=…` with executable JavaScript, so
- * that host is a script source as well as an image source. static.naver.net serves the
- * sprite sheets and the drag cursor.
+ * Over http it fetches from nrbe.map.naver.net and static.naver.net. Over https it
+ * fetches the same things from nrbe.pstatic.net and ssl.pstatic.net. A policy written
+ * from a `next dev` session therefore passes locally and blocks every tile on the
+ * deployed site, which is what happened: the first release rendered thirteen markers
+ * on a blank grey square. All four are listed.
  *
- * No scheme, deliberately. A bare host matches the page's own scheme, which keeps the
- * http form usable under `next dev` while a deployed https page still refuses it —
- * CSP only ever relaxes http to https, never the other way.
+ * The key check is JSONP, so oapi is a script source rather than a connect source, and
+ * the style manifests behave the same way — nrbe answers `/styles/basic.json?callback=…`
+ * with executable JavaScript. ssl/static serve the sprite sheets and the drag cursor.
+ *
+ * No scheme on any of them, deliberately. A bare host matches the page's own scheme,
+ * which keeps the http form usable under `next dev` while a deployed https page still
+ * refuses it — CSP only ever relaxes http to https, never the other way.
  *
  * kr-col-ext.nelo.navercorp.com is deliberately absent. It is NELO, NAVER's error
  * collector, and the map draws its tiles, its markers and its controls without it,
- * measured with the host blocked. A telemetry endpoint allowed in to quiet a console
- * warning is a data flow this service's privacy policy would then have to declare.
+ * measured with the host blocked on both schemes. A telemetry endpoint allowed in to
+ * quiet a console warning is a data flow this service's privacy policy would then have
+ * to declare.
  */
-const NAVER_MAP_SCRIPT_HOSTS = ['oapi.map.naver.com', 'nrbe.map.naver.net'] as const;
-const NAVER_MAP_ASSET_HOSTS = ['nrbe.map.naver.net', 'static.naver.net'] as const;
+const NAVER_MAP_SCRIPT_HOSTS = [
+  'oapi.map.naver.com',
+  'nrbe.map.naver.net',
+  'nrbe.pstatic.net',
+] as const;
+const NAVER_MAP_ASSET_HOSTS = [
+  'nrbe.map.naver.net',
+  'static.naver.net',
+  'nrbe.pstatic.net',
+  'ssl.pstatic.net',
+] as const;
+
+/** Every host the map touches, listed once. */
+const NAVER_MAP_HOSTS = [
+  ...new Set([...NAVER_MAP_SCRIPT_HOSTS, ...NAVER_MAP_ASSET_HOSTS]),
+];
 
 /**
  * The proxy path is same-origin, and same-origin used to be enough. Next 16 stopped
@@ -80,7 +100,7 @@ const CONTENT_SECURITY_POLICY = [
   "font-src 'self'",
   // The Supabase project and the map's own tile requests. Visitor reports are still
   // the only thing this app itself sends anywhere at run time.
-  `connect-src 'self' https://*.supabase.co ${NAVER_MAP_SCRIPT_HOSTS.join(' ')} ${NAVER_MAP_ASSET_HOSTS.join(' ')}`,
+  `connect-src 'self' https://*.supabase.co ${NAVER_MAP_HOSTS.join(' ')}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

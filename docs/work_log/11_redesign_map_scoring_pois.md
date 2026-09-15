@@ -434,3 +434,18 @@ pnpm typecheck · lint · validate:content · test(183) · build   통과
 pnpm e2e  41 passed  (axe 데스크톱 20경로 + 390px 4경로 + 마커 계약 1)
 390px / 1280px, 라이트·다크 — 가로 넘침 0
 ```
+
+### 10.6 배포본에서만 나오는 결함 하나 — 제공사가 스킴마다 다른 호스트를 쓴다
+
+지도 키가 배포본에도 들어간 뒤 브라우저로 열어 보니 **마커 13개가 회색 사각형 위에 떠 있었다.** 타일이 하나도 없었다.
+
+콘솔이 원인을 그대로 말해 줬다.
+
+```
+Loading the script 'https://nrbe.pstatic.net/styles/basic.json?...' violates ... script-src
+Loading the image 'https://ssl.pstatic.net/static/maps/mantle/1x/openhand.cur' violates ... img-src
+```
+
+개발 서버는 http라서 SDK가 `nrbe.map.naver.net`·`static.naver.net`을 부른다. 배포본은 https라서 **같은 것을 `nrbe.pstatic.net`·`ssl.pstatic.net`에서 가져온다.** CSP를 개발 세션에서 본 것만으로 썼으니 로컬은 통과하고 배포본만 막힌 것이다.
+
+네 호스트를 전부 적었다. 그리고 이건 `curl`로는 절대 안 잡힌다 — 캔버스는 하이드레이션 뒤에 생기므로 HTML에는 `map-canvas`가 없고, 실제로 HTML만 보고 「배포본에 지도가 아직 없다」고 한 번 잘못 읽었다. 배포 뒤 브라우저로 여는 절차를 `docs/guide/05_operations.md`에 명령까지 적어 넣었다.

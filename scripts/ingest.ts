@@ -1255,10 +1255,19 @@ async function revalidate(): Promise<void> {
     signal: AbortSignal.timeout(10_000),
   }).catch(() => null);
 
+  // Which site, every time. The unqualified line said "cache invalidated" while the
+  // request had gone to whatever NEXT_PUBLIC_SITE_URL happened to hold — for a run
+  // from a laptop that is localhost, so the deployment kept serving the snapshot from
+  // before the run and the log said the opposite.
+  //
   // A failed invalidation is not fatal: every page revalidates on its own within the
   // hour. Saying so is better than retrying.
-  if (!response?.ok) warn('cache invalidation failed; pages refresh on their own within the hour');
-  else console.log('ok       cache invalidated');
+  const host = new URL(site).host;
+  if (!response?.ok) {
+    warn(`cache invalidation failed for ${host}; its pages refresh on their own within the hour`);
+  } else {
+    console.log(`ok       cache invalidated on ${host}`);
+  }
 }
 
 // ── run ────────────────────────────────────────────────────────────────────────

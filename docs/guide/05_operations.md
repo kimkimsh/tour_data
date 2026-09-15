@@ -40,11 +40,21 @@ pnpm ingest
 |---|---|
 | **로컬 `.env.local`** | 다섯 개 전부 (수집도 돌리고 화면도 띄우므로) |
 | **GitHub 저장소 시크릿** | 위 표의 다섯 개 |
-| **Vercel 환경변수** | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `REVALIDATE_SECRET` · `NEXT_PUBLIC_SITE_URL` |
+| **Vercel 환경변수** | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `REVALIDATE_SECRET` · `NEXT_PUBLIC_SITE_URL` · `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID` |
 
 Vercel에 `SUPABASE_SERVICE_ROLE_KEY`와 `KTO_SERVICE_KEY_DECODING`은 **필요 없다.** 화면은 수집을 하지 않기 때문이고, 그건 구조로 강제돼 있다 — `src/lib/supabase/admin.ts`(서비스 롤 키를 읽는 유일한 파일)와 `src/lib/kto/transport.ts`는 **`scripts/ingest.ts`에서만** 불린다. `src/app`과 `src/components`가 `src/lib/kto/`를 import하는 것은 ESLint `no-restricted-imports`가 막는다(`docs/spec/02_stack.md` §2 규칙2).
 
-반대로 `NEXT_PUBLIC_SUPABASE_ANON_KEY`는 **화면에만** 필요하다. 방문자 제보의 익명 세션이 그 키로 만들어지고, 수집은 쓰지 않는다.
+반대로 `NEXT_PUBLIC_SUPABASE_ANON_KEY`와 `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`는 **화면에만** 필요하다. 방문자 제보의 익명 세션이 앞의 키로 만들어지고, 지도는 뒤의 키로 그려진다. 수집은 둘 다 쓰지 않는다.
+
+### 지도 키는 값보다 등록이 중요하다
+
+`NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`는 비밀이 아니다. 브라우저가 내려받는 스크립트 주소에 그대로 실린다. 실제로 이 키를 제한하는 것은 **NCP 콘솔의 Web 서비스 URL 목록**이다.
+
+> console.ncloud.com → Services → AI·NAVER API → Application → `modu-baekje` → 변경 → Web 서비스 URL
+
+여기에 개발용 `http://localhost:3000`과 배포 도메인을 **둘 다** 넣어야 한다. 하나라도 빠지면 그쪽에서는 타일마다 「네이버 지도 Open API 인증이 실패했습니다」가 뜬다. 앱은 그 상황을 알아채고 지도 자리에 「지도를 불러오지 못했습니다. 위 목록으로 모든 기능을 이용할 수 있습니다」를 대신 띄우므로 화면이 깨지지는 않는다.
+
+Client Secret은 서버 간 API용이다. `.env.local`에도, Vercel에도, 코드 어디에도 들어가지 않는다.
 
 ---
 
@@ -57,6 +67,22 @@ pnpm ingest --only=docent      # 한 단계만
 ```
 
 단계 이름은 `bootstrap, pois, routes, context, accessibility, docent, related`.
+
+**캐시를 무효화하는 대상은 `NEXT_PUBLIC_SITE_URL`이 가리키는 곳이다.** 로컬 `.env.local`이 `http://localhost:3000`을 가리키고 있으면, 손으로 돌린 수집은 Supabase에는 새 스냅샷을 쓰지만 **배포된 사이트의 캐시는 건드리지 않는다.** 마지막 줄이 어느 호스트를 무효화했는지 적으므로 그것을 보고 판단하면 된다.
+
+```
+ok       cache invalidated on localhost:3000      ← 배포본은 그대로다
+ok       cache invalidated on modu-baekje.vercel.app
+```
+
+배포본을 즉시 갱신하려면 직접 부른다.
+
+```bash
+curl -X POST https://modu-baekje.vercel.app/api/revalidate \
+  -H "authorization: Bearer $REVALIDATE_SECRET"
+```
+
+부르지 않아도 각 화면은 한 시간 안에 스스로 갱신한다.
 
 **단계끼리 의존한다.** `aed_distance`와 `emergency_distance`는 `pois` 단계가 계산한 `facilities[].distanceM`을 읽는다. `content/facilities.json`에 좌표를 넣고 `--only=accessibility`만 돌리면 **아무것도 안 바뀐다** — `--only=pois,accessibility`로 돌려야 한다.
 

@@ -241,7 +241,7 @@ function CalculationDisclosure({
       <summary className="cursor-pointer font-bold">{t('openCalc')}</summary>
 
       <div className="mt-4 grid gap-5">
-        <div className="scroll-x">
+        <div className="scroll-x" tabIndex={0} role="region" aria-label={t('axisTable')}>
           <table className="data-table">
             <caption>{t('axisTable')}</caption>
             <thead>

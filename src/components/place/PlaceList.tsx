@@ -138,8 +138,11 @@ export function PlaceList({
 
                   {result.label === '정보없음' ? (
                     <p className="blank-slot t-sm">
+                      {/* No persona in the sentence. The conditions are named once at
+                          the top of the list, and dropping them in here produced
+                          「조건 미선택 — 일반 방문 기준 기준으로」 in Korean and a clause
+                          in the middle of an English sentence. */}
                       {t('noVerdict', {
-                        persona: personaLabel,
                         total: result.requiredCodes.length,
                         unknown: result.unknownCriticals.length,
                       })}

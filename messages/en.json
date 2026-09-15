@@ -135,7 +135,7 @@
     "sortNote": "Ordered: you can visit, check first, not enough information, consider another place. “Not enough information” sits above “Consider another place” because a place we do not know about ranks above one we know you cannot enter.",
     "confirmed": "Available",
     "needCheck": "Check",
-    "noVerdict": "We do not know {unknown} of the {total} items that matter for {persona}",
+    "noVerdict": "{unknown} of the {total} items this verdict rests on have not been checked.",
     "mapUnavailable": "A map is not part of this release. Everything works from the list above.",
     "calculating": "Calculating for your conditions",
     "resultsReady": "Calculated verdicts for {count} places.",
@@ -279,7 +279,7 @@
   "report": {
     "metaTitle": "Report a condition",
     "title": "Report a condition",
-    "publicNotice": "What you write is published immediately for other visitors. It is shown separately from operator-checked information and does not affect the suitability score.",
+    "publicNotice": "What you write here publishes at once and is visible to other visitors.",
     "noLocationNotice": "This screen does not collect location data.",
     "wherePlace": "Where?",
     "whatProblem": "What is wrong?",
@@ -311,7 +311,14 @@
     },
     "done": "Your report is posted. You can see it on the place page.",
     "goPlace": "Go to the place",
-    "reportSeenOnShort": "Seen {date}"
+    "reportSeenOnShort": "Seen {date}",
+    "afterwardsTitle": "What happens after you post",
+    "afterwards": [
+      "It publishes at once. Nobody reads it first.",
+      "It appears only in the place page’s visitor-reports block, never mixed with the items the verdict was taken over.",
+      "It does not enter the suitability score. A report is what a visitor saw, not a fact we checked.",
+      "Anyone can flag a post, and a hidden one is actually deleted after 90 days."
+    ]
   },
   "admin": {
     "metaTitle": "Visitor reports",

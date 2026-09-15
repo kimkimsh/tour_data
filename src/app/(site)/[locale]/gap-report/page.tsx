@@ -77,7 +77,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         {/* Its own heading. Both section headings used to be column-header strings, so
             the table of filled items was titled "항목 수" — the name of its last column. */}
         <h2 id="fill-heading">{t('fillSectionTitle')}</h2>
-        <div className="scroll-x">
+        <div className="scroll-x" tabIndex={0} role="region" aria-label={t('fillSectionTitle')}>
           <table className="data-table">
             <caption>{t('fillCaption')}</caption>
             <thead>
@@ -148,7 +148,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         {report.priorities.length === 0 ? (
           <p className="blank-slot">{t('empty')}</p>
         ) : (
-          <div className="scroll-x">
+          <div className="scroll-x" tabIndex={0} role="region" aria-label={t('prioritySectionTitle')}>
             <table className="data-table">
               <caption>{t('priorityCaption')}</caption>
               <thead>

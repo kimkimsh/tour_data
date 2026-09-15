@@ -158,7 +158,7 @@ export default async function CreditsPage({ params }: { params: Promise<{ locale
         <p className="max-w-[var(--container-prose)]">{t('intro')}</p>
       </header>
 
-      <div className="scroll-x">
+      <div className="scroll-x" tabIndex={0} role="region" aria-label={t('assetCaption')}>
         <table className="data-table">
           <caption>{t('assetCaption')}</caption>
           <thead>

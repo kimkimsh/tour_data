@@ -278,7 +278,7 @@ export default async function PlacePage({
               lat: poi.coord.lat,
               lng: poi.coord.lng,
               verdict: null,
-              tone: 'unknown',
+              tone: 'subject',
               href: null,
             },
             ...poi.facilities.flatMap((facility) =>
@@ -291,7 +291,7 @@ export default async function PlacePage({
                       lat: facility.coord.lat,
                       lng: facility.coord.lng,
                       verdict: tc(`facility.${facility.kind}`),
-                      tone: 'plain' as const,
+                      tone: 'facility' as const,
                       href: null,
                     },
                   ],

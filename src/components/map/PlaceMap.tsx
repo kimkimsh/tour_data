@@ -19,8 +19,13 @@ export interface MapPin {
   lng: number;
   /** Verdict word as the list already prints it, or null where the list prints none. */
   verdict: string | null;
-  /** visitable | caution | blocked | unknown | plain — decides fill and outline shape. */
-  tone: 'visitable' | 'caution' | 'blocked' | 'unknown' | 'plain';
+  /**
+   * Fill and shape. The four verdict tones are the list's own badge values; `subject`
+   * is the place a single-place map is about, and `facility` is something beside it.
+   * Those last two carry no verdict, so they must not borrow a verdict's colour or its
+   * glyph — a grey question mark over the place you are reading about says 정보 없음.
+   */
+  tone: 'visitable' | 'caution' | 'blocked' | 'unknown' | 'subject' | 'facility';
   href: string | null;
 }
 
@@ -34,7 +39,8 @@ const TONE_MARK: Record<MapPin['tone'], string> = {
   caution: '⚠',
   blocked: '✕',
   unknown: '?',
-  plain: '●',
+  subject: '●',
+  facility: '▪',
 };
 
 /**
@@ -140,6 +146,10 @@ export function PlaceMap({
         // escaped in markerHtml, because a place title is upstream data.
         icon: { content: markerHtml(pin, index + 1, name), anchor: new maps.Point(16, 16) },
         title: name,
+        // List order, so where two places sit on top of each other — 백제역사문화관 is
+        // inside 백제문화단지 and shares its coordinate to seven decimal places — the one
+        // the list puts first is the one on top.
+        zIndex: pins.length - index,
       });
     });
 

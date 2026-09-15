@@ -117,6 +117,30 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /*
+    keep-all is the Korean half of this rule. The default breaks a Hangul line at any
+    syllable, so 「공주·부여 무장애 정보 갭 리포트」 came apart inside 무장애 at phone width —
+    a word split down the middle, which is what the property exists to stop. It only
+    affects CJK, so the English headings are unchanged; overflow-wrap is the escape
+    hatch for a single token wider than the column, which keep-all would otherwise
+    push past the edge.
+  */
+  h1,
+  h2,
+  h3,
+  .item-head,
+  .subhead,
+  p,
+  li,
+  dt,
+  dd,
+  caption,
+  th,
+  td {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
   h1,
   h2,
   h3 {
@@ -562,8 +586,13 @@
     color: var(--color-accent);
   }
 
+  /*
+    Taller than wide enough to hold two cities. 공주 and 부여 are 40km apart on the
+    north-south axis, so a letterbox fits that span by zooming out until both are
+    specks with half a province either side of them.
+  */
   .map-canvas {
-    block-size: clamp(18rem, 42vw, 26rem);
+    block-size: clamp(20rem, 52vw, 32rem);
     inline-size: 100%;
     border: 1px solid var(--color-rule-strong);
     background: var(--color-surface);
@@ -601,13 +630,17 @@
   .map-pin--blocked {
     background: var(--color-badge-blocked);
   }
-  .map-pin--plain {
+  /* The place this map is about. Round like the verdict pins, because it is a place,
+     and in the accent rather than a verdict colour, because it carries no verdict. */
+  .map-pin--subject {
     background: var(--color-accent);
     color: var(--color-accent-ink);
   }
 
-  /* Squared off, so shape separates a facility from a place at a glance. */
-  .map-pin--plain {
+  /* Squared off and in the ink, so neither shape nor colour can be read as a verdict. */
+  .map-pin--facility {
+    background: var(--color-ink);
+    color: var(--color-paper);
     border-radius: 4px;
   }
 
@@ -748,16 +781,56 @@
     border-color: var(--color-state-bad);
   }
 
-  /* Wide content scrolls inside its own box; the page never scrolls sideways. */
+  /*
+    Wide content scrolls inside its own box; the page never scrolls sideways.
+
+    tabindex and a name belong on every element that carries this class, because a
+    box that scrolls and cannot be focused is unreachable from a keyboard — and the
+    scan only notices once the box is actually narrower than its content, which on
+    these tables happens at phone width and not at the width a desktop run measures.
+  */
   .scroll-x {
     overflow-x: auto;
     max-inline-size: 100%;
+    /*
+      Two shadows that sit against whichever edge still has content behind it, so a
+      table wider than the phone says so instead of looking finished. The first pair
+      scrolls with the content (`local`) and covers the shadow when that edge is
+      reached; the second pair is pinned to the box. No script, and nothing to read:
+      the region above already carries a name for anyone who is not looking.
+    */
+    background:
+      linear-gradient(to right, var(--color-paper) 40%, transparent) left center / 2.5rem 100%
+        no-repeat local,
+      linear-gradient(to left, var(--color-paper) 40%, transparent) right center / 2.5rem 100%
+        no-repeat local,
+      linear-gradient(to right, var(--color-rule) 0%, transparent 100%) left center / 0.75rem 100%
+        no-repeat scroll,
+      linear-gradient(to left, var(--color-rule) 0%, transparent 100%) right center / 0.75rem 100%
+        no-repeat scroll;
   }
 
+  .scroll-x:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /*
+    The floor is what makes the box above scroll instead of crushing. Without it the
+    table obeys inline-size: 100%, the numeric columns hold their content width, and
+    everything left over goes to the first column — at 390px that was about 20px, so
+    「공산성」 came out one syllable per line, three lines tall, down a table of thirteen
+    places.
+  */
   .data-table {
     inline-size: 100%;
+    min-inline-size: 38rem;
     border-collapse: collapse;
     font-size: 0.94rem;
+  }
+
+  .data-table th[scope="row"] {
+    text-wrap: balance;
   }
 
   .data-table caption {

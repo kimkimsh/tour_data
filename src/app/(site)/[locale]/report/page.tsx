@@ -55,17 +55,35 @@ export default async function ReportPage({
     title: entry.i18n[locale as ContentLocale]?.title ?? entry.i18n.ko?.title ?? entry.slug,
   }));
 
+  const afterwards = t.raw('afterwards') as string[];
+
   return (
     <div className="grid gap-8">
       <header className="grid gap-2">
         <h1>{t('title')}</h1>
       </header>
 
-      <ReportForm
-        places={places}
-        initialPoiSlug={places.some((p) => p.slug === poi) ? (poi ?? null) : null}
-        initialDetail={note ?? null}
-      />
+      <div className="page-split">
+        <ReportForm
+          places={places}
+          initialPoiSlug={places.some((p) => p.slug === poi) ? (poi ?? null) : null}
+          initialDetail={note ?? null}
+        />
+
+        {/* What happens to the text after it is sent, beside the box it is typed into
+            rather than as a warning above it. Three of these four facts used to be a
+            single sentence stacked over the first field, where a form is read last. */}
+        <aside className="page-split__aside" aria-labelledby="after-posting">
+          <h2 id="after-posting" className="subhead">
+            {t('afterwardsTitle')}
+          </h2>
+          <ul className="grid list-disc gap-2 ps-5 t-sm">
+            {afterwards.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </aside>
+      </div>
     </div>
   );
 }

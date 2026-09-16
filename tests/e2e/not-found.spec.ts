@@ -48,3 +48,28 @@ test('the missing-place screen keeps the site around it', async ({ page }) => {
   await expect(page.getByRole('navigation', { name: '주요 메뉴' })).toBeVisible();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('이 주소에는 아무것도 없습니다');
 });
+
+/**
+ * An address that matches no route at all is served by app/global-not-found.tsx, which
+ * renders the whole document itself because this app has three root layouts and no
+ * single one to compose a 404 from.
+ *
+ * One <html>, and nothing but ours. The version before it rendered a second <html> inside
+ * the stand-in layout Next supplies, which the parser merged and React then reported as
+ * an attribute mismatch on every 404.
+ */
+test('an unmatched address renders one document, in both languages', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error' && message.text().includes('hydrat')) errors.push(message.text());
+  });
+
+  await page.goto('/ko/nope');
+  expect(await page.locator('html').count()).toBe(1);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('이 주소에는 아무것도 없습니다');
+  // The English half, and its own lang: an unmatched address carries no locale to read.
+  await expect(page.getByRole('heading', { level: 2 })).toHaveText('There is nothing at this address');
+  await expect(page.locator('[lang="en"]').first()).toBeVisible();
+  expect(errors).toEqual([]);
+});

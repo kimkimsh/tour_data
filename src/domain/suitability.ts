@@ -185,11 +185,21 @@ function personaFit(facts: NormalisedFact[], personaId: PersonaId | null): numbe
   return denominator === 0 ? 0 : numerator / denominator;
 }
 
+/**
+ * Infinity for anything that is not a plain YYYY-MM-DD, which bins the item into the
+ * oldest freshness bucket. Date.parse alone is not the guard: it accepts KTO's raw
+ * 14-digit stamp as a year and returns a date, and it accepts the same string in two
+ * time zones. Negative ages are clamped to 0 — a check date in the future is a data
+ * fault, and reading it as maximally fresh is the one interpretation that flatters.
+ */
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
 function daysBetween(fromIso: string, toIso: string): number {
+  if (!ISO_DATE.test(fromIso) || !ISO_DATE.test(toIso)) return Number.POSITIVE_INFINITY;
   const from = Date.parse(fromIso);
   const to = Date.parse(toIso);
   if (Number.isNaN(from) || Number.isNaN(to)) return Number.POSITIVE_INFINITY;
-  return (to - from) / 86_400_000;
+  return Math.max(0, (to - from) / 86_400_000);
 }
 
 /**
@@ -234,17 +244,13 @@ function pickAlternatives(
   const trigger = self.label === '대체추천' || better.length > 0;
   if (!trigger) return [];
 
-  // Better label first, then the higher score inside the same label.
-  // A score comparison alone would make six equally sparse POIs recommend each other.
-  //
-  // '대체추천' is excluded from the same-label arm, which is the whole reason the
-  // comparison is on labels rather than scores: a place with a confirmed critical
-  // barrier is never somewhere to go instead, however much higher its number is.
-  const sameLabelHigher =
-    self.label === '대체추천'
-      ? []
-      : candidates.filter((c) => LABEL_RANK[c.label] === selfRank && c.score > self.score);
-  return [...better, ...sameLabelHigher]
+  // A better label, and nothing else. There used to be a second arm for a place with
+  // the same label and a higher score, and the screen no longer shows a score — so
+  // "a better verdict under the same conditions" would have been offering a place
+  // whose only advantage the reader cannot see, on a figure that is a mean over
+  // whichever items each of the two happens to have. A label is the same question at
+  // both places, which is what makes the comparison sayable.
+  return [...better]
     .sort(
       (a, b) =>
         LABEL_RANK[a.label] - LABEL_RANK[b.label] ||
@@ -290,11 +296,16 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
   // no-condition case the whole catalogue instead made '방문가능' a claim about 수어 안내
   // for a visitor who never said they needed it, and no place in the dataset could
   // clear it.
+  // Catalogue order for the same reason unknownCriticals below takes it: this list is
+  // printed as 「기준 항목」, and flatMap order made the sentence depend on which
+  // condition the visitor happened to tick first.
   const requiredCodes = (
     personaIds.length === 0
       ? [...GENERAL_VERDICT_CODES]
       : Array.from(new Set(personaIds.flatMap((id) => criticalCodesFor(id))))
-  ).filter((code) => byCode.has(code));
+  )
+    .filter((code) => byCode.has(code))
+    .sort((a, b) => catalogueIndex(a) - catalogueIndex(b));
   const requiredFacts = requiredCodes.map((code) => byCode.get(code)!);
   const knownCriticalBlockers = requiredFacts
     .filter((f) => f.status === 'unsupported')
@@ -308,6 +319,8 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     .map((f) => f.capabilityCode)
     .sort((a, b) => catalogueIndex(a) - catalogueIndex(b));
 
+  const noVerdictBasis = findNoVerdictBasis(personaIds, byCode, requiredCodes);
+
   let score = score0;
   let label: SuitabilityLabel;
 
@@ -316,10 +329,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     // path to the "go elsewhere" label. A low score alone never produces it.
     label = '대체추천';
     score = Math.min(score, BLOCKED_SCORE_CEILING);
-  } else if (
-    noVerdictForAnyPersona(personaIds, byCode, requiredCodes) ||
-    requiredFacts.length === 0
-  ) {
+  } else if (noVerdictBasis !== null || requiredFacts.length === 0) {
     // Rule 2. More than half of what the verdict rests on is unknown, so there is no
     // verdict to give. The second arm covers the case where the whole required set
     // turned out not to apply to this kind of place, which leaves nothing to judge on.
@@ -347,11 +357,30 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     evidenceConfidence,
     knownCriticalBlockers,
     unknownCriticals,
+    perPersona:
+      personaIds.length < 2
+        ? []
+        : personaIds.map((id) => {
+            // The whole calculation again, one condition at a time. The recursion is
+            // one level deep by construction — the inner call has a single condition,
+            // so it takes this same branch and stops. Alternatives are dropped from
+            // the inner input: they are a property of the group's verdict, not of one
+            // companion's, and computing them per companion would be work nothing reads.
+            const own = calculateSuitability({ ...input, personaIds: [id], scoredAlternatives: [] });
+            return {
+              personaId: id,
+              label: own.label,
+              requiredCodes: own.requiredCodes,
+              unknownCriticals: own.unknownCriticals,
+              knownCriticalBlockers: own.knownCriticalBlockers,
+            };
+          }),
     deductions: buildDeductions(facts),
     alternatives: pickAlternatives({ label, score }, input.scoredAlternatives),
     relevantKnownCount: relevantFacts.filter((f) => f.status !== 'unknown').length,
     relevantTotalCount: relevantFacts.length,
     requiredCodes,
+    noVerdictBasis: label === '정보없음' ? noVerdictBasis : null,
     ktoUnknownCount: included.filter((f) => f.isKtoScored && f.status === 'unknown').length,
     ktoTotalCount: included.filter((f) => f.isKtoScored).length,
     dataDates: included.map((f) => ({
@@ -372,19 +401,31 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
  * P2b with a wheelchair-using companion gives 주의 and a 95 — on identical evidence,
  * because 2 of the combined 7 is not a majority even though it is all of what that
  * visitor depends on.
+ *
+ * Returns the companion the rule fired on, not just a yes. The screen prints the
+ * ratio, and printing the union's ratio there put "7개 중 3개" under a rule that needs
+ * more than half — live on 6 of the 13 places for a wheelchair-and-deaf pair.
  */
-function noVerdictForAnyPersona(
+function findNoVerdictBasis(
   personaIds: ReadonlyArray<PersonaId>,
   byCode: ReadonlyMap<string, NormalisedFact>,
   generalCodes: ReadonlyArray<string>,
-): boolean {
-  const sets =
+): { personaId: PersonaId | null; total: number; unknown: number } | null {
+  const sets: { personaId: PersonaId | null; codes: readonly string[] }[] =
     personaIds.length === 0
-      ? [generalCodes]
-      : personaIds.map((id) => criticalCodesFor(id).filter((code) => byCode.has(code)));
-  return sets.some((required) => {
-    if (required.length === 0) return false;
-    const unknown = required.filter((code) => byCode.get(code)!.status === 'unknown').length;
-    return unknown / required.length > 0.5;
-  });
+      ? [{ personaId: null, codes: generalCodes }]
+      : personaIds.map((id) => ({
+          personaId: id,
+          codes: criticalCodesFor(id).filter((code) => byCode.has(code)),
+        }));
+  for (const { personaId, codes } of sets) {
+    // An empty set is not a companion with nothing to worry about — it is a companion
+    // this place answers nothing for, which is the same absence of a basis the
+    // single-persona arm already calls 정보없음. Returning false here let a second
+    // companion's known items carry a 방문가능 badge that claimed for both.
+    if (codes.length === 0) return { personaId, total: 0, unknown: 0 };
+    const unknown = codes.filter((code) => byCode.get(code)!.status === 'unknown').length;
+    if (unknown / codes.length > 0.5) return { personaId, total: codes.length, unknown };
+  }
+  return null;
 }

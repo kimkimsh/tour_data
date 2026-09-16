@@ -68,20 +68,29 @@ export function ReportRow({
     ? (report.category as ReportCategory)
     : 'other';
 
+  /**
+   * The action answers with a code rather than throwing, but the call itself still
+   * rejects when the network is gone. Without the guard the button stayed disabled
+   * with nothing said, which is the one state an operator cannot act on.
+   *
+   * result.message is not announced. It is an internal code — not_permitted,
+   * no_session, failed — and it was being appended to translated copy, so the reader
+   * heard a Postgres-shaped word at the end of a Korean sentence.
+   */
   const toggleHidden = async () => {
     setBusy(true);
-    const result = await setReportHidden({
-      id: report.id,
-      hidden: !report.is_hidden,
-      reason: report.is_hidden ? null : reason,
-    });
-    setBusy(false);
-    // The timestamp is what makes a second identical action announce again.
-    announce(
-      result.ok
-        ? `${report.is_hidden ? t('unhide') : t('hide')} · ${new Date().toLocaleTimeString()}`
-        : `${t('actionFailed')} ${result.message ?? ''}`,
-    );
+    try {
+      const result = await setReportHidden({
+        id: report.id,
+        hidden: !report.is_hidden,
+        reason: report.is_hidden ? null : reason,
+      });
+      announce(result.ok ? (report.is_hidden ? t('unhide') : t('hide')) : t('actionFailed'));
+    } catch {
+      announce(t('actionFailed'));
+    } finally {
+      setBusy(false);
+    }
   };
 
   const copyFact = async () => {
@@ -98,12 +107,12 @@ export function ReportRow({
     } catch {
       // A denied permission or a page served over plain http rejects here. Saying so is
       // what stops the operator pasting whatever the clipboard held before.
-      announce(`${t('copyFailed')} (${new Date().toLocaleTimeString()})`);
+      announce(t('copyFailed'));
       return;
     }
     // The whole sentence, including the "paste it and commit" half: that instruction
     // is the audit step this feature depends on.
-    announce(`${t('copied')} (${new Date().toLocaleTimeString()})`);
+    announce(t('copied'));
   };
 
   return (

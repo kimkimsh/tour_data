@@ -59,8 +59,16 @@ export const CAPABILITIES: readonly Capability[] = [
   { code: 'crowd_forecast', ktoField: null, labelKo: '예측 혼잡도', labelEn: 'Expected crowds', axis: 'context' },
   { code: 'weather_warning', ktoField: null, labelKo: '기상 특보', labelEn: 'Weather warning', axis: 'context' },
   { code: 'weather_forecast', ktoField: null, labelKo: '당일 기상 예보', labelEn: "Today's forecast", axis: 'context' },
-  { code: 'emergency_distance', ktoField: null, labelKo: '응급실 거리', labelEn: 'Nearest emergency department', axis: 'context' },
-  { code: 'aed_distance', ktoField: null, labelKo: '자동심장충격기 거리', labelEn: 'Nearest defibrillator (AED)', axis: 'context' },
+  //
+  // Distance to an emergency department or a defibrillator is not a capability and is
+  // deliberately absent. A capability row has to resolve to supported/partial/
+  // unsupported, and there is no distance at which emergency care becomes unavailable
+  // — reaching it depends on the road, the ambulance and what the department can
+  // treat. Any cutoff put here is invented, and it publishes as a verdict: at 1.6km a
+  // 500m/1km pair marked 공산성 unsupported, in red, under the word for "bad".
+  // content/facilities.json carries the distances, and the safety section of the place
+  // screen prints them with the institution's name, its source and the word 직선거리,
+  // which is a fact the visitor can weigh.
 ] as const;
 
 export type CapabilityCode = (typeof CAPABILITIES)[number]['code'];

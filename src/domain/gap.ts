@@ -1,4 +1,11 @@
-import type { GapFillRow, GapReport, GapRow, PersonaId, SuitabilityFactInput } from './types';
+import type {
+  GapFillRow,
+  GapItemRow,
+  GapReport,
+  GapRow,
+  PersonaId,
+  SuitabilityFactInput,
+} from './types';
 import { CAPABILITIES, catalogueIndex, getCapability } from './capabilities';
 import { PERSONAS, gradeFor } from './personas';
 
@@ -160,7 +167,51 @@ export function computeGapReport(
       (a.poiSlug < b.poiSlug ? -1 : a.poiSlug > b.poiSlug ? 1 : 0),
   );
 
-  return { fill, priorities, notRegisteredPoiSlugs };
+  /**
+   * The same facts, counted per item.
+   *
+   * Sorted so the top of the list is the work that changes the most verdicts: items a
+   * condition takes its verdict on first, then by how many places are still blank.
+   * not_applicable rows leave both the count and the denominator — an item that cannot
+   * exist at a place is not a gap there.
+   */
+  const items: GapItemRow[] = [];
+  for (const capability of CAPABILITIES) {
+    if (capability.ktoField === null) continue;
+    const forCode = facts.filter(
+      (f) =>
+        f.capabilityCode === capability.code &&
+        f.absenceKind !== 'not_applicable' &&
+        !notRegisteredPoiSlugs.includes(f.poiSlug),
+    );
+    if (forCode.length === 0) continue;
+    const unknownPoiSlugs = forCode.filter((f) => f.status === 'unknown').map((f) => f.poiSlug).sort();
+    const blockedPoiSlugs = forCode
+      .filter((f) => f.status === 'unsupported')
+      .map((f) => f.poiSlug)
+      .sort();
+    if (unknownPoiSlugs.length === 0 && blockedPoiSlugs.length === 0) continue;
+    items.push({
+      capabilityCode: capability.code,
+      labelKo: capability.labelKo,
+      labelEn: capability.labelEn,
+      unknownPoiSlugs,
+      blockedPoiSlugs,
+      applicableCount: forCode.length,
+      criticalFor: PERSONAS.filter((p) => gradeFor(p.id as PersonaId, capability.code) === 'critical').map(
+        (p) => p.id as PersonaId,
+      ),
+    });
+  }
+  items.sort(
+    (a, b) =>
+      Number(b.criticalFor.length > 0) - Number(a.criticalFor.length > 0) ||
+      b.unknownPoiSlugs.length - a.unknownPoiSlugs.length ||
+      b.blockedPoiSlugs.length - a.blockedPoiSlugs.length ||
+      catalogueIndex(a.capabilityCode) - catalogueIndex(b.capabilityCode),
+  );
+
+  return { fill, priorities, items, notRegisteredPoiSlugs };
 }
 
 /**

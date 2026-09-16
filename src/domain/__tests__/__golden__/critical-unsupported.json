@@ -280,24 +280,6 @@
         "source": "derived_facility",
         "verifiedAt": "2026-08-01",
         "isKtoScored": false
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": false
-      },
-      {
-        "capabilityCode": "aed_distance",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": false
       }
     ],
     "personaIds": [
@@ -311,7 +293,7 @@
     "score": 49,
     "label": "대체추천",
     "layerA": 0.9500000000000002,
-    "layerB": 0.9824561403508771,
+    "layerB": 0.9814814814814815,
     "axes": [
       {
         "axis": "entry",
@@ -370,8 +352,8 @@
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
-        "knownCount": 5,
-        "totalCount": 5
+        "knownCount": 3,
+        "totalCount": 3
       }
     ],
     "freshness": 1,
@@ -381,6 +363,7 @@
       "elevator"
     ],
     "unknownCriticals": [],
+    "perPersona": [],
     "deductions": [
       {
         "capabilityCode": "elevator",
@@ -390,8 +373,8 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 14,
-    "relevantTotalCount": 14,
+    "relevantKnownCount": 13,
+    "relevantTotalCount": 13,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -399,6 +382,7 @@
       "elevator",
       "restroom"
     ],
+    "noVerdictBasis": null,
     "ktoUnknownCount": 0,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -554,16 +538,6 @@
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": "2026-08-01",
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "verifiedAt": "2026-08-01",
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "aed_distance",
         "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       }

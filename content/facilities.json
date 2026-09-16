@@ -18,7 +18,7 @@
     "name": "장애인 화장실 (안내소 옆, 금서루 아래)",
     "coord": null,
     "phone": null,
-    "detail": "안내소 옆, 금서루 아래",
+    "detail": null,
     "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de",
     "checkedAt": "2026-09-02"
   },
@@ -28,8 +28,8 @@
     "name": "충남광역이동지원센터",
     "coord": null,
     "phone": "1644-5588",
-    "detail": "연중무휴 24시간 운행합니다. 공주시 접수 번호는 공식 출처 두 곳이 041-852-5858과 041-881-7632로 서로 달라서, 어느 쪽이 맞는지 확인할 때까지 싣지 않습니다.",
-    "sourceNote": "https://www.16445588.or.kr/",
+    "detail": "연중무휴 24시간 운행합니다.",
+    "sourceNote": "https://www.16445588.or.kr/ · 공주시 접수 번호는 공식 출처 두 곳이 041-852-5858과 041-881-7632로 서로 달라서, 어느 쪽이 맞는지 확인할 때까지 싣지 않습니다.",
     "checkedAt": "2026-09-02"
   },
   {
@@ -74,7 +74,7 @@
     "name": "충남광역이동지원센터",
     "coord": null,
     "phone": "1644-5588",
-    "detail": "연중무휴 24시간 운행합니다",
+    "detail": "연중무휴 24시간 운행합니다.",
     "sourceNote": "https://www.16445588.or.kr/",
     "checkedAt": "2026-09-02"
   },
@@ -97,7 +97,7 @@
     "name": "충남광역이동지원센터",
     "coord": null,
     "phone": "1644-5588",
-    "detail": "연중무휴 24시간 운행합니다",
+    "detail": "연중무휴 24시간 운행합니다.",
     "sourceNote": "https://www.16445588.or.kr/",
     "checkedAt": "2026-09-02"
   },
@@ -120,7 +120,7 @@
     "name": "장애인 화장실 (주차장 안쪽)",
     "coord": null,
     "phone": null,
-    "detail": "주차장 안쪽",
+    "detail": null,
     "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c",
     "checkedAt": "2026-09-02"
   },

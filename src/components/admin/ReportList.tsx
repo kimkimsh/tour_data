@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
+import { useAnnouncer } from '@/components/a11y/useAnnouncer';
 import { ReportRow, type AdminReport } from './ReportRow';
 
 /**
@@ -13,14 +13,14 @@ import { ReportRow, type AdminReport } from './ReportRow';
  * several actions ago.
  */
 export function ReportList({ reports }: { reports: ReadonlyArray<AdminReport> }) {
-  const [announcement, setAnnouncement] = useState('');
+  const { announcement, announce } = useAnnouncer();
 
   return (
     <>
       <LiveRegion message={announcement} />
       <ul className="grid gap-4">
         {reports.map((report) => (
-          <ReportRow key={report.id} report={report} announce={setAnnouncement} />
+          <ReportRow key={report.id} report={report} announce={announce} />
         ))}
       </ul>
     </>

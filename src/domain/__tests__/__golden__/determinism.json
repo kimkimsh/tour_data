@@ -280,24 +280,6 @@
         "source": "derived_facility",
         "verifiedAt": "2026-08-01",
         "isKtoScored": false
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": false
-      },
-      {
-        "capabilityCode": "aed_distance",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": false
       }
     ],
     "personaIds": [
@@ -371,17 +353,46 @@
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
-        "knownCount": 5,
-        "totalCount": 5
+        "knownCount": 3,
+        "totalCount": 3
       }
     ],
     "freshness": 1,
-    "coverage": 0.9,
-    "evidenceConfidence": 90,
+    "coverage": 0.8947368421052632,
+    "evidenceConfidence": 89,
     "knownCriticalBlockers": [],
     "unknownCriticals": [
       "elevator",
       "sign_guide"
+    ],
+    "perPersona": [
+      {
+        "personaId": "P1a",
+        "label": "주의",
+        "requiredCodes": [
+          "access_route",
+          "entrance_passage",
+          "wheelchair",
+          "elevator",
+          "restroom"
+        ],
+        "unknownCriticals": [
+          "elevator"
+        ],
+        "knownCriticalBlockers": []
+      },
+      {
+        "personaId": "P2b",
+        "label": "주의",
+        "requiredCodes": [
+          "sign_guide",
+          "video_caption"
+        ],
+        "unknownCriticals": [
+          "sign_guide"
+        ],
+        "knownCriticalBlockers": []
+      }
     ],
     "deductions": [
       {
@@ -398,8 +409,8 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 18,
-    "relevantTotalCount": 20,
+    "relevantKnownCount": 17,
+    "relevantTotalCount": 19,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -409,6 +420,7 @@
       "sign_guide",
       "video_caption"
     ],
+    "noVerdictBasis": null,
     "ktoUnknownCount": 2,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -564,16 +576,6 @@
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": "2026-08-01",
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "verifiedAt": "2026-08-01",
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "aed_distance",
         "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       }

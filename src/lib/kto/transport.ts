@@ -183,6 +183,20 @@ export function isOperationRetired(result: KtoResult | KtoPagesResult): boolean 
 }
 
 /**
+ * A key or caller fault, which answers the same way on every call for the rest of the
+ * run. `30` is what an Encoding-form service key gets; a rotated or expired key gets
+ * it too.
+ *
+ * Kept apart from the transport counter on purpose. The gateway did answer, so
+ * gatewayReached counts it as contact and requireGatewayWasReachable stays silent —
+ * which is right for a reachability check and wrong for the question a stage needs
+ * answered, namely whether what came back can be built into a snapshot.
+ */
+export function isFatalAnswer(result: KtoResult | KtoPagesResult): boolean {
+  return !result.ok && (FATAL_RESULT_CODES as readonly string[]).includes(result.resultCode);
+}
+
+/**
  * The three shapes items arrives in: an array, a bare object when there is exactly one
  * row, and the empty string when there are none. docs/spec/03_external_data.md 1.4.
  */

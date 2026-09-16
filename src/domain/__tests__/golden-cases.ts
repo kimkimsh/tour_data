@@ -216,6 +216,42 @@ export function goldenCases(): GoldenCase[] {
         }),
       ),
     },
+    {
+      // A companion whose whole critical set cannot exist here. Rule 2 has nothing to
+      // take a ratio over, and the answer is still "no verdict for that person" — not
+      // a badge earned on the other companion's items. Alone this case is 정보없음
+      // through the requiredFacts.length === 0 arm; paired it used to come out 방문가능
+      // with the deaf visitor's basis silently gone.
+      name: 'critical-set-all-not-applicable-pair',
+      input: withPersonas(
+        ['P2b', 'P1a'],
+        facts('supported', {
+          sign_guide: { status: 'unknown', absenceKind: 'not_applicable' },
+          video_caption: { status: 'unknown', absenceKind: 'not_applicable' },
+        }),
+      ),
+    },
+    {
+      // noVerdictBasis names the companion the rule fired on, not the union. Here P2b
+      // is 2 of 2 unknown and P1a is 0 of 5, so the union ratio is 2/7 — under the half
+      // the rule tests, which is the number the screen used to print.
+      name: 'no-verdict-basis-names-the-companion',
+      input: withPersonas(['P1a', 'P2b'], unknownOn(['sign_guide', 'video_caption'])),
+    },
+    {
+      // The middle freshness bucket, and both of its edges. Every other case sits at
+      // 50 days or 476, so the 0.9 constant and the 90/365 boundaries were unpinned:
+      // changing 0.9 to any other value left the suite green.
+      name: 'freshness-middle-bucket',
+      input: input({
+        facts: facts('supported', {
+          access_route: { verifiedAt: '2026-06-22' }, // 90 days: top bucket, inclusive
+          entrance_passage: { verifiedAt: '2026-06-21' }, // 91 days: middle bucket
+          elevator: { verifiedAt: '2025-09-20' }, // 365 days: middle bucket, inclusive
+          restroom: { verifiedAt: '2025-09-19' }, // 366 days: oldest bucket
+        }),
+      }),
+    },
   ];
 }
 

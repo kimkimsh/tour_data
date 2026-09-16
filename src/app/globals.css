@@ -46,13 +46,10 @@
   --text-md: 1.1875rem;
   --text-lg: 1.5rem;
   --text-provenance: 0.8125rem;
-  --text-provenance--line-height: 1.5;
 
   --spacing-rail: 15rem;
   --container-shell: 68rem;
   --container-prose: 40rem;
-  /* Where the measure-plus-rail layout turns on. Below it the rail stacks under. */
-  --rail-breakpoint: 48rem;
 }
 
 /*
@@ -397,8 +394,9 @@
     /*
       The rail is the argument of this whole interface — every claim on the left has its
       source on the right — and without a drawn edge it read as a caption that happened
-      to be further over. Below the breakpoint the columns stack, so the edge moves to
-      the top of the provenance line instead.
+      to be further over. Only above the breakpoint: below it the columns stack, the
+      source sits under the claim it belongs to, and the row's own top rule already
+      separates one entry from the next.
     */
     .evidence__provenance {
       border-inline-start: 1px solid var(--color-rule);
@@ -605,9 +603,11 @@
     white text.
   */
   .map-pin {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 2px;
     inline-size: 32px;
     block-size: 32px;
     border-radius: 999px;
@@ -619,6 +619,23 @@
     font-variant-numeric: tabular-nums;
     text-decoration: none;
     box-shadow: 0 0 0 1px rgb(0 0 0 / 0.35);
+  }
+
+  /*
+    Drawn at 32px so thirteen markers stay apart on a phone-width map; the target a
+    finger has to hit is the 44px this site uses everywhere else, which this adds
+    without changing what is drawn.
+  */
+  .map-pin::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: inherit;
+  }
+
+  /* A pin that leads somewhere carries its list number as well as the glyph. */
+  .map-pin--pill {
+    inline-size: 48px;
   }
 
   .map-pin--visitable {
@@ -867,17 +884,38 @@
 }
 
 /*
-  Chrome implements @page size and margin plus the break-* properties, and nothing
-  else from the paged-media spec: there are no @page margin boxes, so counter(page)
-  cannot be printed and there is no way to number pages from CSS. The attribution
-  therefore rides in a position:fixed strip, which Chrome does repeat on every printed
-  page — the one running-footer mechanism it supports. @page's bottom margin is
-  widened to leave room for it.
+  Paper is white whatever the screen was. `print` and `prefers-color-scheme` are
+  orthogonal, so a browser in dark mode still carries the dark palette into the print
+  stylesheet: measured, --color-ink-2 reached the page as #ABABAB on white, 2.29:1,
+  and every link printed at 1.89:1. `color-scheme: light` does not undo it either —
+  that governs the UA's own widgets, not custom properties. The light values are
+  therefore re-declared here, and scripts/check-contrast.ts compares this block against
+  the light one so the copy cannot drift.
 */
 @media print {
   :root {
     color-scheme: light;
     font-size: 11pt;
+    /* tokens: print */
+    --color-paper: #FFFFFF;
+    --color-surface: #F5F4F1;
+    --color-ink: #1A1A1A;
+    --color-ink-2: #595959;
+    --color-rule: #A8A49B;
+    --color-rule-strong: #8C8A84;
+    --color-accent: #2E5A5E;
+    --color-accent-ink: #FFFFFF;
+    --color-focus: #0F4C81;
+    --color-gilt: #6B4B12;
+    --color-state-ok: #1B7A2E;
+    --color-state-warn: #8A6100;
+    --color-state-bad: #C0392B;
+    --color-badge-visitable: #1B7A2E;
+    --color-badge-caution: #8A6100;
+    --color-badge-blocked: #C0392B;
+    --color-badge-unknown: #5A5A5A;
+    --color-badge-ink: #FFFFFF;
+    /* end tokens: print */
   }
 
   body {
@@ -916,33 +954,36 @@
     -webkit-print-color-adjust: exact;
   }
 
-  .print-running-footer {
-    display: block;
-    position: fixed;
-    inset-block-end: 0;
-    inset-inline: 0;
-    border-top: 0.5pt solid #767676;
-    padding-block-start: 2mm;
-    font-size: 8pt;
-    line-height: 1.35;
-    color: #000000;
-  }
 }
 
 /*
-  Scoped to screen. Unscoped, this matched in print too, at the same specificity as
-  the @media print rule above and later in the file — so the running footer the
-  licence terms ask for was `display: none` on every printed page, under a @page
-  bottom margin widened to make room for it.
-*/
-@media screen {
-  .print-running-footer {
-    display: none;
-  }
-}
+  The repeating footer and the page numbers, both in @page margin boxes.
 
+  It used to be a position:fixed strip, on the belief that Chrome implements no margin
+  boxes. Chrome has implemented them since 131, and the belief cost twice over: a
+  fixed box in print resolves inside the page content area, so widening the bottom
+  margin moved the strip down with the text instead of away from it — measured, the
+  attribution overprinted the last body line by 1.25pt on every full page — and page
+  numbers, which docs/spec/08_accessibility_legal.md asks for, were written off as
+  impossible.
+
+  --print-attrib is set on the root element by the print screen. The page context
+  inherits from the root element and from nowhere else, so setting it on the article
+  would not reach here.
+*/
 @page {
   size: A4;
-  /* Wider at the bottom than the other three: .print-running-footer sits there. */
-  margin: 20mm 20mm 28mm;
+  margin: 20mm 20mm 24mm;
+
+  @bottom-left {
+    content: var(--print-attrib, "");
+    font-size: 8pt;
+    color: #333333;
+  }
+
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font-size: 8pt;
+    color: #333333;
+  }
 }

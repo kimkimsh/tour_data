@@ -1,8 +1,9 @@
 import { z } from 'zod';
+import { getTranslations } from 'next-intl/server';
 
 import { toGpx } from '@/domain/gpx';
 import { diaryCoords } from '@/domain/diary';
-import { PERSONA_IDS, type DiaryEntry } from '@/domain/types';
+import { PERSONA_IDS, type DiaryEntry, type Locale } from '@/domain/types';
 
 /**
  * The trip record as a GPX 1.1 file.
@@ -28,6 +29,11 @@ const FILE_STEM_KO = '여행기록';
  * Same two origins as the S5 route export, and worded the same way: the place
  * coordinate comes from the KTO API, the step coordinates were written here. A GPX
  * file leaves the app, so it has to carry that inside it.
+ *
+ * Korean in both locales, unlike the track name beside it. It names a Korean agency
+ * and this service's own Korean name, and there is no message key holding the English
+ * form of the second half — the sentence that says who wrote the step coordinates.
+ * Substituting the footer's source line would drop that half.
  */
 const GPX_ATTRIBUTION = '출처: 한국관광공사 TourAPI · 경로 단계는 모두의 백제 작성';
 
@@ -78,19 +84,27 @@ export async function POST(request: Request) {
 
   // Typed, so the compiler is what checks the request schema against the contract.
   const entry: DiaryEntry = parsed.data;
+  // The same parameter the text export reads, and for the same reason: the track name
+  // a map app displays and the name the file is saved under were Korean whatever the
+  // screen the visitor pressed the button on said.
+  const requested = new URL(request.url).searchParams.get('locale');
+  const locale: Locale = requested === 'en' ? 'en' : 'ko';
+  const t = await getTranslations({ locale, namespace: 'diary' });
   const gpx = toGpx(diaryCoords(entry), {
-    name: `${FILE_STEM_KO} ${entry.date}`,
+    name: `${t('printTitle')} ${entry.date}`,
     attribution: GPX_ATTRIBUTION,
   });
 
   const asciiName = `${FILE_STEM_ASCII}-${entry.date}.gpx`;
-  const koreanName = `${FILE_STEM_KO}-${entry.date}.gpx`;
+  // filename* is the one that survives, so it carries the reader's language. On /en
+  // that is the ASCII stem, which is already English rather than a transliteration.
+  const preferredName = locale === 'en' ? asciiName : `${FILE_STEM_KO}-${entry.date}.gpx`;
   return new Response(gpx, {
     headers: {
       'content-type': 'application/gpx+xml',
       // Some browsers mangle a non-ASCII filename, so both forms are sent: the
       // quoted one is the fallback, filename* is the one that survives.
-      'content-disposition': `attachment; filename="${asciiName}"; filename*=UTF-8''${encodeURIComponent(koreanName)}`,
+      'content-disposition': `attachment; filename="${asciiName}"; filename*=UTF-8''${encodeURIComponent(preferredName)}`,
       'cache-control': 'no-store',
     },
   });

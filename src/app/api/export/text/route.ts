@@ -64,10 +64,18 @@ const Body = z.object({
     .max(MAX_PLACES),
 });
 
-/** No previous value is served in its place: a record dated today built from an old
- *  snapshot would be exactly the stale-data claim this service refuses to make. */
+/**
+ * No previous value is served in its place: a record dated today built from an old
+ * snapshot would be exactly the stale-data claim this service refuses to make.
+ *
+ * The caller gets the fact and nothing else. `message` is what src/lib/data.ts calls
+ * the internal half of a failure — a PostgREST error naming the table and the policy
+ * that refused, or the deployment instruction that names both Supabase environment
+ * variables — and this route reads no session, so the caller is a stranger.
+ */
 function snapshotUnavailable(message: string): Response {
-  return new Response(`snapshot unavailable — ${message}`, {
+  console.error(`export/text: ${message}`);
+  return new Response('snapshot unavailable', {
     status: 503,
     headers: { 'content-type': 'text/plain; charset=utf-8' },
   });

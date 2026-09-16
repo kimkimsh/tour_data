@@ -22,7 +22,12 @@ function flatten(tree: Tree, prefix = ''): string[] {
   });
 }
 
-/** `{name}` and `{count, plural, ...}` alike — the part before the first comma. */
+/**
+ * `{name}` and `{count, plural, ...}` alike — the part before the first comma.
+ *
+ * A plural branch has to open with `#` for this to hold: `one {Verdict for # place}`
+ * reads as a placeholder named `Verdict` and fails the comparison against Korean.
+ */
 function placeholders(value: string): string[] {
   return [...value.matchAll(/\{\s*([A-Za-z0-9_]+)/g)].map((match) => match[1] as string).sort();
 }
@@ -38,6 +43,28 @@ function valueAt(tree: Tree, path: string): string | string[] | undefined {
 
 const koKeys = flatten(ko as Tree);
 const enKeys = flatten(en as Tree);
+
+/**
+ * Every English string, with array members split out, so a check can reach the copy
+ * inside `home.howTo` and `report.afterwards` rather than stopping at the array.
+ */
+function englishStrings(): { key: string; value: string }[] {
+  return enKeys.flatMap((key) => {
+    const value = valueAt(en as Tree, key);
+    if (typeof value === 'string') return [{ key, value }];
+    if (Array.isArray(value)) {
+      return value.map((item, index) => ({ key: `${key}[${index}]`, value: item }));
+    }
+    return [];
+  });
+}
+
+/**
+ * Where a count has no noun after it to agree with, so there is nothing to inflect.
+ * `report.error.tooLong` names the unit in the sentence before: "Details can be up to
+ * 500 characters. This is {count}."
+ */
+const COUNT_WITH_NO_NOUN: readonly string[] = ['report.error.tooLong'];
 
 describe('message files', () => {
   it('cover every locale the router serves', () => {
@@ -69,6 +96,20 @@ describe('message files', () => {
       return a.length === b.length ? [] : [`${key}: ko ${a.length} / en ${b.length}`];
     });
     expect(mismatched, mismatched.join('\n')).toEqual([]);
+  });
+
+  /**
+   * The placeholder test above reads `{count, plural, ...}` as `count`, which is what
+   * lets ko `{count}건` and en `{count, plural, ...}` count as the same placeholder.
+   * The cost is that it cannot see an English count with no plural form behind it, and
+   * "Loaded 1 reports." shipped that way.
+   */
+  it('inflect the noun after every English count', () => {
+    const uninflected = englishStrings()
+      .filter(({ value }) => /\{\s*count\b/.test(value))
+      .filter(({ value }) => !/\{\s*count\s*,\s*plural\s*,/.test(value))
+      .map(({ key }) => key);
+    expect(uninflected, uninflected.join('\n')).toEqual([...COUNT_WITH_NO_NOUN]);
   });
 
   it('have no empty strings', () => {

@@ -3,6 +3,7 @@ import type {
   AlternativePoi,
   PersonaId,
   SuitabilityFactInput,
+  SuitabilityLabel,
   SuitabilityResult,
 } from './types';
 
@@ -75,16 +76,36 @@ export function buildScoreboard(input: ScoreboardInput): ScoreboardEntry[] {
   }));
 }
 
+/** How many of the chosen conditions came out at this label on their own. */
+function personaLabelCount(entry: ScoreboardEntry, label: SuitabilityLabel): number {
+  return entry.result.perPersona.filter((row) => row.label === label).length;
+}
+
+/** Chosen-condition items whose status is known, over the items the verdict rests on. */
+function requiredKnownRatio(entry: ScoreboardEntry): number {
+  const { requiredCodes, unknownCriticals } = entry.result;
+  if (requiredCodes.length === 0) return 0;
+  return (requiredCodes.length - unknownCriticals.length) / requiredCodes.length;
+}
+
 /**
- * Verdict first, then score inside a verdict. "Not enough information" sits above
+ * Verdict first, then the evidence behind it. "Not enough information" sits above
  * "try elsewhere" on purpose: a place we do not know about ranks above a place we
  * know has a confirmed barrier.
+ *
+ * Every tiebreak is a quantity the card shows. The score used to be the second key,
+ * and the screen hides the score on exactly the rows where it decided the most —
+ * eleven 정보없음 places came back in an order the visitor could not see, read, or
+ * disagree with. It also made the order rest on an average of whichever items each
+ * place happened to have, which is not the same question twice.
  */
 export function sortScoreboard(entries: ScoreboardEntry[]): ScoreboardEntry[] {
   return [...entries].sort(
     (a, b) =>
       labelRank(a.result.label) - labelRank(b.result.label) ||
-      b.result.score - a.result.score ||
+      personaLabelCount(a, '정보없음') - personaLabelCount(b, '정보없음') ||
+      personaLabelCount(a, '주의') - personaLabelCount(b, '주의') ||
+      requiredKnownRatio(b) - requiredKnownRatio(a) ||
       // Code-point order. localeCompare with no locale follows the runtime's ICU
       // data, so the server and the browser can disagree about two equal rows.
       (a.poiSlug < b.poiSlug ? -1 : a.poiSlug > b.poiSlug ? 1 : 0),

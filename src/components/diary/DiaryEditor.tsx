@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useId, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { getPersona } from '@/domain/personas';
 import type { DiaryEntry } from '@/domain/types';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
+import { useAnnouncer } from '@/components/a11y/useAnnouncer';
 import { useConditions } from '@/components/persona/usePersona';
 import { useDiary } from './useDiary';
 
@@ -45,6 +46,19 @@ function kilobytes(bytes: number): number {
   return Math.max(1, Math.round(bytes / BYTES_PER_KB));
 }
 
+/** A record is written about a place the visitor went to; unticking says otherwise. */
+function blockFor(option: DiaryPlaceOption): DiaryPlace {
+  return {
+    poiSlug: option.slug,
+    title: option.title,
+    visited: true,
+    steps: option.steps.map((step) => ({ ...step, done: false })),
+    memo: '',
+    accessibilityNote: '',
+    coords: option.coords,
+  };
+}
+
 /**
  * The trip record editor. Everything it writes goes to this browser only.
  *
@@ -61,19 +75,10 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
   const locale = useLocale();
   const { entry, loaded, setEntry } = useDiary();
   const { conditions, loaded: conditionsLoaded } = useConditions();
-  const [announcement, setAnnouncement] = useState('');
+  const { announcement, announce } = useAnnouncer();
   const [chosenSlug, setChosenSlug] = useState('');
-  const announcementCount = useRef(0);
   const lastObjectUrl = useRef<string | null>(null);
   const groupId = useId();
-
-  const announce = useCallback((text: string) => {
-    announcementCount.current += 1;
-    // A live region says nothing when the new text equals the text it already holds.
-    // The trailing no-break space is not spoken, and unlike a plain space it survives
-    // whitespace normalisation, so two identical messages in a row still differ.
-    setAnnouncement(announcementCount.current % 2 === 0 ? `${text} ` : text);
-  }, []);
 
   const update = useCallback(
     (next: DiaryEntry) => {
@@ -121,6 +126,44 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
     [announce, entry, locale, t],
   );
 
+  /**
+   * The course screen hands its places over as `?add=slug,slug`. Read from the address
+   * rather than through useSearchParams, which would turn this statically rendered
+   * route dynamic for a parameter only the browser needs.
+   *
+   * Runs once, and not before `loaded`: until hydration finishes the record reads as
+   * the empty one, and adding to that would write an empty record over whatever the
+   * visitor had already put in it. Slugs already held are skipped so arriving twice
+   * does not duplicate them, and the parameter leaves the address so a reload does not
+   * put back places the visitor has since removed.
+   *
+   * Declared above the loading branch below because a hook after an early return is
+   * a hook that does not run on every render.
+   */
+  const handoffApplied = useRef(false);
+  useEffect(() => {
+    if (!loaded || handoffApplied.current) return;
+    handoffApplied.current = true;
+
+    const requested = new URLSearchParams(window.location.search).get('add');
+    if (requested === null) return;
+    window.history.replaceState(null, '', window.location.pathname);
+
+    const held = new Set(entry.places.map((place) => place.poiSlug));
+    const additions = requested
+      .split(',')
+      .flatMap((slug) => options.filter((option) => option.slug === slug && !held.has(slug)));
+    if (additions.length === 0) return;
+
+    update({ ...entry, places: [...entry.places, ...additions.map(blockFor)] });
+    announce(
+      t('announceAdded', {
+        title: additions.map((option) => option.title).join(', '),
+        count: entry.places.length + additions.length,
+      }),
+    );
+  }, [loaded, entry, options, update, announce, t]);
+
   if (!loaded || !conditionsLoaded) {
     return (
       <div className="grid gap-8">
@@ -157,29 +200,16 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
   const addPlace = () => {
     const option = options.find((candidate) => candidate.slug === selected);
     if (!option) return;
-    update({
-      ...entry,
-      places: [
-        ...entry.places,
-        {
-          poiSlug: option.slug,
-          title: option.title,
-          // A record is written about a place the visitor went to; unticking says otherwise.
-          visited: true,
-          steps: option.steps.map((step) => ({ ...step, done: false })),
-          memo: '',
-          accessibilityNote: '',
-          coords: option.coords,
-        },
-      ],
-    });
+    update({ ...entry, places: [...entry.places, blockFor(option)] });
     announce(t('announceAdded', { title: option.title, count: entry.places.length + 1 }));
   };
 
   /**
-   * Focus is moved to the place picker, because the button that had focus is the one
-   * being removed. Without this the browser drops focus to <body> and a keyboard user
-   * starts the page over.
+   * Focus moves to the block that adds a place, because the button that had focus is
+   * the one being removed and the browser would otherwise drop focus to <body>.
+   *
+   * The block, not the select inside it: with every place already added there is no
+   * select to reach, which is exactly the state this button is pressed from.
    */
   const removePlace = (place: DiaryPlace) => {
     update({
@@ -187,7 +217,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
       places: entry.places.filter((candidate) => candidate.poiSlug !== place.poiSlug),
     });
     announce(t('announceRemoved', { title: place.title, count: entry.places.length - 1 }));
-    document.getElementById(`${groupId}-add`)?.focus();
+    document.getElementById(`${groupId}-add-block`)?.focus();
   };
 
   const dateMissing = entry.date === '';
@@ -340,7 +370,7 @@ export function DiaryEditor({ options }: { options: DiaryPlaceOption[] }) {
         );
       })}
 
-      <div className="card grid gap-3">
+      <div id={`${groupId}-add-block`} tabIndex={-1} className="card grid gap-3">
         <label htmlFor={`${groupId}-add`} className="font-bold">
           {t('addPlaceSelect')}
         </label>

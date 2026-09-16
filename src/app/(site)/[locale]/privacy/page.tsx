@@ -188,7 +188,10 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
         </p>
       </Section>
 
-      <section className="card">
+      {/* lang="ko" for the same reason the numbered sections carry it. This one is an
+          addendum rather than a clause, so it does not go through Section and had been
+          the one Korean block on /en served under lang="en". */}
+      <section lang="ko" className="card">
         <h2 className="subhead">동의에 관하여</h2>
         <p className="mt-2">
           제보 화면의 동의 항목은 <strong>「위 내용이 즉시 공개되는 것에 동의합니다」 하나뿐</strong>

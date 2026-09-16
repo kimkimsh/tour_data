@@ -49,10 +49,6 @@ const CONTENT = join(ROOT, 'content');
 const GENERATED = join(CONTENT, 'generated');
 
 const ACCOMMODATION_CONTENT_TYPE_IDS: readonly number[] = [32];
-const EMERGENCY_SUPPORTED_M = 500;
-const EMERGENCY_PARTIAL_M = 1000;
-const AED_SUPPORTED_M = 300;
-const AED_PARTIAL_M = 1000;
 
 function read<T>(relative: string, schema: z.ZodType<T>): T {
   const path = join(CONTENT, relative);
@@ -132,19 +128,6 @@ for (const poi of pois) {
   if (existsSync(join(CONTENT, relative))) routes.push(read(relative, RouteInput));
 }
 
-function nearest(poi: Poi, kind: string): number | null {
-  const distances = poi.facilities
-    .filter((facility) => facility.kind === kind && facility.distanceM !== null)
-    .map((facility) => facility.distanceM!);
-  return distances.length === 0 ? null : Math.min(...distances);
-}
-
-function bandStatus(distance: number, supportedMax: number, partialMax: number): Fact['status'] {
-  if (distance <= supportedMax) return 'supported';
-  if (distance <= partialMax) return 'partial';
-  return 'unsupported';
-}
-
 const facts: Fact[] = [];
 for (const poi of poisPayload) {
   for (const capability of CAPABILITIES) {
@@ -167,40 +150,18 @@ for (const poi of poisPayload) {
       continue;
     }
 
-    // The two distance capabilities can be derived right now, because the facility
-    // list is hand-researched and cited. Everything else derived needs an API.
-    let status: Fact['status'] = 'unknown';
-    let detail: string | null = null;
-    if (capability.code === 'emergency_distance') {
-      const distance = nearest(poi, 'hospital');
-      if (distance !== null) {
-        status = bandStatus(distance, EMERGENCY_SUPPORTED_M, EMERGENCY_PARTIAL_M);
-        detail = `${distance}m`;
-      }
-    } else if (capability.code === 'aed_distance') {
-      const distance = nearest(poi, 'aed');
-      if (distance !== null) {
-        status = bandStatus(distance, AED_SUPPORTED_M, AED_PARTIAL_M);
-        detail = `${distance}m`;
-      }
-    } else if (capability.code === 'path_continuity') {
-      const route = routes.find((r) => r.poiSlug === poi.slug);
-      if (route) {
-        const hazards = route.steps.filter((step) => step.hazard !== null).length;
-        status = hazards === 0 ? 'supported' : 'partial';
-        detail = `경로 단계 ${route.steps.length}개 중 주의 표시 ${hazards}개`;
-      }
-    }
-
+    // Every derived capability needs an API or a route file, neither of which this
+    // script has. They seed as unknown, which is what a run with no ingest behind it
+    // honestly holds.
     facts.push({
       poiSlug: poi.slug,
       capabilityCode: capability.code,
-      status,
+      status: 'unknown',
       absenceKind: null,
-      detail,
+      detail: null,
       source: capability.code === 'path_continuity' ? 'derived_route' : 'derived_facility',
       sourceField: null,
-      verifiedAt: status === 'unknown' ? null : new Date().toISOString().slice(0, 10),
+      verifiedAt: null,
       isKtoScored: false,
     });
   }

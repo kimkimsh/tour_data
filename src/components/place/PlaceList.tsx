@@ -108,19 +108,55 @@ export function PlaceList({
                     </p>
                   </div>
 
-                  <p className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                  {/* No score here. It is the average of whichever items happen to be
+                      known, so it answers a different question at every place: six
+                      checked items produced a 100 at one place while sixteen produced
+                      an 86 at another, and a caption under the figure was not enough to
+                      stop the two being read against each other. What is left is what
+                      the figure was standing in for — how much of this place has been
+                      checked. The score is still in the calculation panel on the detail
+                      screen, under the sentence that says what it is. */}
+                  <p className="flex flex-wrap items-center gap-x-3 gap-y-2">
                     <VerdictBadge label={result.label} text={tc(`label.${result.label}`)} />
-                    {/* Both figures carry the word that says what they count. A bare
-                        100 beside a place we have checked six items of reads as a
-                        percentage of everything, which is the one thing it is not. */}
-                    <Score label={result.label} score={result.score} />
+                    {/* Named when there is more than one verdict on the card. Three
+                        badges in a column with only the lower two labelled reads as
+                        three conditions, one of them nameless. */}
+                    {result.perPersona.length > 0 ? (
+                      <span className="t-sm font-bold">{t('groupBadge')}</span>
+                    ) : null}
                     <span className="t-xs text-[var(--color-ink-2)]">
-                      {t('coverageShort', {
+                      {t('checkedOf', {
                         known: result.relevantKnownCount,
                         total: result.relevantTotalCount,
                       })}
+                      {' · '}
+                      {t('unknownCount', {
+                        count: result.relevantTotalCount - result.relevantKnownCount,
+                      })}
                     </span>
                   </p>
+
+                  {/* One row per chosen condition, on the card rather than only on the
+                      detail screen. The headline badge follows the least-served
+                      companion, so without these a wheelchair user who also ticks
+                      청각장애 loses every wheelchair verdict the service had. */}
+                  {result.perPersona.length > 0 ? (
+                    <ul className="grid gap-1">
+                      {result.perPersona.map((row) => (
+                        <li key={row.personaId} className="flex flex-wrap items-center gap-x-2 t-sm">
+                          <VerdictBadge label={row.label} text={tc(`label.${row.label}`)} />
+                          <span className="text-[var(--color-ink-2)]">
+                            {t('perPersonaBadge', {
+                              persona:
+                                locale === 'ko'
+                                  ? getPersona(row.personaId).labelKo
+                                  : getPersona(row.personaId).labelEn,
+                            })}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
 
                   {result.knownCriticalBlockers.length > 0 ? (
                     <p className="font-bold text-[var(--color-state-bad)]">
@@ -143,8 +179,8 @@ export function PlaceList({
                           「조건 미선택 — 일반 방문 기준 기준으로」 in Korean and a clause
                           in the middle of an English sentence. */}
                       {t('noVerdict', {
-                        total: result.requiredCodes.length,
-                        unknown: result.unknownCriticals.length,
+                        total: result.noVerdictBasis?.total ?? result.requiredCodes.length,
+                        unknown: result.noVerdictBasis?.unknown ?? result.unknownCriticals.length,
                       })}
                     </p>
                   ) : null}
@@ -200,12 +236,9 @@ export function PlaceList({
                 title,
                 lat: place.coord.lat,
                 lng: place.coord.lng,
-                // The same sentence the badge carries, and the score only where the
-                // row shows one: 정보없음 hides it, so the marker hides it too.
-                verdict:
-                  result.label === '정보없음'
-                    ? tc(`label.${result.label}`)
-                    : `${tc(`label.${result.label}`)} ${result.score}`,
+                // The same words the badge carries, and nothing the row does not show.
+                // It used to append the score, which is no longer on the card at all.
+                verdict: tc(`label.${result.label}`),
                 tone: TONE[result.label],
                 href: `/${locale}/places/${poiSlug}`,
               } satisfies MapPin,
@@ -269,30 +302,3 @@ function Thumbnail({
   );
 }
 
-/**
- * The visible glyph and the spoken text are separate elements rather than one element
- * with aria-label. A bare span carries no role, so aria-label on it is not guaranteed
- * to be exposed at all — and a bare number with no unit is read as "78", which could
- * be anything on a page that also shows distances, counts and percentages.
- */
-function Score({ label, score }: { label: SuitabilityLabel; score: number }) {
-  const t = useTranslations('place');
-  // A number next to "not enough information" gets read as a rating of the place.
-  if (label === '정보없음') {
-    return (
-      <span className="tabular t-sm text-[var(--color-ink-2)]">
-        <span aria-hidden="true">—</span>
-        <span className="sr-only">{t('scoreHidden')}</span>
-      </span>
-    );
-  }
-  return (
-    <span className="t-xs text-[var(--color-ink-2)]">
-      {t('scoreShort')}{' '}
-      <span className="tabular t-md font-extrabold text-[var(--color-ink)]" aria-hidden="true">
-        {score}
-      </span>
-      <span className="sr-only">{t('score', { score })}</span>
-    </span>
-  );
-}

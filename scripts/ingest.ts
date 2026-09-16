@@ -58,7 +58,6 @@ import {
   getOdiiStories,
   getPoiCommon,
   getPoiImages,
-  getPoiIntro,
   getPoiRepeatInfo,
   getVisitorsForDay,
   listAllOdiiThemes,
@@ -70,6 +69,7 @@ import {
   gatewayCallStats,
   hasServiceKey,
   isQuotaExceeded,
+  isFatalAnswer,
   isOperationRetired,
   type KtoPagesResult,
   type KtoResult,
@@ -113,11 +113,9 @@ const VISITOR_WINDOW_DAYS = 8;
 const VISITOR_LAG_SCAN_DAYS = 45;
 const CROWD_SUPPORTED_MAX = 40;
 const CROWD_PARTIAL_MAX = 70;
-const EMERGENCY_SUPPORTED_M = 500;
-const EMERGENCY_PARTIAL_M = 1000;
-const AED_SUPPORTED_M = 300;
-const AED_PARTIAL_M = 1000;
 const HIDDEN_REPORT_TTL_DAYS = 90;
+/** TarRlteTarService1's own spelling for the category this service keeps. */
+const RELATED_ATTRACTION_CATEGORY = '관광지';
 /**
  * Guest-room capabilities only exist for accommodation. Written as a list of ids
  * rather than an inequality so that widening PoiInputSchema to accept type 32 does
@@ -138,13 +136,40 @@ const stages: Stage[] = onlyArg
   : [...STAGE_ORDER];
 
 /**
- * Spec 3.4: a stage that hits the daily quota must write nothing at all. Warning and
- * continuing publishes a half-filled payload, and the next day's run then sees data
- * where it exists and skips it, so the missing half never arrives.
+ * Spec 05 §3.4 and §3.4b: the three answers a stage must not build a payload on.
+ *
+ * Quota — warning and continuing publishes a half-filled payload, and the next day's
+ * run then sees data where it exists and skips it, so the missing half never arrives.
+ *
+ * Retired operation — `12` says the operation is gone. A person has to decide what
+ * replaces it.
+ *
+ * Key and caller faults — `30` is what an Encoding-form or rotated service key
+ * answers, and it answers that way on every call in the run. Nothing upstream catches
+ * it: isRetryable says no, so the transport books the call as contact, and
+ * requireGatewayWasReachable stays silent. The stage then assembles empty strings and
+ * empty arrays and publishes them over a snapshot that was collected when the key
+ * worked — the same "published its own silence" failure as an unreachable gateway,
+ * reached by a different door.
  */
-function abortOnQuota(result: KtoResult | KtoPagesResult, where: string): void {
+function abortOnBadAnswer(result: KtoResult | KtoPagesResult, where: string): void {
+  if (result.ok) return;
   if (isQuotaExceeded(result)) {
     exit(`daily quota reached while fetching ${where}. Nothing was published; run again later.`);
+  }
+  if (isOperationRetired(result)) {
+    exit(
+      `${where} answered 12 (operation absent or retired). Nothing was published. ` +
+        'See docs/spec/03_external_data.md §1.5.',
+    );
+  }
+  if (isFatalAnswer(result)) {
+    exit(
+      `${where} answered resultCode ${result.resultCode}: ${result.message}. Nothing was ` +
+        'published. This code is a key or caller fault, so every other call in this run ' +
+        'gets it too and the snapshot built from them would be empty. If it is 30, the ' +
+        'DECODING form of KTO_SERVICE_KEY_DECODING is what belongs in the environment.',
+    );
   }
 }
 
@@ -412,9 +437,12 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
       exit(`${poi.slug}: ktoContentId is still "${UNRESOLVED_CONTENT_ID}". Run \`pnpm probe\` first.`);
     }
 
-    const [common, intro, images, repeatInfo] = await Promise.all([
+    // detailIntro2 is not called. Its answer was fetched once per place per run and
+    // read by nothing — thirteen calls a day out of a 1,000-a-day-per-operation
+    // ceiling, spent on a value that was discarded. Add the call back beside whatever
+    // ends up reading it.
+    const [common, images, repeatInfo] = await Promise.all([
       getPoiCommon(poi.ktoContentId),
-      getPoiIntro(poi.ktoContentId, poi.contentTypeId),
       getPoiImages(poi.ktoContentId),
       // Only contentTypeId 12 and 38 list the barrier-free-facilities value among
       // their allowed infoname values; type 14 does not, so the call is skipped
@@ -424,9 +452,16 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
         : Promise.resolve(null),
     ]);
 
-    for (const result of [common, intro, images]) {
-      if (isQuotaExceeded(result)) exit('daily quota reached. Nothing was published; run again later.');
-      if (isOperationRetired(result)) exit('an operation answered 12 (absent or retired). Check spec 03.');
+    const primaryCalls: readonly [string, KtoResult][] = [
+      [`${poi.slug} detailCommon2`, common],
+      [`${poi.slug} detailImage2`, images],
+    ];
+    for (const [where, result] of primaryCalls) {
+      abortOnBadAnswer(result, where);
+      // Every other call site in this file warns on a failure it survives. These two
+      // did not, so a run that lost both left no line at all in the log and the only
+      // symptom was a place whose overview, address and photographs went empty.
+      if (!result.ok) warn(`${where}: ${result.resultCode} ${result.message}`);
     }
 
     const i18n: Partial<Record<ContentLocale, {
@@ -456,7 +491,7 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
     for (const locale of CONTENT_LOCALES.filter((l) => l !== 'ko')) {
       const result = await getMultilingualPoiCommon(locale as MultilingualLocale, poi.ktoContentId);
       if (!result.ok) {
-        abortOnQuota(result, `${poi.slug} ${locale} detailCommon2`);
+        abortOnBadAnswer(result, `${poi.slug} ${locale} detailCommon2`);
         warn(`${poi.slug}: ${locale} detailCommon2 failed — ${result.message}`);
         continue;
       }
@@ -516,7 +551,7 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
         });
       }
     } else {
-      abortOnQuota(gallery, `${poi.slug} gallerySearchList1`);
+      abortOnBadAnswer(gallery, `${poi.slug} gallerySearchList1`);
       warn(`${poi.slug}: gallerySearchList1 failed — ${gallery.message}`);
     }
 
@@ -615,7 +650,7 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
     const areaCd = pois.find((poi) => poi.signguCd5 === signguCd)!.lDongRegnCd;
     const result = await getCrowdForecast({ areaCd, signguCd });
     if (!result.ok) {
-      abortOnQuota(result, `crowd forecast ${signguCd}`);
+      abortOnBadAnswer(result, `crowd forecast ${signguCd}`);
       warn(`crowd forecast for ${signguCd} failed — ${result.message}`);
       continue;
     }
@@ -645,13 +680,30 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
   // every probe succeeds, every probe is empty, and context.visitors is silently [].
   const today = seoulTodayCompact();
   let endYmd: string | null = null;
+  // A refused probe and an empty one are different facts and were reaching the log as
+  // the same sentence. Counting them apart is what tells "KTO has published nothing for
+  // a month" from "every call was refused" — and the second must not publish an empty
+  // visitors list over yesterday's real figures.
+  let probesRefused = 0;
   for (let back = 0; back < VISITOR_LAG_SCAN_DAYS && endYmd === null; back += 1) {
     const candidate = ymdMinus(today, back);
     const probe = await getVisitorsForDay(candidate);
-    if (probe.ok && probe.items.length > 0) endYmd = candidate;
+    abortOnBadAnswer(probe, `visitor lag probe ${candidate}`);
+    if (!probe.ok) {
+      probesRefused += 1;
+      continue;
+    }
+    if (probe.items.length > 0) endYmd = candidate;
   }
 
   const visitors: z.infer<typeof ContextPayload>['visitors'] = [];
+  if (endYmd === null && probesRefused > 0) {
+    exit(
+      `every visitor probe that answered was refused (${probesRefused} of ${VISITOR_LAG_SCAN_DAYS}) ` +
+        'and none carried rows. Nothing was published: an empty visitors list here would ' +
+        'overwrite the last collected figures with a failure.',
+    );
+  }
   if (endYmd === null) {
     warn(
       `no visitor data answered within the last ${VISITOR_LAG_SCAN_DAYS} days; context.visitors is empty`,
@@ -663,7 +715,7 @@ async function buildContext(pois: PoiInput[]): Promise<void> {
       const ymd = ymdMinus(endYmd, offset);
       const day = await getVisitorsForDay(ymd);
       if (!day.ok) {
-        abortOnQuota(day, `visitors ${ymd}`);
+        abortOnBadAnswer(day, `visitors ${ymd}`);
         warn(`visitors for ${ymd} failed — ${day.message}`);
         continue;
       }
@@ -760,7 +812,7 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
 
   for (const poi of pois) {
     const detail = await getBarrierFreeDetail(poi.ktoContentId);
-    if (isQuotaExceeded(detail)) exit('daily quota reached. Nothing was published; run again later.');
+    abortOnBadAnswer(detail, `${poi.slug} detailWithTour2`);
 
     const row = detail.ok ? detail.items[0] : undefined;
     const noResponse = !detail.ok || detail.items.length === 0;
@@ -866,12 +918,9 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
       : null);
 
     const snapshotPoi = poisSnapshot?.find((p) => p.slug === poi.slug);
-    push(facts, poi.slug, 'emergency_distance', nearestFacility(snapshotPoi, 'hospital', EMERGENCY_SUPPORTED_M, EMERGENCY_PARTIAL_M));
-    push(facts, poi.slug, 'aed_distance', nearestFacility(snapshotPoi, 'aed', AED_SUPPORTED_M, AED_PARTIAL_M));
-    // Presence, not distance (spec 5.7). nearestFacility drops any facility whose
-    // coordinate is unknown, and no rest area in facilities.json has one — so routing
-    // this through the distance helper left rest_seating unknown at every place that
-    // has a rest area listed.
+    // Presence, not distance (spec 5.7). No rest area in facilities.json carries a
+    // coordinate, so a distance test would leave rest_seating unknown at every place
+    // that has one listed.
     const restAreas = (snapshotPoi?.facilities ?? []).filter((f) => f.kind === 'rest_area');
     push(facts, poi.slug, 'rest_seating', restAreas.length > 0
       ? {
@@ -916,33 +965,6 @@ function push(
     verifiedAt: value ? seoulToday() : null,
     isKtoScored: false,
   });
-}
-
-function nearestFacility(
-  poi: Poi | undefined,
-  kind: Poi['facilities'][number]['kind'],
-  supportedMax: number,
-  partialMax: number,
-): { status: Fact['status']; detail: string | null; source: Fact['source'] } | null {
-  const candidates = (poi?.facilities ?? []).filter(
-    (facility) => facility.kind === kind && facility.distanceM !== null,
-  );
-  if (candidates.length === 0) return null;
-  const nearest = candidates.reduce((a, b) => (a.distanceM! <= b.distanceM! ? a : b));
-  const distance = nearest.distanceM!;
-  return {
-    status:
-      supportedMax === Number.POSITIVE_INFINITY
-        ? 'supported'
-        : derivedStatus(distance, supportedMax, partialMax),
-    // "직선거리" in the sentence itself, not only in the source note underneath. This
-    // is the figure a visitor reads when deciding whether help is close, and a
-    // straight line across a hillside is shorter than the path up it — at 공산성 and
-    // 부소산성 the walk is the long way round. The number is honest about its method
-    // where it is read, or it is not honest at all.
-    detail: `${nearest.name} 직선거리 ${distance.toLocaleString('ko-KR')}m`,
-    source: 'derived_facility',
-  };
 }
 
 function applyCurated(facts: Fact[], curated: CuratedFact[]): Fact[] {
@@ -1070,7 +1092,7 @@ async function buildDocent(pois: PoiInput[]): Promise<void> {
   // adds the assumption that Odii registered the place under the name we know.
   const themes = await listAllOdiiThemes('ko');
   if (!themes.ok) {
-    abortOnQuota(themes, 'Odii themeBasedList');
+    abortOnBadAnswer(themes, 'Odii themeBasedList');
     warn(`Odii themeBasedList failed — ${themes.message}. docent left unchanged.`);
     return;
   }
@@ -1102,7 +1124,7 @@ async function buildDocent(pois: PoiInput[]): Promise<void> {
       for (const locale of ['ko', 'en'] as const) {
         const result = await getOdiiStories(tid, theme.tlid, locale);
         if (!result.ok) {
-          abortOnQuota(result, `${poi.slug} storyBasedList (${locale})`);
+          abortOnBadAnswer(result, `${poi.slug} storyBasedList (${locale})`);
           warn(`${poi.slug}: storyBasedList (${locale}) failed — ${result.message}`);
           continue;
         }
@@ -1195,13 +1217,20 @@ async function buildRelated(pois: PoiInput[]): Promise<void> {
       signguCd: poi.signguCd5,
     });
     if (!result.ok) {
-      abortOnQuota(result, `${poi.slug} searchKeyword1`);
+      abortOnBadAnswer(result, `${poi.slug} searchKeyword1`);
       warn(`${poi.slug}: searchKeyword1 failed — ${result.message}`);
       continue;
     }
     // Exact name match only. A fuzzy match here would attach another place's related
     // list to this one, and the list is already labelled "accessibility unchecked".
-    const items = result.items.filter((item) => item.tAtsNm === poi.nameKo);
+    //
+    // Attractions only. The dataset's other two categories are restaurants and
+    // accommodation, 132 of the 201 rows, and this service has checked the access of
+    // none of them — a ranked list of places to eat, unverified, on the screen that
+    // carries the verdict is noise in the shape of data.
+    const items = result.items.filter(
+      (item) => item.tAtsNm === poi.nameKo && item.rlteCtgryLclsNm === RELATED_ATTRACTION_CATEGORY,
+    );
     if (items.length === 0) continue;
 
     rows.push({
@@ -1230,15 +1259,28 @@ async function buildRelated(pois: PoiInput[]): Promise<void> {
  */
 async function deleteExpiredHiddenReports(): Promise<void> {
   if (dryRun) return;
-  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) return;
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    // The promise is kept by this function and nothing else, so a run that skipped it
+    // has to say so. Silence here reads as "nothing was due".
+    warn('hidden report cleanup skipped: SUPABASE_SERVICE_ROLE_KEY is not set');
+    return;
+  }
   const { createAdminClient } = await import('../src/lib/supabase/admin');
   const cutoff = new Date(Date.now() - HIDDEN_REPORT_TTL_DAYS * 86_400_000).toISOString();
-  const { error } = await createAdminClient()
+  // hidden_at, or created_at when it is null. The column grant lets an admin set
+  // is_hidden through PostgREST without going through setReportHidden, and such a row
+  // has no hidden_at — `lt` never matches null, so it would sit hidden forever.
+  const { error, count } = await createAdminClient()
     .from('barrier_reports')
-    .delete()
+    .delete({ count: 'exact' })
     .eq('is_hidden', true)
-    .lt('hidden_at', cutoff);
-  if (error) warn(`hidden report cleanup failed — ${error.message}`);
+    .or(`hidden_at.lt.${cutoff},and(hidden_at.is.null,created_at.lt.${cutoff})`);
+  if (error) {
+    warn(`hidden report cleanup failed — ${error.message}`);
+    return;
+  }
+  // "0 deleted" and "50 deleted" were the same output, which is no evidence either way.
+  console.log(`ok       hidden reports deleted after ${HIDDEN_REPORT_TTL_DAYS} days: ${count ?? 0}`);
 }
 
 // ── revalidate ─────────────────────────────────────────────────────────────────
@@ -1246,7 +1288,16 @@ async function deleteExpiredHiddenReports(): Promise<void> {
 async function revalidate(): Promise<void> {
   const site = process.env.NEXT_PUBLIC_SITE_URL;
   const secret = process.env.REVALIDATE_SECRET;
-  if (dryRun || !site || !secret) return;
+  if (dryRun) return;
+  if (!site || !secret) {
+    // The failure path below names the host it could not reach; not attempting at all
+    // printed nothing, so a deploy that lost one of these variables published new
+    // snapshots, finished clean, and served the old render for up to an hour.
+    warn(
+      `cache invalidation not attempted: ${!site ? 'NEXT_PUBLIC_SITE_URL' : 'REVALIDATE_SECRET'} is not set`,
+    );
+    return;
+  }
 
   const response = await fetch(`${site}/api/revalidate`, {
     method: 'POST',

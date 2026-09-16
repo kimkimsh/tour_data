@@ -31,8 +31,8 @@ function checkGolden(name: string, input: unknown, actual: SuitabilityResult): v
 }
 
 describe('capability catalogue', () => {
-  it('holds 33 capabilities, 24 of them KTO-scored', () => {
-    expect(CAPABILITIES).toHaveLength(33);
+  it('holds 31 capabilities, 24 of them KTO-scored', () => {
+    expect(CAPABILITIES).toHaveLength(31);
     expect(CAPABILITIES.filter((c) => c.ktoField !== null)).toHaveLength(24);
   });
 
@@ -254,15 +254,13 @@ describe('spec properties the golden files must keep', () => {
           crowd_forecast: { status: 'unknown' },
           weather_warning: { status: 'unknown' },
           weather_forecast: { status: 'unknown' },
-          emergency_distance: { status: 'unknown' },
-          aed_distance: { status: 'unknown' },
         }),
       ),
     );
     const context = result.axes.find((a) => a.axis === 'context');
     expect(context?.knownCount).toBe(0);
     expect(context?.weight).toBe(0);
-    expect(context?.totalCount).toBe(5);
+    expect(context?.totalCount).toBe(3);
     // The other five weights are scaled back to 1.00, so an all-supported remainder
     // still scores 100 rather than losing the context axis's 0.10.
     expect(result.axes.reduce((sum, a) => sum + a.weight, 0)).toBeCloseTo(1, 12);

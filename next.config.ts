@@ -71,6 +71,14 @@ const NAVER_MAP_HOSTS = [
 const IMAGE_PROXY_PATHNAME = '/api/image-proxy';
 
 /**
+ * The one Supabase origin this deployment talks to, read from the public URL that the
+ * browser client is built with, so the two cannot name different projects.
+ */
+const SUPABASE_CONNECT_SRC = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).origin
+  : 'https://*.supabase.co';
+
+/**
  * What the browser is allowed to fetch, load and do on these pages.
  *
  * The list is the real inventory, not a template: the fonts are self-hosted
@@ -100,7 +108,12 @@ const CONTENT_SECURITY_POLICY = [
   "font-src 'self'",
   // The Supabase project and the map's own tile requests. Visitor reports are still
   // the only thing this app itself sends anywhere at run time.
-  `connect-src 'self' https://*.supabase.co ${NAVER_MAP_HOSTS.join(' ')}`,
+  //
+  // The project host, not https://*.supabase.co. The wildcard let a script on these
+  // pages talk to any Supabase project on the internet, which is a wider hole than the
+  // one directive it was meant to open. Falls back to the wildcard only when the
+  // variable is absent, which is a build with no database attached.
+  `connect-src 'self' ${SUPABASE_CONNECT_SRC} ${NAVER_MAP_HOSTS.join(' ')}`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
@@ -109,6 +122,13 @@ const CONTENT_SECURITY_POLICY = [
 
 const SECURITY_HEADERS = [
   { key: 'Content-Security-Policy', value: CONTENT_SECURITY_POLICY },
+  /**
+   * Two years, subdomains included. The service is https-only on Vercel, and without
+   * this a visitor who types the bare host once is one intercepted redirect away from
+   * having their session cookie read. Not preloaded: the list is hard to leave and
+   * that is the owner's call to make separately.
+   */
+  { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains' },
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   // Three capabilities this service states it does not use. The privacy policy says
@@ -121,6 +141,18 @@ const nextConfig: NextConfig = {
   // The framework's version is not the visitor's business, and it is the first thing
   // an automated scan reads.
   poweredByHeader: false,
+  experimental: {
+    /**
+     * Every route here sits under a route group with its own root layout — (site),
+     * (admin), (print) — so there is no app/layout.tsx for Next to wrap an unmatched
+     * address in. Without this flag it wrapped one in its own stand-in layout, which
+     * renders a bare <html>, and app/not-found.tsx rendered a second <html lang="ko">
+     * inside it. The parser merged the two and React reported an attribute mismatch it
+     * would not patch up, on every 404. This is the file convention for exactly that
+     * case: it returns the whole document itself and no layout runs.
+     */
+    globalNotFound: true,
+  },
   images: {
     remotePatterns: KTO_IMAGE_HOSTS.map((hostname) => ({
       protocol: 'https' as const,

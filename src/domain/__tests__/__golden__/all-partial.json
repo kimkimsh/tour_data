@@ -280,24 +280,6 @@
         "source": "derived_facility",
         "verifiedAt": "2026-08-01",
         "isKtoScored": false
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "status": "partial",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": false
-      },
-      {
-        "capabilityCode": "aed_distance",
-        "status": "partial",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": false
       }
     ],
     "personaIds": [],
@@ -368,8 +350,8 @@
         "weight": 0.10000000000000003,
         "rawScore": 0.5,
         "weighted": 0.05000000000000002,
-        "knownCount": 5,
-        "totalCount": 5
+        "knownCount": 3,
+        "totalCount": 3
       }
     ],
     "freshness": 1,
@@ -377,16 +359,18 @@
     "evidenceConfidence": 100,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "perPersona": [],
     "deductions": [],
     "alternatives": [],
-    "relevantKnownCount": 33,
-    "relevantTotalCount": 33,
+    "relevantKnownCount": 31,
+    "relevantTotalCount": 31,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
       "elevator",
       "restroom"
     ],
+    "noVerdictBasis": null,
     "ktoUnknownCount": 0,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -542,16 +526,6 @@
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": "2026-08-01",
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "verifiedAt": "2026-08-01",
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "aed_distance",
         "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       }

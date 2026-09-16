@@ -1,5 +1,5 @@
 {
-  "name": "critical-unknown-boundary",
+  "name": "no-verdict-basis-names-the-companion",
   "input": {
     "facts": [
       {
@@ -211,11 +211,11 @@
       },
       {
         "capabilityCode": "video_caption",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -283,6 +283,7 @@
       }
     ],
     "personaIds": [
+      "P1a",
       "P2b"
     ],
     "cognitiveOption": false,
@@ -291,7 +292,7 @@
   },
   "expected": {
     "score": 100,
-    "label": "주의",
+    "label": "정보없음",
     "layerA": 1.0000000000000002,
     "layerB": 1,
     "axes": [
@@ -332,7 +333,7 @@
         "weight": 0.14000000000000004,
         "rawScore": 1,
         "weighted": 0.14000000000000004,
-        "knownCount": 7,
+        "knownCount": 6,
         "totalCount": 8
       },
       {
@@ -357,30 +358,73 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.875,
-    "evidenceConfidence": 88,
+    "coverage": 0.8947368421052632,
+    "evidenceConfidence": 89,
     "knownCriticalBlockers": [],
     "unknownCriticals": [
-      "sign_guide"
+      "sign_guide",
+      "video_caption"
     ],
-    "perPersona": [],
+    "perPersona": [
+      {
+        "personaId": "P1a",
+        "label": "방문가능",
+        "requiredCodes": [
+          "access_route",
+          "entrance_passage",
+          "wheelchair",
+          "elevator",
+          "restroom"
+        ],
+        "unknownCriticals": [],
+        "knownCriticalBlockers": []
+      },
+      {
+        "personaId": "P2b",
+        "label": "정보없음",
+        "requiredCodes": [
+          "sign_guide",
+          "video_caption"
+        ],
+        "unknownCriticals": [
+          "sign_guide",
+          "video_caption"
+        ],
+        "knownCriticalBlockers": []
+      }
+    ],
     "deductions": [
       {
         "capabilityCode": "sign_guide",
         "labelKo": "수어 안내",
         "reason": "수어 안내 정보 없음",
         "axis": "information"
+      },
+      {
+        "capabilityCode": "video_caption",
+        "labelKo": "자막 영상 안내",
+        "reason": "자막 영상 안내 정보 없음",
+        "axis": "information"
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 7,
-    "relevantTotalCount": 8,
+    "relevantKnownCount": 17,
+    "relevantTotalCount": 19,
     "requiredCodes": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair",
+      "elevator",
+      "restroom",
       "sign_guide",
       "video_caption"
     ],
-    "noVerdictBasis": null,
-    "ktoUnknownCount": 1,
+    "noVerdictBasis": {
+      "personaId": "P2b",
+      "total": 2,
+      "unknown": 2
+    },
+    "ktoUnknownCount": 2,
     "ktoTotalCount": 24,
     "dataDates": [
       {
@@ -500,7 +544,7 @@
       },
       {
         "capabilityCode": "video_caption",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {

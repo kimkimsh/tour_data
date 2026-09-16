@@ -178,7 +178,11 @@ A = 0.30·진입 + 0.18·이동 + 0.18·편의시설 + 0.14·정보안내 + 0.10
 | `supported` | **1.00** |
 | `partial` | **0.50** |
 | `unsupported` | **0.00** |
-| `unknown` | **0.35** |
+| `unknown` | **값 없음 — `not_applicable`과 똑같이 모든 분모에서 빠진다** |
+
+> **v6 개정 (코드가 이미 이렇게 동작한다).** 앞 판은 `unknown`에 0.35를 주고 분모에 남겼다. 그러면 빈 칸 하나가 점수를 깎고, §6.4 4b의 상한으로 라벨을 깎고, `evidenceConfidence`까지 깎는다 — 같은 부재를 세 번 청구한 것이다. 한국관광공사 무장애 항목은 시설이 **있을 때만** 채워지므로 어느 관광지든 10~16개만 알려져 있고, 실제 스냅샷으로 재어 보니 **모델 전체의 상한이 62점**이었다. 「방문 가능」 기준선은 75점이다. 네 라벨 중 하나가 산술적으로 도달 불가능했다.
+>
+> 얼마나 확인했는지는 **점수가 아니라 확인율**이 답하고, 그 사람이 의지하는 항목이 확인된 것들 안에 있는지가 **라벨**을 정한다. 근거: [`../work_log/11_redesign_map_scoring_pois.md`](../work_log/11_redesign_map_scoring_pois.md) §2, [`../work_log/02_spec_corrections.md`](../work_log/02_spec_corrections.md) U.
 
 ### ★ `absenceKind === 'not_applicable'` 인 항목은 모든 계산에서 제외한다
 
@@ -392,7 +396,7 @@ evidenceConfidence = round( 100 × coverage × freshness )
 
 4) 3)의 라벨에 상한을 적용:
    4a) 필수 중 unknown 이 1개 이상 있으면      → 상한 '주의'
-   4b) coverage < 0.65 이면                    → 상한 '주의'
+   4b) (삭제됨 — 아래 주석)
 
    ★ '상한'의 방향은 한쪽뿐이다:
        3)의 결과가 '방문가능' 이면  → '주의' 로 낮춘다
@@ -400,6 +404,8 @@ evidenceConfidence = round( 100 × coverage × freshness )
        (3)은 '방문가능' 또는 '주의' 만 낼 수 있으므로 이 둘이 전부다)
      상한이 라벨을 **올리는 경우는 없다.** 앞 판은 방향을 적지 않아
      "0~49 대체추천을 주의로 올린다"는 구현도 문서와 부합했다.
+
+> **4b는 v6에서 삭제했다. 되살리지 말 것.** 규칙 4a가 이미 같은 질문에 더 정확히 답한다 — 「이 사람이 의지하는 항목 가운데 모르는 것이 있는가」. 4b는 그 질문을 **이 사람이 의지하지 않는 항목까지 포함해** 다시 물어서 같은 부재를 두 번 청구했고, 0.65라는 임계값은 실제 데이터가 도달하지 못하는 위치에 있었다(실측 coverage 0.19~0.65). 골든 `coverage-cap`·`coverage-boundary`·`coverage-boundary-capped`는 끄지 않고 **지웠다**. 근거: [`../work_log/02_spec_corrections.md`](../work_log/02_spec_corrections.md) U.
 
 5) alternatives 를 채우는 조건 (§6.5):
    label === '대체추천'  또는

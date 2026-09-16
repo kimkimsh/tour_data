@@ -280,24 +280,6 @@
         "source": "derived_facility",
         "verifiedAt": null,
         "isKtoScored": false
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "status": "unknown",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": null,
-        "isKtoScored": false
-      },
-      {
-        "capabilityCode": "aed_distance",
-        "status": "unknown",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": null,
-        "isKtoScored": false
       }
     ],
     "personaIds": [
@@ -371,7 +353,7 @@
         "rawScore": 0,
         "weighted": 0,
         "knownCount": 0,
-        "totalCount": 5
+        "totalCount": 3
       }
     ],
     "freshness": 0.75,
@@ -382,6 +364,7 @@
       "sign_guide",
       "video_caption"
     ],
+    "perPersona": [],
     "deductions": [
       {
         "capabilityCode": "access_route",
@@ -568,18 +551,6 @@
         "labelKo": "당일 기상 예보",
         "reason": "당일 기상 예보 정보 없음",
         "axis": "context"
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "labelKo": "응급실 거리",
-        "reason": "응급실 거리 정보 없음",
-        "axis": "context"
-      },
-      {
-        "capabilityCode": "aed_distance",
-        "labelKo": "자동심장충격기 거리",
-        "reason": "자동심장충격기 거리 정보 없음",
-        "axis": "context"
       }
     ],
     "alternatives": [],
@@ -589,6 +560,11 @@
       "sign_guide",
       "video_caption"
     ],
+    "noVerdictBasis": {
+      "personaId": "P2b",
+      "total": 2,
+      "unknown": 2
+    },
     "ktoUnknownCount": 24,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -744,16 +720,6 @@
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": null,
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "verifiedAt": null,
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "aed_distance",
         "verifiedAt": null,
         "source": "derived_facility"
       }

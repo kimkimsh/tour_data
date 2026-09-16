@@ -17,6 +17,11 @@ import ko from '../../messages/ko.json';
 
 const KTO_HOST = 'apis.data.go.kr';
 
+/** The literal head of a message, matched as text rather than as a pattern. */
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 async function watchForbiddenCalls(page: Page): Promise<{ kto: string[] }> {
   const kto: string[] = [];
   page.on('request', (request) => {
@@ -84,9 +89,13 @@ test('a visitor can reach a verdict, its basis, a route and the gap report', asy
   }
   await expect(page.getByText(ko.common.derivedLabel).first()).toBeVisible();
 
-  await page.getByRole('group').filter({ hasText: '이 점수가 나온 계산' }).first().click();
-  await expect(page.getByText(/점수 = 100 ×/)).toBeVisible();
-  await expect(page.getByText(/데이터 신뢰도 \d+%/).first()).toBeVisible();
+  // From the message file, like every other string here. This one was typed in, and a
+  // reword left the click waiting for text the screen no longer carried.
+  await page.getByRole('group').filter({ hasText: ko.place.openCalc }).first().click();
+  await expect(page.getByText(new RegExp(escapeRegExp(ko.place.scoreFormula.split('{')[0]!)))).toBeVisible();
+  await expect(
+    page.getByText(new RegExp(escapeRegExp(ko.place.confidence.split('{')[0]!))).first(),
+  ).toBeVisible();
 
   await page.goto('/ko/gap-report');
   const gapRow = page.getByRole('table').first();

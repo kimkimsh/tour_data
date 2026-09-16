@@ -280,24 +280,6 @@
         "source": "derived_facility",
         "verifiedAt": null,
         "isKtoScored": false
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "status": "unknown",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": null,
-        "isKtoScored": false
-      },
-      {
-        "capabilityCode": "aed_distance",
-        "status": "unknown",
-        "absenceKind": null,
-        "detail": null,
-        "source": "derived_facility",
-        "verifiedAt": null,
-        "isKtoScored": false
       }
     ],
     "personaIds": [],
@@ -369,14 +351,15 @@
         "rawScore": 0,
         "weighted": 0,
         "knownCount": 0,
-        "totalCount": 5
+        "totalCount": 3
       }
     ],
     "freshness": 1,
-    "coverage": 0.5151515151515151,
-    "evidenceConfidence": 52,
+    "coverage": 0.5483870967741935,
+    "evidenceConfidence": 55,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "perPersona": [],
     "deductions": [
       {
         "capabilityCode": "audio_guide",
@@ -461,29 +444,18 @@
         "labelKo": "당일 기상 예보",
         "reason": "당일 기상 예보 정보 없음",
         "axis": "context"
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "labelKo": "응급실 거리",
-        "reason": "응급실 거리 정보 없음",
-        "axis": "context"
-      },
-      {
-        "capabilityCode": "aed_distance",
-        "labelKo": "자동심장충격기 거리",
-        "reason": "자동심장충격기 거리 정보 없음",
-        "axis": "context"
       }
     ],
     "alternatives": [],
     "relevantKnownCount": 17,
-    "relevantTotalCount": 33,
+    "relevantTotalCount": 31,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
       "elevator",
       "restroom"
     ],
+    "noVerdictBasis": null,
     "ktoUnknownCount": 8,
     "ktoTotalCount": 24,
     "dataDates": [
@@ -639,16 +611,6 @@
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": null,
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "emergency_distance",
-        "verifiedAt": null,
-        "source": "derived_facility"
-      },
-      {
-        "capabilityCode": "aed_distance",
         "verifiedAt": null,
         "source": "derived_facility"
       }

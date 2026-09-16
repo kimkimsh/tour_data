@@ -91,6 +91,7 @@ for (const theme of ['light', 'dark'] as const) {
 
 const cssLight = readCssTokens(css, '/* tokens: light */');
 const cssDark = readCssTokens(css, '/* tokens: dark */');
+const cssPrint = readCssTokens(css, '/* tokens: print */');
 
 for (const [theme, declared, expected] of [
   ['light', cssLight, tokens.light],
@@ -113,6 +114,27 @@ for (const [theme, declared, expected] of [
   }
 }
 
+/**
+ * The print block is a third copy of the light palette, and it exists because
+ * @media print does not switch prefers-color-scheme off. A copy that drifts is worse
+ * than no copy, so the comparison is what makes it safe to keep.
+ */
+for (const [name, hex] of Object.entries(tokens.light)) {
+  const inPrint = cssPrint.get(name);
+  if (!inPrint) {
+    failures.push(`print: the @media print block does not re-declare --color-${name}`);
+  } else if (inPrint !== hex.toUpperCase()) {
+    failures.push(
+      `print: --color-${name} is ${inPrint} in the @media print block but ${hex.toUpperCase()} in the light palette`,
+    );
+  }
+}
+for (const name of cssPrint.keys()) {
+  if (!(name in tokens.light)) {
+    failures.push(`print: the @media print block declares --color-${name}, which the light palette does not`);
+  }
+}
+
 if (failures.length > 0) {
   console.error('contrast check failed:');
   for (const failure of failures) console.error(`  - ${failure}`);
@@ -120,4 +142,6 @@ if (failures.length > 0) {
 }
 
 const pairCount = tokens.checks.length * 2;
-console.log(`contrast check passed: ${pairCount} pairs, ${cssLight.size + cssDark.size} tokens mirrored`);
+console.log(
+  `contrast check passed: ${pairCount} pairs, ${cssLight.size + cssDark.size + cssPrint.size} tokens mirrored`,
+);

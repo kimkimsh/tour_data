@@ -2,25 +2,14 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { getContext, getFacts, getPois } from '@/lib/data';
-import { absenceLabel, computeGapReport, gapRowsToCsv, statusLabel } from '@/domain/gap';
+import { computeGapReport, gapRowsToCsv } from '@/domain/gap';
 import type { GapFact } from '@/domain/gap';
 import { SnapshotProblem } from '@/components/SnapshotGate';
 import type { ContentLocale, Locale } from '@/domain/types';
 import { capabilityLabel } from '@/components/place/place-view';
+import { getPersona } from '@/domain/personas';
 
 export const revalidate = 3600;
-
-/**
- * How many rows each place gets on screen. The CSV carries all of them.
- *
- * A flat "top 40" stopped working the moment the catalogue grew past six places: the
- * places with the least data filled the whole table with their own blanks, three of
- * them took thirty-three rows between them, and the places an officer has actually
- * been working on dropped off the screen. Everything at the top of that list scores
- * the same 1.00 anyway — critical somewhere, unknown, no cause recorded — so the order
- * inside it was never carrying information. Each place's own worst three is.
- */
-const PRIORITY_ROWS_PER_PLACE = 3;
 
 export async function generateMetadata({
   params,
@@ -56,7 +45,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
     pois.data.map((poi) => poi.slug),
   );
   const asOf = latestVerifiedAt(facts.data) ?? '—';
-  const shownPriorities = topPerPlace(report.priorities, PRIORITY_ROWS_PER_PLACE);
+  const blockedRows = report.priorities.filter((row) => row.status === 'unsupported');
   const csvKb = Math.max(
     1,
     Math.round(
@@ -143,80 +132,110 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         </section>
       ) : null}
 
-      <section aria-labelledby="priority-heading" className="grid gap-3">
-        <h2 id="priority-heading">{t('prioritySectionTitle')}</h2>
-        {report.priorities.length === 0 ? (
-          <p className="blank-slot">{t('empty')}</p>
+      {/*
+        Counted per item, not per place.
+
+        The table this replaces listed each place's three most urgent rows. Taking the
+        top three of anything leaves every row at the top score, so all 39 read priority
+        1.00, status 정보 없음 and cause 원인 미확인 — three columns holding one value each,
+        under a legend explaining three cause symbols of which no row in the whole
+        dataset carries any but the first. What an officer can act on is which fact to
+        go and establish, and that is a property of the item across the places, not of
+        one cell.
+      */}
+      <section aria-labelledby="items-heading" className="grid gap-3">
+        <h2 id="items-heading">{t('itemsSectionTitle')}</h2>
+        <p className="max-w-[var(--container-prose)] t-sm text-[var(--color-ink-2)]">
+          {t('itemsIntro')}
+        </p>
+        {report.items.length === 0 ? (
+          <p className="blank-slot">{t('itemsEmpty')}</p>
         ) : (
-          <div className="scroll-x" tabIndex={0} role="region" aria-label={t('prioritySectionTitle')}>
+          <div className="scroll-x" tabIndex={0} role="region" aria-label={t('itemsSectionTitle')}>
             <table className="data-table">
-              <caption>{t('priorityCaption')}</caption>
+              <caption>{t('itemsCaption')}</caption>
               <thead>
                 <tr>
-                  {/* No rank column. Sequential numbers down a column of identical
-                      priorities asserted an order the priority itself denies, and
-                      repeating the tied rank instead gave forty rows all headed "1",
-                      which labels nothing. The table is sorted, the priority is shown,
-                      and the place is what an officer refers to. */}
-                  <th scope="col">{t('priorityHeader.place')}</th>
-                  <th scope="col">{t('priorityHeader.capability')}</th>
-                  {/* "Status", not a status value. This read `tc('status.unknown')`
-                      because priorityHeader had no status key, so a screen reader
-                      announced each cell as "Unknown, No information". */}
-                  <th scope="col">{t('priorityHeader.status')}</th>
-                  <th scope="col">{t('priorityHeader.cause')}</th>
+                  <th scope="col">{t('itemsHeader.capability')}</th>
                   <th scope="col" className="tabular">
-                    {t('priorityHeader.priority')}
+                    {t('itemsHeader.unknown')}
                   </th>
+                  <th scope="col">{t('itemsHeader.personas')}</th>
                 </tr>
               </thead>
-              <tbody>
-                {shownPriorities.map((row) => (
-                  <tr key={`${row.poiSlug}-${row.capabilityCode}`}>
-                    <th scope="row">{titles[row.poiSlug] ?? row.poiSlug}</th>
-                    <td>{capabilityLabel(row.capabilityCode, localeKey)}</td>
-                    <td>{statusLabel(row.status, locale)}</td>
-                    <td>
-                      <CauseMark absenceKind={row.absenceKind} />
-                      {absenceLabel(row.absenceKind, locale)}
-                    </td>
-                    <td className="tabular">{row.priority.toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
+              {/* Two row groups, because the sort puts every item a verdict rests on
+                  above every item none does — and without the break that reads as a
+                  broken sort: 13, 13, 12 … 1, 1, then 13, 13, 13 again. The count
+                  column alone does not explain the order; the group heading does. */}
+              {(
+                [
+                  ['critical', t('itemsGroupCritical'), report.items.filter((r) => r.criticalFor.length > 0)],
+                  ['other', t('itemsGroupOther'), report.items.filter((r) => r.criticalFor.length === 0)],
+                ] as const
+              ).map(([key, groupLabel, rows]) =>
+                rows.length === 0 ? null : (
+                  <tbody key={key}>
+                    <tr>
+                      <th scope="rowgroup" colSpan={3} className="!pt-6 text-[var(--color-ink-2)]">
+                        {groupLabel}
+                      </th>
+                    </tr>
+                    {rows.map((row) => (
+                      <tr key={row.capabilityCode}>
+                        <th scope="row">{capabilityLabel(row.capabilityCode, localeKey)}</th>
+                        <td className="tabular">
+                          {t('itemsUnknownValue', {
+                            unknown: row.unknownPoiSlugs.length,
+                            total: row.applicableCount,
+                          })}
+                        </td>
+                        {/* An empty cell would read as "no condition needs this", which
+                            is not what an empty critical list means — it means no
+                            condition takes its verdict on it. */}
+                        <td>
+                          {row.criticalFor.length === 0
+                            ? t('itemsPersonasNone')
+                            : row.criticalFor
+                                .map((id) =>
+                                  localeKey === 'ko'
+                                    ? getPersona(id).labelKo
+                                    : getPersona(id).labelEn,
+                                )
+                                .join(' · ')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                ),
+              )}
             </table>
           </div>
         )}
-        {/* Said out loud. The table showed the first 40 of 80 with nothing on screen to
-            say so, while the CSV button beside it carried all of them. */}
-        {report.priorities.length > shownPriorities.length ? (
-          <p className="t-sm text-[var(--color-ink-2)]">
-            {t('priorityShown', {
-              perPlace: PRIORITY_ROWS_PER_PLACE,
-              shown: shownPriorities.length,
-              total: report.priorities.length,
-            })}
-          </p>
-        ) : null}
+      </section>
 
-        <div className="card">
-          <h3 className="subhead">{t('causeLegendTitle')}</h3>
-          <ul className="mt-2 grid gap-1 t-sm">
-            <li>
-              <span aria-hidden="true">○ </span>
-              {t('causeLegend.unknown')}
-            </li>
-            <li>
-              <span aria-hidden="true">● </span>
-              {t('causeLegend.operator')}
-            </li>
-            <li>
-              <span aria-hidden="true">◆ </span>
-              {t('causeLegend.intrinsic')}
-            </li>
+      {/* Kept apart from the list above on purpose. An unknown is answered by going and
+          looking; a confirmed limit is answered by an alternative or by building
+          something, and folding the two together asks for the wrong next action. */}
+      <section aria-labelledby="blocked-heading" className="grid gap-3">
+        <h2 id="blocked-heading">{t('blockedSectionTitle')}</h2>
+        <p className="max-w-[var(--container-prose)] t-sm text-[var(--color-ink-2)]">
+          {t('blockedIntro')}
+        </p>
+        {blockedRows.length === 0 ? (
+          <p className="blank-slot">{t('blockedEmpty')}</p>
+        ) : (
+          <ul className="grid gap-1">
+            {blockedRows.map((row) => (
+              <li key={`${row.poiSlug}-${row.capabilityCode}`}>
+                <span aria-hidden="true">✕ </span>
+                {t('blockedValue', {
+                  place: titles[row.poiSlug] ?? row.poiSlug,
+                  capability: capabilityLabel(row.capabilityCode, localeKey),
+                })}
+              </li>
+            ))}
           </ul>
-          <p className="mt-3 t-sm text-[var(--color-ink-2)]">{t('causeNote')}</p>
-        </div>
+        )}
       </section>
 
       <section aria-labelledby="visitors-heading" className="grid gap-2">
@@ -281,28 +300,6 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
       </section>
     </div>
   );
-}
-
-/**
- * The first `perPlace` rows of each place, in the order computeGapReport already put
- * them. That order is global, so taking the head of each place's slice keeps every
- * place's own ranking while giving each of them the same amount of the screen.
- */
-function topPerPlace<T extends { poiSlug: string }>(rows: readonly T[], perPlace: number): T[] {
-  const taken = new Map<string, number>();
-  const out: T[] = [];
-  for (const row of rows) {
-    const count = taken.get(row.poiSlug) ?? 0;
-    if (count >= perPlace) continue;
-    taken.set(row.poiSlug, count + 1);
-    out.push(row);
-  }
-  return out;
-}
-
-function CauseMark({ absenceKind }: { absenceKind: string | null }) {
-  const mark = absenceKind === null ? '○' : absenceKind === 'intrinsic' ? '◆' : '●';
-  return <span aria-hidden="true">{mark} </span>;
 }
 
 /** The most recent check date across every fact, used as the report's as-of line. */

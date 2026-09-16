@@ -46,7 +46,7 @@
     "cityEn": "Gongju",
     "heritageLabel": "사적 「공주 무령왕릉과 왕릉원」",
     "placeRole": "unesco_component",
-    "unescoComponentNote": "2021-09-17 관보 고시로 「공주 송산리 고분군」에서 개칭됐다. 확장 목록에 옛 이름을 다시 쓰면 같은 곳을 두 번 세게 된다.",
+    "unescoComponentNote": "2021-09-17 관보 고시로 「공주 송산리 고분군」에서 이름이 바뀌었습니다.",
     "depthTier": "B",
     "odiiKeyword": "무령왕릉",
     "odiiThemeIds": [
@@ -55,7 +55,7 @@
     ],
     "tatsName": "공주 무령왕릉과 왕릉원[유네스코 세계유산]",
     "tAtsCd": null,
-    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400130000",
+    "source": "좌표·주소 https://access.visitkorea.or.kr/ms/detail.do?cotId=e7343184-ceeb-42c8-88d1-6342b74f1f07 · ktoContentId KorWithService2/areaBasedSyncList2 (detailCommon2 좌표 대조 ≤5.5m) · 지정명칭 국가유산청 OpenAPI ccbaCpno=1333400130000 · 확장 목록에 옛 이름을 다시 쓰면 같은 곳을 두 번 세게 된다.",
     "checkedAt": "2026-09-13"
   },
   {
@@ -76,7 +76,7 @@
     "cityEn": "Gongju",
     "heritageLabel": null,
     "placeRole": "baekje_museum",
-    "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
+    "unescoComponentNote": "백제역사유적지구 구성유산이 아닙니다. 구성유산에 인접한 박물관입니다.",
     "depthTier": "B",
     "odiiKeyword": "국립공주박물관",
     "odiiThemeIds": [
@@ -105,7 +105,7 @@
     "cityEn": "Buyeo",
     "heritageLabel": "사적 「부여 부소산성」",
     "placeRole": "unesco_component",
-    "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고 우리가 다루는 것은 그중 부소산성이다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있다.",
+    "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고, 우리가 다루는 것은 그중 부소산성입니다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있습니다.",
     "depthTier": "A",
     "odiiKeyword": "부소산성",
     "odiiThemeIds": [
@@ -165,7 +165,7 @@
     "cityEn": "Buyeo",
     "heritageLabel": null,
     "placeRole": "baekje_museum",
-    "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
+    "unescoComponentNote": "백제역사유적지구 구성유산이 아닙니다. 구성유산에 인접한 박물관입니다.",
     "depthTier": "B",
     "odiiKeyword": "국립부여박물관",
     "odiiThemeIds": [

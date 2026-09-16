@@ -41,6 +41,14 @@ export function CapabilityEvidence({
     <section className="grid gap-5" aria-labelledby="evidence-heading">
       <h2 id="evidence-heading" className="section-head">{t('headingEvidence')}</h2>
 
+      {/* Said once, here. It used to be printed under every item whose status is
+          unknown, and at seventeen of them on one place the screen became a column of
+          identical dashed boxes — the same sentence seventeen times reads as a
+          rendering fault, and it buried the rows that do carry a reason of their own. */}
+      <p className="max-w-[var(--container-prose)] t-sm text-[var(--color-ink-2)]">
+        {tc('absence.null')}
+      </p>
+
       <nav aria-label={t('fieldTabs')}>
         <ul className="flex flex-wrap gap-x-4 gap-y-1 t-sm">
           {AXES.map((axis) => (
@@ -78,9 +86,11 @@ export function CapabilityEvidence({
                     quotedDetail={fact?.detail ?? null}
                     derived={capability.ktoField === null}
                     derivedLabel={tc('derivedLabel')}
+                    /* Only where the row has a reason of its own. The default — we do
+                       not know why the field is blank — is stated once above. */
                     absenceExplanation={
-                      status === 'unknown'
-                        ? tc(`absence.${fact?.absenceKind ?? 'null'}`)
+                      status === 'unknown' && fact?.absenceKind
+                        ? tc(`absence.${fact.absenceKind}`)
                         : null
                     }
                     provenance={

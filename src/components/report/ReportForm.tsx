@@ -7,6 +7,7 @@ import { REPORT_CATEGORIES } from '@/domain/types';
 import type { ReportCategory } from '@/domain/types';
 import { createBrowserClient } from '@/lib/supabase/browser';
 import { seoulToday } from '@/domain/today';
+import { oldestReportableDate } from '@/lib/report-window';
 
 const DETAIL_MAX = 500;
 
@@ -50,6 +51,19 @@ export function ReportForm({
   useEffect(() => {
     if (posted) doneRef.current?.focus();
   }, [posted]);
+
+  /**
+   * Focus follows the error here rather than inside fail(), because a form-level
+   * failure has no control of its own to land on: the target is the message, and the
+   * message does not exist in the DOM until React has rendered the state that created
+   * it. Called from the handler, getElementById returned null and focus never moved,
+   * so a keyboard user pressing submit on a refused post was told nothing and left
+   * looking at an unchanged form.
+   */
+  useEffect(() => {
+    if (error === null) return;
+    document.getElementById(`${groupId}-${error.field}`)?.focus();
+  }, [error, groupId]);
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -101,14 +115,16 @@ export function ReportForm({
   /**
    * No live-region copy here. Every message is already rendered in a role="alert"
    * next to the control it belongs to, and adding a polite region spoke each one
-   * twice.
+   * twice. A fresh object every call, so repeating the same failure still moves focus.
    */
   function fail(field: string, message: string) {
     setError({ field, message });
-    document.getElementById(`${groupId}-${field}`)?.focus();
   }
 
   const errorFor = (field: string) => (error?.field === field ? error.message : null);
+  // One reading of the clock for both ends, so min cannot be computed from a different
+  // day than max on a render that straddles midnight in Seoul.
+  const today = seoulToday();
 
   if (posted) {
     return (
@@ -184,13 +200,17 @@ export function ReportForm({
         <label htmlFor={`${groupId}-date`} className="font-bold">
           {t('whenSeen')}
         </label>
-        {/* max stops the picker offering a day that has not happened. The server
-            refuses one anyway; this is the part the visitor can see. */}
+        {/* The range the server accepts, on the control itself. max stops the picker
+            offering a day that has not happened; min stops it offering one older than
+            the window POST /api/report refuses outside of, which used to come back as
+            a bare "could not post" with nothing naming the date. Both bounds come from
+            src/lib/report-window.ts, which the route reads too. */}
         <input
           id={`${groupId}-date`}
           type="date"
           className="field"
-          max={seoulToday()}
+          min={oldestReportableDate(today)}
+          max={today}
           value={occurredOn}
           onChange={(event) => setOccurredOn(event.target.value)}
         />

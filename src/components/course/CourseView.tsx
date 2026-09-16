@@ -129,7 +129,9 @@ export function CourseView({
             <p className="t-sm text-[var(--color-ink-2)]">
               {t('multiplierNote', {
                 persona: warningSourceLabel(itinerary.stayMultiplierSource, locale, tc, th),
-                multiplier: itinerary.stayMultiplier.toFixed(2),
+                // Two decimals printed "1.30배", which is a machine's way of writing
+                // 1.3. Intl drops a trailing zero and keeps 1.25 whole.
+                multiplier: itinerary.stayMultiplier,
               })}
             </p>
           ) : null}
@@ -164,9 +166,17 @@ export function CourseView({
                   {result ? (
                     <p className="flex flex-wrap items-center gap-2">
                       <VerdictBadge label={result.label} text={tc(`label.${result.label}`)} />
-                      {result.label === '정보없음' ? null : (
-                        <span className="tabular font-bold">{result.score}</span>
-                      )}
+                      {/* The checked count, not the score. The score is a mean over
+                          whichever items happen to be known, so it answers a different
+                          question at every place and is not a figure to read four of in
+                          a column; the list and detail screens dropped it for the same
+                          reason, and it lives in the detail screen's calculation panel. */}
+                      <span className="t-xs text-[var(--color-ink-2)]">
+                        {tp('checkedOf', {
+                          known: result.relevantKnownCount,
+                          total: result.relevantTotalCount,
+                        })}
+                      </span>
                       {/* Named, not listed bare. A capability name on its own beside a
                           badge does not say whether it is confirmed, missing or simply
                           unchecked, and the place list beside it does say. */}

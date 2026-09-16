@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { REPORT_CATEGORIES } from '@/domain/types';
 import { POI_SLUGS } from '@/lib/content';
 import { createServerClient, isSupabaseConfigured } from '@/lib/supabase/server';
+import { oldestReportableDate } from '@/lib/report-window';
 import { seoulToday } from '@/domain/today';
 
 /**
@@ -18,22 +19,15 @@ export const dynamic = 'force-dynamic';
 const DETAIL_MAX = 500;
 
 /**
- * How far back a sighting may be dated. A year: 현장 상황 제보 is about a condition
- * somebody could still meet, and the screen prints the date next to the report, so an
- * older one reads as current unless a reader checks it.
- */
-const REPORT_MAX_AGE_DAYS = 365;
-
-/**
  * Evaluated per request, not once at module load: this process outlives a day, and a
  * bound frozen at boot drifts a little further from the calendar every hour it runs.
+ *
+ * The window itself is in src/lib/report-window.ts because the form's date input has
+ * to offer the same range this refuses outside of.
  */
 function sightingIsPlausible(value: string): boolean {
   const today = seoulToday();
-  const oldest = new Date(Date.parse(`${today}T00:00:00Z`) - REPORT_MAX_AGE_DAYS * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
-  return value <= today && value >= oldest;
+  return value <= today && value >= oldestReportableDate(today);
 }
 
 const Body = z.object({

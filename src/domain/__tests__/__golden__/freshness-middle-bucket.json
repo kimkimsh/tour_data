@@ -1,5 +1,5 @@
 {
-  "name": "critical-unknown-boundary",
+  "name": "freshness-middle-bucket",
   "input": {
     "facts": [
       {
@@ -8,7 +8,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-06-22",
         "isKtoScored": true
       },
       {
@@ -17,7 +17,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-06-21",
         "isKtoScored": true
       },
       {
@@ -35,7 +35,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2025-09-20",
         "isKtoScored": true
       },
       {
@@ -98,7 +98,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2025-09-19",
         "isKtoScored": true
       },
       {
@@ -202,11 +202,11 @@
       },
       {
         "capabilityCode": "sign_guide",
-        "status": "unknown",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
@@ -282,16 +282,14 @@
         "isKtoScored": false
       }
     ],
-    "personaIds": [
-      "P2b"
-    ],
+    "personaIds": [],
     "cognitiveOption": false,
     "calculationDate": "2026-09-20",
     "scoredAlternatives": []
   },
   "expected": {
     "score": 100,
-    "label": "주의",
+    "label": "방문가능",
     "layerA": 1.0000000000000002,
     "layerB": 1,
     "axes": [
@@ -332,7 +330,7 @@
         "weight": 0.14000000000000004,
         "rawScore": 1,
         "weighted": 0.14000000000000004,
-        "knownCount": 7,
+        "knownCount": 8,
         "totalCount": 8
       },
       {
@@ -356,41 +354,34 @@
         "totalCount": 3
       }
     ],
-    "freshness": 1,
-    "coverage": 0.875,
-    "evidenceConfidence": 88,
+    "freshness": 0.9854838709677419,
+    "coverage": 1,
+    "evidenceConfidence": 99,
     "knownCriticalBlockers": [],
-    "unknownCriticals": [
-      "sign_guide"
-    ],
+    "unknownCriticals": [],
     "perPersona": [],
-    "deductions": [
-      {
-        "capabilityCode": "sign_guide",
-        "labelKo": "수어 안내",
-        "reason": "수어 안내 정보 없음",
-        "axis": "information"
-      }
-    ],
+    "deductions": [],
     "alternatives": [],
-    "relevantKnownCount": 7,
-    "relevantTotalCount": 8,
+    "relevantKnownCount": 31,
+    "relevantTotalCount": 31,
     "requiredCodes": [
-      "sign_guide",
-      "video_caption"
+      "access_route",
+      "entrance_passage",
+      "elevator",
+      "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 1,
+    "ktoUnknownCount": 0,
     "ktoTotalCount": 24,
     "dataDates": [
       {
         "capabilityCode": "access_route",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-06-22",
         "source": "kto_with"
       },
       {
         "capabilityCode": "entrance_passage",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-06-21",
         "source": "kto_with"
       },
       {
@@ -400,7 +391,7 @@
       },
       {
         "capabilityCode": "elevator",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2025-09-20",
         "source": "kto_with"
       },
       {
@@ -435,7 +426,7 @@
       },
       {
         "capabilityCode": "restroom",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2025-09-19",
         "source": "kto_with"
       },
       {
@@ -495,7 +486,7 @@
       },
       {
         "capabilityCode": "sign_guide",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {

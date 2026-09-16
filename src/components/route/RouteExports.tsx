@@ -71,18 +71,32 @@ export function RouteExports({ route, fileName }: { route: Route; fileName: stri
     `&destination=${last.lat},${last.lng}&travelmode=walking` +
     (googleWaypoints ? `&waypoints=${googleWaypoints}` : '');
 
+  // The map most Korean visitors already have, and the provider whose tiles this site
+  // draws — it was the one hand-off missing. Its public directions address takes a
+  // start and an end and nothing between, which is why the note beside the buttons
+  // says so rather than letting the app quietly drop the middle of the route.
+  const naverUrl =
+    `https://map.naver.com/p/directions/${first.lng},${first.lat},${encodeURIComponent(first.name)}` +
+    `/${last.lng},${last.lat},${encodeURIComponent(last.name)}/-/walk`;
+
   return (
     <p className="flex flex-wrap gap-3">
       <button type="button" className="btn" onClick={download}>
-        {t('downloadGpx')}
+        {/* A literal space, not only the flex gap. With nothing between them the two
+            elements are one word in the accessible name. */}
+        {t('downloadGpx')}{' '}
         <span className="font-normal t-xs">{t('gpxFileNote', { size: sizeKb })}</span>
       </button>
+      <a className="btn" href={naverUrl} rel="noreferrer noopener">
+        {t('openInNaver')}
+      </a>
       <a className="btn" href={kakaoUrl} rel="noreferrer noopener">
         {t('openInKakao')}
       </a>
       <a className="btn" href={googleUrl} rel="noreferrer noopener">
         {t('openInGoogle')}
       </a>
+      <span className="basis-full t-xs text-[var(--color-ink-2)]">{t('naverNote')}</span>
     </p>
   );
 }

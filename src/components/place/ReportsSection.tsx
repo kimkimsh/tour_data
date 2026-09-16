@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
+import { useAnnouncer } from '@/components/a11y/useAnnouncer';
 import { createBrowserClient } from '@/lib/supabase/browser';
 import type { ReportCategory } from '@/domain/types';
 
@@ -49,7 +50,7 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
   const t = useTranslations('place');
   const tr = useTranslations('report');
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
-  const [announcement, setAnnouncement] = useState('');
+  const { announcement, announce } = useAnnouncer();
 
   useEffect(() => {
     let cancelled = false;
@@ -91,7 +92,7 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
       if (!session.session) {
         const { error } = await supabase.auth.signInAnonymously();
         if (error) {
-          setAnnouncement(`${t('reportFlagFailed')} (${new Date().toLocaleTimeString()})`);
+          announce(t('reportFlagFailed'));
           return;
         }
       }
@@ -101,16 +102,12 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ id }),
       });
-      // The text has to change for the region to announce again on a second flag.
-      const stamp = new Date().toLocaleTimeString();
-      setAnnouncement(
-        response.ok ? `${t('reportFlagged')} (${stamp})` : `${t('reportFlagFailed')} (${stamp})`,
-      );
+      announce(response.ok ? t('reportFlagged') : t('reportFlagFailed'));
     } catch {
       // fetch rejects rather than resolving when the network is gone, and getSession
       // rejects the same way. Without this the handler rejected unhandled: nothing was
       // announced and the button looked inert.
-      setAnnouncement(`${t('reportFlagFailed')} (${new Date().toLocaleTimeString()})`);
+      announce(t('reportFlagFailed'));
     }
   };
 

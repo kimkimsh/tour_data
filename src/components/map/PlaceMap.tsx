@@ -34,6 +34,10 @@ const MIN_ZOOM = 7;
 const MAX_ZOOM = 18;
 
 /** Mark, fill and word together, so the marker never carries its verdict in colour alone. */
+/** Must match .map-pin and .map-pin--pill in globals.css: the anchor is read from them. */
+const PIN_SIZE_PX = 32;
+const PIN_PILL_WIDTH_PX = 48;
+
 const TONE_MARK: Record<MapPin['tone'], string> = {
   visitable: '✓',
   caution: '⚠',
@@ -144,7 +148,16 @@ export function PlaceMap({
         map,
         // The SDK takes the overlay as markup. Every value interpolated into it is
         // escaped in markerHtml, because a place title is upstream data.
-        icon: { content: markerHtml(pin, index + 1, name), anchor: new maps.Point(16, 16) },
+        icon: {
+          content: markerHtml(pin, index + 1, name),
+          // The anchor is the point the marker sits on, so it has to be half the drawn
+          // width. A linked pin is a pill carrying the number and the glyph, which is
+          // wider than the round mark a pin with no page gets.
+          anchor: new maps.Point(
+            (pin.href === null ? PIN_SIZE_PX : PIN_PILL_WIDTH_PX) / 2,
+            PIN_SIZE_PX / 2,
+          ),
+        },
         title: name,
         // List order, so where two places sit on top of each other — 백제역사문화관 is
         // inside 백제문화단지 and shares its coordinate to seven decimal places — the one
@@ -216,10 +229,15 @@ export function PlaceMap({
         </button>
       </div>
 
+      {/* role="group", not "application". An application region drops NVDA and JAWS
+          out of browse mode, and the marker links inside then leave the virtual cursor
+          and the region's link list — reachable by Tab alone. Nothing in here wants
+          focus mode: the provider's own keyboard shortcuts are off and zoom and pan
+          are ordinary buttons outside the tile surface. */}
       <div
         ref={canvasRef}
         className="map-canvas"
-        role="application"
+        role="group"
         aria-labelledby={labelledBy}
         aria-describedby={`${labelledBy}-hint`}
       />
@@ -234,14 +252,19 @@ export function PlaceMap({
  * A marker is a link where the pin has a page and a plain mark where it does not.
  * NAVER takes the overlay as an HTML string, so the text is escaped here rather than
  * trusted: a place title is upstream data.
+ *
+ * Both branches carry the glyph. It used to be on the plain branch only, and the list
+ * screen supplies an href for every pin — so there the verdict reached the eye as fill
+ * colour alone, and three of the four fills are the red-green pair. The link branch
+ * also carries the list number, which is the only thing tying a pin to a row.
  */
 function markerHtml(pin: MapPin, index: number, name: string): string {
   const label = escapeHtml(name);
-  const inner = `<span aria-hidden="true">${TONE_MARK[pin.tone]}</span><span class="sr-only">${label}</span>`;
+  const glyph = `<span aria-hidden="true">${TONE_MARK[pin.tone]}</span>`;
   return pin.href === null
-    ? `<span class="map-pin map-pin--${pin.tone}" role="img" aria-label="${label}">${inner}</span>`
-    : `<a class="map-pin map-pin--${pin.tone}" href="${escapeHtml(pin.href)}" aria-label="${label}">` +
-        `<span aria-hidden="true">${index}</span></a>`;
+    ? `<span class="map-pin map-pin--${pin.tone}" role="img" aria-label="${label}">${glyph}</span>`
+    : `<a class="map-pin map-pin--pill map-pin--${pin.tone}" href="${escapeHtml(pin.href)}" aria-label="${label}">` +
+        `<span aria-hidden="true">${index}</span>${glyph}</a>`;
 }
 
 const HTML_ESCAPES: Record<string, string> = {

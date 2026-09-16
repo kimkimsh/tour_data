@@ -87,6 +87,20 @@ export default async function PlacePage({
     ? contextResult.data.crowd.find((row) => row.poiSlug === poi.slug)
     : undefined;
   const relatedForPoi = related.find((row) => row.poiSlug === poi.slug);
+  /**
+   * Attractions only, and the first few of them.
+   *
+   * The dataset ranks 201 rows across the thirteen places and 132 of them are
+   * restaurants and hotels — 공산성 alone listed fifty names, a Starbucks branch and a
+   * 짬뽕 place among them. This service answers one question, whether a visitor can get
+   * in, and it has checked none of these; a ranked list of places to eat, unchecked,
+   * on the screen that carries the verdict is noise wearing the shape of data. Ingest
+   * drops the other categories too, and this filter is what keeps the already-published
+   * snapshot honest until the next run.
+   */
+  const relatedItems = (relatedForPoi?.items ?? [])
+    .filter((item) => item.categoryLcls === RELATED_ATTRACTION_CATEGORY)
+    .slice(0, RELATED_SHOWN_MAX);
   const headerPhoto = poi.media.find((m) => m.kind === 'photo') ?? poi.media[0];
 
   return (
@@ -191,12 +205,17 @@ export default async function PlacePage({
           <h2 id="crowd-heading" className="subhead">
             {tc('honesty.crowd')}
           </h2>
-          {/* The figure with its scale, not on its own. cnctrRate has no documented
-              unit, denominator or ceiling, so "82.94" printed large told a reader
-              nothing they could act on — and the same number is banded into a word
-              two sections above, where it reads as 혼잡. */}
+          {/* The caveats are under the figure, not inside the heading and not inside
+              the figure's own line. Both used to carry one: a heading that says what
+              its section is not does not name the section, and 「예측 혼잡도 35.1 — 100점
+              만점이 아닙니다」 is a value and a denial competing for the same line.
+              cnctrRate has no documented unit, denominator or ceiling, which is what
+              the note below says in full. */}
           <p className="mt-2 tabular t-lg font-extrabold">
             {t('crowdRate', { value: crowd.rate.toFixed(1) })}
+          </p>
+          <p className="mt-1 max-w-[var(--container-prose)] t-sm text-[var(--color-ink-2)]">
+            {t('crowdNote')}
           </p>
           <p className="evidence__provenance mt-1">
             <span className="font-mono">
@@ -344,7 +363,7 @@ export default async function PlacePage({
         <p className="t-xs text-[var(--color-ink-2)]">{t('safetyNote')}</p>
       </section>
 
-      {relatedForPoi && relatedForPoi.items.length > 0 ? (
+      {relatedForPoi && relatedItems.length > 0 ? (
         <section
           aria-labelledby="related-heading"
           className="callout callout--caution grid gap-3"
@@ -358,15 +377,8 @@ export default async function PlacePage({
           </p>
           {/* Korean place names straight from the related-attractions dataset. */}
           <ul lang="ko" className="flex flex-wrap gap-x-4 gap-y-1">
-            {relatedForPoi.items.map((item) => (
-              <li key={item.code}>
-                {item.name}
-                {item.categoryLcls ? (
-                  <span className="ml-1 t-xs text-[var(--color-ink-2)]">
-                    {item.categoryLcls}
-                  </span>
-                ) : null}
-              </li>
+            {relatedItems.map((item) => (
+              <li key={item.code}>{item.name}</li>
             ))}
           </ul>
           <p className="evidence__provenance">
@@ -377,6 +389,10 @@ export default async function PlacePage({
     </article>
   );
 }
+
+/** The one category this screen shows. The dataset's own spelling. */
+const RELATED_ATTRACTION_CATEGORY = '관광지';
+const RELATED_SHOWN_MAX = 8;
 
 const KTO_COMPACT_DATE = /^(\d{4})(\d{2})(\d{2})$/;
 

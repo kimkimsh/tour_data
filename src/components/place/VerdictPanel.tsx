@@ -5,9 +5,11 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { buildScoreboard } from '@/domain/scoreboard';
 import { getPersona } from '@/domain/personas';
+import { getCapability } from '@/domain/capabilities';
 import { POLICY_VERSION } from '@/domain/suitability';
 import type {
   Locale,
+  PersonaVerdict,
   SuitabilityFactInput,
   SuitabilityLabel,
   SuitabilityResult,
@@ -25,9 +27,31 @@ const VERDICT_MODIFIER: Record<SuitabilityLabel, string> = {
   정보없음: 'unknown',
 };
 
-/** Items with a status, which is the set the score is the mean over. */
-function knownCount(facts: readonly SuitabilityFactInput[]): number {
-  return facts.filter((f) => f.status !== 'unknown' && f.absenceKind !== 'not_applicable').length;
+/**
+ * What one condition's own verdict rests on, in one sentence.
+ *
+ * A confirmed barrier outranks an unchecked item, and an empty required set is its own
+ * answer: the condition's items do not apply here, which is why there is no verdict
+ * rather than a good one.
+ */
+function personaBasisText(
+  row: PersonaVerdict,
+  locale: Locale,
+  t: (key: string, values?: Record<string, string | number>) => string,
+): string {
+  if (row.requiredCodes.length === 0) return t('perPersonaBasisNone');
+  if (row.knownCriticalBlockers.length > 0) {
+    return t('perPersonaBasisBlocked', {
+      items: capabilityLabels(row.knownCriticalBlockers, locale),
+    });
+  }
+  if (row.unknownCriticals.length > 0) {
+    return t('perPersonaBasisUnknown', { items: capabilityLabels(row.unknownCriticals, locale) });
+  }
+  return t('perPersonaBasisKnown', {
+    known: row.requiredCodes.length,
+    total: row.requiredCodes.length,
+  });
 }
 
 /**
@@ -92,7 +116,15 @@ export function VerdictPanel({
       : conditions.personaIds
           .map((id) => (locale === 'ko' ? getPersona(id).labelKo : getPersona(id).labelEn))
           .join(' · ');
-  const confirmed = facts.filter((f) => f.status === 'supported').map((f) => f.capabilityCode);
+  /**
+   * Facilities only. The context axis holds today's forecast, any weather warning and
+   * the crowd reading, and listing those under the word for "available" made the row
+   * read as 「이용 가능: … 기상 특보」 — a weather warning offered as something you can
+   * use. Each has its own row in the evidence table, worded for what it is.
+   */
+  const confirmed = facts
+    .filter((f) => f.status === 'supported' && getCapability(f.capabilityCode)?.axis !== 'context')
+    .map((f) => f.capabilityCode);
 
   return (
     <section className="grid gap-4" aria-labelledby="verdict-heading">
@@ -138,16 +170,14 @@ export function VerdictPanel({
           <p className="blank-slot t-sm">{t('scoreHiddenReason')}</p>
         ) : null}
 
+        {/* The score is not one of these figures. It is a mean over whichever items
+            happen to be known, and which items those are differs at every place — six
+            checked produced a 100 here while sixteen produced an 86 there — so as a
+            headline it invited a comparison it cannot carry. It is still in the
+            calculation panel below, where the sentence that names what it is sits with
+            it. What stands here is what it was standing in for: how much of this place
+            has been checked, and how far that evidence can be trusted. */}
         <div className="stat-row">
-          {result.label === '정보없음' ? null : (
-            <p className="stat">
-              <span className="stat__figure">
-                <span aria-hidden="true">{result.score}</span>
-                <span className="sr-only">{t('score', { score: result.score })}</span>
-              </span>
-              <span className="stat__label">{t('scoreBasis', { count: knownCount(facts) })}</span>
-            </p>
-          )}
           <p className="stat">
             <span className="stat__figure">
               {t('coverageValue', {
@@ -188,6 +218,50 @@ export function VerdictPanel({
         </dl>
       </div>
 
+      {/*
+        One row per chosen condition, each answered as if it had been the only one.
+
+        The block above follows whichever companion this place suits least, which is
+        right and which was also everything on screen — so a wheelchair user who also
+        ticked 청각장애 lost every wheelchair verdict the service had, because the two
+        items a deaf visitor depends on are unrecorded at twelve of the thirteen places.
+        The badge in each row carries the condition's name beside it: on its own it
+        would read as a promise about the place.
+      */}
+      {result.perPersona.length > 0 ? (
+        <div className="grid gap-2">
+          <h3 className="subhead">{t('perPersonaHeading')}</h3>
+          <p className="t-sm text-[var(--color-ink-2)]">{t('perPersonaIntro')}</p>
+          <div className="scroll-x" tabIndex={0} role="region" aria-label={t('perPersonaHeading')}>
+            <table className="data-table">
+              <caption className="sr-only">{t('perPersonaHeading')}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">{t('perPersonaColumnCondition')}</th>
+                  <th scope="col">{t('perPersonaColumnVerdict')}</th>
+                  <th scope="col">{t('perPersonaColumnBasis')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.perPersona.map((row) => (
+                  <tr key={row.personaId}>
+                    <th scope="row">
+                      {locale === 'ko'
+                        ? getPersona(row.personaId).labelKo
+                        : getPersona(row.personaId).labelEn}
+                    </th>
+                    <td>
+                      <VerdictBadge label={row.label} text={tc(`label.${row.label}`)} />
+                    </td>
+                    <td>{personaBasisText(row, locale, t)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : null}
+
       <p className="flex flex-wrap gap-2">
         {hasRoute ? (
           <Link href={`/places/${poiSlug}/route-guide`} className="btn btn--filled">
@@ -215,7 +289,6 @@ export function VerdictPanel({
               <li key={alt.poiSlug} className="flex flex-wrap items-center gap-3">
                 <Link href={`/places/${alt.poiSlug}`}>{alt.title}</Link>
                 <VerdictBadge label={alt.label} text={tc(`label.${alt.label}`)} />
-                {alt.label === '정보없음' ? null : <span className="tabular font-bold">{alt.score}</span>}
               </li>
             ))}
           </ul>
@@ -290,6 +363,9 @@ function CalculationDisclosure({
           })}
         </p>
         <p className="t-xs text-[var(--color-ink-2)]">{t('roundingNote')}</p>
+        {/* The one place the figure appears, and it does not leave this panel without
+            the sentence under it. */}
+        <p className="t-sm text-[var(--color-ink-2)]">{t('scoreInCalcNote')}</p>
 
         <div className="border-t border-[var(--color-rule)] pt-4">
           <p className="font-bold">

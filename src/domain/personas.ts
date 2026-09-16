@@ -129,8 +129,6 @@ const MATRIX: Record<string, readonly [GradeCell, GradeCell, GradeCell, GradeCel
   // is not more exposed than anyone else, and neither reading nor hearing changes in
   // weather (P2a, P2b).
   weather_forecast: ['.', 'S', '.', '.', 'S'],
-  emergency_distance: ['S', 'S', '.', '.', 'S'],
-  aed_distance: ['.', 'S', '.', '.', '.'],
 };
 
 const PERSONA_COLUMN: Record<PersonaId, 0 | 1 | 2 | 3 | 4> = {

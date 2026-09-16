@@ -159,8 +159,27 @@ export interface AlternativePoi {
   city: string;
 }
 
+/** What one chosen condition's own verdict rests on, and what it comes out as. */
+export interface PersonaVerdict {
+  personaId: PersonaId;
+  label: SuitabilityLabel;
+  /** Catalogue order, and the names the screen prints beside this row's badge. */
+  requiredCodes: string[];
+  unknownCriticals: string[];
+  knownCriticalBlockers: string[];
+}
+
 export interface SuitabilityResult {
-  /** 0..100 integer. Not shown on screen when label === '정보없음'. */
+  /**
+   * 0..100 integer. Hidden when label === '정보없음', and off the default screens
+   * entirely — it lives inside the calculation panel.
+   *
+   * It is the average of the items that happen to be known, which is a different
+   * question at every place: KTO fills a barrier-free field only where the facility
+   * exists, so 6 known items out of 31 produced a 100 at 공주 고마나루 while 국립부여박물관
+   * scored 86 on 16. The number cannot carry a comparison between two places, and a
+   * caption under it was not enough to stop it being read as one.
+   */
   score: number;
   label: SuitabilityLabel;
 
@@ -195,6 +214,34 @@ export interface SuitabilityResult {
    * critical items, or GENERAL_VERDICT_CODES when no condition was chosen.
    */
   requiredCodes: string[];
+
+  /**
+   * Why label === '정보없음', counted over the companion the rule actually fired on.
+   *
+   * Null for every other label. It exists because the rule is asked once per
+   * companion while requiredCodes is their union, so the union's own ratio can sit
+   * well under the half the rule tests — measured at 3 of 7 on a screen explaining a
+   * rule that needs more than half.
+   */
+  noVerdictBasis: { personaId: PersonaId | null; total: number; unknown: number } | null;
+
+  /**
+   * One row per chosen condition, each answered as if that condition had been the
+   * only one chosen. Empty below two conditions, where the headline verdict already
+   * is the per-condition one.
+   *
+   * The headline verdict follows whoever is served least, which is right and which
+   * used to be the only thing on screen — so adding a companion whose items nobody
+   * has recorded anywhere replaced what the service did know about the first
+   * companion with a blank. Measured: a wheelchair user sees 방문가능 at 2 places and
+   * 주의 at 8; ticking 청각장애 as well turned all 13 into 정보없음, because the two
+   * items a deaf visitor depends on are unrecorded at 12 of the 13.
+   *
+   * Computed by re-running the whole calculation per condition rather than split out
+   * of the combined one: the combined score weights every item by the grade of the
+   * least-served companion, so a share of it is not that companion's own answer.
+   */
+  perPersona: PersonaVerdict[];
 
   knownCriticalBlockers: string[];
   unknownCriticals: string[];
@@ -346,9 +393,36 @@ export interface GapFillRow {
   ktoTotal: number;
 }
 
+/**
+ * One catalogue item, counted across every place — the question "which fact should
+ * somebody go and establish next", which is the one this report can actually answer.
+ *
+ * The per-place list it replaced on screen was the three most urgent rows per place,
+ * and taking the top three of anything leaves every row at the top score: all 39 came
+ * out at priority 1.00, status 정보 없음, cause 원인 미확인, so three of its five columns
+ * held one value. The cause column is worse than constant by slicing — no row in the
+ * whole dataset carries an absenceKind, so the legend under it explained three symbols
+ * of which one can appear.
+ */
+export interface GapItemRow {
+  capabilityCode: string;
+  labelKo: string;
+  labelEn: string;
+  /** Places where nobody has established this item's status. */
+  unknownPoiSlugs: string[];
+  /** Places where it is confirmed unavailable. A different job, so a different list. */
+  blockedPoiSlugs: string[];
+  /** Places the item applies to at all. not_applicable leaves this denominator. */
+  applicableCount: number;
+  /** The conditions that take their verdict on this item. Empty is not "unimportant". */
+  criticalFor: PersonaId[];
+}
+
 export interface GapReport {
   fill: GapFillRow[];
   priorities: GapRow[];
+  /** The same facts as `priorities`, counted per item instead of per place. */
+  items: GapItemRow[];
   /** POIs absent from the barrier-free dataset. One line per POI, never 24. */
   notRegisteredPoiSlugs: string[];
 }

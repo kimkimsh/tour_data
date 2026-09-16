@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, useId } from 'react';
+import { Fragment, useEffect, useId } from 'react';
 import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
@@ -12,6 +12,15 @@ import { useDiary } from './useDiary';
 
 const PHOTO_WIDTH = 640;
 const PHOTO_HEIGHT = 427;
+
+/**
+ * A CSS `<string>`, quotes included, because that is what a margin box's `content`
+ * takes. The text is snapshot data, so the two characters that could end the string
+ * early are escaped rather than assumed absent.
+ */
+function cssString(value: string): string {
+  return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+}
 
 /**
  * The printable record. A client component because the record lives in
@@ -31,11 +40,32 @@ export function DiaryPrint({ pois, routes }: { pois: Poi[]; routes: Route[] }) {
   const { entry, loaded } = useDiary();
   const groupId = useId();
 
+  const doc = buildDiaryDocument(entry, { pois, routes }, diaryLabels(t), locale);
+  // The first entry, not the whole list. A margin box does not wrap: joined, the line
+  // ran under the page number and both came out cut. This one names the rights holder
+  // and points at the section that carries the rest.
+  const runningAttribution = t('printRunningFooter', { source: doc.attributions[0] ?? '' });
+
+  /**
+   * The line every printed page carries, so a page torn out of the middle still names
+   * where its data came from — the licence terms ask for that, and the full list at
+   * the end cannot do it alone.
+   *
+   * Set on the root element because a @page margin box inherits from there and from
+   * nowhere else. Declared above the loading branch: a hook after an early return is
+   * a hook that does not run on every render.
+   */
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--print-attrib', cssString(runningAttribution));
+    return () => {
+      root.style.removeProperty('--print-attrib');
+    };
+  }, [runningAttribution]);
+
   if (!loaded) {
     return <p role="status">{t('loading')}</p>;
   }
-
-  const doc = buildDiaryDocument(entry, { pois, routes }, diaryLabels(t), locale);
 
   const openPrintDialog = async () => {
     // A font that arrives after the dialog opens reflows the page mid-print and
@@ -103,25 +133,35 @@ export function DiaryPrint({ pois, routes }: { pois: Poi[]; routes: Route[] }) {
           </dl>
 
           {section.steps.length > 0 ? (
-            <table className="data-table">
-              <caption>{t('stepsCaption', { place: section.heading })}</caption>
-              <thead>
-                <tr>
-                  <th scope="col">{t('stepColumn')}</th>
-                  <th scope="col">{t('stateColumn')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {section.steps.map((step) => (
-                  <tr key={step.seq}>
-                    <th scope="row" className="font-normal">
-                      <span className="tabular">{step.seq}.</span> {step.title}
-                    </th>
-                    <td>{step.done ? t('stateDone') : t('stateNotDone')}</td>
+            /* Wrapped like the other four .data-table sites. The table carries a
+               min-inline-size of 38rem, so at phone width an unwrapped one takes the
+               document sideways instead of scrolling inside its own box. */
+            <div
+              className="scroll-x"
+              tabIndex={0}
+              role="region"
+              aria-label={t('stepsCaption', { place: section.heading })}
+            >
+              <table className="data-table">
+                <caption>{t('stepsCaption', { place: section.heading })}</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">{t('stepColumn')}</th>
+                    <th scope="col">{t('stateColumn')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {section.steps.map((step) => (
+                    <tr key={step.seq}>
+                      <th scope="row" className="font-normal">
+                        <span className="tabular">{step.seq}.</span> {step.title}
+                      </th>
+                      <td>{step.done ? t('stateDone') : t('stateNotDone')}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : null}
 
           {section.memo === null ? null : (
@@ -143,13 +183,6 @@ export function DiaryPrint({ pois, routes }: { pois: Poi[]; routes: Route[] }) {
           ))}
         </ul>
       </section>
-
-      {/* Repeats on every printed page. A page torn out of the middle of the document
-          still carries the source of the data on it, which is what the licence terms
-          ask for and what the full list at the end cannot do on its own. */}
-      <p aria-hidden="true" className="print-running-footer">
-        {doc.attributions.join(' · ')}
-      </p>
     </article>
   );
 }

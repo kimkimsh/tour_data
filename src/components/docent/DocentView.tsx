@@ -6,6 +6,8 @@ import type { Docent } from '@/domain/snapshot-schema';
 import type { Locale } from '@/domain/types';
 import { DocentPlayer } from './DocentPlayer';
 
+const SECONDS_PER_MINUTE = 60;
+
 /**
  * Story picker plus the language and plain-language switches.
  *
@@ -85,9 +87,27 @@ export function DocentView({ stories, uiLocale }: { stories: Docent[]; uiLocale:
         const key = `${story.locale}-${story.odiiTid}-${story.odiiStid ?? story.seq}`;
         return (
           <section key={key} aria-labelledby={`story-${key}`} className="grid gap-4">
-            <h2 id={`story-${key}`} className="item-head">
-              {story.title}
-            </h2>
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <h2 id={`story-${key}`} className="item-head">
+                {story.title}
+              </h2>
+              {/* The run time as text. The player is preload="none" — eight recordings
+                  on a screen is eight requests nobody asked for — so its own readout
+                  says 0:00 / 0:00 until somebody presses play, and a visitor deciding
+                  whether to listen wants the length before that. The figure is in the
+                  snapshot already. */}
+              {story.playTimeS === null ? null : (
+                <p className="t-sm text-[var(--color-ink-2)]">
+                  {t('playTimeLabel')}{' '}
+                  <span className="tabular">
+                    {t('playTime', {
+                      minutes: Math.floor(story.playTimeS / SECONDS_PER_MINUTE),
+                      seconds: story.playTimeS % SECONDS_PER_MINUTE,
+                    })}
+                  </span>
+                </p>
+              )}
+            </div>
             <DocentPlayer story={story} easyMode={easyMode} />
           </section>
         );

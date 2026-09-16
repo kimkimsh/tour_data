@@ -1,10 +1,25 @@
+import { Fragment } from 'react';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
 export const revalidate = 3600;
 
-const UPDATED = '2026-09-02';
+const UPDATED = '2026-09-17';
+
+/**
+ * Section 13 promises to publish what changed alongside the effective date, so the
+ * date on its own does not keep it. Newest first; the first entry is the first
+ * publication.
+ */
+const CHANGES: ReadonlyArray<{ date: string; summary: string }> = [
+  {
+    date: '2026-09-17',
+    summary:
+      '지도를 넣으면서 처리 위탁에 네이버클라우드 주식회사를 추가했습니다. 개인정보 보호책임자의 부서 명칭과 연락처를 기재했습니다.',
+  },
+  { date: '2026-09-02', summary: '최초 게시.' },
+];
 
 export async function generateMetadata({
   params,
@@ -41,7 +56,9 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
         <p role="note" className="card">
           This policy is published in Korean, and the Korean text is the one with legal effect.
           In summary: the service stores an anonymous identifier and the text of any report you
-          post. It never asks for your name or your location, and it has no accounts.
+          post. It never asks for your name or your location, and it has no accounts. To read,
+          delete or object to the processing of anything it holds, write to{' '}
+          <a href="mailto:k052211@naver.com">k052211@naver.com</a>.
         </p>
       ) : null}
 
@@ -103,8 +120,9 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
 
       <Section n={7} title="정보주체의 권리와 행사 방법">
         <p>
-          열람·삭제·처리정지를 요구할 수 있습니다. 아래 연락처로 요청하시면 처리합니다. 별도의 자가
-          조회·삭제 화면은 두지 않았습니다 — 계정이 없어 본인 확인 수단이 없기 때문입니다.
+          열람·삭제·처리정지를 요구할 수 있습니다. 12항의 전자우편 주소로 요청하시면 처리합니다.
+          별도의 자가 조회·삭제 화면은 두지 않았습니다 — 계정이 없어 본인 확인 수단이 없기
+          때문입니다.
         </p>
       </Section>
 
@@ -135,15 +153,32 @@ export default async function PrivacyPage({ params }: { params: Promise<{ locale
       </Section>
 
       <Section n={12} title="개인정보 보호책임자">
+        {/* 성명 대신 부서 명칭. 개인정보 보호법 제30조 제1항 제6호가 「보호책임자의 성명 또는
+            개인정보 보호업무 및 관련 고충사항을 처리하는 부서의 명칭과 전화번호 등 연락처」로
+            두 가지를 나란히 두고 있습니다. */}
+        <ul className="grid list-disc gap-1 pl-5">
+          <li>고충 처리 부서 — 모두의 백제 운영</li>
+          <li>
+            전자우편 — <a href="mailto:k052211@naver.com">k052211@naver.com</a>
+          </li>
+        </ul>
         <p>
-          이름과 연락처는 이 자리에 기재할 예정이며, 아직 기재하지 못했습니다. 그때까지는{' '}
-          <Link href="/report">제보 화면</Link>으로 요청을 보내시면 확인합니다. 다만 제보 내용은
-          검수 없이 바로 공개되므로 이름·연락처는 적지 마십시오.
+          열람·삭제·처리정지 요구를 비롯한 개인정보 관련 문의를 이 주소로 받습니다.{' '}
+          <Link href="/report">제보 화면</Link>은 쓰지 마십시오 — 그쪽은 검수 없이 바로 공개되므로
+          이름·연락처를 적으면 그대로 드러납니다.
         </p>
       </Section>
 
       <Section n={13} title="처리방침 변경 고지">
         <p>변경하는 경우 이 페이지에 변경 내용과 시행일을 함께 게시합니다.</p>
+        <dl className="grid gap-2 sm:grid-cols-[7rem_1fr]">
+          {CHANGES.map((change) => (
+            <Fragment key={change.date}>
+              <dt className="tabular font-bold">{change.date}</dt>
+              <dd>{change.summary}</dd>
+            </Fragment>
+          ))}
+        </dl>
       </Section>
 
       <Section n={14} title="파기 절차와 방법">
@@ -175,9 +210,7 @@ function Section({ n, title, children }: { n: number; title: string; children: R
   return (
     <section lang="ko" aria-labelledby={`privacy-${n}`} className="grid gap-2">
       <h2 id={`privacy-${n}`} className="subhead">
-        <span className="mr-2 font-mono t-xs text-[var(--color-gilt)]">
-          {String(n).padStart(2, '0')}
-        </span>
+        <span className="step-mark mr-2">{String(n).padStart(2, '0')}</span>
         {title}
       </h2>
       <div className="grid gap-2">{children}</div>

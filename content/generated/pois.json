@@ -227,7 +227,7 @@
         "coord": null,
         "distanceM": null,
         "phone": null,
-        "detail": "안내소 옆, 금서루 아래",
+        "detail": null,
         "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=e9a2d704-24ee-429d-bf0f-4964f9f372de",
         "checkedAt": "2026-09-02"
       },
@@ -237,8 +237,8 @@
         "coord": null,
         "distanceM": null,
         "phone": "1644-5588",
-        "detail": "연중무휴 24시간 운행합니다. 공주시 접수 번호는 공식 출처 두 곳이 041-852-5858과 041-881-7632로 서로 달라서, 어느 쪽이 맞는지 확인할 때까지 싣지 않습니다.",
-        "sourceNote": "https://www.16445588.or.kr/",
+        "detail": "연중무휴 24시간 운행합니다.",
+        "sourceNote": "https://www.16445588.or.kr/ · 공주시 접수 번호는 공식 출처 두 곳이 041-852-5858과 041-881-7632로 서로 달라서, 어느 쪽이 맞는지 확인할 때까지 싣지 않습니다.",
         "checkedAt": "2026-09-02"
       }
     ],
@@ -261,7 +261,7 @@
     "cityEn": "Gongju",
     "heritageLabel": "사적 「공주 무령왕릉과 왕릉원」",
     "placeRole": "unesco_component",
-    "unescoComponentNote": "2021-09-17 관보 고시로 「공주 송산리 고분군」에서 개칭됐다. 확장 목록에 옛 이름을 다시 쓰면 같은 곳을 두 번 세게 된다.",
+    "unescoComponentNote": "2021-09-17 관보 고시로 「공주 송산리 고분군」에서 이름이 바뀌었습니다.",
     "ktoModifiedAt": "2025-11-21",
     "i18n": {
       "ko": {
@@ -412,7 +412,7 @@
         "coord": null,
         "distanceM": null,
         "phone": "1644-5588",
-        "detail": "연중무휴 24시간 운행합니다",
+        "detail": "연중무휴 24시간 운행합니다.",
         "sourceNote": "https://www.16445588.or.kr/",
         "checkedAt": "2026-09-02"
       }
@@ -436,7 +436,7 @@
     "cityEn": "Gongju",
     "heritageLabel": null,
     "placeRole": "baekje_museum",
-    "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
+    "unescoComponentNote": "백제역사유적지구 구성유산이 아닙니다. 구성유산에 인접한 박물관입니다.",
     "ktoModifiedAt": "2026-01-05",
     "i18n": {
       "ko": {
@@ -637,7 +637,7 @@
         "coord": null,
         "distanceM": null,
         "phone": "1644-5588",
-        "detail": "연중무휴 24시간 운행합니다",
+        "detail": "연중무휴 24시간 운행합니다.",
         "sourceNote": "https://www.16445588.or.kr/",
         "checkedAt": "2026-09-02"
       }
@@ -661,7 +661,7 @@
     "cityEn": "Buyeo",
     "heritageLabel": "사적 「부여 부소산성」",
     "placeRole": "unesco_component",
-    "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고 우리가 다루는 것은 그중 부소산성이다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있다.",
+    "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고, 우리가 다루는 것은 그중 부소산성입니다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있습니다.",
     "ktoModifiedAt": "2026-02-09",
     "i18n": {
       "ko": {
@@ -822,7 +822,7 @@
         "coord": null,
         "distanceM": null,
         "phone": null,
-        "detail": "주차장 안쪽",
+        "detail": null,
         "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c",
         "checkedAt": "2026-09-02"
       },
@@ -1124,7 +1124,7 @@
     "cityEn": "Buyeo",
     "heritageLabel": null,
     "placeRole": "baekje_museum",
-    "unescoComponentNote": "백제역사유적지구 구성유산이 아니다. 구성유산에 인접한 박물관이다.",
+    "unescoComponentNote": "백제역사유적지구 구성유산이 아닙니다. 구성유산에 인접한 박물관입니다.",
     "ktoModifiedAt": "2026-07-21",
     "i18n": {
       "ko": {

@@ -118,15 +118,15 @@
   "forecast": [
     {
       "signguCd5": "44150",
-      "baseAt": "20260917 0200",
+      "baseAt": "20260917 0500",
       "today": {
         "state": "good",
-        "detail": "흐림 · 최고 26℃ · 최저 14℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+        "detail": "흐림 · 최고 26℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
         "unknownReason": null
       },
       "outlook": [
         {
-          "dayOffset": 5,
+          "dayOffset": 4,
           "amWeather": "맑음",
           "pmWeather": "맑음",
           "amRainPct": 10,
@@ -135,7 +135,7 @@
           "tmx": 29
         },
         {
-          "dayOffset": 6,
+          "dayOffset": 5,
           "amWeather": "맑음",
           "pmWeather": "맑음",
           "amRainPct": 10,
@@ -144,7 +144,7 @@
           "tmx": 28
         },
         {
-          "dayOffset": 7,
+          "dayOffset": 6,
           "amWeather": "맑음",
           "pmWeather": "맑음",
           "amRainPct": 10,
@@ -153,7 +153,7 @@
           "tmx": 28
         },
         {
-          "dayOffset": 8,
+          "dayOffset": 7,
           "amWeather": "구름많음",
           "pmWeather": "구름많음",
           "amRainPct": 20,
@@ -162,7 +162,7 @@
           "tmx": 29
         },
         {
-          "dayOffset": 9,
+          "dayOffset": 8,
           "amWeather": "구름많음",
           "pmWeather": "구름많음",
           "amRainPct": 20,
@@ -171,26 +171,44 @@
           "tmx": 28
         },
         {
-          "dayOffset": 10,
+          "dayOffset": 9,
           "amWeather": "구름많음",
           "pmWeather": "구름많음",
           "amRainPct": 20,
           "pmRainPct": 20,
           "tmn": 17,
           "tmx": 27
+        },
+        {
+          "dayOffset": 10,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
+          "tmn": 16,
+          "tmx": 26
         }
       ],
       "checkedAt": "2026-09-17"
     },
     {
       "signguCd5": "44760",
-      "baseAt": "20260917 0200",
+      "baseAt": "20260917 0500",
       "today": {
         "state": "good",
-        "detail": "흐림 · 최고 28℃ · 최저 15℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+        "detail": "흐림 · 최고 27℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
         "unknownReason": null
       },
       "outlook": [
+        {
+          "dayOffset": 4,
+          "amWeather": "맑음",
+          "pmWeather": "맑음",
+          "amRainPct": 10,
+          "pmRainPct": 10,
+          "tmn": 17,
+          "tmx": 29
+        },
         {
           "dayOffset": 5,
           "amWeather": "맑음",
@@ -206,15 +224,15 @@
           "pmWeather": "맑음",
           "amRainPct": 10,
           "pmRainPct": 10,
-          "tmn": 17,
+          "tmn": 16,
           "tmx": 29
         },
         {
           "dayOffset": 7,
-          "amWeather": "맑음",
-          "pmWeather": "맑음",
-          "amRainPct": 10,
-          "pmRainPct": 10,
+          "amWeather": "구름많음",
+          "pmWeather": "구름많음",
+          "amRainPct": 20,
+          "pmRainPct": 20,
           "tmn": 16,
           "tmx": 29
         },
@@ -225,7 +243,7 @@
           "amRainPct": 20,
           "pmRainPct": 20,
           "tmn": 16,
-          "tmx": 29
+          "tmx": 28
         },
         {
           "dayOffset": 9,
@@ -233,8 +251,8 @@
           "pmWeather": "구름많음",
           "amRainPct": 20,
           "pmRainPct": 20,
-          "tmn": 16,
-          "tmx": 28
+          "tmn": 17,
+          "tmx": 27
         },
         {
           "dayOffset": 10,
@@ -243,11 +261,11 @@
           "amRainPct": 20,
           "pmRainPct": 20,
           "tmn": 17,
-          "tmx": 27
+          "tmx": 26
         }
       ],
       "checkedAt": "2026-09-17"
     }
   ],
-  "fetchedAt": "2026-09-16T17:38:07.313Z"
+  "fetchedAt": "2026-09-16T21:49:50.448Z"
 }

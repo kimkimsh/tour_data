@@ -40,7 +40,9 @@ pnpm ingest
 |---|---|
 | **로컬 `.env.local`** | 다섯 개 전부 (수집도 돌리고 화면도 띄우므로) |
 | **GitHub 저장소 시크릿** | 위 표의 다섯 개 |
-| **Vercel 환경변수** | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `REVALIDATE_SECRET` · `NEXT_PUBLIC_SITE_URL` · `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID` |
+| **Vercel 환경변수** | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `REVALIDATE_SECRET` · `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID` — **네 개다** |
+
+**`NEXT_PUBLIC_SITE_URL`도 Vercel에는 필요 없다.** `NEXT_PUBLIC_` 접두사가 붙어 있어 화면이 쓰는 값처럼 보이지만, 이 값을 읽는 곳은 `scripts/ingest.ts` 하나뿐이고 그 스크립트는 Vercel에서 돌지 않는다. 주소를 바꿀 때 고칠 곳은 **GitHub 저장소 시크릿 쪽**이다.
 
 Vercel에 `SUPABASE_SERVICE_ROLE_KEY`와 `KTO_SERVICE_KEY_DECODING`은 **필요 없다.** 화면은 수집을 하지 않기 때문이고, 그건 구조로 강제돼 있다 — `src/lib/supabase/admin.ts`(서비스 롤 키를 읽는 유일한 파일)와 `src/lib/kto/transport.ts`는 **`scripts/ingest.ts`에서만** 불린다. `src/app`과 `src/components`가 `src/lib/kto/`를 import하는 것은 ESLint `no-restricted-imports`가 막는다(`docs/spec/02_stack.md` §2 규칙2).
 
@@ -261,15 +263,14 @@ https://www.modubaekje.com/        307 → /ko
 https://www.modubaekje.com/ko      200
 ```
 
-### 주소를 바꾸면 같이 바뀌어야 하는 것 넷
+### 주소를 바꾸면 같이 바뀌어야 하는 것 셋
 
 한 곳만 고치고 끝내면 **새 주소에서만** 조용히 깨진다. 옛 주소에서는 멀쩡하므로 브라우저로 새 주소를 직접 열기 전까지 안 보인다.
 
 | 무엇 | 어디 | 안 고치면 |
 |---|---|---|
 | **네이버 지도 서비스 URL** | NCP 콘솔 → AI·NAVER API → Application → `modu-baekje` → Web 서비스 URL | 새 주소에서만 타일이 안 뜬다. 키는 비밀이 아니고, **실제로 키를 제한하는 것이 이 목록**이다 |
-| `NEXT_PUBLIC_SITE_URL` | Vercel 프로젝트 환경변수 | — |
-| `NEXT_PUBLIC_SITE_URL` | GitHub 저장소 시크릿 | 야간 수집이 옛 주소의 캐시를 지운다. 새 주소는 최대 한 시간 동안 옛 화면을 내보낸다 |
+| `NEXT_PUBLIC_SITE_URL` | GitHub 저장소 시크릿 **한 곳** | 야간 수집이 옛 주소의 캐시를 지운다. 새 주소는 최대 한 시간 동안 옛 화면을 내보낸다. **Vercel 쪽에는 이 값이 필요 없다** — §1 참조 |
 | 주소가 적힌 문서 | `00_README.md` · 이 문서 | — |
 
 기존 `*.vercel.app` 주소는 **지우지 않는다.** Vercel이 계속 같은 배포를 서비스하고, NCP 목록에도 남겨 둬야 전환 중에 둘 다 동작한다.

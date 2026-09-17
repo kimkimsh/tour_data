@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { BARRIER_FREE_FIELD_NAMES } from './schemas';
-import { CAPABILITIES, KTO_ETC_FIELDS } from '@/domain/capabilities';
+import { CAPABILITIES, KTO_PROSE_FIELDS } from '@/domain/capabilities';
 
 /**
  * The 28 barrier-free wire keys are written down twice: once as the response schema
- * and once as the capability catalogue plus the four *etc fields. A misspelling in
+ * and once as the capability catalogue plus the prose fields. A misspelling in
  * either copy would not fail anything — the field would simply stay empty for ever,
  * on a screen whose whole purpose is to say whether a field is empty.
  *
@@ -15,16 +15,18 @@ describe('barrier-free field names', () => {
     ...CAPABILITIES.map((capability) => capability.ktoField).filter(
       (field): field is string => field !== null,
     ),
-    ...KTO_ETC_FIELDS,
+    ...KTO_PROSE_FIELDS,
   ];
 
   it('the schema and the catalogue name the same 28 fields', () => {
     expect([...BARRIER_FREE_FIELD_NAMES].sort()).toEqual([...fromCatalogue].sort());
   });
 
-  it('there are 24 scored fields and 4 supplementary ones', () => {
-    expect(CAPABILITIES.filter((c) => c.ktoField !== null)).toHaveLength(24);
-    expect(KTO_ETC_FIELDS).toHaveLength(4);
+  it('there are 23 scored fields and 5 prose ones', () => {
+    expect(CAPABILITIES.filter((c) => c.ktoField !== null)).toHaveLength(23);
+    // publictransport moved here from the catalogue: its values are directions, not a
+    // state, so no capability row could answer from them.
+    expect(KTO_PROSE_FIELDS).toHaveLength(5);
     expect(BARRIER_FREE_FIELD_NAMES).toHaveLength(28);
   });
 

@@ -35,7 +35,7 @@ import {
   type Route,
   type SnapshotKey,
 } from '../src/domain/snapshot-schema';
-import { CAPABILITIES, KTO_ETC_FIELDS, resolveStatus } from '../src/domain/capabilities';
+import { CAPABILITIES, KTO_PROSE_FIELDS, resolveStatus } from '../src/domain/capabilities';
 import { distanceMeters } from '../src/domain/geo';
 import { AUDIO_HOSTS } from '../src/config/media-hosts';
 import { CONTENT_LOCALES, type ContentLocale } from '../src/domain/types';
@@ -74,7 +74,12 @@ import {
   type KtoPagesResult,
   type KtoResult,
 } from '../src/lib/kto/transport';
-import { ktoTimestampToIsoDate, readStoryCoord, readThemeCoord } from '../src/lib/kto/schemas';
+import {
+  ktoTimestampToIsoDate,
+  readStoryCoord,
+  readThemeCoord,
+  type DetailWithTour2Item,
+} from '../src/lib/kto/schemas';
 import { getWeatherWarnings, kmaRegionFor, readWarningFor } from '../src/lib/kma/warnings';
 import { getMidOutlook, getShortTermForecast, readDayCondition } from '../src/lib/kma/forecast';
 
@@ -171,6 +176,29 @@ function abortOnBadAnswer(result: KtoResult | KtoPagesResult, where: string): vo
         'DECODING form of KTO_SERVICE_KEY_DECODING is what belongs in the environment.',
     );
   }
+}
+
+/**
+ * One detailWithTour2 answer per place per run, shared by the two stages that read it.
+ *
+ * buildPois takes the five prose fields; buildAccessibility turns the other 23 into
+ * capability states. Calling it twice spends the quota twice, and worse: the screen
+ * prints the sentence and the verdict side by side as one claim, and two calls can
+ * answer from two different moments — a row edited between them publishes a sentence
+ * that does not match the state beside it.
+ *
+ * The promise is what is stored, not the result, so two stages asking at once still
+ * make one request. It lives as long as the process, which is one run; nothing here
+ * outlives the run, and a failure is not kept beyond it either.
+ */
+const barrierFreeByContentId = new Map<string, Promise<KtoResult<DetailWithTour2Item>>>();
+
+function barrierFreeDetail(contentId: string): Promise<KtoResult<DetailWithTour2Item>> {
+  const pending = barrierFreeByContentId.get(contentId);
+  if (pending) return pending;
+  const started = getBarrierFreeDetail(contentId);
+  barrierFreeByContentId.set(contentId, started);
+  return started;
 }
 
 function exit(message: string): never {
@@ -441,7 +469,7 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
     // read by nothing — thirteen calls a day out of a 1,000-a-day-per-operation
     // ceiling, spent on a value that was discarded. Add the call back beside whatever
     // ends up reading it.
-    const [common, images, repeatInfo] = await Promise.all([
+    const [common, images, repeatInfo, barrierFree] = await Promise.all([
       getPoiCommon(poi.ktoContentId),
       getPoiImages(poi.ktoContentId),
       // Only contentTypeId 12 and 38 list the barrier-free-facilities value among
@@ -450,11 +478,19 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
       poi.contentTypeId === 12
         ? getPoiRepeatInfo(poi.ktoContentId, poi.contentTypeId)
         : Promise.resolve(null),
+      // The prose fields arrive on detailWithTour2, which the accessibility stage
+      // calls — a later stage, writing a different snapshot. etcNotes lives on this
+      // one, so nothing ever collected them: the run logged that the *etc fields are
+      // carried on pois[].etcNotes and no code did it. Measured across the thirteen
+      // places, four carry text nobody was reading, including the one sentence that
+      // answers 그늘·실내 휴게 at 궁남지.
+      barrierFreeDetail(poi.ktoContentId),
     ]);
 
     const primaryCalls: readonly [string, KtoResult][] = [
       [`${poi.slug} detailCommon2`, common],
       [`${poi.slug} detailImage2`, images],
+      [`${poi.slug} detailWithTour2`, barrierFree],
     ];
     for (const [where, result] of primaryCalls) {
       abortOnBadAnswer(result, where);
@@ -556,6 +592,17 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
     }
 
     const etcNotes: Poi['etcNotes'] = [];
+    // Prose, shown as prose. Splitting a paragraph into capability codes
+    // automatically is the inference principle 1 forbids, and publictransport is here
+    // because its values are directions rather than a state — see KTO_PROSE_FIELDS.
+    const barrierFreeRow = barrierFree.ok ? barrierFree.items[0] : undefined;
+    for (const field of KTO_PROSE_FIELDS) {
+      const text = ((barrierFreeRow as Record<string, unknown> | undefined)?.[field] ?? '')
+        .toString()
+        .trim();
+      if (text === '') continue;
+      etcNotes.push({ sourceField: `detailWithTour2.${field}`, text });
+    }
     for (const row of repeatInfo?.ok ? repeatInfo.items : []) {
       if (!row.infoname || !row.infotext) continue;
       if (!/장애인\s*편의시설/.test(row.infoname)) continue;
@@ -811,7 +858,7 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
   const facts: Fact[] = [];
 
   for (const poi of pois) {
-    const detail = await getBarrierFreeDetail(poi.ktoContentId);
+    const detail = await barrierFreeDetail(poi.ktoContentId);
     abortOnBadAnswer(detail, `${poi.slug} detailWithTour2`);
 
     const row = detail.ok ? detail.items[0] : undefined;
@@ -944,8 +991,6 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
   const payload = AccessibilityPayload.parse(merged);
   await publish('accessibility', payload, payload.length, '한국관광공사 detailWithTour2 + 파생 8항목 + content/curated-facts.json');
 
-  const etcFields = KTO_ETC_FIELDS.join(', ');
-  console.log(`         *etc fields (${etcFields}) are carried on pois[].etcNotes, never scored`);
 }
 
 function push(

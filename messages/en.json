@@ -185,6 +185,13 @@
     "fieldTabs": "Jump to an axis",
     "etcNotes": "Other notes",
     "etcNotesHint": "Source text we could not split into individual accessibility items. It does not enter the score.",
+    "proseLabel": {
+      "publictransport": "Getting there by public transport",
+      "handicapetc": "Mobility",
+      "blindhandicapetc": "Blind or low vision",
+      "hearinghandicapetc": "Deaf or hard of hearing",
+      "infantsfamilyetc": "Family with a young child"
+    },
     "reportsEmpty": "No reports yet.",
     "reportsDisclaimer": "Visitors write these, and the operator has not checked them. They are separate from the items above and do not enter the verdict.",
     "reportFlag": "Flag",

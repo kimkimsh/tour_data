@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "unknown",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": null,
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "supported",
         "absenceKind": null,
@@ -229,11 +220,11 @@
       },
       {
         "capabilityCode": "auditorium",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -313,7 +304,7 @@
         "rawScore": 1,
         "weighted": 0.18000000000000002,
         "knownCount": 2,
-        "totalCount": 4
+        "totalCount": 3
       },
       {
         "axis": "facility",
@@ -342,7 +333,7 @@
         "weight": 0.10000000000000003,
         "rawScore": 1,
         "weighted": 0.10000000000000003,
-        "knownCount": 3,
+        "knownCount": 2,
         "totalCount": 3
       },
       {
@@ -357,8 +348,8 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.6153846153846154,
-    "evidenceConfidence": 62,
+    "coverage": 0.5833333333333334,
+    "evidenceConfidence": 58,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "perPersona": [],
@@ -368,12 +359,6 @@
         "labelKo": "매표소",
         "reason": "매표소 정보 없음",
         "axis": "entry"
-      },
-      {
-        "capabilityCode": "public_transport",
-        "labelKo": "대중교통",
-        "reason": "대중교통 정보 없음",
-        "axis": "continuity"
       },
       {
         "capabilityCode": "path_continuity",
@@ -392,11 +377,17 @@
         "labelKo": "안내요원",
         "reason": "안내요원 정보 없음",
         "axis": "information"
+      },
+      {
+        "capabilityCode": "auditorium",
+        "labelKo": "장애인 관람석",
+        "reason": "장애인 관람석 정보 없음",
+        "axis": "rest"
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 8,
-    "relevantTotalCount": 13,
+    "relevantKnownCount": 7,
+    "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -406,7 +397,7 @@
     ],
     "noVerdictBasis": null,
     "ktoUnknownCount": 4,
-    "ktoTotalCount": 24,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -436,11 +427,6 @@
       {
         "capabilityCode": "help_dog",
         "verifiedAt": "2026-08-01",
-        "source": "kto_with"
-      },
-      {
-        "capabilityCode": "public_transport",
-        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -535,7 +521,7 @@
       },
       {
         "capabilityCode": "auditorium",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {

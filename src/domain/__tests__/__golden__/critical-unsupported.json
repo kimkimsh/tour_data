@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "supported",
         "absenceKind": null,
@@ -293,7 +284,7 @@
     "score": 49,
     "label": "대체추천",
     "layerA": 0.9500000000000002,
-    "layerB": 0.9814814814814815,
+    "layerB": 0.9807692307692308,
     "axes": [
       {
         "axis": "entry",
@@ -312,8 +303,8 @@
         "weight": 0.18000000000000002,
         "rawScore": 1,
         "weighted": 0.18000000000000002,
-        "knownCount": 4,
-        "totalCount": 4
+        "knownCount": 3,
+        "totalCount": 3
       },
       {
         "axis": "facility",
@@ -373,8 +364,8 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 13,
-    "relevantTotalCount": 13,
+    "relevantKnownCount": 12,
+    "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -384,7 +375,7 @@
     ],
     "noVerdictBasis": null,
     "ktoUnknownCount": 0,
-    "ktoTotalCount": 24,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -413,11 +404,6 @@
       },
       {
         "capabilityCode": "help_dog",
-        "verifiedAt": "2026-08-01",
-        "source": "kto_with"
-      },
-      {
-        "capabilityCode": "public_transport",
         "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },

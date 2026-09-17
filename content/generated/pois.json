@@ -237,12 +237,17 @@
         "coord": null,
         "distanceM": null,
         "phone": "1644-5588",
-        "detail": "연중무휴 24시간 운행합니다.",
-        "sourceNote": "https://www.16445588.or.kr/ · 공주시 접수 번호는 공식 출처 두 곳이 041-852-5858과 041-881-7632로 서로 달라서, 어느 쪽이 맞는지 확인할 때까지 싣지 않습니다.",
-        "checkedAt": "2026-09-02"
+        "detail": "접수 연중무휴 24시간 · 공주시 차량 19대 · 평일 07:00~21:00, 주말 09:00~16:00, 공휴일 09:00~18:00 · 공주시 밖으로 나갈 때는 07:00~18:00 · 주말·공휴일에는 시 밖으로 나가지 못합니다(공주시는 세종 제외, 부여군은 논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (시·군별 운행시간표, 2026-06-30 기준)",
+        "checkedAt": "2026-09-18"
       }
     ],
-    "etcNotes": []
+    "etcNotes": [
+      {
+        "sourceField": "detailWithTour2.handicapetc",
+        "text": "휠체어 이용자의 경우 금서루에서 공북루 방향, 금서루에서 쌍수정 방향까지 산책하듯 이동할 수 있는 구간이외의 경로는 휠처에 접근 자체가 어렵거나 경사도가 매우 높음"
+      }
+    ]
   },
   {
     "slug": "muryeong-royal-tombs",
@@ -412,9 +417,9 @@
         "coord": null,
         "distanceM": null,
         "phone": "1644-5588",
-        "detail": "연중무휴 24시간 운행합니다.",
-        "sourceNote": "https://www.16445588.or.kr/",
-        "checkedAt": "2026-09-02"
+        "detail": "접수 연중무휴 24시간 · 공주시 차량 19대 · 평일 07:00~21:00, 주말 09:00~16:00, 공휴일 09:00~18:00 · 공주시 밖으로 나갈 때는 07:00~18:00 · 주말·공휴일에는 시 밖으로 나가지 못합니다(공주시는 세종 제외, 부여군은 논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (시·군별 운행시간표, 2026-06-30 기준)",
+        "checkedAt": "2026-09-18"
       }
     ],
     "etcNotes": []
@@ -637,9 +642,9 @@
         "coord": null,
         "distanceM": null,
         "phone": "1644-5588",
-        "detail": "연중무휴 24시간 운행합니다.",
-        "sourceNote": "https://www.16445588.or.kr/",
-        "checkedAt": "2026-09-02"
+        "detail": "접수 연중무휴 24시간 · 공주시 차량 19대 · 평일 07:00~21:00, 주말 09:00~16:00, 공휴일 09:00~18:00 · 공주시 밖으로 나갈 때는 07:00~18:00 · 주말·공휴일에는 시 밖으로 나가지 못합니다(공주시는 세종 제외, 부여군은 논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (시·군별 운행시간표, 2026-06-30 기준)",
+        "checkedAt": "2026-09-18"
       }
     ],
     "etcNotes": []
@@ -832,12 +837,17 @@
         "coord": null,
         "distanceM": null,
         "phone": "041-836-2155",
-        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 광역 예약은 1644-5588",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588",
         "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · data.go.kr 15028207",
         "checkedAt": "2026-09-02"
       }
     ],
-    "etcNotes": []
+    "etcNotes": [
+      {
+        "sourceField": "detailWithTour2.handicapetc",
+        "text": "낙화암, 고란사 가는 길은 경사가 심한 돌길이라 휠체어와 유모차 진입 어려움"
+      }
+    ]
   },
   {
     "slug": "jeongnimsaji",
@@ -1100,9 +1110,9 @@
         "coord": null,
         "distanceM": null,
         "phone": "041-836-2155",
-        "detail": "충남지체장애인협회 부여군지부 운영 · 광역 예약은 1644-5588",
-        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준)",
-        "checkedAt": "2026-09-02"
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (시·군별 운행시간표, 2026-06-30 기준)",
+        "checkedAt": "2026-09-18"
       }
     ],
     "etcNotes": []
@@ -1368,9 +1378,9 @@
         "coord": null,
         "distanceM": null,
         "phone": "041-836-2155",
-        "detail": "충남지체장애인협회 부여군지부 운영 · 광역 예약은 1644-5588",
-        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준)",
-        "checkedAt": "2026-09-02"
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (시·군별 운행시간표, 2026-06-30 기준)",
+        "checkedAt": "2026-09-18"
       }
     ],
     "etcNotes": []
@@ -1513,7 +1523,64 @@
       }
     ],
     "certifications": [],
-    "facilities": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": {
+          "lat": 36.2753039,
+          "lng": 126.9016066
+        },
+        "distanceM": 3783,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 24시간 접수 및 진료 가능 · 부여지역 유일의 응급실 운영 병원",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (명칭·주소, 병원 안내의 042 번호는 대전 본원이라 싣지 않았습니다) · 좌표는 OpenStreetMap way/367065989 (amenity=hospital, ODbL) · 두 좌표가 8m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "aed",
+        "name": "백제왕릉원 매표소",
+        "coord": {
+          "lat": 36.276568,
+          "lng": 126.9448634
+        },
+        "distanceM": 117,
+        "phone": "041-830-2890",
+        "detail": "충청남도 부여군 부여읍 왕릉로 61 (관광지 주소와 같습니다) · 연중무휴 00:00~24:00",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「백제왕릉원매표소」, 설치장소 「백제왕릉원 매표소」, 관리번호 24-0000843, 점검일 2026-02-10) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 이름·주소·전화를 돌려줍니다 · 좌표는 OpenStreetMap way/1443028269 부여왕릉원 매표소 (building=yes shop=ticket, ODbL) · 두 좌표가 0m 차이. E-Gen이 함께 주는 좌표는 「왕릉로 61」 주소를 찍은 값이라 이 건물에서 236m 서쪽에 떨어져 있어, 건물 좌표는 OSM 쪽을 썼습니다",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 화장실 (매표소 앞 주차장)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "왕릉원 안에는 장애인 화장실이 없습니다",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=877e03ea-0b68-4185-a7da-6b7f2107e6a4 화장실 = 「장애인 화장실 있음(매표소 앞)」 · 위치는 열린관광 여행코스 https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 「주차장에 장애인 주차구역이 3면 준비되어 있으며 장애인 화장실도 있다. 왕릉원 내부에는 장애인 화장실이 없다.」 (사진 설명 「주차장에 있는 장애인화장실」)",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "parking",
+        "name": "장애인 주차구역 (매표소 앞)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "3면 · 주차비용 전차량 무료",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=877e03ea-0b68-4185-a7da-6b7f2107e6a4 주차여부 = 「장애인 주차장 있음(3대,매표소 앞)」 · 면수는 열린관광 여행코스 https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 「주차장에 장애인 주차구역이 3면」과 일치 · 요금은 부여군 세계유산 https://www.buyeo.go.kr/html/heritage/sub2/sub2_0203.html 「주차비용 / 전차량 무료」",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · 공공데이터포털 15028207 (데이터기준일자 2026-08-07)",
+        "checkedAt": "2026-09-18"
+      }
+    ],
     "etcNotes": []
   },
   {
@@ -1664,7 +1731,44 @@
       }
     ],
     "certifications": [],
-    "facilities": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": {
+          "lat": 36.2753039,
+          "lng": 126.9016066
+        },
+        "distanceM": 4011,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 24시간 접수 및 진료 가능",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (명칭·주소, 병원 안내의 042 번호는 대전 본원이라 싣지 않았습니다) · 좌표는 OpenStreetMap way/367065989 (amenity=hospital, ODbL) · 두 좌표가 8m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "aed",
+        "name": "부여 왕릉원 매표소",
+        "coord": {
+          "lat": 36.276568,
+          "lng": 126.9448634
+        },
+        "distanceM": 2058,
+        "phone": "041-830-2890",
+        "detail": "충청남도 부여군 부여읍 왕릉로 61 (부여 왕릉원 입구) · 연중무휴 00:00~24:00 · 나성 좌표 반경 2.06km 안에는 등록된 자동심장충격기가 한 대도 없습니다",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「백제왕릉원매표소」, 관리번호 24-0000843 — 나성 좌표에서 2.157km로 최근접이고 반경 2km는 0건) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 값을 돌려줍니다 · 좌표는 OpenStreetMap way/1443028269 부여왕릉원 매표소 (building=yes shop=ticket, ODbL) · 두 좌표가 0m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · 공공데이터포털 15028207 (데이터기준일자 2026-08-07)",
+        "checkedAt": "2026-09-18"
+      }
+    ],
     "etcNotes": []
   },
   {
@@ -1845,7 +1949,64 @@
       }
     ],
     "certifications": [],
-    "facilities": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": {
+          "lat": 36.2753039,
+          "lng": 126.9016066
+        },
+        "distanceM": 3641,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 24시간 접수 및 진료 가능",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (명칭·주소, 병원 안내의 042 번호는 대전 본원이라 싣지 않았습니다) · 좌표는 OpenStreetMap way/367065989 (amenity=hospital, ODbL) · 두 좌표가 8m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "aed",
+        "name": "백제문화단지 정양문",
+        "coord": {
+          "lat": 36.3055976,
+          "lng": 126.9065792
+        },
+        "distanceM": 279,
+        "phone": "041-408-7290",
+        "detail": "충청남도 부여군 규암면 백제문로 455 (관광지 주소와 같습니다) · 백제문화단지 정문 · 매일 09:00~18:00",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「백제문화단지」, 설치장소 「정양문」, 관리번호 24-0210424, 점검일 2026-09-17) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 값을 돌려줍니다 · 좌표는 OpenStreetMap way/369268227 정양문 (building=yes, ODbL) · 두 좌표가 0m 차이. E-Gen 좌표는 「백제문로 455」 주소를 찍은 값이어서 단지 안 두 대가 같은 값을 갖습니다 — 건물별 좌표는 OSM 쪽을 썼습니다",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 화장실 (제1주차장 · 매표소 건물 뒤편 · 사비궁 · 백제역사문화관 실내)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "단지 안 네 곳",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=98e72b5c-936e-420d-9fb1-0957eb69cd10 화장실 = 「장애인 화장실 있음」 (위치 없음) · 위치는 열린관광 여행코스 https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 「장애인 화장실은 주차장과 매표소 건물 뒤편에 있고, 백제역사문화관 실내와 백제문화단지 안에 네 곳이 있어 불편함이 없다」, 같은 글의 지도 범례 「1 종합매표소(장애인 화장실) / 2 백제역사문화관(장애인 화장실, 엘리베이터) / 4 사비궁(장애인 화장실)」, 사진 설명 「제1주차장에 있는 장애인화장실 외관」",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "parking",
+        "name": "장애인 주차구역 (제1주차장)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "16면 · 같은 주차장에 휠체어·유아차 대여소",
+        "sourceNote": "열린관광 여행코스 https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 「주차장에 장애인 주차구역이 16면 준비되어 있으며 … 주차장에는 휠체어와 유모차 대여소도 있다」 (사진 설명이 이 주차장을 「제1주차장」이라 부릅니다) · 관광지 페이지 https://access.visitkorea.or.kr/ms/detail.do?cotId=98e72b5c-936e-420d-9fb1-0957eb69cd10 은 「장애인 주차장 있음」까지만 적습니다. 같은 주소의 백제역사문화관 기록은 36면이라 적고 있어 면수가 서로 다릅니다 — 어느 쪽이 현재 값인지 확인하지 못했습니다",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · 공공데이터포털 15028207 (데이터기준일자 2026-08-07)",
+        "checkedAt": "2026-09-18"
+      }
+    ],
     "etcNotes": []
   },
   {
@@ -1986,7 +2147,54 @@
       }
     ],
     "certifications": [],
-    "facilities": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": {
+          "lat": 36.2753039,
+          "lng": 126.9016066
+        },
+        "distanceM": 3641,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 24시간 접수 및 진료 가능",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (명칭·주소, 병원 안내의 042 번호는 대전 본원이라 싣지 않았습니다) · 좌표는 OpenStreetMap way/367065989 (amenity=hospital, ODbL) · 두 좌표가 8m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "aed",
+        "name": "백제역사문화관 1층",
+        "coord": {
+          "lat": 36.3052345,
+          "lng": 126.9053318
+        },
+        "distanceM": 385,
+        "phone": "041-408-7290",
+        "detail": "충청남도 부여군 규암면 백제문로 455 (관광지 주소와 같습니다) · 매일 09:00~18:00",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「백제문화단지」, 설치장소 「백제역사문화관 1층」, 관리번호 24-0210422, 점검일 2026-09-17) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 값을 돌려줍니다 · 좌표는 OpenStreetMap relation/5486569 백제역사문화관 (tourism=museum, 주소 백제문로 455 일치, ODbL) · 두 좌표가 0m 차이. E-Gen 좌표는 주소를 찍은 값이라 이 건물에서 385m 떨어져 있어, 건물 좌표는 OSM 쪽을 썼습니다",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 전용 화장실 (1층)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "엘리베이터 있음",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=c7eeb170-b643-49fb-b1b8-56eafea732ec 화장실 = 「장애인 전용 화장실(1층)」, 엘리베이터 = 「엘리베이터 있음」 · 열린관광 여행코스 https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 의 지도 범례도 「2 백제역사문화관(장애인 화장실, 엘리베이터)」로 같습니다",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · 공공데이터포털 15028207 (데이터기준일자 2026-08-07)",
+        "checkedAt": "2026-09-18"
+      }
+    ],
     "etcNotes": []
   },
   {
@@ -2206,9 +2414,78 @@
         "sourceField": "gallerySearchList1.galWebImageUrl"
       }
     ],
-    "certifications": [],
-    "facilities": [],
-    "etcNotes": []
+    "certifications": [
+      {
+        "grade": "open_tourism",
+        "validUntil": null,
+        "sourceNote": "2018년 열린관광지 지정 · 한국관광공사 조성내역 https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 · 문화체육관광부 보도자료 「누구나 주인공이 되는, 2018 열린관광지 12개소 선정」 https://www.mcst.go.kr/site/s_notice/press/pressView.jsp?pSeq=16649 (2018-04-12) · 한국관광공사 보도자료 https://knto.or.kr/pressRelease/429642 (2018-04-12) · 부여군 지정은 궁남지 한 곳",
+        "checkedAt": "2026-09-18"
+      }
+    ],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": {
+          "lat": 36.2753039,
+          "lng": 126.9016066
+        },
+        "distanceM": 1144,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 24시간 접수 및 진료 가능",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (명칭·주소, 병원 안내의 042 번호는 대전 본원이라 싣지 않았습니다) · 좌표는 OpenStreetMap way/367065989 (amenity=hospital, ODbL) · 두 좌표가 8m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "aed",
+        "name": "부여군청 (청사 내 대기실)",
+        "coord": {
+          "lat": 36.2756689,
+          "lng": 126.909859
+        },
+        "distanceM": 699,
+        "phone": "041-830-2225",
+        "detail": "충청남도 부여군 부여읍 사비로 33 · 평일 09:00~18:00 · 서동공원과 궁남지 안에는 등록된 자동심장충격기가 없습니다",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「부여군청」, 설치장소 「청사내대기실」, 점검일 2026-09-04 — 궁남지 좌표에서 0.798km로 최근접) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 값을 돌려줍니다 · 좌표는 OpenStreetMap way/367065969 부여군청 (amenity=townhall building=public, ODbL) · 두 좌표가 2m 차이, E-Gen 좌표와도 11m 일치",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "restroom",
+        "name": "장애인 화장실 (동문광장 관리사무실 · 서문광장)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "동문광장 길 건너편 관리사무실(문화관광해설사의집) 건물 안 · 서문광장 — 궁남지 산책길에는 없습니다",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=06c8fe6a-cefe-4fe6-998e-08b7d60726b5 의 코스 지도 표시 「③ 화장실 — 동문광장 길 건너편 관리사무실(문화관광해설사의집) 건물 내 위치」와 「⑩ 화장실 — 서문광장에 위치」 (본문 요약란은 「장애인 화장실 있음」까지만 적고, 이 문장들은 페이지 안의 지도 스크립트에 있습니다) · 열린관광 여행코스 https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 「장애인 화장실은 궁남지 산책길에는 없고 동문광장 주차장에서 오른쪽과 왼쪽 각각 100m 떨어진 곳에 남녀 별도로 마련되어 있다. 서문광장에도 남녀 공용 장애인 화장실이 설치돼 있다.」",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "parking",
+        "name": "장애인 주차구역 (서문광장 · 동문광장 · 연꽃갤러리 앞)",
+        "coord": null,
+        "distanceM": null,
+        "phone": null,
+        "detail": "서문광장 입구에서 약 12m에 12면 · 동문광장 입구에서 약 40m에 4면, 약 170m에 1면",
+        "sourceNote": "https://access.visitkorea.or.kr/ms/detail.do?cotId=06c8fe6a-cefe-4fe6-998e-08b7d60726b5 의 코스 지도 표시 「① 주차장 — 장애인 주차구역에서 동문광장 궁남지 입구까지 약 170m / 장애인 주차구역 1대 주차 가능」, 「⑤ 주차장 — … 약 40m / 4대 주차 가능」, 「⑨ 주차장 — 서문광장 궁남지 입구까지 약 12m / 12대 주차 가능」 · 열린관광 여행코스 https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 「동문광장의 트래블라운지 앞과 서문광장, 그리고 연꽃갤러리 앞, 세 곳에 장애인 주차구역이 있으며」. 같은 관광지 페이지의 요약란 「장애인 주차장 있음(3대)」은 지도 표시(1+4+12면)와 맞지 않아 쓰지 않았습니다",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · 공공데이터포털 15028207 (데이터기준일자 2026-08-07)",
+        "checkedAt": "2026-09-18"
+      }
+    ],
+    "etcNotes": [
+      {
+        "sourceField": "detailWithTour2.handicapetc",
+        "text": "지붕이 설치된  윈두막이 있음"
+      }
+    ]
   },
   {
     "slug": "gudeurae-sculpture-park",
@@ -2298,8 +2575,58 @@
       }
     ],
     "certifications": [],
-    "facilities": [],
-    "etcNotes": []
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "건양대학교 부여병원 응급실",
+        "coord": {
+          "lat": 36.2753039,
+          "lng": 126.9016066
+        },
+        "distanceM": 1407,
+        "phone": "041-837-1200",
+        "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 24시간 접수 및 진료 가능",
+        "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (명칭·주소, 병원 안내의 042 번호는 대전 본원이라 싣지 않았습니다) · 좌표는 OpenStreetMap way/367065989 (amenity=hospital, ODbL) · 두 좌표가 8m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "aed",
+        "name": "부여군보건소 (건강재활센터 1층)",
+        "coord": {
+          "lat": 36.2830424,
+          "lng": 126.9093801
+        },
+        "distanceM": 519,
+        "phone": "041-830-2498",
+        "detail": "충청남도 부여군 부여읍 성왕로 205 · 평일 09:00~18:00 · 구드래조각공원 안에는 등록된 자동심장충격기가 없습니다 · 야간·주말에는 비슷한 거리의 부소산성 구문 매표소에 있는 것을 쓸 수 있습니다(00:00~24:00)",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「부여군보건소」, 설치장소 「건강재활센터 1층」, 점검일 2026-09-04 — 구드래 좌표에서 0.606km로 최근접. 0.623km의 「부소산성매표소 / 부소산성 구문 매표소」는 00:00~24:00) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 값을 돌려줍니다 · 좌표는 OpenStreetMap way/471095016 (building=yes, OSM 표기는 「부여보건소」로 「군」이 빠져 있습니다, ODbL) · 두 좌표가 11m 차이, E-Gen 좌표와는 4m 일치",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "부여군 교통약자이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "041-836-2155",
+        "detail": "충남지체장애인협회 부여군지부 운영 · 차량 9대 · 평일 08:00~22:00, 주말·공휴일 09:00~18:00 · 부여군 밖으로 나갈 때는 08:00~18:00 · 광역 예약은 1644-5588 · 주말·공휴일에는 군 밖으로 나가지 못합니다(논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준) · 공공데이터포털 15028207 (데이터기준일자 2026-08-07)",
+        "checkedAt": "2026-09-18"
+      }
+    ],
+    "etcNotes": [
+      {
+        "sourceField": "detailWithTour2.blindhandicapetc",
+        "text": "점자표시 있음(장애인 화장실 출입문에 남녀 구분 화장실 표시)"
+      },
+      {
+        "sourceField": "detailWithTour2.hearinghandicapetc",
+        "text": "통합안내설비로 읽기 좋은 고딕체와 색상으로 구분하여 표시함으로써 청각장애인 안내에 도움을 주고 있음"
+      },
+      {
+        "sourceField": "detailWithTour2.infantsfamilyetc",
+        "text": "기저귀교환대 있음(일부 장애인 화장실)"
+      }
+    ]
   },
   {
     "slug": "gomanaru",
@@ -2509,7 +2836,44 @@
       }
     ],
     "certifications": [],
-    "facilities": [],
+    "facilities": [
+      {
+        "kind": "hospital",
+        "name": "충청남도 공주의료원 응급실",
+        "coord": {
+          "lat": 36.4592163,
+          "lng": 127.1092005
+        },
+        "distanceM": 1086,
+        "phone": "041-962-1365",
+        "detail": "충청남도 공주시 무령로 77 · 연중 24시간 야간콜제 운영 · 응급실 직통 041-962-1365 / 041-962-1366",
+        "sourceNote": "https://www.gjmc.or.kr/content/emergencyRoom (명칭·주소) · 좌표는 OpenStreetMap way/817841531 (amenity=hospital, ODbL) · 두 좌표가 28m 차이",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "aed",
+        "name": "국궁장(관풍정)",
+        "coord": {
+          "lat": 36.4654839,
+          "lng": 127.109735
+        },
+        "distanceM": 469,
+        "phone": "041-840-2196",
+        "detail": "충청남도 공주시 관광단지길 30-8 · 평일 09:00~12:00, 토요일 00:00~24:00 (일요일·공휴일은 등록 정보가 비어 있습니다) · 고마나루 안에는 등록된 자동심장충격기가 없습니다",
+        "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「국궁장(관풍정)」, 설치장소 「국궁장」, 관리번호 24-0176684, 점검일 2026-08-11 — 고마나루 좌표에서 0.559km로 최근접) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 값을 돌려줍니다 · 좌표는 OpenStreetMap node/12040274730 관풍정 (leisure=pitch sport=archery, ODbL) · 두 좌표가 0m 차이. Nominatim이 돌려준 주소 「관광단지길 30-8」이 E-Gen 주소와 같고, E-Gen 좌표와도 9m 일치합니다",
+        "checkedAt": "2026-09-18"
+      },
+      {
+        "kind": "call_taxi",
+        "name": "충남광역이동지원센터",
+        "coord": null,
+        "distanceM": null,
+        "phone": "1644-5588",
+        "detail": "접수 연중무휴 24시간 · 공주시 차량 19대 · 평일 07:00~21:00, 주말 09:00~16:00, 공휴일 09:00~18:00 · 공주시 밖으로 나갈 때는 07:00~18:00 · 주말·공휴일에는 시 밖으로 나가지 못합니다(공주시는 세종 제외, 부여군은 논산 제외)",
+        "sourceNote": "https://www.16445588.or.kr/ (대표번호·24시간 접수) · https://www.16445588.or.kr/?mcode=guide05 (2026-06-30 기준, 공주시 운행시간) · 공주시 접수 번호는 공식 출처 두 곳이 041-852-5858 (https://www.gongju.go.kr/kr/sub06_09_03.do)과 041-881-7632 (16445588.or.kr guide05)로 여전히 서로 달라서, 어느 쪽이 맞는지 확인할 때까지 싣지 않습니다.",
+        "checkedAt": "2026-09-18"
+      }
+    ],
     "etcNotes": []
   }
 ]

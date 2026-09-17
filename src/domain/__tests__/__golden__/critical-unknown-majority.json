@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "supported",
         "absenceKind": null,
@@ -312,8 +303,8 @@
         "weight": 0.18000000000000002,
         "rawScore": 1,
         "weighted": 0.18000000000000002,
-        "knownCount": 4,
-        "totalCount": 4
+        "knownCount": 3,
+        "totalCount": 3
       },
       {
         "axis": "facility",
@@ -357,8 +348,8 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.7692307692307693,
-    "evidenceConfidence": 77,
+    "coverage": 0.75,
+    "evidenceConfidence": 75,
     "knownCriticalBlockers": [],
     "unknownCriticals": [
       "access_route",
@@ -387,8 +378,8 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 10,
-    "relevantTotalCount": 13,
+    "relevantKnownCount": 9,
+    "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -402,7 +393,7 @@
       "unknown": 3
     },
     "ktoUnknownCount": 3,
-    "ktoTotalCount": 24,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -431,11 +422,6 @@
       },
       {
         "capabilityCode": "help_dog",
-        "verifiedAt": "2026-08-01",
-        "source": "kto_with"
-      },
-      {
-        "capabilityCode": "public_transport",
         "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },

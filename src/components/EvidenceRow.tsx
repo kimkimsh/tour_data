@@ -57,9 +57,12 @@ export function EvidenceRow({
           </blockquote>
         ) : null}
 
-        {statusKind === 'unknown' ? (
+        {/* Only where there is something to say. The generic reason moved to the top
+            of the section, and leaving the condition on the status alone printed an
+            empty dashed box under every unknown item — seventeen of them on 공산성. */}
+        {absenceExplanation === null ? null : (
           <p className="blank-slot mt-2 t-sm">{absenceExplanation}</p>
-        ) : null}
+        )}
       </div>
 
       <p lang="ko" className="evidence__provenance">

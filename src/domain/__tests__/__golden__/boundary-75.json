@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "supported",
         "absenceKind": null,
@@ -76,7 +67,7 @@
       },
       {
         "capabilityCode": "guide_system",
-        "status": "partial",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
@@ -85,7 +76,7 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "status": "partial",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
@@ -130,38 +121,38 @@
       },
       {
         "capabilityCode": "baby_chair",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "room",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "hearing_room",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "audio_guide",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
@@ -290,16 +281,16 @@
   "expected": {
     "score": 75,
     "label": "방문가능",
-    "layerA": 0.7954545454545455,
-    "layerB": 0.9464285714285714,
+    "layerA": 0.7999999999999999,
+    "layerB": 0.9411764705882353,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
-        "weight": 0.4545454545454546,
+        "weight": 0.375,
         "rawScore": 1,
-        "weighted": 0.4545454545454546,
+        "weighted": 0.375,
         "knownCount": 6,
         "totalCount": 6
       },
@@ -307,30 +298,30 @@
         "axis": "continuity",
         "labelKo": "이동",
         "labelEn": "Movement",
-        "weight": 0.27272727272727276,
-        "rawScore": 0.75,
-        "weighted": 0.20454545454545459,
-        "knownCount": 4,
-        "totalCount": 4
+        "weight": 0.22499999999999998,
+        "rawScore": 1,
+        "weighted": 0.22499999999999998,
+        "knownCount": 3,
+        "totalCount": 3
       },
       {
         "axis": "facility",
         "labelKo": "편의시설",
         "labelEn": "Facilities",
-        "weight": 0.27272727272727276,
+        "weight": 0.22499999999999998,
         "rawScore": 0.5,
-        "weighted": 0.13636363636363638,
-        "knownCount": 4,
+        "weighted": 0.11249999999999999,
+        "knownCount": 7,
         "totalCount": 7
       },
       {
         "axis": "information",
         "labelKo": "정보안내",
         "labelEn": "Information",
-        "weight": 0,
-        "rawScore": 0,
-        "weighted": 0,
-        "knownCount": 0,
+        "weight": 0.17500000000000002,
+        "rawScore": 0.5,
+        "weighted": 0.08750000000000001,
+        "knownCount": 1,
         "totalCount": 8
       },
       {
@@ -355,36 +346,12 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.45161290322580644,
-    "evidenceConfidence": 45,
+    "coverage": 0.5666666666666667,
+    "evidenceConfidence": 57,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "perPersona": [],
     "deductions": [
-      {
-        "capabilityCode": "baby_chair",
-        "labelKo": "유아용 보조의자",
-        "reason": "유아용 보조의자 정보 없음",
-        "axis": "facility"
-      },
-      {
-        "capabilityCode": "room",
-        "labelKo": "휠체어 이용 가능 객실",
-        "reason": "휠체어 이용 가능 객실 정보 없음",
-        "axis": "facility"
-      },
-      {
-        "capabilityCode": "hearing_room",
-        "labelKo": "청각장애인 편의 객실",
-        "reason": "청각장애인 편의 객실 정보 없음",
-        "axis": "facility"
-      },
-      {
-        "capabilityCode": "audio_guide",
-        "labelKo": "오디오 가이드",
-        "reason": "오디오 가이드 정보 없음",
-        "axis": "information"
-      },
       {
         "capabilityCode": "big_print",
         "labelKo": "큰 활자 홍보물",
@@ -465,8 +432,8 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 14,
-    "relevantTotalCount": 31,
+    "relevantKnownCount": 17,
+    "relevantTotalCount": 30,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -474,8 +441,8 @@
       "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 11,
-    "ktoTotalCount": 24,
+    "ktoUnknownCount": 7,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -504,11 +471,6 @@
       },
       {
         "capabilityCode": "help_dog",
-        "verifiedAt": "2026-08-01",
-        "source": "kto_with"
-      },
-      {
-        "capabilityCode": "public_transport",
         "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
@@ -549,22 +511,22 @@
       },
       {
         "capabilityCode": "baby_chair",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "room",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "hearing_room",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "audio_guide",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {

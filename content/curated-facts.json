@@ -431,5 +431,206 @@
     "detail": "국립박물관 통합 「전시안내」 앱의 소속박물관 목록에 부여가 포함된다. 개인 이어폰 지참이 필요하다.",
     "source": "https://www.museum.go.kr/MUSEUM/contents/M0102010400.do",
     "checkedAt": "2026-09-02"
+  },
+  {
+    "poiSlug": "buyeo-royal-tombs",
+    "capabilityCode": "entrance_passage",
+    "status": "supported",
+    "detail": "단차없는 출입구(경사로 있음) - 있음",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010104.html (부여문화관광 「부여왕릉원」 편의시설 정보)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "buyeo-royal-tombs",
+    "capabilityCode": "elevator",
+    "status": "unsupported",
+    "detail": "장애인 전용 엘리베이터 - 없음",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010104.html (부여문화관광 「부여왕릉원」 편의시설 정보)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "buyeo-royal-tombs",
+    "capabilityCode": "braille_block",
+    "status": "unsupported",
+    "detail": "시각장애인 편의 서비스(점자블록 등) - 없음",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010104.html (부여문화관광 「부여왕릉원」 편의시설 정보)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "buyeo-royal-tombs",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "detail": "주차장에서 왕릉원에 진입하여 넓은 탐방로를 따라 가는 길은 기본적으로 휠체어 무장애 탐방이 가능하다. 단, 능 앞까지 올라가는 길은 경사가 급해 도움을 받아도 오르내리기 쉽지 않다.",
+    "source": "https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 (열린관광 모두의 여행 추천 여행코스 「백제의 문화 그 자체, 부여」, 본문에 2022년 8월 작성 정보라고 적혀 있음)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "buyeo-royal-tombs",
+    "capabilityCode": "nursing_room",
+    "status": "unsupported",
+    "detail": "수유실 유무 - 없음",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010104.html (부여문화관광 「부여왕릉원」 편의시설 정보)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "buyeo-royal-tombs",
+    "capabilityCode": "guide_human",
+    "status": "partial",
+    "detail": "두 공식 안내가 다르다. 부여군 세계유산 관람안내는 「문화해설사 여부 가능(인원 : 10인 이상, 시간 : 10:00 17:00)」이라 적고, 부여문화관광 해설사 요청 안내는 「20인 이상의 단체 방문객」에 「방문일 기준 최소 10일 이전에 신청」, 근무시간 동절기 10:00~16:00 하절기 10:00~17:00이라 적는다.",
+    "source": "https://www.buyeo.go.kr/html/tour/help/help_0408.html (부여문화관광 문화관광해설사 요청) · https://www.buyeo.go.kr/html/heritage/sub2/sub2_0203.html (부여군 세계유산 「부여왕릉원」 관람안내)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "buyeo-naseong",
+    "capabilityCode": "audio_guide",
+    "status": "supported",
+    "detail": "국가유산 방문 캠페인 「백제 고도의 길」 오디오 가이드에 부여나성 편이 있고, 일반·어린이 두 가지 음성과 대본을 제공한다.",
+    "source": "https://www.kh.or.kr/visit/kor/bbsctt/list.do?key=2505240002&sc_ctgryNm=백제 고도의 길&bbscttSj=부여나성 (국가유산진흥원 국가유산 방문 캠페인 > 방문코스 > 오디오(수어) 가이드, 「백제 고도의 길」 부여나성)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-cultural-land",
+    "capabilityCode": "help_dog",
+    "status": "supported",
+    "detail": "반려동물 출입금지 *장애인 도우미견 제외",
+    "source": "https://www.bhm.or.kr/html/kr/sub01/sub010103.html (백제문화단지 「백제문화단지 관람 수칙」)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-cultural-land",
+    "capabilityCode": "path_continuity",
+    "status": "partial",
+    "detail": "전체 면적 3,300여㎡ 대부분을 휠체어로 돌아볼 수 있어 무장애 탐방에 좋은 곳이다. 능사 구역이나 생활문화마을 등의 크고 작은 건물들 내부로 휠체어가 진출입할 수 있는 경사로가 설치돼 있다. 사비성 구역의 궁궐 건물들도 내부까지 휠체어가 진입할 수 있다. 출처는 「대부분」이라고 적고, 간간이 아쉬운 점이 보인다고 덧붙인다.",
+    "source": "https://access.visitkorea.or.kr/cos/detail.do?cotId=a77b33c6-101f-41e9-9044-48a599a135b0 (열린관광 모두의 여행 추천 여행코스 「백제의 문화 그 자체, 부여」, 본문에 2022년 8월 작성 정보라고 적혀 있음)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-cultural-land",
+    "capabilityCode": "audio_guide",
+    "status": "supported",
+    "detail": "종합안내센터에 「물품대여소(휠체어,유모차),해설예약, 해설 음성안내기 대여,물품보관」이라고 적혀 있다.",
+    "source": "https://www.bhm.or.kr/html/kr/view/view_02_01.html (백제문화단지 편의시설안내)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-cultural-land",
+    "capabilityCode": "guide_human",
+    "status": "partial",
+    "detail": "한국어 해설은 10:00·11:00·13:00·14:00·15:00·16:00에 있고, 17:00 회차는 여름에만 운영한다. 영어·중국어·일본어는 사전 예약제다. 정양문 앞에서 기다리면 되고, 예약과 문의는 종합안내센터 041-408-7290이다. 사비궁에서 능사를 거쳐 고분공원까지 약 30분 걸린다.",
+    "source": "https://www.bhm.or.kr/html/kr/sub01/sub010201.html (백제문화단지 관람안내 > 해설안내)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-cultural-land",
+    "capabilityCode": "shade_indoor",
+    "status": "supported",
+    "detail": "편의시설안내에 「휴게소 1동 855㎡」가 있고, 그 안에 매점·휴게소·화장실이 있다.",
+    "source": "https://www.bhm.or.kr/html/kr/view/view_02_01.html (백제문화단지 편의시설안내)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-history-museum",
+    "capabilityCode": "help_dog",
+    "status": "supported",
+    "detail": "음식물 반입과 안내견 이외의 애완동물의 출입은 금지되어 있습니다.",
+    "source": "https://www.bhm.or.kr/html/kr/sub05/sub050201.html (백제역사문화관 이용안내 > 관람시 유의사항)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-history-museum",
+    "capabilityCode": "restroom",
+    "status": "supported",
+    "detail": "장애인 전용 화장실(1층)",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=c7eeb170-b643-49fb-b1b8-56eafea732ec (열린관광 모두의 여행, 페이지 수정일 2026-09-10)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "elevator",
+    "status": "unknown",
+    "detail": "부여군 편의시설 표는 「장애인 전용 엘리베이터 - 없음」이라고 적는다. 다만 한국관광공사는 이곳의 관람동선 전체를 평평한 흙길로 설명하고, 동문광장에서 포룡정을 돌아 서문광장에 이르는 900m가 무장애 동선으로 조성돼 있다. 안내하는 동선에서 층을 오르내릴 구간이 없으므로 엘리베이터를 필수 조건으로 보지 않는다.",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010103.html 의 「장애인 전용 엘리베이터 - 없음」과, https://access.visitkorea.or.kr/ms/detail.do?cotId=06c8fe6a-cefe-4fe6-998e-08b7d60726b5 의 「관람동선 모든 구간이 평평한 흙길이어서 관람에 큰 어려움이 없다」, https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 의 900m 무장애 관광 동선 조성내역을 함께 읽은 판단입니다. 설비가 없다는 사실은 위 문장에 그대로 남겨 두고, 그 사실로 전체 관람을 막지 않는다는 뜻입니다.",
+    "checkedAt": "2026-09-18",
+    "absenceKind": "not_applicable"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "help_dog",
+    "status": "supported",
+    "detail": "장애인 보조견 동반이 가능하다.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=06c8fe6a-cefe-4fe6-998e-08b7d60726b5 (열린관광 모두의 여행 「서동공원과 궁남지」 무장애 코멘트, 페이지 수정일 2026-09-10)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "guide_system",
+    "status": "supported",
+    "detail": "촉지음성안내판 — 관광지 전체 정보를 담은 안내판으로 '현 위치' 및 편의시설 위치를 픽토그램과 점자로 표기",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 (열린관광 모두의 여행 「부여 궁남지」 열린관광지 조성내역, 페이지 수정일 2024-07-02)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "path_continuity",
+    "status": "supported",
+    "detail": "관람동선 모든 구간이 평평한 흙길이어서 관람에 큰 어려움이 없다.",
+    "source": "https://access.visitkorea.or.kr/ms/detail.do?cotId=06c8fe6a-cefe-4fe6-998e-08b7d60726b5 (열린관광 모두의 여행 「서동공원과 궁남지」 무장애 코멘트, 페이지 수정일 2026-09-10)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "stroller",
+    "status": "unsupported",
+    "detail": "유모차 대여 여부 - 없음",
+    "source": "https://www.buyeo.go.kr/html/tour/info/info_010103.html (부여문화관광 「궁남지사계」 편의시설 정보)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "promotion_material",
+    "status": "supported",
+    "detail": "열린관광지 점자 가이드북, 팸플릿 제작 및 배포 — 이 항목이 세는 것은 팸플릿이고, 점자 홍보물은 별도 항목이다.",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 (열린관광 모두의 여행 「부여 궁남지」 열린관광지 조성내역, 페이지 수정일 2024-07-02)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "guide_human",
+    "status": "supported",
+    "detail": "관광안내소에 도움벨을 설치하여 인적서비스를 제공",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 (열린관광 모두의 여행 「부여 궁남지」 열린관광지 조성내역, 페이지 수정일 2024-07-02)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "rest_seating",
+    "status": "supported",
+    "detail": "동문주차장 인근 휠체어의 진입이 가능한 휴게테이블과 관광객이 휴게할 수 있는 벤치가 복합된 열린쉼터(1식)을 설치",
+    "source": "https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 (열린관광 모두의 여행 「부여 궁남지」 열린관광지 조성내역, 페이지 수정일 2024-07-02)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gungnamji",
+    "capabilityCode": "shade_indoor",
+    "status": "supported",
+    "detail": "한여름 뜨거운 햇살을 피할 수 있는 열린 쉼터도 곳곳에 배치했다.",
+    "source": "https://access.visitkorea.or.kr/cos/detail.do?cotId=27f3c810-b34f-4237-a62f-22f040c6e874 (열린관광 모두의 여행 추천 여행코스 「여전히 아름다운 백제의 꽃, 부여」, 본문에 2020년 4월 기준이라고 적혀 있음)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "gudeurae-sculpture-park",
+    "capabilityCode": "rest_seating",
+    "status": "supported",
+    "detail": "공원에 마련된 의자에 한참 앉아 흐르는 백마강을 바라보고 있노라니 선착장에서 출발한 황포돛배가 보인다.",
+    "source": "https://www.buyeo.go.kr/_prog/_board/?code=news_09&site_dvs_cd=kr&menu_dvs_cd=0412&mode=V&no=V2gjzYXmhlOERjDs_rxXVQ (부여군 전자군보 「선선한 바람이 불어오는 구드래조각공원」, 2018-10-04)",
+    "checkedAt": "2026-09-18"
+  },
+  {
+    "poiSlug": "baekje-history-museum",
+    "capabilityCode": "guide_human",
+    "status": "supported",
+    "detail": "한국어 해설은 10:30·11:30·14:30·15:30에 있고, 16:30 회차는 여름에만 운영한다. 건립기념관 앞에서 기다리면 되고, 예약과 문의는 종합안내센터 041-408-7290이다. 건립기념관에서 1·2전시실을 거쳐 특별기획전시실까지 약 30분 걸린다.",
+    "source": "https://www.bhm.or.kr/html/kr/sub01/sub010201.html (백제문화단지 관람안내 > 해설안내, 「백제역사문화관 해설 운영시간」)",
+    "checkedAt": "2026-09-18"
   }
 ]

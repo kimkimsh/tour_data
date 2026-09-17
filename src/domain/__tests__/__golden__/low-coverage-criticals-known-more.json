@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "unknown",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": null,
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "supported",
         "absenceKind": null,
@@ -313,7 +304,7 @@
         "rawScore": 1,
         "weighted": 0.18000000000000002,
         "knownCount": 2,
-        "totalCount": 4
+        "totalCount": 3
       },
       {
         "axis": "facility",
@@ -357,8 +348,8 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.38461538461538464,
-    "evidenceConfidence": 38,
+    "coverage": 0.4166666666666667,
+    "evidenceConfidence": 42,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "perPersona": [],
@@ -368,12 +359,6 @@
         "labelKo": "매표소",
         "reason": "매표소 정보 없음",
         "axis": "entry"
-      },
-      {
-        "capabilityCode": "public_transport",
-        "labelKo": "대중교통",
-        "reason": "대중교통 정보 없음",
-        "axis": "continuity"
       },
       {
         "capabilityCode": "path_continuity",
@@ -414,7 +399,7 @@
     ],
     "alternatives": [],
     "relevantKnownCount": 5,
-    "relevantTotalCount": 13,
+    "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -423,8 +408,8 @@
       "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 5,
-    "ktoTotalCount": 24,
+    "ktoUnknownCount": 4,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -454,11 +439,6 @@
       {
         "capabilityCode": "help_dog",
         "verifiedAt": "2026-08-01",
-        "source": "kto_with"
-      },
-      {
-        "capabilityCode": "public_transport",
-        "verifiedAt": null,
         "source": "kto_with"
       },
       {

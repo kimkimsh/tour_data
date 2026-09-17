@@ -100,7 +100,6 @@ const MATRIX: Record<string, readonly [GradeCell, GradeCell, GradeCell, GradeCel
   elevator: ['C', 'C', '.', '.', 'S'],
   ticket_office: ['S', 'S', 'S', 'S', '.'],
   help_dog: ['.', '.', 'C', '.', '.'],
-  public_transport: ['S', 'S', 'S', '.', 'S'],
   braille_block: ['.', '.', 'C', '.', '.'],
   guide_system: ['.', 'S', 'C', 'S', '.'],
   path_continuity: ['S', 'S', 'S', '.', 'S'],

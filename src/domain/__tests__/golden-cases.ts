@@ -190,7 +190,6 @@ export function goldenCases(): GoldenCase[] {
           wheelchair: { status: 'supported', verifiedAt: RECENT_DATE },
           restroom: { status: 'supported', verifiedAt: RECENT_DATE },
           parking: { status: 'supported', verifiedAt: RECENT_DATE },
-          public_transport: { status: 'supported', verifiedAt: RECENT_DATE },
         }),
       ),
     },

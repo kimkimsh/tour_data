@@ -175,7 +175,7 @@ GET /B551011/KorWithService2/detailWithTour2
 ```
 요청 파라미터는 **`contentId` 하나뿐**(대문자 I). 응답의 키는 소문자 `contentid`.
 
-응답 항목 — **`contentid` + 무장애 28개 = 총 29개.** 그중 `*etc` 4개를 뺀 **24개가 점수 대상**이다.
+응답 항목 — **`contentid` + 무장애 28개 = 총 29개.** 그중 원문으로만 싣는 5개(`*etc` 4개 + `publictransport`)를 뺀 **23개가 점수 대상**이다. `publictransport`는 길 안내 문장이라 어떤 판정도 맞지 않는다 — `docs/work_log/02_spec_corrections.md` X.
 
 | 분야 | 필드명(영문) | 항목명 |
 |---|---|---|
@@ -209,7 +209,7 @@ GET /B551011/KorWithService2/detailWithTour2
 | | `infantsfamilyetc` | 영유아가족 기타상세 *(점수 제외)* |
 
 > **[정정] 4가지를 바로잡는다.**
-> 1. 제안서와 기존 스펙의 **"21개 필드"는 틀렸다. 점수 대상은 24개**(+기타 4개 = 28개).
+> 1. 제안서와 기존 스펙의 **"21개 필드"는 틀렸다. 점수 대상은 23개**(+원문 5개 = 28개).
 > 2. 일부 조사 문서가 주장한 `handicaptoilet` / `handicapparking` / `nursingroom`은 **존재하지 않는다.** 실제 이름은 `restroom` / `parking` / `lactationroom`이다.
 > 3. **철자 함정** — `braileblock`, `brailepromotion`은 `l`이 **하나**다(`braille` 아님). `infantsfamilyetc`는 `infants` 복수형이다. 기타 항목 4개는 접두사가 전부 다르다: `handicapetc` / `blindhandicapetc` / `hearinghandicapetc` / `infantsfamilyetc`.
 > 4. 매뉴얼 내부에도 오류가 있다 — 표에서는 `route`(접근로)에 샘플값 "출입구까지 경사로가 설치되어 있음"이 붙어 있는데, 같은 문서의 XML 예시에서는 그 값이 `publictransport`에 들어 있다. **둘 다 원문 그대로 저장하고 화면에도 원문을 보여준다.** 어느 쪽이 맞는지 추론하지 않는다.

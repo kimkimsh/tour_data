@@ -30,7 +30,6 @@ export const CAPABILITIES: readonly Capability[] = [
   { code: 'ticket_office', ktoField: 'ticketoffice', labelKo: '매표소', labelEn: 'Ticket office', axis: 'entry' },
   { code: 'help_dog', ktoField: 'helpdog', labelKo: '보조견 동반', labelEn: 'Assistance dogs', axis: 'entry' },
   // continuity
-  { code: 'public_transport', ktoField: 'publictransport', labelKo: '대중교통', labelEn: 'Public transport', axis: 'continuity' },
   { code: 'braille_block', ktoField: 'braileblock', labelKo: '점자블록', labelEn: 'Tactile paving', axis: 'continuity' },
   { code: 'guide_system', ktoField: 'guidesystem', labelKo: '유도 안내 설비', labelEn: 'Wayfinding signage', axis: 'continuity' },
   { code: 'path_continuity', ktoField: null, labelKo: '경로 연속성', labelEn: 'Route continuity', axis: 'continuity' },
@@ -96,10 +95,21 @@ export function catalogueIndex(code: string): number {
 }
 
 /**
- * The four *etc fields are not capabilities. When they carry a value it goes to
- * pois[].etcNotes and is shown as "기타 안내"; it never enters the score.
+ * detailWithTour2 fields that are prose, not a state. They go to pois[].etcNotes and
+ * are shown as "기타 안내"; none of them enters the score.
+ *
+ * The four *etc fields were always this. `publictransport` joined them because it
+ * cannot answer the question a capability row asks. Measured across the 76
+ * barrier-free entries in 공주 and 부여, 22 carry a value and almost all of them are
+ * directions — '공주역에서 산성동 정류장으로 201,202번 버스 하차 후 도보 30분'. There is
+ * no reading of that as available or unavailable, and resolveStatus correctly
+ * declined 6 of the 8 samples. The one it did not decline it got backwards:
+ * '대중교통 이용가능 : 사기소 정류장.저상버스 없음.' resolved to 이용 불가.
+ *
+ * The sentence is worth showing and is shown. What it is not is a verdict.
  */
-export const KTO_ETC_FIELDS = [
+export const KTO_PROSE_FIELDS = [
+  'publictransport',
   'handicapetc',
   'blindhandicapetc',
   'hearinghandicapetc',
@@ -113,8 +123,26 @@ export const KTO_ETC_FIELDS = [
  * '경사' carries a negative lookahead because '경사로' is a ramp — a facility — and
  * matching it as a barrier would turn every "출입구까지 경사로가 설치되어 있음" into
  * an absence.
+ *
+ * '턱' is the head noun, not '문턱'. Listing the compound missed every sentence that
+ * uses the bare form, and KTO writes both: '주 출입구는 턱이 없어 휠체어 접근 가능함'
+ * had no barrier to attach its 없어 to, so the negation fell through to the sentence
+ * rule below and published a step-free entrance as 이용 불가. The bare form still
+ * matches inside 문턱, 경사턱 and 단차턱, all of which are the same barrier.
+ *
+ * The lookahead excludes 턱없-, the stem of a different word — an adverb meaning
+ * "nowhere near enough", and one Korean uses about facilities. Without it '턱없이
+ * 부족한 편의시설' parsed as a barrier that is absent, and under a path field that is
+ * the reading that publishes 이용 가능 for a sentence saying the opposite. Excluding
+ * the whole stem rather than its two commonest endings is what makes 턱없어 and 턱없음
+ * safe too; listing 이/는 alone left '편의시설이 턱없어 불편함' answering 이용 가능.
+ *
+ * The cost is 턱없음 written for a step-free entrance, which now reads as a barrier
+ * nobody confirmed and answers 이용 불가. That is the safe direction, and the spaced
+ * form KTO actually writes — 턱 없음, 턱이 없어 — still matches, because a barrier and
+ * its negation are always separated by a particle or a space and the adverb never is.
  */
-const BARRIER_NOUN = /(단차|문턱|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;
+const BARRIER_NOUN = /(단차|턱(?!없)|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;
 
 /**
  * Looked for in the few characters after a barrier noun, not across the sentence.
@@ -277,6 +305,12 @@ export function resolveStatus(
 
   const rest = barrier.rest;
   if (CONDITIONAL.test(rest)) return 'partial';
+  // Sentence-wide, deliberately, and the one rule here that does not ask what its
+  // marker is attached to. KTO's commonest way of recording a confirmed absence names
+  // the substitute in the same breath — '장애인 화장실 없음. 인근 공중화장실 이용 가능.'
+  // — so a rule that backed off to unknown whenever an un-negated presence claim sat
+  // beside the negation would answer 확인 필요 for exactly those, and 확인 필요 is what
+  // sends a wheelchair user to a building they cannot enter.
   if (NEGATION.test(rest)) return 'unsupported';
   // A barrier noun nobody could read the polarity of blocks every positive verdict
   // below. '계단으로만 이동 가능' used to reach 'supported' this way: the stairs were

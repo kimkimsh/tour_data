@@ -31,9 +31,9 @@ function checkGolden(name: string, input: unknown, actual: SuitabilityResult): v
 }
 
 describe('capability catalogue', () => {
-  it('holds 31 capabilities, 24 of them KTO-scored', () => {
-    expect(CAPABILITIES).toHaveLength(31);
-    expect(CAPABILITIES.filter((c) => c.ktoField !== null)).toHaveLength(24);
+  it('holds 30 capabilities, 23 of them KTO-scored', () => {
+    expect(CAPABILITIES).toHaveLength(30);
+    expect(CAPABILITIES.filter((c) => c.ktoField !== null)).toHaveLength(23);
   });
 
   it('has unique codes and unique KTO field names', () => {
@@ -269,7 +269,8 @@ describe('spec properties the golden files must keep', () => {
 
   it('not_applicable leaves the denominator, and is not counted as an item', () => {
     const result = run('not-applicable-excluded');
-    expect(result.ktoTotalCount).toBe(22);
+    // 23 KTO-scored fields less the two guest-room ones this kind of place cannot have.
+    expect(result.ktoTotalCount).toBe(21);
     const facility = result.axes.find((a) => a.axis === 'facility');
     expect(facility?.totalCount).toBe(5);
     expect(facility?.rawScore).toBeCloseTo(1, 12);

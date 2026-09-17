@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { AXES } from '@/domain/types';
 import type { Axis, CapabilityStatus, Locale } from '@/domain/types';
-import { CAPABILITIES, getCapability } from '@/domain/capabilities';
+import { CAPABILITIES, KTO_PROSE_FIELDS, getCapability } from '@/domain/capabilities';
 import { AXIS_LABEL } from '@/domain/suitability';
 import type { Fact } from '@/domain/snapshot-schema';
 import { EvidenceRow } from '@/components/EvidenceRow';
@@ -123,19 +123,45 @@ export function CapabilityEvidence({
             {t('etcNotes')}
           </h3>
           <p className="mt-1 t-sm text-[var(--color-ink-2)]">{t('etcNotesHint')}</p>
-          <ul className="mt-3 grid gap-3">
-            {etcNotes.map((note) => (
-              <li key={note.sourceField}>
-                <p className="evidence__provenance">{note.sourceField}</p>
-                <p>{note.text}</p>
-              </li>
-            ))}
+          <ul className="mt-3 grid gap-4">
+            {etcNotes.map((note) => {
+              const label = proseLabel(note.sourceField, t);
+              return (
+                <li key={note.sourceField} className="grid gap-1">
+                  {/* A Korean heading, not the wire key. A list headed
+                      `detailWithTour2.blindhandicapetc` is not findable by anyone
+                      looking for what it says, and 대중교통 — a capability row until
+                      this round — is the one people search for by name. The field
+                      name stays underneath, where every other source line sits.
+                      h4 because the section itself is the h3 above. */}
+                  {label === null ? null : <h4 className="subhead">{label}</h4>}
+                  <p lang="ko">{note.text}</p>
+                  <p className="evidence__provenance">{note.sourceField}</p>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}
     </section>
   );
 }
+
+/**
+ * The Korean name for a prose field, or null for one this build has no name for —
+ * detailInfo2 rows arrive under whatever `infoname` the operator typed, and inventing
+ * a heading for those would name something we did not read.
+ */
+function proseLabel(
+  sourceField: string,
+  t: (key: string) => string,
+): string | null {
+  const field = sourceField.startsWith(PROSE_PREFIX) ? sourceField.slice(PROSE_PREFIX.length) : null;
+  if (field === null) return null;
+  return (KTO_PROSE_FIELDS as readonly string[]).includes(field) ? t(`proseLabel.${field}`) : null;
+}
+
+const PROSE_PREFIX = 'detailWithTour2.';
 
 function axisLabel(axis: Axis, locale: Locale): string {
   return locale === 'ko' ? AXIS_LABEL[axis].ko : AXIS_LABEL[axis].en;

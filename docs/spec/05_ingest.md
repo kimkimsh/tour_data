@@ -111,7 +111,6 @@ export const CAPABILITIES = [
   { code: 'ticket_office',     ktoField: 'ticketoffice',     labelKo: '매표소',            axis: 'entry' },
   { code: 'help_dog',          ktoField: 'helpdog',          labelKo: '보조견 동반',       axis: 'entry' },
   // ── 이동 (continuity) ─────────────────────────────────
-  { code: 'public_transport',  ktoField: 'publictransport',  labelKo: '대중교통',          axis: 'continuity' },
   { code: 'braille_block',     ktoField: 'braileblock',      labelKo: '점자블록',          axis: 'continuity' },
   { code: 'guide_system',      ktoField: 'guidesystem',      labelKo: '유도 안내 설비',    axis: 'continuity' },
   { code: 'path_continuity',   ktoField: null,               labelKo: '경로 연속성',       axis: 'continuity' },
@@ -162,7 +161,7 @@ export type Axis = typeof CAPABILITIES[number]['axis'];
 // ★ 판정은 문장 전체가 아니라 **어휘 주변**을 본다. 부정어 하나가 어디에 붙었는지가
 //   방향을 정하기 때문이다 — `단차 없음`(좋음)과 `엘리베이터 없음`(나쁨)은 같은
 //   `없음`이고, 앞의 명사가 장애물인지 시설인지만 다르다.
-const BARRIER_NOUN = /(단차|문턱|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;
+const BARRIER_NOUN = /(단차|턱(?!없)|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;  // ← 머리 명사 '턱'. '문턱'만 적으면 맨 '턱'을 놓치고, 부정 전망 없이 적으면 '턱없이'(부사)를 장벽으로 읽는다
 const NEGATED_NEARBY = /(없|아니|불가|미설치|않|못)/;  // 명사 뒤 8자 안에서만 본다
 const PRESENT_NEARBY = /(있|존재|많|만)/;             // '만'은 배타 조사 — '계단으로만'
 
@@ -190,7 +189,11 @@ export function resolveStatus(raw: string | null | undefined): CapabilityStatus 
 
   // ③ 장애물 구절을 걷어낸 나머지 문장으로 판정한다
   if (CONDITIONAL.test(barrier.rest)) return 'partial';   // 일부·제한·어려움·사전문의…
-  if (NEGATION.test(barrier.rest))   return 'unsupported'; // 시설 부재는 부재다
+  // 부정만은 일부러 문장 전체를 본다. KTO가 확인된 부재를 적는 가장 흔한 방식이
+  // 대체 수단을 같은 문장에 붙이는 것이기 때문이다 — '장애인 화장실 없음. 인근
+  // 공중화장실 이용 가능.' 부정 옆의 긍정 주장을 이유로 '모름'으로 물러서면 이런
+  // 문장이 전부 '확인 필요'가 되고, 그것이 휠체어 이용자를 못 들어가는 건물로 보낸다
+  if (NEGATION.test(barrier.rest)) return 'unsupported';
   // 극성을 읽지 못한 장애물 명사는 아래 긍정 판정을 전부 막는다
   if (barrier.ambiguous)             return 'unknown';
   if (hasUnnegatedPresence(barrier.rest)) return 'supported';

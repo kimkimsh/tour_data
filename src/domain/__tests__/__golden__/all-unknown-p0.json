@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "unknown",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": null,
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "unknown",
         "absenceKind": null,
@@ -311,7 +302,7 @@
         "rawScore": 0,
         "weighted": 0,
         "knownCount": 0,
-        "totalCount": 4
+        "totalCount": 3
       },
       {
         "axis": "facility",
@@ -401,12 +392,6 @@
         "labelKo": "보조견 동반",
         "reason": "보조견 동반 정보 없음",
         "axis": "entry"
-      },
-      {
-        "capabilityCode": "public_transport",
-        "labelKo": "대중교통",
-        "reason": "대중교통 정보 없음",
-        "axis": "continuity"
       },
       {
         "capabilityCode": "braille_block",
@@ -555,7 +540,7 @@
     ],
     "alternatives": [],
     "relevantKnownCount": 0,
-    "relevantTotalCount": 31,
+    "relevantTotalCount": 30,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -567,8 +552,8 @@
       "total": 4,
       "unknown": 4
     },
-    "ktoUnknownCount": 24,
-    "ktoTotalCount": 24,
+    "ktoUnknownCount": 23,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -597,11 +582,6 @@
       },
       {
         "capabilityCode": "help_dog",
-        "verifiedAt": null,
-        "source": "kto_with"
-      },
-      {
-        "capabilityCode": "public_transport",
         "verifiedAt": null,
         "source": "kto_with"
       },

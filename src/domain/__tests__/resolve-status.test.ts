@@ -94,6 +94,33 @@ const CASES: ReadonlyArray<readonly [string, string, CapabilityStatus, string]> 
   ['장애인 주차장 있음(매표소주차장 2대, 방문자센터 1대)', 'parking', 'supported', 'parking with a count'],
   ['오디오 가이드 제공', 'audio_guide', 'supported', 'audio guide provided'],
   ['안내요원 상시 배치', 'guide_human', 'unknown', 'no vocabulary this function recognises — stays unknown'],
+
+  // A negation whose subject is a barrier the dictionary did not carry. BARRIER_NOUN
+  // listed 문턱 and not the head noun 턱, so 없어 had nothing to attach to, fell through
+  // to the sentence-wide rule, and reached the harshest verdict in the system.
+  ['주 출입구는 턱이 없어 휠체어 접근 가능함', 'entrance_passage', 'supported', '서동공원과 궁남지 — published as 이용 불가, and it is the only 대체추천 in the corpus'],
+  ['출입구까지 턱이 없어 휠체어 접근 가능함', 'access_route', 'supported', '무령왕릉 — the same words, which a curated fact was covering for'],
+  ['턱이 있음', 'entrance_passage', 'unsupported', 'the bare form as a present barrier, the direction the compound already had'],
+  ['경사턱 없음', 'entrance_passage', 'supported', 'a compound the bare head noun reaches'],
+  // 턱없이 is an adverb — "nowhere near enough" — not the barrier noun plus a negation.
+  // What these two pin is the direction, not the grade: with 턱 matching as a barrier
+  // the phrase parsed as a barrier confirmed absent, and under a path field that reads
+  // as 이용 가능 for a sentence saying the opposite.
+  ['턱없이 부족한 편의시설', 'access_route', 'unsupported', '「nowhere near enough」 — must never read as step-free'],
+  ['주차 공간이 턱없이 모자람', 'parking', 'unsupported', 'the same adverb in the phrase it usually appears in'],
+  ['편의시설이 턱없어 불편함', 'access_route', 'unsupported', '턱없어 — the ending an 이/는 lookahead missed, and it answered 이용 가능'],
+  ['주차면이 턱없다', 'parking', 'unsupported', 'the plain form of the same adverb'],
+  ['턱 없음', 'entrance_passage', 'supported', 'the spaced form KTO writes, which the stem lookahead must keep'],
+
+  // KTO records a confirmed absence and its substitute in one breath. The sentence-wide
+  // negation rule is what answers these, and backing it off to unknown whenever an
+  // un-negated presence claim sits beside the negation turns every one of them into
+  // 확인 필요 for a facility somebody has already been told is not there.
+  ['장애인 화장실 없음. 인근 공중화장실 이용 가능.', 'restroom', 'unsupported', 'the absence is about this capability; the presence is about another building'],
+  ['엘리베이터는 없으나 1층만 관람 가능', 'elevator', 'unsupported', 'the same shape inside one clause'],
+  ['휠체어 대여 없음. 유아차는 대여 가능.', 'wheelchair', 'unsupported', 'two rental items, one absent'],
+  // The guard must not reach a sentence whose only presence stem is itself negated.
+  ['장애인용 화장실이 설치되어 있지 않습니다', 'restroom', 'unsupported', '-지 않- around 설치되어 — the round-09 direction, still unsupported'],
 ];
 
 describe('resolveStatus', () => {

@@ -158,12 +158,12 @@ A = 0.30·진입 + 0.18·이동 + 0.18·편의시설 + 0.14·정보안내 + 0.10
 | 축 | 코드 | 가중치 | 포함 항목 | 개수 |
 |---|---|---|---|---|
 | 진입 | `entry` | **0.30** | `access_route` `entrance_passage` `wheelchair` `elevator` `ticket_office` `help_dog` | 6 |
-| 이동 | `continuity` | **0.18** | `public_transport` `braille_block` `guide_system` `path_continuity` | 4 |
+| 이동 | `continuity` | **0.18** | `braille_block` `guide_system` `path_continuity` | 3 |
 | 편의시설 | `facility` | **0.18** | `restroom` `parking` `stroller` `nursing_room` `baby_chair` `room` `hearing_room` | 7 |
 | 정보안내 | `information` | **0.14** | `audio_guide` `big_print` `braille_promotion` `promotion_material` `guide_human` `sign_guide` `video_caption` `visual_alarm` | 8 |
 | 휴식 | `rest` | **0.10** | `auditorium` `rest_seating` `shade_indoor` | 3 |
 | 상황 | `context` | **0.10** | `crowd_forecast` `weather_warning` `weather_forecast` `emergency_distance` `aed_distance` | 5 |
-| | | **1.00** | | **32** |
+| | | **1.00** | | **30** |
 
 ### 축 안의 세부 가중치 — **균등**
 
@@ -265,7 +265,6 @@ B = 0.75 + 0.25 × min( 선택한 모든 페르소나의 personaFit )
 | `elevator` 엘리베이터 | 진입 | **C** | **C** | · | · | S |
 | `ticket_office` 매표소 | 진입 | S | S | S | S | · |
 | `help_dog` 보조견 동반 | 진입 | · | · | **C** | · | · |
-| `public_transport` 대중교통 | 이동 | S | S | S | · | S |
 | `braille_block` 점자블록 | 이동 | · | · | **C** | · | · |
 | `guide_system` 유도 안내 설비 | 이동 | · | S | **C** | S | · |
 | `path_continuity` 경로 연속성 ※ | 이동 | S | S | S | · | S |

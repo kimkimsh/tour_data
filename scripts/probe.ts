@@ -20,7 +20,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { z } from 'zod';
-import { CAPABILITIES, KTO_ETC_FIELDS } from '@/domain/capabilities';
+import { CAPABILITIES, KTO_PROSE_FIELDS } from '@/domain/capabilities';
 import { distanceMeters } from '@/domain/geo';
 import type { LatLng } from '@/domain/types';
 import {
@@ -375,7 +375,7 @@ async function checkP01(context: ProbeContext): Promise<CheckOutcome> {
     answered += 1;
     const row = asRecord(detail.items[0]);
     const filled = SCORED_KTO_FIELDS.filter((field) => isFilled(row[field]));
-    for (const field of KTO_ETC_FIELDS) {
+    for (const field of KTO_PROSE_FIELDS) {
       if (isFilled(row[field])) etcFound.push(`${name}/${field}`);
     }
     // Reads straight off the wire, not through the typed row: a misspelling in our schema

@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "supported",
         "absenceKind": null,
@@ -103,56 +94,56 @@
       },
       {
         "capabilityCode": "parking",
-        "status": "partial",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
         "capabilityCode": "stroller",
-        "status": "partial",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
         "capabilityCode": "nursing_room",
-        "status": "partial",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
         "capabilityCode": "baby_chair",
-        "status": "partial",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
         "capabilityCode": "room",
-        "status": "partial",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
         "capabilityCode": "hearing_room",
-        "status": "partial",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -290,8 +281,8 @@
   "expected": {
     "score": 74,
     "label": "주의",
-    "layerA": 0.7954545454545455,
-    "layerB": 0.9338235294117647,
+    "layerA": 0.7727272727272728,
+    "layerB": 0.9625,
     "axes": [
       {
         "axis": "entry",
@@ -308,10 +299,10 @@
         "labelKo": "이동",
         "labelEn": "Movement",
         "weight": 0.27272727272727276,
-        "rawScore": 0.75,
-        "weighted": 0.20454545454545459,
-        "knownCount": 4,
-        "totalCount": 4
+        "rawScore": 0.6666666666666666,
+        "weighted": 0.18181818181818182,
+        "knownCount": 3,
+        "totalCount": 3
       },
       {
         "axis": "facility",
@@ -320,7 +311,7 @@
         "weight": 0.27272727272727276,
         "rawScore": 0.5,
         "weighted": 0.13636363636363638,
-        "knownCount": 7,
+        "knownCount": 1,
         "totalCount": 7
       },
       {
@@ -355,12 +346,48 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.5483870967741935,
-    "evidenceConfidence": 55,
+    "coverage": 0.3333333333333333,
+    "evidenceConfidence": 33,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "perPersona": [],
     "deductions": [
+      {
+        "capabilityCode": "parking",
+        "labelKo": "장애인 주차구역",
+        "reason": "장애인 주차구역 정보 없음",
+        "axis": "facility"
+      },
+      {
+        "capabilityCode": "stroller",
+        "labelKo": "유아차 대여",
+        "reason": "유아차 대여 정보 없음",
+        "axis": "facility"
+      },
+      {
+        "capabilityCode": "nursing_room",
+        "labelKo": "수유실",
+        "reason": "수유실 정보 없음",
+        "axis": "facility"
+      },
+      {
+        "capabilityCode": "baby_chair",
+        "labelKo": "유아용 보조의자",
+        "reason": "유아용 보조의자 정보 없음",
+        "axis": "facility"
+      },
+      {
+        "capabilityCode": "room",
+        "labelKo": "휠체어 이용 가능 객실",
+        "reason": "휠체어 이용 가능 객실 정보 없음",
+        "axis": "facility"
+      },
+      {
+        "capabilityCode": "hearing_room",
+        "labelKo": "청각장애인 편의 객실",
+        "reason": "청각장애인 편의 객실 정보 없음",
+        "axis": "facility"
+      },
       {
         "capabilityCode": "audio_guide",
         "labelKo": "오디오 가이드",
@@ -447,8 +474,8 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 17,
-    "relevantTotalCount": 31,
+    "relevantKnownCount": 10,
+    "relevantTotalCount": 30,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -456,8 +483,8 @@
       "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 8,
-    "ktoTotalCount": 24,
+    "ktoUnknownCount": 14,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -490,11 +517,6 @@
         "source": "kto_with"
       },
       {
-        "capabilityCode": "public_transport",
-        "verifiedAt": "2026-08-01",
-        "source": "kto_with"
-      },
-      {
         "capabilityCode": "braille_block",
         "verifiedAt": "2026-08-01",
         "source": "kto_with"
@@ -516,32 +538,32 @@
       },
       {
         "capabilityCode": "parking",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
         "capabilityCode": "stroller",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
         "capabilityCode": "nursing_room",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
         "capabilityCode": "baby_chair",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
         "capabilityCode": "room",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
         "capabilityCode": "hearing_room",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {

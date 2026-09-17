@@ -185,6 +185,13 @@
     "fieldTabs": "축별 바로가기",
     "etcNotes": "기타 안내",
     "etcNotesHint": "무장애 항목으로 나누지 못한 원문 설명입니다. 점수에는 반영하지 않습니다.",
+    "proseLabel": {
+      "publictransport": "대중교통 안내",
+      "handicapetc": "지체장애",
+      "blindhandicapetc": "시각장애",
+      "hearinghandicapetc": "청각장애",
+      "infantsfamilyetc": "영유아 동반"
+    },
     "reportsEmpty": "아직 올라온 제보가 없습니다.",
     "reportsDisclaimer": "방문자가 직접 올린 내용이고, 운영자가 확인한 정보는 아닙니다. 위 「판정에 들어간 항목」과는 따로 보시고, 판정에도 넣지 않습니다.",
     "reportFlag": "신고",

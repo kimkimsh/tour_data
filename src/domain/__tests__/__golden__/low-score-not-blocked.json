@@ -57,15 +57,6 @@
         "isKtoScored": true
       },
       {
-        "capabilityCode": "public_transport",
-        "status": "supported",
-        "absenceKind": null,
-        "detail": null,
-        "source": "kto_with",
-        "verifiedAt": "2026-08-01",
-        "isKtoScored": true
-      },
-      {
         "capabilityCode": "braille_block",
         "status": "unknown",
         "absenceKind": null,
@@ -299,9 +290,9 @@
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
-        "weight": 0.4545454545454546,
+        "weight": 0.625,
         "rawScore": 1,
-        "weighted": 0.4545454545454546,
+        "weighted": 0.625,
         "knownCount": 3,
         "totalCount": 6
       },
@@ -309,19 +300,19 @@
         "axis": "continuity",
         "labelKo": "이동",
         "labelEn": "Movement",
-        "weight": 0.27272727272727276,
-        "rawScore": 1,
-        "weighted": 0.27272727272727276,
-        "knownCount": 1,
-        "totalCount": 4
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
+        "knownCount": 0,
+        "totalCount": 3
       },
       {
         "axis": "facility",
         "labelKo": "편의시설",
         "labelEn": "Facilities",
-        "weight": 0.27272727272727276,
+        "weight": 0.375,
         "rawScore": 1,
-        "weighted": 0.27272727272727276,
+        "weighted": 0.375,
         "knownCount": 2,
         "totalCount": 7
       },
@@ -357,8 +348,8 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.46153846153846156,
-    "evidenceConfidence": 46,
+    "coverage": 0.4166666666666667,
+    "evidenceConfidence": 42,
     "knownCriticalBlockers": [],
     "unknownCriticals": [
       "elevator"
@@ -517,8 +508,8 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 6,
-    "relevantTotalCount": 13,
+    "relevantKnownCount": 5,
+    "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -528,7 +519,7 @@
     ],
     "noVerdictBasis": null,
     "ktoUnknownCount": 18,
-    "ktoTotalCount": 24,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -558,11 +549,6 @@
       {
         "capabilityCode": "help_dog",
         "verifiedAt": null,
-        "source": "kto_with"
-      },
-      {
-        "capabilityCode": "public_transport",
-        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {

@@ -11,7 +11,7 @@
 
 | | |
 |---|---|
-| **주소** | https://modu-baekje.vercel.app |
+| **주소** | https://www.modubaekje.com |
 | **데이터** | 공공데이터포털 API 11종 + 기상청, Supabase `data_snapshots` 6개 스냅샷 |
 | **야간 수집** | GitHub Actions, 매일 04:00 KST. 스냅샷을 `main`에 커밋하고 Vercel이 이어서 배포한다 |
 | **결정 5가지** | 전부 결정됨 (04번) |
@@ -62,5 +62,5 @@ content validation passed: 6 places, 20 facilities, 1 certifications, 54 curated
 
 ## 이 문서들이 다루지 않는 것
 
-- **도메인 연결** — 아직 `*.vercel.app`을 쓴다
+- ~~**도메인 연결**~~ — `www.modubaekje.com` (2026-09-18). 정식 주소는 `www.`가 붙은 쪽이고, `modubaekje.com`은 거기로 308 넘긴다
 - **NVDA 수동 접근성 점검** — Windows가 필요하다. `../work_log/04_open_items.md` §4b

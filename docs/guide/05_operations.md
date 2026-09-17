@@ -29,7 +29,7 @@ pnpm ingest
 | `KTO_SERVICE_KEY_DECODING` | 공공데이터포털 일반 인증키 — **Decoding 쪽** |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL |
 | `SUPABASE_SERVICE_ROLE_KEY` | 서버 전용 키. 스냅샷을 쓰는 유일한 권한 |
-| `NEXT_PUBLIC_SITE_URL` | `https://modu-baekje.vercel.app` — 캐시 무효화를 부를 주소 |
+| `NEXT_PUBLIC_SITE_URL` | `https://www.modubaekje.com` — 캐시 무효화를 부를 주소. **`www.`가 붙은 쪽이다** (§8) |
 | `REVALIDATE_SECRET` | `/api/revalidate`의 공유 비밀 |
 
 같은 다섯 개가 로컬 `.env.local`에도 있다.
@@ -57,7 +57,7 @@ pnpm exec node -e "
 const {chromium}=require('@playwright/test');
 (async()=>{const b=await chromium.launch();const p=await (await b.newContext()).newPage();
 const e=[];p.on('console',m=>{if(m.type()==='error')e.push(m.text().slice(0,90))});
-await p.goto('https://modu-baekje.vercel.app/ko/places',{waitUntil:'networkidle'});
+await p.goto('https://www.modubaekje.com/ko/places',{waitUntil:'networkidle'});
 await p.waitForTimeout(6000);
 console.log(await p.evaluate(()=>({canvas:!!document.querySelector('.map-canvas'),pins:document.querySelectorAll('.map-pin').length})));
 console.log([...new Set(e)]);await b.close();})()"
@@ -91,13 +91,13 @@ pnpm ingest --only=docent      # 한 단계만
 
 ```
 ok       cache invalidated on localhost:3000      ← 배포본은 그대로다
-ok       cache invalidated on modu-baekje.vercel.app
+ok       cache invalidated on www.modubaekje.com
 ```
 
 배포본을 즉시 갱신하려면 직접 부른다.
 
 ```bash
-curl -X POST https://modu-baekje.vercel.app/api/revalidate \
+curl -X POST https://www.modubaekje.com/api/revalidate \
   -H "authorization: Bearer $REVALIDATE_SECRET"
 ```
 
@@ -140,8 +140,8 @@ CI(`.github/workflows/ci.yml`)가 e2e까지 포함해 같은 것을 돌린다.
 ### 배포 뒤 확인하는 것
 
 ```bash
-curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://modu-baekje.vercel.app/
-# 307 https://modu-baekje.vercel.app/ko   ← 307이 아니면 프록시가 안 실린 것이다
+curl -s -o /dev/null -w '%{http_code} %{redirect_url}\n' https://www.modubaekje.com/
+# 307 https://www.modubaekje.com/ko   ← 307이 아니면 프록시가 안 실린 것이다
 ```
 
 **`/`가 404면 `src/proxy.ts`를 확인한다.** 이 프로젝트는 `src/app`을 쓰므로 Next 16은 `src/proxy.ts`에서만 프록시를 찾는다. 저장소 루트에 두면 **조용히** 프록시 0개로 빌드되고, `/` → `/ko`를 보내는 것이 프록시뿐이라 첫 화면이 404가 된다. 증거는 `.next/server/middleware-manifest.json`에 `"middleware": {}`로 남는다. (`../work_log/10_second_audit.md` §1)
@@ -233,7 +233,7 @@ curl -s -H 'User-Agent: modu-baekje/1.0' \
 
 ## 7. 관리자 화면
 
-`https://modu-baekje.vercel.app/admin/reports` — 이메일·비밀번호 로그인.
+`https://www.modubaekje.com/admin/reports` — 이메일·비밀번호 로그인.
 
 들어갈 수 있는 계정은 `admin_users` 테이블에 있는 것뿐이다. 추가는 [`02_supabase.md`](./02_supabase.md) 마지막의 SQL 한 줄.
 
@@ -247,4 +247,35 @@ curl -s -H 'User-Agent: modu-baekje/1.0' \
 |---|---|
 | **NVDA 수동 접근성 점검** | Windows가 필요하다. 그때까지 화면 문구가 「아직 안 했다」고 말한다 |
 | **`flag_report` 호출 제한** | 익명 세션도 `authenticated`라서 지금 제한이 아무도 막지 못한다. 피해 경로는 관리자 화면 쪽에서 막혀 있다. 고치려면 `003_report_flags.sql`이 필요하다 |
-| **도메인 연결** | `*.vercel.app`을 쓴다 |
+| **`.kr` 도메인** | `www.modubaekje.com`을 쓴다. Vercel은 `.kr`·`.co.kr`을 팔지 않으므로, 그쪽으로 가려면 한국 등록기관에서 사서 DNS를 직접 넘겨야 한다 |
+
+---
+
+## 9. 도메인 — `www.modubaekje.com`
+
+정식 주소는 **`www.`가 붙은 쪽**이다. `modubaekje.com`은 거기로 308을 넘긴다.
+
+```
+https://modubaekje.com/            308 → https://www.modubaekje.com/
+https://www.modubaekje.com/        307 → /ko
+https://www.modubaekje.com/ko      200
+```
+
+### 주소를 바꾸면 같이 바뀌어야 하는 것 넷
+
+한 곳만 고치고 끝내면 **새 주소에서만** 조용히 깨진다. 옛 주소에서는 멀쩡하므로 브라우저로 새 주소를 직접 열기 전까지 안 보인다.
+
+| 무엇 | 어디 | 안 고치면 |
+|---|---|---|
+| **네이버 지도 서비스 URL** | NCP 콘솔 → AI·NAVER API → Application → `modu-baekje` → Web 서비스 URL | 새 주소에서만 타일이 안 뜬다. 키는 비밀이 아니고, **실제로 키를 제한하는 것이 이 목록**이다 |
+| `NEXT_PUBLIC_SITE_URL` | Vercel 프로젝트 환경변수 | — |
+| `NEXT_PUBLIC_SITE_URL` | GitHub 저장소 시크릿 | 야간 수집이 옛 주소의 캐시를 지운다. 새 주소는 최대 한 시간 동안 옛 화면을 내보낸다 |
+| 주소가 적힌 문서 | `00_README.md` · 이 문서 | — |
+
+기존 `*.vercel.app` 주소는 **지우지 않는다.** Vercel이 계속 같은 배포를 서비스하고, NCP 목록에도 남겨 둬야 전환 중에 둘 다 동작한다.
+
+**정식 주소를 apex(`modubaekje.com`)로 바꾸려거든 NCP 목록에 apex도 넣어야 한다.** 지금은 브라우저가 항상 `www.`로 넘어가므로 지도가 도는 origin은 `www.` 하나뿐이다.
+
+### 확인
+
+`curl`로는 지도를 볼 수 없다 — 캔버스는 하이드레이션 뒤에 생기므로 HTML에는 `map-canvas`가 없다. §3의 헤드리스 검사를 새 주소로 돌린다.

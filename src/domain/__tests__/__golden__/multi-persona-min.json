@@ -284,9 +284,9 @@
   },
   "expected": {
     "score": 87,
-    "label": "방문가능",
+    "label": "주의",
     "layerA": 0.9000000000000001,
-    "layerB": 0.9615384615384616,
+    "layerB": 0.9663461538461539,
     "axes": [
       {
         "axis": "entry",
@@ -354,30 +354,44 @@
     "evidenceConfidence": 100,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "partialCriticals": [
+      "access_route",
+      "entrance_passage",
+      "wheelchair"
+    ],
     "perPersona": [
       {
         "personaId": "P1a",
-        "label": "방문가능",
+        "label": "주의",
         "requiredCodes": [
           "access_route",
           "entrance_passage",
           "wheelchair",
-          "elevator",
+          "path_continuity",
           "restroom"
         ],
         "unknownCriticals": [],
+        "partialCriticals": [
+          "access_route",
+          "entrance_passage",
+          "wheelchair"
+        ],
         "knownCriticalBlockers": []
       },
       {
         "personaId": "P1b",
-        "label": "방문가능",
+        "label": "주의",
         "requiredCodes": [
           "access_route",
           "entrance_passage",
-          "elevator",
+          "path_continuity",
           "restroom"
         ],
         "unknownCriticals": [],
+        "partialCriticals": [
+          "access_route",
+          "entrance_passage"
+        ],
         "knownCriticalBlockers": []
       },
       {
@@ -388,6 +402,7 @@
           "stroller"
         ],
         "unknownCriticals": [],
+        "partialCriticals": [],
         "knownCriticalBlockers": []
       }
     ],
@@ -399,7 +414,7 @@
       "access_route",
       "entrance_passage",
       "wheelchair",
-      "elevator",
+      "path_continuity",
       "restroom",
       "stroller"
     ],
@@ -558,6 +573,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

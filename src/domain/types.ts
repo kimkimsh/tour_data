@@ -166,6 +166,8 @@ export interface PersonaVerdict {
   /** Catalogue order, and the names the screen prints beside this row's badge. */
   requiredCodes: string[];
   unknownCriticals: string[];
+  /** Known, reachable, but only under a stated condition. Caps the label at '주의'. */
+  partialCriticals: string[];
   knownCriticalBlockers: string[];
 }
 
@@ -245,6 +247,7 @@ export interface SuitabilityResult {
 
   knownCriticalBlockers: string[];
   unknownCriticals: string[];
+  partialCriticals: string[];
 
   deductions: Deduction[];
   alternatives: AlternativePoi[];

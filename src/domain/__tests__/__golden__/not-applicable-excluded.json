@@ -352,6 +352,7 @@
     "evidenceConfidence": 100,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [],
     "alternatives": [],
@@ -361,7 +362,7 @@
       "access_route",
       "entrance_passage",
       "wheelchair",
-      "elevator",
+      "path_continuity",
       "restroom"
     ],
     "noVerdictBasis": null,
@@ -509,6 +510,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

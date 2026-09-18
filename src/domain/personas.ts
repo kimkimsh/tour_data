@@ -97,12 +97,22 @@ const MATRIX: Record<string, readonly [GradeCell, GradeCell, GradeCell, GradeCel
   access_route: ['C', 'C', 'S', '.', 'S'],
   entrance_passage: ['C', 'C', '.', '.', 'S'],
   wheelchair: ['C', 'S', '.', '.', '.'],
-  elevator: ['C', 'C', '.', '.', 'S'],
+  // Supporting, not critical, and that is v7's central move. A lift is a MEANS of
+  // changing level; whether the visitor can reach the places they came to see is the
+  // END, and that is path_continuity below. Grading the means critical answered
+  // '다른 곳을 권해요' for a pond garden and a riverside pine grove on the strength of
+  // 「장애인 전용 엘리베이터 - 없음」, while a two-storey museum with a ramp to the
+  // upper floor and no lift got the same verdict for no reason at all. The absence of
+  // a lift still enters the score and still shows on screen; it no longer decides.
+  elevator: ['S', 'S', '.', '.', 'S'],
   ticket_office: ['S', 'S', 'S', 'S', '.'],
   help_dog: ['.', '.', 'C', '.', '.'],
   braille_block: ['.', '.', 'C', '.', '.'],
   guide_system: ['.', 'S', 'C', 'S', '.'],
-  path_continuity: ['S', 'S', 'S', '.', 'S'],
+  // Critical for the two mobility companions, which is what makes it one of the four
+  // GENERAL_VERDICT_CODES. It is the only derived capability allowed to be critical —
+  // see DERIVED_CRITICAL_EXCEPTIONS for why that is safe and what it costs.
+  path_continuity: ['C', 'C', 'S', '.', 'S'],
   restroom: ['C', 'C', 'S', '.', 'C'],
   parking: ['S', 'S', '.', '.', 'S'],
   stroller: ['.', '.', '.', '.', 'C'],
@@ -166,13 +176,43 @@ export function criticalCodesFor(personaId: PersonaId): string[] {
  * they are the ones this matrix already says are load-bearing for more than one kind
  * of visitor. assertPersonaMatrix checks that claim against the matrix rather than
  * trusting this list, so editing one row of MATRIX cannot leave the list behind.
+ *
+ * Three of the four are outcomes — can I get there, can I get in, can I use a toilet.
+ * The fourth used to be `elevator`, which is not an outcome but one way of achieving
+ * one, and a way that is only needed where there is a level to change. Confirming
+ * 「엘리베이터 없음」 at a flat outdoor site therefore produced '다른 곳을 권해요' for a
+ * place whose own route was confirmed traversable, and made checking a place worse
+ * than never checking it. `path_continuity` asks the question `elevator` was standing
+ * in for, and asks it in a form that a ramp, a lift or level ground can all answer.
  */
 export const GENERAL_VERDICT_CODES = [
   'access_route',
   'entrance_passage',
-  'elevator',
+  'path_continuity',
   'restroom',
 ] as const;
+
+/**
+ * The one derived capability that may be critical.
+ *
+ * The rule it excepts exists for a measured failure: a derived capability has no KTO
+ * field, so being empty is its normal state, and an earlier spec graded several of
+ * them critical and turned almost every place into '정보 없음' for every visitor.
+ *
+ * `path_continuity` is different in the one way that matters — it is filled from
+ * `content/curated-facts.json` by a person reading an operator's own description, so
+ * it is populated exactly where somebody has looked. The others in that list are fed
+ * by an auxiliary API or by geometry (crowding, weather, distance to an emergency
+ * room), which is to say they are about the day rather than about the place.
+ *
+ * What the exception costs: a place nobody has written a route sentence for reads
+ * `unknown` here, and an unknown critical is '주의' or '정보 없음'. That is the honest
+ * answer for a place nobody has checked, and it is the safe direction — this rule can
+ * never manufacture a '방문 가능'. The price is that the label depends on curation
+ * effort, so a new place enters the catalogue at '주의' until someone reads its
+ * operator's page.
+ */
+const DERIVED_CRITICAL_EXCEPTIONS = new Set(['path_continuity']);
 
 /** Codes at least `minimum` personas treat as critical. */
 function codesCriticalForAtLeast(minimum: number): string[] {
@@ -210,6 +250,7 @@ export function assertPersonaMatrix(): void {
   const derivedCriticals: string[] = [];
   for (const capability of CAPABILITIES) {
     if (capability.ktoField !== null) continue;
+    if (DERIVED_CRITICAL_EXCEPTIONS.has(capability.code)) continue;
     for (const persona of PERSONAS) {
       if (gradeFor(persona.id, capability.code) === 'critical') {
         derivedCriticals.push(`${persona.id}/${capability.code}`);

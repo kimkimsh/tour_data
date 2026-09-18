@@ -16,6 +16,7 @@ export function EvidenceRow({
   title,
   statusText,
   statusKind,
+  notApplicable,
   quotedDetail,
   provenance,
   absenceExplanation,
@@ -25,6 +26,8 @@ export function EvidenceRow({
   title: string;
   statusText: string;
   statusKind: CapabilityStatus;
+  /** Carried separately because it is not a status: it rides on `unknown`. */
+  notApplicable: boolean;
   quotedDetail: string | null;
   provenance: Provenance;
   absenceExplanation: string | null;
@@ -36,7 +39,7 @@ export function EvidenceRow({
       <div>
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <h4 className="subhead !tracking-normal">{title}</h4>
-          <StatusText kind={statusKind} text={statusText} />
+          <StatusText kind={statusKind} notApplicable={notApplicable} text={statusText} />
           {derived ? (
             <span className="t-xs text-[var(--color-ink-2)]">
               {derivedLabel}
@@ -98,7 +101,15 @@ const STATUS_MARK: Record<CapabilityStatus, string> = {
  * that this small bold text needs, and in dark mode all four land between 3.08 and
  * 3.45:1.
  */
-function StatusText({ kind, text }: { kind: CapabilityStatus; text: string }) {
+function StatusText({
+  kind,
+  notApplicable,
+  text,
+}: {
+  kind: CapabilityStatus;
+  notApplicable: boolean;
+  text: string;
+}) {
   const colour =
     kind === 'supported'
       ? 'var(--color-state-ok)'
@@ -109,7 +120,10 @@ function StatusText({ kind, text }: { kind: CapabilityStatus; text: string }) {
           : 'var(--color-ink-2)';
   return (
     <span className="t-sm font-bold" style={{ color: colour }}>
-      <span aria-hidden="true">{STATUS_MARK[kind]} </span>
+      {/* An item that cannot exist here is not an item nobody checked, and '?' is the
+          mark for the second. The word beside it already says 해당 없음; sharing the
+          question mark made the badge contradict it. */}
+      <span aria-hidden="true">{notApplicable ? '–' : STATUS_MARK[kind]} </span>
       {text}
     </span>
   );

@@ -42,7 +42,24 @@ import {
  * visitor centre, a toilet block — so applying it would have credited a site for a
  * building's award. A certification is shown as a fact instead.
  */
-export const POLICY_VERSION = 'suitability-v6';
+/**
+ * v7 puts an outcome in the verdict set where a means used to sit.
+ *
+ * `elevator` was one of the four items a no-condition verdict rested on, and it is the
+ * only one of the four that is not a thing the visitor wants — it is one way of
+ * reaching an upper floor, needed only where there is one. Confirming 「엘리베이터 없음」
+ * at 궁남지, 고마나루, 구드래조각공원 and 부여왕릉원 therefore answered '다른 곳을
+ * 권해요' at four places whose own routes the same sources described as traversable,
+ * and it did so because we had checked them: the day before, all four read '주의' on
+ * the strength of knowing nothing. A model in which looking makes a place look worse
+ * teaches the wrong thing to whoever fills the data next.
+ *
+ * `path_continuity` asks what `elevator` was standing in for — can the visitor move
+ * between the points they came to see — and a ramp, a lift or level ground all answer
+ * it. A two-storey museum reachable only by stairs still blocks, and now blocks for
+ * the reason that is true. `elevator` keeps its place in the score and on the screen.
+ */
+export const POLICY_VERSION = 'suitability-v7';
 
 /** docs/spec/06_suitability.md section 3. Sums to 1.00. */
 export const AXIS_WEIGHT: Record<Axis, number> = {
@@ -240,7 +257,14 @@ function pickAlternatives(
   candidates: ReadonlyArray<AlternativePoi>,
 ): AlternativePoi[] {
   const selfRank = LABEL_RANK[self.label];
-  const better = candidates.filter((c) => LABEL_RANK[c.label] < selfRank);
+  // '정보없음' outranks '대체추천' in LABEL_RANK because the rank orders how much the
+  // service is willing to say, and saying nothing beats saying no. It does not order
+  // accessibility, so a place nobody has checked must never be offered as somewhere
+  // better to go: the only thing known about it is that nothing is known. Only the two
+  // labels that rest on confirmed facts can stand as an alternative.
+  const better = candidates.filter(
+    (c) => LABEL_RANK[c.label] < selfRank && (c.label === '방문가능' || c.label === '주의'),
+  );
   const trigger = self.label === '대체추천' || better.length > 0;
   if (!trigger) return [];
 
@@ -311,6 +335,15 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     .filter((f) => f.status === 'unsupported')
     .map((f) => f.capabilityCode)
     .sort((a, b) => catalogueIndex(a) - catalogueIndex(b));
+  // A condition the visitor has to satisfy before the thing works — staff to be called,
+  // a season, a stretch that needs help. Not a blocker, and not clear either, so it
+  // caps the label rather than setting it. Without the cap a route the source itself
+  // qualifies could reach '방문 가능' on the strength of everything around it, which is
+  // the claim this service exists not to make.
+  const partialCriticals = requiredFacts
+    .filter((f) => f.status === 'partial')
+    .map((f) => f.capabilityCode)
+    .sort((a, b) => catalogueIndex(a) - catalogueIndex(b));
   // Catalogue order, not selection order. These names are printed beside the badge,
   // and taking them in the order the personas were flatMapped made the sentence on
   // screen depend on which condition chip the visitor tapped first.
@@ -334,9 +367,10 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     // verdict to give. The second arm covers the case where the whole required set
     // turned out not to apply to this kind of place, which leaves nothing to judge on.
     label = '정보없음';
-  } else if (unknownCriticals.length > 0) {
-    // Rule 3. Something the verdict rests on has not been checked. The screen prints
-    // the names beside the badge, which is the only actionable thing on the card.
+  } else if (unknownCriticals.length > 0 || partialCriticals.length > 0) {
+    // Rule 3. Something the verdict rests on has not been checked, or is only usable
+    // under a condition. The screen prints the names beside the badge, which is the
+    // only actionable thing on the card.
     label = '주의';
   } else {
     // Rule 4. Everything the verdict rests on is known and none of it blocks, so the
@@ -357,6 +391,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     evidenceConfidence,
     knownCriticalBlockers,
     unknownCriticals,
+    partialCriticals,
     perPersona:
       personaIds.length < 2
         ? []
@@ -372,6 +407,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
               label: own.label,
               requiredCodes: own.requiredCodes,
               unknownCriticals: own.unknownCriticals,
+              partialCriticals: own.partialCriticals,
               knownCriticalBlockers: own.knownCriticalBlockers,
             };
           }),

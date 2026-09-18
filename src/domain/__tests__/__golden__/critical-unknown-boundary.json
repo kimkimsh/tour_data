@@ -354,6 +354,7 @@
     "unknownCriticals": [
       "sign_guide"
     ],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [
       {
@@ -525,6 +526,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

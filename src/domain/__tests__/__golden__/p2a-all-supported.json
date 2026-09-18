@@ -352,6 +352,7 @@
     "evidenceConfidence": 100,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [],
     "alternatives": [],
@@ -521,6 +522,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

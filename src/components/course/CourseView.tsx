@@ -186,6 +186,13 @@ export function CourseView({
                           {tp('needCheck')}: {capabilityLabels(result.unknownCriticals, locale)}
                         </span>
                       ) : null}
+
+                      {result.partialCriticals.length > 0 ? (
+                        <span className="t-sm text-[var(--color-state-warn)]">
+                          <span aria-hidden="true">⚠ </span>
+                          {tp('condition')}: {capabilityLabels(result.partialCriticals, locale)}
+                        </span>
+                      ) : null}
                     </p>
                   ) : null}
 

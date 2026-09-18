@@ -147,7 +147,8 @@
       "unesco_component": "유네스코 백제역사유적지구 구성유산",
       "baekje_museum": "백제 유물 박물관",
       "baekje_related": "백제 관련 유적·시설"
-    }
+    },
+    "condition": "조건 있음"
   },
   "place": {
     "headingVerdict": "판정 요약",
@@ -231,7 +232,10 @@
     "scoreInCalc": "확인 항목 계산값",
     "scoreInCalcNote": "확인된 항목만 놓고 계산한 값입니다. 미확인 항목은 계산에 들어가지 않았고, 장소마다 계산에 들어간 항목이 다르므로 장소끼리 비교하는 숫자가 아닙니다.",
     "confidenceBasis": "데이터 신뢰도 — 확인율과 확인 시점을 함께 본 값",
-    "whyCautionScore": "기준 항목은 모두 확인했지만 적합도가 {score}점으로, 방문 가능 기준인 75점에 못 미칩니다."
+    "whyCautionScore": "기준 항목은 모두 확인했지만 적합도가 {score}점으로, 방문 가능 기준인 75점에 못 미칩니다.",
+    "conditionItems": "조건 있음",
+    "perPersonaBasisPartial": "조건 있음: {items}",
+    "whyCautionPartial": "다음 필수 항목에 조건이 붙어 있습니다: {items}"
   },
   "courses": {
     "metaTitle": "코스",

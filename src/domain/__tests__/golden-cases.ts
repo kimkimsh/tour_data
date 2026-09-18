@@ -31,8 +31,8 @@ function coverageCase(personaId: PersonaId, unknownSupportingCount: number): Sui
 }
 
 const PERSONA_CRITICALS: Record<PersonaId, string[]> = {
-  P1a: ['access_route', 'entrance_passage', 'wheelchair', 'elevator', 'restroom'],
-  P1b: ['access_route', 'entrance_passage', 'elevator', 'restroom'],
+  P1a: ['access_route', 'entrance_passage', 'wheelchair', 'path_continuity', 'restroom'],
+  P1b: ['access_route', 'entrance_passage', 'path_continuity', 'restroom'],
   P2a: [
     'help_dog',
     'braille_block',
@@ -53,8 +53,10 @@ const PERSONA_CRITICALS: Record<PersonaId, string[]> = {
  * capabilities carry which status, and the axis weights make the steps uneven.
  * The sweep walks a rotating catalogue order, filling s items with supported and
  * the next p with partial, and keeps the first assignment that also leaves every
- * item the verdict rests on known — otherwise rule 3 answers before the band does
- * and the case proves nothing about the band.
+ * item the verdict rests on known AND clear — otherwise rule 3 answers before the band
+ * does and the case proves nothing about the band. v7 added the second half: a critical
+ * left partial now caps the label at 주의, and the sweep was handing 75 an assignment
+ * that did exactly that.
  */
 const scoreInputCache = new Map<number, SuitabilityInput>();
 
@@ -76,6 +78,7 @@ export function findScoreInput(target: number): SuitabilityInput {
         const result = calculateSuitability(candidate);
         if (result.score !== target) continue;
         if (result.unknownCriticals.length > 0) continue;
+        if (result.partialCriticals.length > 0) continue;
         scoreInputCache.set(target, candidate);
         return candidate;
       }
@@ -117,15 +120,18 @@ export function goldenCases(): GoldenCase[] {
     },
     {
       name: 'critical-unsupported',
-      input: withPersonas(['P1a'], facts('supported', { elevator: { status: 'unsupported' } })),
+      input: withPersonas(['P1a'], facts('supported', { path_continuity: { status: 'unsupported' } })),
     },
     {
       name: 'critical-unknown-minority',
-      input: withPersonas(['P1a'], unknownOn(['elevator'])),
+      input: withPersonas(['P1a'], unknownOn(['path_continuity'])),
     },
     {
       name: 'critical-unknown-majority',
-      input: withPersonas(['P1a'], unknownOn(['access_route', 'entrance_passage', 'elevator'])),
+      input: withPersonas(
+        ['P1a'],
+        unknownOn(['access_route', 'entrance_passage', 'path_continuity']),
+      ),
     },
     {
       name: 'critical-unknown-boundary',
@@ -146,7 +152,7 @@ export function goldenCases(): GoldenCase[] {
         facts: facts('unknown', {
           access_route: { status: 'supported', verifiedAt: RECENT_DATE },
           entrance_passage: { status: 'supported', verifiedAt: RECENT_DATE },
-          elevator: { status: 'supported', verifiedAt: RECENT_DATE },
+          path_continuity: { status: 'supported', verifiedAt: RECENT_DATE },
           restroom: { status: 'supported', verifiedAt: RECENT_DATE },
         }),
       }),
@@ -167,15 +173,32 @@ export function goldenCases(): GoldenCase[] {
     },
     {
       name: 'alternatives-by-label',
-      input: withPersonas(['P1a'], unknownOn(['elevator']), {
+      input: withPersonas(['P1a'], unknownOn(['path_continuity']), {
         scoredAlternatives: ALTERNATIVES_WITH_BETTER,
       }),
     },
     {
       name: 'alternatives-none-better',
-      input: withPersonas(['P1a'], unknownOn(['elevator']), {
+      input: withPersonas(['P1a'], unknownOn(['path_continuity']), {
         scoredAlternatives: ALTERNATIVES_ALL_CAUTION,
       }),
+    },
+    {
+      // A place nobody has checked is not somewhere better to go. '정보없음' outranks
+      // '대체추천' in LABEL_RANK, which orders how much the service will say, not how
+      // accessible anywhere is — so it used to be offered as an alternative to a place
+      // we had confirmed a blocker at.
+      name: 'alternatives-unknown-is-not-better',
+      input: withPersonas(
+        ['P1a'],
+        facts('supported', { path_continuity: { status: 'unsupported' } }),
+        {
+          scoredAlternatives: [
+            { poiSlug: 'gudeurae-sculpture-park', title: '구드래조각공원', score: 0, label: '정보없음', city: '부여군' },
+            ...ALTERNATIVES_ALL_CAUTION,
+          ],
+        },
+      ),
     },
     {
       // The counter-example that DEC-7 was decided on: four criticals confirmed
@@ -193,12 +216,16 @@ export function goldenCases(): GoldenCase[] {
         }),
       ),
     },
-    { name: 'determinism', input: withPersonas(['P1a', 'P2b'], unknownOn(['elevator', 'sign_guide'])) },
+    { name: 'determinism', input: withPersonas(['P1a', 'P2b'], unknownOn(['path_continuity', 'sign_guide'])) },
     { name: 'zero-score-clamp', input: withPersonas(['P1a'], facts('unsupported')) },
     { name: 'all-partial', input: input({ facts: facts('partial') }) },
     {
+      // A critical item reachable only under a stated condition — staff to be called, a
+      // season, a stretch that needs help. Neither a blocker nor clear: v7 caps it at
+      // '주의' and names it, where before it reached '방문 가능' on the strength of
+      // everything around it.
       name: 'critical-partial-not-blocked',
-      input: withPersonas(['P1a'], facts('supported', { elevator: { status: 'partial' } })),
+      input: withPersonas(['P1a'], facts('supported', { path_continuity: { status: 'partial' } })),
     },
     { name: 'all-unknown-p0', input: input({ facts: facts('unknown') }) },
     { name: 'boundary-74', input: findScoreInput(74) },

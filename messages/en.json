@@ -147,7 +147,8 @@
       "unesco_component": "UNESCO Baekje Historic Areas component",
       "baekje_museum": "Museum of Baekje material",
       "baekje_related": "Baekje site or facility"
-    }
+    },
+    "condition": "Conditions apply"
   },
   "place": {
     "headingVerdict": "Verdict",
@@ -231,7 +232,10 @@
     "scoreInCalc": "Score over the checked items",
     "scoreInCalcNote": "Computed from the checked items only. Unchecked items are left out, and which items are checked differs from place to place, so this is not a number to compare places by.",
     "confidenceBasis": "data confidence — coverage and check dates together",
-    "whyCautionScore": "Everything this verdict rests on is checked, but the fit score is {score}, below the 75 needed for “You can visit”."
+    "whyCautionScore": "Everything this verdict rests on is checked, but the fit score is {score}, below the 75 needed for “You can visit”.",
+    "conditionItems": "Conditions apply",
+    "perPersonaBasisPartial": "Conditions apply: {items}",
+    "whyCautionPartial": "These required items come with a condition: {items}"
   },
   "courses": {
     "metaTitle": "Courses",

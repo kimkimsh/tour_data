@@ -48,6 +48,9 @@ function personaBasisText(
   if (row.unknownCriticals.length > 0) {
     return t('perPersonaBasisUnknown', { items: capabilityLabels(row.unknownCriticals, locale) });
   }
+  if (row.partialCriticals.length > 0) {
+    return t('perPersonaBasisPartial', { items: capabilityLabels(row.partialCriticals, locale) });
+  }
   return t('perPersonaBasisKnown', {
     known: row.requiredCodes.length,
     total: row.requiredCodes.length,
@@ -163,6 +166,13 @@ export function VerdictPanel({
           <p className="t-md font-bold text-[var(--color-state-warn)]">
             <span aria-hidden="true">⚠ </span>
             {t('needCheckItems')}: {capabilityLabels(result.unknownCriticals, locale)}
+          </p>
+        ) : null}
+
+        {result.partialCriticals.length > 0 ? (
+          <p className="t-md font-bold text-[var(--color-state-warn)]">
+            <span aria-hidden="true">⚠ </span>
+            {t('conditionItems')}: {capabilityLabels(result.partialCriticals, locale)}
           </p>
         ) : null}
 
@@ -396,7 +406,11 @@ function CalculationDisclosure({
                 ? t('whyCautionUnknown', {
                     items: capabilityLabels(result.unknownCriticals, locale),
                   })
-                : t('whyCautionScore', { score: result.score })}
+                : result.partialCriticals.length > 0
+                  ? t('whyCautionPartial', {
+                      items: capabilityLabels(result.partialCriticals, locale),
+                    })
+                  : t('whyCautionScore', { score: result.score })}
             </p>
           </div>
         ) : null}

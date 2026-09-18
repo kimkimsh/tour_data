@@ -31,11 +31,11 @@
       },
       {
         "capabilityCode": "elevator",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -76,11 +76,11 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "status": "unknown",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": false
       },
       {
@@ -293,7 +293,7 @@
         "weight": 0.30000000000000004,
         "rawScore": 1,
         "weighted": 0.30000000000000004,
-        "knownCount": 5,
+        "knownCount": 4,
         "totalCount": 6
       },
       {
@@ -303,7 +303,7 @@
         "weight": 0.18000000000000002,
         "rawScore": 1,
         "weighted": 0.18000000000000002,
-        "knownCount": 2,
+        "knownCount": 3,
         "totalCount": 3
       },
       {
@@ -352,19 +352,20 @@
     "evidenceConfidence": 42,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [
+      {
+        "capabilityCode": "elevator",
+        "labelKo": "엘리베이터",
+        "reason": "엘리베이터 정보 없음",
+        "axis": "entry"
+      },
       {
         "capabilityCode": "ticket_office",
         "labelKo": "매표소",
         "reason": "매표소 정보 없음",
         "axis": "entry"
-      },
-      {
-        "capabilityCode": "path_continuity",
-        "labelKo": "경로 연속성",
-        "reason": "경로 연속성 정보 없음",
-        "axis": "continuity"
       },
       {
         "capabilityCode": "parking",
@@ -404,11 +405,11 @@
       "access_route",
       "entrance_passage",
       "wheelchair",
-      "elevator",
+      "path_continuity",
       "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 4,
+    "ktoUnknownCount": 5,
     "ktoTotalCount": 23,
     "dataDates": [
       {
@@ -428,7 +429,7 @@
       },
       {
         "capabilityCode": "elevator",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -453,7 +454,7 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },
       {
@@ -562,6 +563,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

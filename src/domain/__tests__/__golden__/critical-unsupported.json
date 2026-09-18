@@ -31,7 +31,7 @@
       },
       {
         "capabilityCode": "elevator",
-        "status": "unsupported",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
@@ -76,7 +76,7 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "status": "supported",
+        "status": "unsupported",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
@@ -283,7 +283,7 @@
   "expected": {
     "score": 49,
     "label": "대체추천",
-    "layerA": 0.9500000000000002,
+    "layerA": 0.9400000000000002,
     "layerB": 0.9807692307692308,
     "axes": [
       {
@@ -291,8 +291,8 @@
         "labelKo": "진입",
         "labelEn": "Entry",
         "weight": 0.30000000000000004,
-        "rawScore": 0.8333333333333334,
-        "weighted": 0.25000000000000006,
+        "rawScore": 1,
+        "weighted": 0.30000000000000004,
         "knownCount": 6,
         "totalCount": 6
       },
@@ -301,8 +301,8 @@
         "labelKo": "이동",
         "labelEn": "Movement",
         "weight": 0.18000000000000002,
-        "rawScore": 1,
-        "weighted": 0.18000000000000002,
+        "rawScore": 0.6666666666666666,
+        "weighted": 0.12000000000000001,
         "knownCount": 3,
         "totalCount": 3
       },
@@ -351,16 +351,17 @@
     "coverage": 1,
     "evidenceConfidence": 100,
     "knownCriticalBlockers": [
-      "elevator"
+      "path_continuity"
     ],
     "unknownCriticals": [],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [
       {
-        "capabilityCode": "elevator",
-        "labelKo": "엘리베이터",
-        "reason": "엘리베이터 이용 불가",
-        "axis": "entry"
+        "capabilityCode": "path_continuity",
+        "labelKo": "관람 동선",
+        "reason": "관람 동선 이용 불가",
+        "axis": "continuity"
       }
     ],
     "alternatives": [],
@@ -370,7 +371,7 @@
       "access_route",
       "entrance_passage",
       "wheelchair",
-      "elevator",
+      "path_continuity",
       "restroom"
     ],
     "noVerdictBasis": null,
@@ -528,6 +529,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

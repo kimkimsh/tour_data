@@ -31,7 +31,7 @@
       },
       {
         "capabilityCode": "elevator",
-        "status": "partial",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
@@ -76,7 +76,7 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "status": "supported",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
@@ -281,9 +281,9 @@
     "scoredAlternatives": []
   },
   "expected": {
-    "score": 97,
-    "label": "방문가능",
-    "layerA": 0.9750000000000003,
+    "score": 96,
+    "label": "주의",
+    "layerA": 0.9700000000000002,
     "layerB": 0.9903846153846154,
     "axes": [
       {
@@ -291,8 +291,8 @@
         "labelKo": "진입",
         "labelEn": "Entry",
         "weight": 0.30000000000000004,
-        "rawScore": 0.9166666666666666,
-        "weighted": 0.275,
+        "rawScore": 1,
+        "weighted": 0.30000000000000004,
         "knownCount": 6,
         "totalCount": 6
       },
@@ -301,8 +301,8 @@
         "labelKo": "이동",
         "labelEn": "Movement",
         "weight": 0.18000000000000002,
-        "rawScore": 1,
-        "weighted": 0.18000000000000002,
+        "rawScore": 0.8333333333333334,
+        "weighted": 0.15000000000000002,
         "knownCount": 3,
         "totalCount": 3
       },
@@ -352,6 +352,9 @@
     "evidenceConfidence": 100,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "partialCriticals": [
+      "path_continuity"
+    ],
     "perPersona": [],
     "deductions": [],
     "alternatives": [],
@@ -361,7 +364,7 @@
       "access_route",
       "entrance_passage",
       "wheelchair",
-      "elevator",
+      "path_continuity",
       "restroom"
     ],
     "noVerdictBasis": null,
@@ -519,6 +522,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

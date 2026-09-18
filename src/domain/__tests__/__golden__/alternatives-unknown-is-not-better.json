@@ -1,5 +1,5 @@
 {
-  "name": "critical-set-all-not-applicable-pair",
+  "name": "alternatives-unknown-is-not-better",
   "input": {
     "facts": [
       {
@@ -76,7 +76,7 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "status": "supported",
+        "status": "unsupported",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
@@ -193,20 +193,20 @@
       },
       {
         "capabilityCode": "sign_guide",
-        "status": "unknown",
-        "absenceKind": "not_applicable",
+        "status": "supported",
+        "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "video_caption",
-        "status": "unknown",
-        "absenceKind": "not_applicable",
+        "status": "supported",
+        "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
@@ -274,18 +274,39 @@
       }
     ],
     "personaIds": [
-      "P2b",
       "P1a"
     ],
     "cognitiveOption": false,
     "calculationDate": "2026-09-20",
-    "scoredAlternatives": []
+    "scoredAlternatives": [
+      {
+        "poiSlug": "gudeurae-sculpture-park",
+        "title": "구드래조각공원",
+        "score": 0,
+        "label": "정보없음",
+        "city": "부여군"
+      },
+      {
+        "poiSlug": "busosanseong",
+        "title": "부소산성",
+        "score": 52,
+        "label": "주의",
+        "city": "부여군"
+      },
+      {
+        "poiSlug": "jeongnimsaji",
+        "title": "정림사지",
+        "score": 48,
+        "label": "주의",
+        "city": "부여군"
+      }
+    ]
   },
   "expected": {
-    "score": 100,
-    "label": "정보없음",
-    "layerA": 1.0000000000000002,
-    "layerB": 1,
+    "score": 49,
+    "label": "대체추천",
+    "layerA": 0.9400000000000002,
+    "layerB": 0.9807692307692308,
     "axes": [
       {
         "axis": "entry",
@@ -302,8 +323,8 @@
         "labelKo": "이동",
         "labelEn": "Movement",
         "weight": 0.18000000000000002,
-        "rawScore": 1,
-        "weighted": 0.18000000000000002,
+        "rawScore": 0.6666666666666666,
+        "weighted": 0.12000000000000001,
         "knownCount": 3,
         "totalCount": 3
       },
@@ -324,8 +345,8 @@
         "weight": 0.14000000000000004,
         "rawScore": 1,
         "weighted": 0.14000000000000004,
-        "knownCount": 6,
-        "totalCount": 6
+        "knownCount": 8,
+        "totalCount": 8
       },
       {
         "axis": "rest",
@@ -351,37 +372,38 @@
     "freshness": 1,
     "coverage": 1,
     "evidenceConfidence": 100,
-    "knownCriticalBlockers": [],
+    "knownCriticalBlockers": [
+      "path_continuity"
+    ],
     "unknownCriticals": [],
     "partialCriticals": [],
-    "perPersona": [
+    "perPersona": [],
+    "deductions": [
       {
-        "personaId": "P2b",
-        "label": "정보없음",
-        "requiredCodes": [],
-        "unknownCriticals": [],
-        "partialCriticals": [],
-        "knownCriticalBlockers": []
-      },
-      {
-        "personaId": "P1a",
-        "label": "방문가능",
-        "requiredCodes": [
-          "access_route",
-          "entrance_passage",
-          "wheelchair",
-          "path_continuity",
-          "restroom"
-        ],
-        "unknownCriticals": [],
-        "partialCriticals": [],
-        "knownCriticalBlockers": []
+        "capabilityCode": "path_continuity",
+        "labelKo": "관람 동선",
+        "reason": "관람 동선 이용 불가",
+        "axis": "continuity"
       }
     ],
-    "deductions": [],
-    "alternatives": [],
-    "relevantKnownCount": 16,
-    "relevantTotalCount": 16,
+    "alternatives": [
+      {
+        "poiSlug": "busosanseong",
+        "title": "부소산성",
+        "score": 52,
+        "label": "주의",
+        "city": "부여군"
+      },
+      {
+        "poiSlug": "jeongnimsaji",
+        "title": "정림사지",
+        "score": 48,
+        "label": "주의",
+        "city": "부여군"
+      }
+    ],
+    "relevantKnownCount": 12,
+    "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
@@ -389,13 +411,9 @@
       "path_continuity",
       "restroom"
     ],
-    "noVerdictBasis": {
-      "personaId": "P2b",
-      "total": 0,
-      "unknown": 0
-    },
+    "noVerdictBasis": null,
     "ktoUnknownCount": 0,
-    "ktoTotalCount": 21,
+    "ktoTotalCount": 23,
     "dataDates": [
       {
         "capabilityCode": "access_route",
@@ -499,6 +517,16 @@
       },
       {
         "capabilityCode": "guide_human",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "sign_guide",
+        "verifiedAt": "2026-08-01",
+        "source": "kto_with"
+      },
+      {
+        "capabilityCode": "video_caption",
         "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },

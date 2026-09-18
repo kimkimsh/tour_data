@@ -32,7 +32,22 @@ export const CAPABILITIES: readonly Capability[] = [
   // continuity
   { code: 'braille_block', ktoField: 'braileblock', labelKo: '점자블록', labelEn: 'Tactile paving', axis: 'continuity' },
   { code: 'guide_system', ktoField: 'guidesystem', labelKo: '유도 안내 설비', labelEn: 'Wayfinding signage', axis: 'continuity' },
-  { code: 'path_continuity', ktoField: null, labelKo: '경로 연속성', labelEn: 'Route continuity', axis: 'continuity' },
+  /**
+   * Can the visitor move between the points they came to see, inside the visiting area
+   * the screen names? Covers changing floors indoors and moving around outdoors, and a
+   * ramp, a lift or level ground all answer it.
+   *
+   * supported   — a usable route to every required point is confirmed
+   * partial     — every required point is reachable, under a stated condition
+   * unsupported — at least one required point is confirmed to have no usable route
+   * unknown     — not enough evidence. "We could not confirm a route" is this, never
+   *               `unsupported`; that distinction is the whole load this item carries.
+   *
+   * No KTO field feeds it. It is written by hand from an operator's own description,
+   * which is why personas.ts excepts it from the derived-capability rule rather than
+   * treating it like the crowding and weather items beside it.
+   */
+  { code: 'path_continuity', ktoField: null, labelKo: '관람 동선', labelEn: 'Route through the site', axis: 'continuity' },
   // facility
   { code: 'restroom', ktoField: 'restroom', labelKo: '장애인 화장실', labelEn: 'Accessible restroom', axis: 'facility' },
   { code: 'parking', ktoField: 'parking', labelKo: '장애인 주차구역', labelEn: 'Accessible parking', axis: 'facility' },

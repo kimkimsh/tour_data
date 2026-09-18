@@ -356,6 +356,7 @@
       "sign_guide",
       "video_caption"
     ],
+    "partialCriticals": [],
     "perPersona": [
       {
         "personaId": "P1a",
@@ -364,10 +365,11 @@
           "access_route",
           "entrance_passage",
           "wheelchair",
-          "elevator",
+          "path_continuity",
           "restroom"
         ],
         "unknownCriticals": [],
+        "partialCriticals": [],
         "knownCriticalBlockers": []
       },
       {
@@ -381,6 +383,7 @@
           "sign_guide",
           "video_caption"
         ],
+        "partialCriticals": [],
         "knownCriticalBlockers": []
       }
     ],
@@ -405,7 +408,7 @@
       "access_route",
       "entrance_passage",
       "wheelchair",
-      "elevator",
+      "path_continuity",
       "restroom",
       "sign_guide",
       "video_caption"
@@ -569,6 +572,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

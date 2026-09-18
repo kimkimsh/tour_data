@@ -172,6 +172,13 @@ export function PlaceList({
                     </p>
                   ) : null}
 
+                  {result.partialCriticals.length > 0 ? (
+                    <p className="font-bold text-[var(--color-state-warn)]">
+                      <span aria-hidden="true">⚠ </span>
+                      {t('condition')}: {capabilityLabels(result.partialCriticals, locale)}
+                    </p>
+                  ) : null}
+
                   {result.label === '정보없음' ? (
                     <p className="blank-slot t-sm">
                       {/* No persona in the sentence. The conditions are named once at

@@ -31,11 +31,11 @@
       },
       {
         "capabilityCode": "elevator",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -76,11 +76,11 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "status": "unknown",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": false
       },
       {
@@ -288,29 +288,29 @@
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
-        "weight": 0.625,
+        "weight": 0.4545454545454546,
         "rawScore": 1,
-        "weighted": 0.625,
-        "knownCount": 3,
+        "weighted": 0.4545454545454546,
+        "knownCount": 2,
         "totalCount": 6
       },
       {
         "axis": "continuity",
         "labelKo": "이동",
         "labelEn": "Movement",
-        "weight": 0,
-        "rawScore": 0,
-        "weighted": 0,
-        "knownCount": 0,
+        "weight": 0.27272727272727276,
+        "rawScore": 1,
+        "weighted": 0.27272727272727276,
+        "knownCount": 1,
         "totalCount": 3
       },
       {
         "axis": "facility",
         "labelKo": "편의시설",
         "labelEn": "Facilities",
-        "weight": 0.375,
+        "weight": 0.27272727272727276,
         "rawScore": 1,
-        "weighted": 0.375,
+        "weighted": 0.27272727272727276,
         "knownCount": 1,
         "totalCount": 7
       },
@@ -350,12 +350,19 @@
     "evidenceConfidence": 13,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [
       {
         "capabilityCode": "wheelchair",
         "labelKo": "휠체어 대여",
         "reason": "휠체어 대여 정보 없음",
+        "axis": "entry"
+      },
+      {
+        "capabilityCode": "elevator",
+        "labelKo": "엘리베이터",
+        "reason": "엘리베이터 정보 없음",
         "axis": "entry"
       },
       {
@@ -380,12 +387,6 @@
         "capabilityCode": "guide_system",
         "labelKo": "유도 안내 설비",
         "reason": "유도 안내 설비 정보 없음",
-        "axis": "continuity"
-      },
-      {
-        "capabilityCode": "path_continuity",
-        "labelKo": "경로 연속성",
-        "reason": "경로 연속성 정보 없음",
         "axis": "continuity"
       },
       {
@@ -515,11 +516,11 @@
     "requiredCodes": [
       "access_route",
       "entrance_passage",
-      "elevator",
+      "path_continuity",
       "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 19,
+    "ktoUnknownCount": 20,
     "ktoTotalCount": 23,
     "dataDates": [
       {
@@ -539,7 +540,7 @@
       },
       {
         "capabilityCode": "elevator",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -564,7 +565,7 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },
       {
@@ -673,6 +674,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

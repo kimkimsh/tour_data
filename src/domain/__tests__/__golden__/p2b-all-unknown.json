@@ -355,6 +355,7 @@
       "sign_guide",
       "video_caption"
     ],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [
       {
@@ -407,8 +408,8 @@
       },
       {
         "capabilityCode": "path_continuity",
-        "labelKo": "경로 연속성",
-        "reason": "경로 연속성 정보 없음",
+        "labelKo": "관람 동선",
+        "reason": "관람 동선 정보 없음",
         "axis": "continuity"
       },
       {
@@ -704,6 +705,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

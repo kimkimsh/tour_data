@@ -83,6 +83,7 @@ export function CapabilityEvidence({
                     title={locale === 'ko' ? capability.labelKo : capability.labelEn}
                     statusText={statusWord(status, axis, fact?.absenceKind ?? null, tc)}
                     statusKind={status}
+                    notApplicable={status === 'unknown' && fact?.absenceKind === 'not_applicable'}
                     quotedDetail={fact?.detail ?? null}
                     derived={capability.ktoField === null}
                     derivedLabel={tc('derivedLabel')}

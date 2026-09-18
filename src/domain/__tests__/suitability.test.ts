@@ -106,22 +106,25 @@ describe('spec properties the golden files must keep', () => {
     const blocked = run('critical-unsupported');
     expect(blocked.label).toBe('대체추천');
     expect(blocked.score).toBeLessThanOrEqual(49);
-    expect(blocked.knownCriticalBlockers).toEqual(['elevator']);
+    expect(blocked.knownCriticalBlockers).toEqual(['path_continuity']);
 
     const partial = run('critical-partial-not-blocked');
     expect(partial.label).not.toBe('대체추천');
     expect(partial.knownCriticalBlockers).toEqual([]);
+    // v7: not a blocker, but not clear either. It caps at 주의 and the screen names it.
+    expect(partial.label).toBe('주의');
+    expect(partial.partialCriticals).toEqual(['path_continuity']);
 
     const low = run('low-score-not-blocked');
     expect(low.knownCriticalBlockers).toEqual([]);
     expect(low.label).toBe('주의');
-    expect(low.unknownCriticals).toContain('elevator');
+    expect(low.unknownCriticals).toContain('path_continuity');
   });
 
   it('one unknown critical out of five caps the label without hiding the score', () => {
     const result = run('critical-unknown-minority');
     expect(result.label).toBe('주의');
-    expect(result.unknownCriticals).toEqual(['elevator']);
+    expect(result.unknownCriticals).toEqual(['path_continuity']);
   });
 
   it('a majority of unknown criticals hides the verdict', () => {
@@ -157,7 +160,7 @@ describe('spec properties the golden files must keep', () => {
     expect(reachable.requiredCodes).toEqual([
       'access_route',
       'entrance_passage',
-      'elevator',
+      'path_continuity',
       'restroom',
     ]);
     expect(reachable.unknownCriticals).toEqual([]);
@@ -166,7 +169,7 @@ describe('spec properties the golden files must keep', () => {
 
     // One of those four unchecked, nothing else changed.
     const capped = run('general-verdict-one-unknown');
-    expect(capped.unknownCriticals).toEqual(['elevator']);
+    expect(capped.unknownCriticals).toEqual(['path_continuity']);
     expect(capped.label).toBe('주의');
   });
 
@@ -281,7 +284,7 @@ describe('spec properties the golden files must keep', () => {
    * go instead. Admitting equal labels let the "go elsewhere" set recommend itself.
    */
   it('never offers a blocked place as the alternative to a blocked place', () => {
-    const blocked = withPersonas(['P1a'], facts('unknown', { elevator: { status: 'unsupported' } }), {
+    const blocked = withPersonas(['P1a'], facts('unknown', { path_continuity: { status: 'unsupported' } }), {
       scoredAlternatives: [
         { poiSlug: 'busosanseong', title: '부소산성', label: '대체추천', score: 45 , city: '부여군' },
         { poiSlug: 'jeongnimsaji', title: '정림사지', label: '대체추천', score: 40 , city: '부여군' },

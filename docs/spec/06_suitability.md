@@ -158,7 +158,7 @@ A = 0.30·진입 + 0.18·이동 + 0.18·편의시설 + 0.14·정보안내 + 0.10
 | 축 | 코드 | 가중치 | 포함 항목 | 개수 |
 |---|---|---|---|---|
 | 진입 | `entry` | **0.30** | `access_route` `entrance_passage` `wheelchair` `elevator` `ticket_office` `help_dog` | 6 |
-| 이동 | `continuity` | **0.18** | `braille_block` `guide_system` `path_continuity` | 3 |
+| 이동 | `continuity` | **0.18** | `braille_block` `guide_system` `path_continuity` | 3 |  <!-- path_continuity 는 §4.1의 GENERAL_VERDICT_CODES 중 하나다 -->
 | 편의시설 | `facility` | **0.18** | `restroom` `parking` `stroller` `nursing_room` `baby_chair` `room` `hearing_room` | 7 |
 | 정보안내 | `information` | **0.14** | `audio_guide` `big_print` `braille_promotion` `promotion_material` `guide_human` `sign_guide` `video_caption` `visual_alarm` | 8 |
 | 휴식 | `rest` | **0.10** | `auditorium` `rest_seating` `shade_indoor` | 3 |
@@ -233,10 +233,30 @@ B = 0.75 + 0.25 × min( 선택한 모든 페르소나의 personaFit )
 **`P0`(일반 방문)** — 사용자가 조건을 하나도 안 골랐을 때 쓰는 합성 페르소나다. **32개 항목 전부를 `other`(등급 가중치 1) 로 본다.**
 - `personaFit(P0)` = 32개 항목값의 단순 평균
 - `coverage`의 "관련 항목"은 **32개 전부**
-- `critical`이 없으므로 §6.4의 1·2·4a 규칙이 발동하지 않는다
+- `critical`이 없으므로 §6.4의 1·2·4a 규칙이 발동하지 않는다 — **v6에서 바뀌었다. 아래 참조**
 - **`coverage`가 0이면(= 32개 전부 `unknown`) 라벨은 `정보없음`이다.** §6.4의 규칙 2는 `필수` 집합을 보는데 P0에는 필수가 없어서 발동하지 않는다. 그러면 22점 + `주의`가 나오고, **아무것도 모르는 상태에 점수가 붙는다.** 규칙 2에 한 줄을 더한다 — `personaIds`가 비어 있고 `coverage === 0`이면 `정보없음`.
 
 > 이걸 정의해 두지 않으면 `B = 0.75 + 0.25 × min(빈 집합)`과 `coverage = 0 / 0`이 되어 계산이 깨진다.
+
+#### `GENERAL_VERDICT_CODES` — P0가 판정의 근거로 삼는 네 항목
+
+**v6에서 추가됐고 스펙에 적히지 않았던 것이다. v7에서 그중 하나가 바뀌었으므로 여기 적는다.**
+
+P0에 `critical`이 없다는 것은 §6.4의 라벨 규칙이 근거로 삼을 집합이 없다는 뜻이다. 그런데 **「방문 가능」은 무엇에 대해 하는 말인지가 정해져야 성립하는 주장**이다. 카탈로그 30개 전부를 근거로 삼으면, 수어 안내가 필요하다고 말한 적 없는 사람에게 수어 안내를 이유로 판정을 내리게 되고, 실측하면 **어느 관광지도 그 기준을 통과하지 못한다.**
+
+그래서 P0는 **둘 이상의 페르소나가 `critical`로 보는 항목**을 근거로 쓴다.
+
+```
+GENERAL_VERDICT_CODES = access_route · entrance_passage · path_continuity · restroom
+```
+
+목록을 손으로 적어 두되, `assertPersonaMatrix()`가 그 목록이 실제로 §4.3 표에서 유도되는지 검사한다 — 표 한 줄을 고치고 목록을 안 고치면 테스트가 깨진다.
+
+> **v7에서 `elevator` → `path_continuity`.** 넷 중 셋은 **결과**다 — 거기까지 갈 수 있나, 들어갈 수 있나, 화장실을 쓸 수 있나. `elevator`만 **수단**이었고, 그것도 층을 오르내려야 하는 곳에서만 필요한 수단이다.
+>
+> 실측: 궁남지·고마나루·구드래조각공원·부여왕릉원 네 곳에서 「장애인 전용 엘리베이터 - 없음」을 확인하자 **네 곳 모두 '다른 곳을 권해요'가 됐다.** 같은 출처가 그 장소들의 관람동선을 「평평한 흙길」, 「휠체어 무장애 탐방 가능」이라고 적고 있는데도 그랬다. 그 전날까지 네 곳은 **아무것도 몰라서** '주의'였다. **확인했더니 나빠지는 모델**은 다음 사람에게 조사하지 말라고 가르친다.
+>
+> `path_continuity`는 `elevator`가 대신하고 있던 질문을 직접 묻고, 경사로·승강기·평지가 모두 그 답이 될 수 있다. **계단으로만 올라가는 2층 전시실은 여전히 막는다** — 이제는 사실인 이유로 막는다. `elevator`는 점수와 화면에 그대로 남는다.
 
 **인지·발달 옵션**은 별도 페르소나가 아니라 P3의 하위 옵션이다. 켜면
 - 코스의 휴식 간격 권장값이 짧아지고 (§7)
@@ -245,13 +265,15 @@ B = 0.75 + 0.25 × min( 선택한 모든 페르소나의 personaFit )
 
 **등급을 바꾸지는 않는다.** (기존 스펙은 등급을 올렸는데, 그러면 §4.2의 규칙이 깨진다.)
 
-### 4.2 설계 규칙 — `critical`은 KTO 24항목에만 준다
+### 4.2 설계 규칙 — `critical`은 KTO 항목과 `path_continuity`에만 준다
 
-**파생 항목 8개(`path_continuity` `rest_seating` `shade_indoor` `visual_alarm` `crowd_forecast` `weather_warning` `emergency_distance` `aed_distance`)는 최대 `supporting`이다.**
+**파생 항목 7개(`rest_seating` `shade_indoor` `visual_alarm` `crowd_forecast` `weather_warning` `emergency_distance` `aed_distance`)는 최대 `supporting`이다. `path_continuity`는 v7에서 예외로 빠졌다 — 아래 참조.**
 
 > **왜:** 파생 항목은 우리가 콘텐츠 파일이나 부가 API로 채우는 것이라 **비어 있는 게 정상**이다. 이걸 `critical`로 두면 §6의 "critical이 unknown이면 정보없음" 규칙이 발동해서 **거의 모든 관광지가 모든 사용자에게 '정보없음'** 이 된다. 기존 스펙이 정확히 이 상태였다.
 >
 > `critical`은 "이게 안 되면 이 사람은 못 간다"는 뜻이고, 그런 판단은 **실제로 데이터가 있는 항목**에서만 해야 한다.
+
+> **v7 예외: `path_continuity` 하나.** 위 목록의 나머지는 부가 API나 좌표 계산이 채운다 — 혼잡도·날씨·응급실 거리는 **그날에 대한 것**이지 그 장소에 대한 것이 아니다. `path_continuity`는 사람이 운영 기관의 설명을 읽고 `content/curated-facts.json`에 적는다. **누군가 본 곳에만 값이 있다**는 뜻이고, 안 본 곳은 `unknown`이며 unknown critical은 '주의' 또는 '정보없음'이다 — **이 규칙은 거짓 '방문가능'을 만들 수 없다.** 대가는 라벨이 조사 노력에 걸린다는 것이다: 새 관광지는 누군가 그 기관 페이지를 읽기 전까지 '주의'로 들어온다. 구현은 `personas.ts`의 `DERIVED_CRITICAL_EXCEPTIONS`.
 
 ### 4.3 페르소나 × 항목 등급표
 
@@ -262,12 +284,12 @@ B = 0.75 + 0.25 × min( 선택한 모든 페르소나의 personaFit )
 | `access_route` 접근로 | 진입 | **C** | **C** | S | · | S |
 | `entrance_passage` 출입통로 | 진입 | **C** | **C** | · | · | S |
 | `wheelchair` 휠체어 | 진입 | **C** | S | · | · | · |
-| `elevator` 엘리베이터 | 진입 | **C** | **C** | · | · | S |
+| `elevator` 엘리베이터 | 진입 | S | S | · | · | S |
 | `ticket_office` 매표소 | 진입 | S | S | S | S | · |
 | `help_dog` 보조견 동반 | 진입 | · | · | **C** | · | · |
 | `braille_block` 점자블록 | 이동 | · | · | **C** | · | · |
 | `guide_system` 유도 안내 설비 | 이동 | · | S | **C** | S | · |
-| `path_continuity` 경로 연속성 ※ | 이동 | S | S | S | · | S |
+| `path_continuity` 관람 동선 ※ | 이동 | **C** | **C** | S | · | S |
 | `restroom` 화장실 | 편의시설 | **C** | **C** | S | · | **C** |
 | `parking` 주차 | 편의시설 | S | S | · | · | S |
 | `stroller` 유모차 | 편의시설 | · | · | · | · | **C** |
@@ -292,14 +314,14 @@ B = 0.75 + 0.25 × min( 선택한 모든 페르소나의 personaFit )
 | `emergency_distance` 응급실 거리 ※ | 상황 | S | S | · | · | S |
 | `aed_distance` 자동심장충격기 거리 ※ | 상황 | · | S | · | · | · |
 
-※ = 파생 항목 (§4.2에 따라 `critical` 불가)
+※ = 파생 항목 (§4.2에 따라 `critical` 불가 — `path_continuity`는 v7 예외)
 
 **페르소나별 critical 항목 (§6 강제 규칙의 대상):**
 
 | 페르소나 | critical 항목 |
 |---|---|
-| P1a 휠체어 | `access_route` `entrance_passage` `wheelchair` `elevator` `restroom` (5개) |
-| P1b 시니어 | `access_route` `entrance_passage` `elevator` `restroom` (4개) |
+| P1a 휠체어 | `access_route` `entrance_passage` `wheelchair` `path_continuity` `restroom` (5개) |
+| P1b 시니어 | `access_route` `entrance_passage` `path_continuity` `restroom` (4개) |
 | P2a 시각 | `help_dog` `braille_block` `guide_system` `audio_guide` `big_print` `braille_promotion` `guide_human` (7개) |
 | P2b 청각 | `sign_guide` `video_caption` (2개) |
 | P3 가족 | `restroom` `stroller` (2개) |
@@ -396,6 +418,10 @@ evidenceConfidence = round( 100 × coverage × freshness )
 4) 3)의 라벨에 상한을 적용:
    4a) 필수 중 unknown 이 1개 이상 있으면      → 상한 '주의'
    4b) (삭제됨 — 아래 주석)
+   4c) 필수 중 partial 이 1개 이상 있으면      → 상한 '주의'   ← v7에서 추가
+       ※ partial 은 "조건이 붙어 있다"이지 "막혔다"가 아니다. 규칙 1로 가지 않는다.
+         그러나 "확인됐다"도 아니므로, 주변 항목이 좋다는 이유로 '방문가능'에
+         올라가서는 안 된다. 화면은 `partialCriticals` 를 `조건 있음: {항목}`으로 적는다.
 
    ★ '상한'의 방향은 한쪽뿐이다:
        3)의 결과가 '방문가능' 이면  → '주의' 로 낮춘다
@@ -510,6 +536,7 @@ score = 100 × 0.5339 × 0.9045 × 1.00 × 0.9333 = 45
 |---|---|---|---|
 | `label === '정보없음'` | **숨김 (`—`)** | `정보 없음` | "판단할 정보가 부족합니다 — 현장 확인 필요" + **모르는 필수 항목 이름 전부** |
 | `unknownCriticals.length > 0` (라벨은 주의/대체추천) | 숫자 표시 | 라벨 배지 | **`확인 필요: {항목 이름들}`** ← §6.4의 강제 요구사항 |
+| `partialCriticals.length > 0` | 숫자 표시 | 라벨 배지 | **`조건 있음: {항목 이름들}`** ← §6.4 4c |
 | 그 외 | 숫자 표시 | 라벨 배지 | 데이터 신뢰도 칩 |
 
 **모든 경우에 공통:** `정보 없음 {ktoUnknownCount}건 / {ktoTotalCount}건`을 항상 함께 보여준다. 점수만 있고 "몇 개를 모르는지"가 없으면 과신을 부른다.
@@ -596,7 +623,7 @@ buildItinerary({ budgetMode, personaIds, cognitiveOption, templates, scores })
 | 5 | `p3-all-supported` | 가족 단독 |
 | 6 | `multi-persona-min` | P1a+P1b+P3 동시 선택 시 **가장 낮은 personaFit**이 쓰이는지 |
 | 7 | `critical-unsupported` | 엘리베이터 unsupported + 휠체어 → **대체추천**, score ≤ 49 |
-| 8 | `critical-unknown-minority` | P1a 필수 5개 중 1개(엘리베이터)만 unknown → **정보없음 아님.** 라벨 상한 `주의`, `unknownCriticals = ['elevator']` (§6.4 4a) |
+| 8 | `critical-unknown-minority` | P1a 필수 5개 중 1개(관람 동선)만 unknown → **정보없음 아님.** 라벨 상한 `주의`, `unknownCriticals = ['path_continuity']` (§6.4 4a) |
 | 9 | `critical-unknown-majority` | P1a 필수 5개 중 3개 unknown (비율 0.60) → **정보없음**, 점수 미표시 |
 | 9b | `critical-unknown-boundary` | 필수 2개(P2b) 중 1개 unknown (비율 0.50, **초과 아님**) → 정보없음 아님, 라벨 상한 `주의` |
 | 9c | `coverage-cap` | 필수는 전부 알지만 coverage = 0.60 → 점수는 80인데 라벨은 **주의** (§6.4 4b) |

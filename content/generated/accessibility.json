@@ -268,10 +268,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 37.4 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 34.1 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -279,10 +279,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -290,10 +290,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 26℃ · 최저 17℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 최저 15℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -598,10 +598,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 14.4 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 28.7 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -609,10 +609,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -620,10 +620,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 26℃ · 최저 17℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 최저 15℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -928,10 +928,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 37.6 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 35.1 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -939,10 +939,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -950,10 +950,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 26℃ · 최저 17℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 최저 15℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1025,12 +1025,12 @@
   {
     "poiSlug": "busosanseong",
     "capabilityCode": "elevator",
-    "status": "unknown",
-    "absenceKind": "not_applicable",
-    "detail": "야외 산성이라 건물이 없고, 엘리베이터가 설치될 수 있는 지점 자체가 없다. 다만 낙화암·고란사 방향은 경사가 심한 돌길이라 휠체어와 유아차로는 갈 수 없다. 부소산문에서 삼충사 방향까지가 갈 수 있는 구간이다.",
+    "status": "unsupported",
+    "absenceKind": null,
+    "detail": "장애인 전용 엘리베이터: 없음. 부소산문에서 삼충사 방향까지는 휠체어로 갈 수 있고, 낙화암·고란사 방향은 경사가 심한 돌길이라 갈 수 없다 — 그 구간 판정은 관람 동선 항목에 있다.",
     "source": "curated",
-    "sourceField": "부여군 편의시설 표 https://www.buyeo.go.kr/html/tour/info/info_010101.html 의 「장애인 전용 엘리베이터: 없음」과, 같은 기관·한국관광공사가 공통으로 안내하는 「낙화암·고란사 구간은 경사가 심한 돌길로 휠체어·유모차 진입 어려움」 문장을 함께 읽은 판단입니다. 설비 미설치가 아니라 지형상 해당되지 않는 항목으로 봅니다.",
-    "verifiedAt": "2026-09-07",
+    "sourceField": "https://www.buyeo.go.kr/html/tour/info/info_010101.html (부여문화관광 「부소산성」 편의시설 정보) · https://access.visitkorea.or.kr/ms/detail.do?cotId=4028cc6c-5004-42ce-8571-59620531e80c (열린관광 모두의 여행)",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": true
   },
   {
@@ -1256,12 +1256,12 @@
   {
     "poiSlug": "busosanseong",
     "capabilityCode": "crowd_forecast",
-    "status": "partial",
+    "status": "supported",
     "absenceKind": null,
-    "detail": "보통 — 집중률 41.4 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 33.9 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1269,10 +1269,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1280,10 +1280,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1588,10 +1588,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 39.3 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 30.6 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1599,10 +1599,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1610,10 +1610,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1916,12 +1916,12 @@
   {
     "poiSlug": "buyeo-national-museum",
     "capabilityCode": "crowd_forecast",
-    "status": "partial",
+    "status": "supported",
     "absenceKind": null,
-    "detail": "보통 — 집중률 44.4 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 29.2 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1929,10 +1929,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1940,10 +1940,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2248,10 +2248,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 27.0 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 23.3 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2259,10 +2259,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2270,10 +2270,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2578,10 +2578,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 26.5 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 29.0 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2589,10 +2589,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2600,10 +2600,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2647,7 +2647,7 @@
     "detail": "출입구까지 경사로가 설치되어 있음",
     "source": "kto_with",
     "sourceField": "route",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2658,7 +2658,7 @@
     "detail": "주출입구는 경사로가 있어 휠체어 접근 가능함",
     "source": "kto_with",
     "sourceField": "exit",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2669,7 +2669,7 @@
     "detail": "대여가능",
     "source": "kto_with",
     "sourceField": "wheelchair",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2680,7 +2680,7 @@
     "detail": "엘리베이터 있음(백제역사문화관 내)",
     "source": "kto_with",
     "sourceField": "elevator",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2691,7 +2691,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "ticketoffice",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2713,7 +2713,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "braileblock",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2724,7 +2724,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "guidesystem",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2735,7 +2735,7 @@
     "detail": "장애인 화장실 있음",
     "source": "kto_with",
     "sourceField": "restroom",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2746,7 +2746,7 @@
     "detail": "장애인 주차장 있음_무장애 편의시설",
     "source": "kto_with",
     "sourceField": "parking",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2757,7 +2757,7 @@
     "detail": "대여가능(10대)",
     "source": "kto_with",
     "sourceField": "stroller",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2768,7 +2768,7 @@
     "detail": "수유실 있음",
     "source": "kto_with",
     "sourceField": "lactationroom",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2779,7 +2779,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "babysparechair",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2823,7 +2823,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "bigprint",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2834,7 +2834,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "brailepromotion",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2845,7 +2845,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "promotion",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2867,7 +2867,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "signguide",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2878,7 +2878,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "videoguide",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2889,7 +2889,7 @@
     "detail": null,
     "source": "kto_with",
     "sourceField": "auditorium",
-    "verifiedAt": "2026-09-09",
+    "verifiedAt": "2026-09-17",
     "isKtoScored": true
   },
   {
@@ -2908,10 +2908,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 30.0 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 34.8 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2919,10 +2919,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2930,10 +2930,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3225,12 +3225,12 @@
   {
     "poiSlug": "baekje-history-museum",
     "capabilityCode": "path_continuity",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
+    "detail": "전시실이 두 층에 나뉘어 있다 — 「백제역사박물관 1층에는 건립기념관, 1전시실, 2전시실, i-백제체험관, 강당, 고객사랑방, 뮤지엄샵, 물품보관소가 있습니다」, 「백제역사박물관 2층에는 3전시실, 4전시살, 백제정보자료실…이 있습니다」. 두 층을 잇는 엘리베이터가 있다고 한국관광공사가 따로 적는다.",
+    "source": "curated",
+    "sourceField": "https://www.bhm.or.kr/html/kr/sub05/sub050201.html (백제역사박물관 이용안내, 1·2층 배치도 대체텍스트 — 원문에 「4전시살」 오타가 있다) · https://access.visitkorea.or.kr/ms/detail.do?cotId=c7eeb170-b643-49fb-b1b8-56eafea732ec (열린관광 모두의 여행 「엘리베이터 있음」)",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3249,10 +3249,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3260,10 +3260,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3335,12 +3335,12 @@
   {
     "poiSlug": "gungnamji",
     "capabilityCode": "elevator",
-    "status": "unknown",
-    "absenceKind": "not_applicable",
-    "detail": "부여군 편의시설 표는 「장애인 전용 엘리베이터 - 없음」이라고 적는다. 다만 한국관광공사는 이곳의 관람동선 전체를 평평한 흙길로 설명하고, 동문광장에서 포룡정을 돌아 서문광장에 이르는 900m가 무장애 동선으로 조성돼 있다. 안내하는 동선에서 층을 오르내릴 구간이 없으므로 엘리베이터를 필수 조건으로 보지 않는다.",
+    "status": "unsupported",
+    "absenceKind": null,
+    "detail": "장애인 전용 엘리베이터 - 없음. 관람동선 전체가 평평한 흙길이고 900m 무장애 동선이 조성돼 있다 — 동선 판정은 관람 동선 항목에 있다.",
     "source": "curated",
-    "sourceField": "https://www.buyeo.go.kr/html/tour/info/info_010103.html 의 「장애인 전용 엘리베이터 - 없음」과, https://access.visitkorea.or.kr/ms/detail.do?cotId=06c8fe6a-cefe-4fe6-998e-08b7d60726b5 의 「관람동선 모든 구간이 평평한 흙길이어서 관람에 큰 어려움이 없다」, https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 의 900m 무장애 관광 동선 조성내역을 함께 읽은 판단입니다. 설비가 없다는 사실은 위 문장에 그대로 남겨 두고, 그 사실로 전체 관람을 막지 않는다는 뜻입니다.",
-    "verifiedAt": "2026-09-18",
+    "sourceField": "https://www.buyeo.go.kr/html/tour/info/info_010103.html (부여문화관광 「궁남지사계」 편의시설 정보) · https://access.visitkorea.or.kr/opentour/detail.do?cotId=2c215c01-bcd9-42b4-bfed-460cdda47df9 (열린관광 모두의 여행 「부여 궁남지」 열린관광지 조성내역, 페이지 수정일 2024-07-02)",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": true
   },
   {
@@ -3568,10 +3568,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 33.3 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 33.3 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3579,10 +3579,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3590,10 +3590,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3898,10 +3898,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "여유 — 집중률 26.4 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 36.6 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3909,10 +3909,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3920,10 +3920,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 28℃ · 최저 18℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 29℃ · 최저 18℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -4228,10 +4228,10 @@
     "capabilityCode": "crowd_forecast",
     "status": "partial",
     "absenceKind": null,
-    "detail": "보통 — 집중률 45.3 (40 이하 여유 · 70 이하 보통). 2026-09-17 기준, 향후 30일 예측치입니다",
+    "detail": "보통 — 집중률 42.7 (40 이하 여유 · 70 이하 보통). 2026-09-18 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -4239,10 +4239,10 @@
     "capabilityCode": "weather_warning",
     "status": "supported",
     "absenceKind": null,
-    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-18 확인)",
+    "detail": "발효 중인 기상 특보가 없습니다 (2026-09-19 확인)",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -4250,10 +4250,10 @@
     "capabilityCode": "weather_forecast",
     "status": "supported",
     "absenceKind": null,
-    "detail": "흐림 · 최고 26℃ · 최저 17℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+    "detail": "맑음 · 최고 27℃ · 최저 15℃ · 강수확률 0%. 야외 이동에 무리가 없는 예보입니다",
     "source": "kma",
     "sourceField": null,
-    "verifiedAt": "2026-09-18",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {

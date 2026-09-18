@@ -85,7 +85,7 @@
       },
       {
         "capabilityCode": "restroom",
-        "status": "partial",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
@@ -94,7 +94,7 @@
       },
       {
         "capabilityCode": "parking",
-        "status": "partial",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
@@ -103,7 +103,7 @@
       },
       {
         "capabilityCode": "stroller",
-        "status": "partial",
+        "status": "supported",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
@@ -157,92 +157,92 @@
       },
       {
         "capabilityCode": "big_print",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "braille_promotion",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "promotion_material",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "guide_human",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "sign_guide",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "video_caption",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "visual_alarm",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": false
       },
       {
         "capabilityCode": "auditorium",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": true
       },
       {
         "capabilityCode": "rest_seating",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": false
       },
       {
         "capabilityCode": "shade_indoor",
-        "status": "unknown",
+        "status": "partial",
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "isKtoScored": false
       },
       {
@@ -281,16 +281,16 @@
   "expected": {
     "score": 75,
     "label": "방문가능",
-    "layerA": 0.7999999999999999,
-    "layerB": 0.9411764705882353,
+    "layerA": 0.8095238095238096,
+    "layerB": 0.9305555555555556,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
-        "weight": 0.375,
+        "weight": 0.3333333333333333,
         "rawScore": 1,
-        "weighted": 0.375,
+        "weighted": 0.3333333333333333,
         "knownCount": 6,
         "totalCount": 6
       },
@@ -298,9 +298,9 @@
         "axis": "continuity",
         "labelKo": "이동",
         "labelEn": "Movement",
-        "weight": 0.22499999999999998,
+        "weight": 0.2,
         "rawScore": 1,
-        "weighted": 0.22499999999999998,
+        "weighted": 0.2,
         "knownCount": 3,
         "totalCount": 3
       },
@@ -308,9 +308,9 @@
         "axis": "facility",
         "labelKo": "편의시설",
         "labelEn": "Facilities",
-        "weight": 0.22499999999999998,
-        "rawScore": 0.5,
-        "weighted": 0.11249999999999999,
+        "weight": 0.2,
+        "rawScore": 0.7142857142857143,
+        "weighted": 0.14285714285714288,
         "knownCount": 7,
         "totalCount": 7
       },
@@ -318,20 +318,20 @@
         "axis": "information",
         "labelKo": "정보안내",
         "labelEn": "Information",
-        "weight": 0.17500000000000002,
+        "weight": 0.15555555555555559,
         "rawScore": 0.5,
-        "weighted": 0.08750000000000001,
-        "knownCount": 1,
+        "weighted": 0.07777777777777779,
+        "knownCount": 8,
         "totalCount": 8
       },
       {
         "axis": "rest",
         "labelKo": "휴식",
         "labelEn": "Rest",
-        "weight": 0,
-        "rawScore": 0,
-        "weighted": 0,
-        "knownCount": 0,
+        "weight": 0.11111111111111112,
+        "rawScore": 0.5,
+        "weighted": 0.05555555555555556,
+        "knownCount": 3,
         "totalCount": 3
       },
       {
@@ -346,72 +346,13 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.5666666666666667,
-    "evidenceConfidence": 57,
+    "coverage": 0.9,
+    "evidenceConfidence": 90,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
+    "partialCriticals": [],
     "perPersona": [],
     "deductions": [
-      {
-        "capabilityCode": "big_print",
-        "labelKo": "큰 활자 홍보물",
-        "reason": "큰 활자 홍보물 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "braille_promotion",
-        "labelKo": "점자 홍보물·표지",
-        "reason": "점자 홍보물·표지 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "promotion_material",
-        "labelKo": "홍보물",
-        "reason": "홍보물 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "guide_human",
-        "labelKo": "안내요원",
-        "reason": "안내요원 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "sign_guide",
-        "labelKo": "수어 안내",
-        "reason": "수어 안내 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "video_caption",
-        "labelKo": "자막 영상 안내",
-        "reason": "자막 영상 안내 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "visual_alarm",
-        "labelKo": "시각 경보기",
-        "reason": "시각 경보기 정보 없음",
-        "axis": "information"
-      },
-      {
-        "capabilityCode": "auditorium",
-        "labelKo": "장애인 관람석",
-        "reason": "장애인 관람석 정보 없음",
-        "axis": "rest"
-      },
-      {
-        "capabilityCode": "rest_seating",
-        "labelKo": "휴식 좌석",
-        "reason": "휴식 좌석 정보 없음",
-        "axis": "rest"
-      },
-      {
-        "capabilityCode": "shade_indoor",
-        "labelKo": "그늘·실내 휴게",
-        "reason": "그늘·실내 휴게 정보 없음",
-        "axis": "rest"
-      },
       {
         "capabilityCode": "crowd_forecast",
         "labelKo": "예측 혼잡도",
@@ -432,16 +373,16 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 17,
+    "relevantKnownCount": 27,
     "relevantTotalCount": 30,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
-      "elevator",
+      "path_continuity",
       "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 7,
+    "ktoUnknownCount": 0,
     "ktoTotalCount": 23,
     "dataDates": [
       {
@@ -531,52 +472,52 @@
       },
       {
         "capabilityCode": "big_print",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "braille_promotion",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "promotion_material",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "guide_human",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "sign_guide",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "video_caption",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "visual_alarm",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },
       {
         "capabilityCode": "auditorium",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "kto_with"
       },
       {
         "capabilityCode": "rest_seating",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },
       {
         "capabilityCode": "shade_indoor",
-        "verifiedAt": null,
+        "verifiedAt": "2026-08-01",
         "source": "derived_facility"
       },
       {
@@ -595,6 +536,6 @@
         "source": "derived_facility"
       }
     ],
-    "policyVersion": "suitability-v6"
+    "policyVersion": "suitability-v7"
   }
 }

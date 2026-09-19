@@ -128,6 +128,36 @@ describe('gateway counters and paging', () => {
     expect(after.unreachable - before.unreachable).toBe(0);
   });
 
+  it('keeps retrying long enough for a nightly job to outlast a blip', async () => {
+    // The budget is the point, not the number. Three attempts at 700ms and 1400ms gave
+    // up 2.1 seconds in, and the cron failed three nights running on an intermittent
+    // fault that a dispatch two minutes later did not hit.
+    let attempts = 0;
+    const real = globalThis.fetch;
+    const realKey = process.env.KTO_SERVICE_KEY_DECODING;
+    process.env.KTO_SERVICE_KEY_DECODING = 'test-key';
+    // Fails five times, answers on the sixth. Three attempts cannot reach it.
+    globalThis.fetch = (async () => {
+      attempts += 1;
+      if (attempts < 6) throw new TypeError('fetch failed');
+      return new Response(
+        JSON.stringify({
+          response: { header: { resultCode: '0000', resultMsg: 'OK' }, body: { items: { item: [] }, totalCount: 0 } },
+        }),
+        { status: 200, headers: { 'content-type': 'application/json' } },
+      );
+    }) as typeof fetch;
+    try {
+      const result = await ktoRequest('TestService', 'testOperation', {}, { timeoutMs: 100 });
+      expect(attempts).toBe(6);
+      expect(result.ok).toBe(true);
+    } finally {
+      globalThis.fetch = real;
+      if (realKey === undefined) delete process.env.KTO_SERVICE_KEY_DECODING;
+      else process.env.KTO_SERVICE_KEY_DECODING = realKey;
+    }
+  }, 60_000);
+
   it('names what the fetch actually failed on, not the word fetch failed', async () => {
     // undici's TypeError carries the constant string "fetch failed" and puts the reason
     // on .cause. Logging the message alone produced two nights of a failing cron whose

@@ -126,15 +126,6 @@
       },
       "outlook": [
         {
-          "dayOffset": 4,
-          "amWeather": "맑음",
-          "pmWeather": "맑음",
-          "amRainPct": 10,
-          "pmRainPct": 10,
-          "tmn": 16,
-          "tmx": 28
-        },
-        {
           "dayOffset": 5,
           "amWeather": "구름많음",
           "pmWeather": "구름많음",
@@ -201,15 +192,6 @@
       },
       "outlook": [
         {
-          "dayOffset": 4,
-          "amWeather": "맑음",
-          "pmWeather": "맑음",
-          "amRainPct": 10,
-          "pmRainPct": 10,
-          "tmn": 16,
-          "tmx": 28
-        },
-        {
           "dayOffset": 5,
           "amWeather": "구름많음",
           "pmWeather": "구름많음",
@@ -267,5 +249,5 @@
       "checkedAt": "2026-09-19"
     }
   ],
-  "fetchedAt": "2026-09-19T08:55:10.372Z"
+  "fetchedAt": "2026-09-19T09:14:30.328Z"
 }

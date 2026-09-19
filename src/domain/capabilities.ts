@@ -208,8 +208,50 @@ const NEEDS_CHECKING = /(미확인|확인\s*필요|확인\s*요|문의\s*필요|
  */
 const NEGATION =
   /(없|불가|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되])/;
-const CONDITIONAL =
-  /(일부|제한|사전\s*문의|예약\s*필요|협의|평일만|우천\s*시|동절기|어려움|어렵|동반\s*필요)/;
+/**
+ * Conditions split by what they qualify, because they are not all the same shape.
+ *
+ * A season or a weather condition qualifies whatever the sentence says, wherever in
+ * the sentence it sits — '동절기 미운영' is closed in winter and open otherwise, and
+ * reading the 미운영 on its own publishes a permanent absence. These stay sentence-wide.
+ *
+ * The rest attach to one claim. '일부' is a quantity, '예약 필요' is a precondition, and
+ * each belongs to the thing it sits beside. Read sentence-wide they soften a different
+ * clause's confirmed absence: '장애인 화장실 없음. 일부 주차구역 이용 가능' answered
+ * 일부 가능 under `restroom`, on a sentence stating the restroom is not there. So these
+ * are only consulted where there is a claim for them to attach to — see conditionalNear.
+ *
+ * Measured exposure when this was split: 0 of the 48 KTO sentences in the corpus carry
+ * a local condition and a negation at once, so no stored verdict moved.
+ */
+const CONDITIONAL_SENTENCE = /(평일만|우천\s*시|동절기)/;
+const CONDITIONAL_LOCAL =
+  /(일부|제한|사전\s*문의|예약\s*필요|협의|어려움|어렵|동반\s*필요)/;
+
+/**
+ * Where one claim stops and the next begins. Wider than LIST_SEPARATOR, which splits
+ * items inside a list — this splits the list from the next statement, so a condition
+ * cannot reach across a full stop into a clause about something else.
+ */
+const CLAUSE_BOUNDARY = /[.。;\n]/;
+
+/**
+ * True when a local condition sits in the same clause as [start, end).
+ *
+ * Bounded rather than windowed. A fixed character count picked up '계단 있음. 일부
+ * 주차구역 이용 가능' as a conditional barrier, because 일부 was twelve characters away
+ * — and one full stop away, about a different facility. The clause is the unit a
+ * Korean condition actually scopes over.
+ */
+function conditionalNear(s: string, start: number, end: number): boolean {
+  const before = s.slice(0, start);
+  const backBoundary = [...before.matchAll(new RegExp(CLAUSE_BOUNDARY, 'g'))].pop();
+  const from = backBoundary ? backBoundary.index + 1 : 0;
+  const after = s.slice(end);
+  const forwardBoundary = CLAUSE_BOUNDARY.exec(after);
+  const to = end + (forwardBoundary ? forwardBoundary.index : after.length);
+  return CONDITIONAL_LOCAL.test(s.slice(from, to));
+}
 
 /**
  * Facility stems. A match is a candidate for 'supported', never a verdict: the
@@ -221,6 +263,8 @@ const PRESENCE_WINDOW = 10;
 
 interface BarrierScan {
   present: boolean;
+  /** A condition sits beside the barrier that made `present` true. */
+  presentConditional: boolean;
   absent: boolean;
   /**
    * A barrier noun was found and the window around it said neither "present" nor
@@ -239,6 +283,7 @@ interface BarrierScan {
  */
 function scanBarriers(s: string): BarrierScan {
   let present = false;
+  let presentConditional = false;
   let absent = false;
   let ambiguous = false;
   let rest = '';
@@ -251,8 +296,12 @@ function scanBarriers(s: string): BarrierScan {
     const windowLength = separator ? separator.index : NEARBY_WINDOW;
     const window = s.slice(end, end + windowLength);
     if (NEGATED_NEARBY.test(window)) absent = true;
-    else if (PRESENT_NEARBY.test(window)) present = true;
-    else {
+    else if (PRESENT_NEARBY.test(window)) {
+      present = true;
+      // The noun's own span, not the polarity window — the window already runs eight
+      // characters past the noun and would carry the clause search past a full stop.
+      if (conditionalNear(s, start, end)) presentConditional = true;
+    } else {
       ambiguous = true;
       continue;
     }
@@ -261,7 +310,7 @@ function scanBarriers(s: string): BarrierScan {
     cursor = Math.min(s.length, end + windowLength);
   }
 
-  return { present, absent, ambiguous, rest: rest + s.slice(cursor) };
+  return { present, presentConditional, absent, ambiguous, rest: rest + s.slice(cursor) };
 }
 
 /**
@@ -314,19 +363,36 @@ export function resolveStatus(
   if (NOT_APPLICABLE.test(s)) return 'unknown';
 
   const barrier = scanBarriers(s);
-  const conditional = CONDITIONAL.test(s);
 
-  if (barrier.present) return conditional ? 'partial' : 'unsupported';
+  // A barrier that is there. A season makes it seasonal; a condition written beside the
+  // barrier itself ('일부 구간에 계단') makes it partial. A condition belonging to some
+  // other clause does not, which is what reading the whole sentence used to do.
+  if (barrier.present) {
+    return CONDITIONAL_SENTENCE.test(s) || barrier.presentConditional ? 'partial' : 'unsupported';
+  }
 
   const rest = barrier.rest;
-  if (CONDITIONAL.test(rest)) return 'partial';
+  // Sentence-wide on purpose: '동절기 미운영' is closed in winter, not closed.
+  if (CONDITIONAL_SENTENCE.test(rest)) return 'partial';
   // Sentence-wide, deliberately, and the one rule here that does not ask what its
   // marker is attached to. KTO's commonest way of recording a confirmed absence names
   // the substitute in the same breath — '장애인 화장실 없음. 인근 공중화장실 이용 가능.'
   // — so a rule that backed off to unknown whenever an un-negated presence claim sat
   // beside the negation would answer 확인 필요 for exactly those, and 확인 필요 is what
   // sends a wheelchair user to a building they cannot enter.
-  if (NEGATION.test(rest)) return 'unsupported';
+  // A condition in the same clause as the negation softens it — '일부 구간 이용 불가'
+  // is partly usable. A condition in a different clause is about a different facility
+  // and must not: '장애인 화장실 없음. 일부 주차구역 이용 가능' answered 일부 가능 under
+  // `restroom`, on a sentence stating the restroom is not there.
+  const negation = NEGATION.exec(rest);
+  if (negation !== null) {
+    const from = negation.index;
+    return conditionalNear(rest, from, from + negation[0].length) ? 'partial' : 'unsupported';
+  }
+  // A condition with nothing to negate still qualifies the sentence — '예약 필요',
+  // '사전 문의 후 이용', '진입 어려움'. Before the ambiguity rule, because a barrier
+  // whose polarity could not be read is exactly what '진입 어려움' is explaining.
+  if (CONDITIONAL_LOCAL.test(rest)) return 'partial';
   // A barrier noun nobody could read the polarity of blocks every positive verdict
   // below. '계단으로만 이동 가능' used to reach 'supported' this way: the stairs were
   // dropped for want of a marker and 가능 decided the sentence on its own.

@@ -275,8 +275,8 @@
     "signguCd5": "44760",
     "lclsSystm3": "VE070300",
     "coord": {
-      "lat": 36.30757135317562,
-      "lng": 126.9084947393775
+      "lat": 36.3052345,
+      "lng": 126.9053318
     },
     "cityKo": "부여군",
     "cityEn": "Buyeo",
@@ -290,8 +290,8 @@
     ],
     "tatsName": null,
     "tAtsCd": null,
-    "source": "좌표·주소 KorService2/detailCommon2 (contentId 대조) · ktoContentId KorWithService2/areaBasedList2 lDongRegnCd=44 · tatsName TatsCnctrRateService/tatsCnctrRatedList tAtsNm 완전일치 · odiiThemeIds Odii/themeBasedList 좌표·제목 대조",
-    "checkedAt": "2026-09-15"
+    "source": "좌표는 OpenStreetMap relation/5486569 「백제역사문화관」(building=yes, tourism=museum, ODbL)의 중심점이고, Nominatim 역지오코딩이 같은 점에서 「백제역사문화관, 455, 백제문로」를 돌려준다. KorService2/detailCommon2가 주는 좌표(36.3075705, 126.9084946)는 쓰지 않았다 — 그 값은 주소 「백제문로 455」를 찍은 것이라 백제문화단지 좌표와 0m로 같고, 실제 건물에서 385m 떨어져 있다. 지도 핀과 응급실·자동심장충격기 거리가 전부 그만큼 어긋났다. 주소·명칭·ktoContentId는 KorService2/detailCommon2 · ktoContentId KorWithService2/areaBasedList2 lDongRegnCd=44 · tatsName TatsCnctrRateService/tatsCnctrRatedList tAtsNm 완전일치 · odiiThemeIds Odii/themeBasedList 좌표·제목 대조",
+    "checkedAt": "2026-09-19"
   },
   {
     "slug": "gungnamji",

@@ -121,6 +121,20 @@ const CASES: ReadonlyArray<readonly [string, string, CapabilityStatus, string]> 
   ['휠체어 대여 없음. 유아차는 대여 가능.', 'wheelchair', 'unsupported', 'two rental items, one absent'],
   // The guard must not reach a sentence whose only presence stem is itself negated.
   ['장애인용 화장실이 설치되어 있지 않습니다', 'restroom', 'unsupported', '-지 않- around 설치되어 — the round-09 direction, still unsupported'],
+
+  // A condition qualifies the claim it sits beside, not every claim in the sentence.
+  // Read sentence-wide, '일부' softened a different clause's confirmed absence into
+  // 일부 가능 — the same defect class as the negation one above, one rule along.
+  ['장애인 화장실 없음. 일부 주차구역 이용 가능', 'restroom', 'unsupported', '일부 is about parking; the restroom is confirmed absent'],
+  ['계단 있음. 일부 주차구역 이용 가능', 'entrance_passage', 'unsupported', 'the barrier is unconditional; 일부 is past the full stop'],
+  ['일부 구간에 계단 있음', 'entrance_passage', 'partial', 'the condition sits on the barrier itself'],
+  ['장애인 화장실 있음(일부 층)', 'restroom', 'partial', 'the condition sits on the presence claim'],
+  ['사전 예약 필요, 휠체어 대여 가능', 'wheelchair', 'partial', 'a precondition beside the claim it gates'],
+  // Season and weather really do qualify a whole sentence, so these stay global.
+  // Narrowing them would publish 동절기 미운영 as a permanent absence.
+  ['동절기 미운영', 'restroom', 'partial', 'closed in winter, not closed'],
+  ['우천 시 이용 불가', 'path_continuity', 'partial', 'weather, and the negation must not win'],
+  ['평일만 운영', 'guide_human', 'partial', 'weekdays only'],
 ];
 
 describe('resolveStatus', () => {

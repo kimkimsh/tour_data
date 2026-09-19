@@ -2015,8 +2015,8 @@
     "contentTypeId": 14,
     "depthTier": "B",
     "coord": {
-      "lat": 36.30757135317562,
-      "lng": 126.9084947393775
+      "lat": 36.3052345,
+      "lng": 126.9053318
     },
     "lDongRegnCd": "44",
     "lDongSignguCd": "760",
@@ -2155,7 +2155,7 @@
           "lat": 36.2753039,
           "lng": 126.9016066
         },
-        "distanceM": 3641,
+        "distanceM": 3345,
         "phone": "041-837-1200",
         "detail": "충남 부여군 부여읍 계백로 200 · 지역응급의료기관 · 24시간 접수 및 진료 가능",
         "sourceNote": "https://www.kyuh.ac.kr/buyeo/sub01_04.do (명칭·주소, 병원 안내의 042 번호는 대전 본원이라 싣지 않았습니다) · 좌표는 OpenStreetMap way/367065989 (amenity=hospital, ODbL) · 두 좌표가 8m 차이",
@@ -2168,7 +2168,7 @@
           "lat": 36.3052345,
           "lng": 126.9053318
         },
-        "distanceM": 385,
+        "distanceM": 0,
         "phone": "041-408-7290",
         "detail": "충청남도 부여군 규암면 백제문로 455 (관광지 주소와 같습니다) · 매일 09:00~18:00",
         "sourceNote": "응급의료포털 E-Gen 자동심장충격기 조회 (설치기관 「백제문화단지」, 설치장소 「백제역사문화관 1층」, 관리번호 24-0210422, 점검일 2026-09-17) · 공공데이터포털 국립중앙의료원 AED 정보 API https://www.data.go.kr/data/15000652/openapi.do 가 같은 값을 돌려줍니다 · 좌표는 OpenStreetMap relation/5486569 백제역사문화관 (tourism=museum, 주소 백제문로 455 일치, ODbL) · 두 좌표가 0m 차이. E-Gen 좌표는 주소를 찍은 값이라 이 건물에서 385m 떨어져 있어, 건물 좌표는 OSM 쪽을 썼습니다",

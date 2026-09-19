@@ -1,515 +1,515 @@
 [
   {
-    "poiSlug": "gongsanseong",
-    "baseYm": "202608",
     "items": [
       {
         "code": "56b9eb3be6fb3c7f4144531ec516bf53",
         "name": "국립공주박물관",
+        "rank": 1,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 1
+        "categoryLcls": "관광지"
       },
       {
         "code": "bd0b549a21986ab0709178ee301614e1",
         "name": "무령왕릉",
+        "rank": 3,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 3
+        "categoryLcls": "관광지"
       },
       {
         "code": "f1797c7275c1c842a14db01562070705",
         "name": "마곡사",
+        "rank": 5,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 5
+        "categoryLcls": "관광지"
       },
       {
         "code": "ef42e7dc89588d8af69d0f99e66a97a6",
         "name": "메타세콰이어길",
+        "rank": 7,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 7
+        "categoryLcls": "관광지"
       },
       {
         "code": "70fdaf80eec3801f0a135e62061025e9",
         "name": "공주한옥마을",
+        "rank": 8,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 8
+        "categoryLcls": "관광지"
       },
       {
         "code": "ef4311d7e495244ba9e0acbbcb6dd860",
         "name": "공주무령왕릉과왕릉원",
+        "rank": 9,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 9
+        "categoryLcls": "관광지"
       },
       {
         "code": "68580e5855e9a539b2fe90ba455bf460",
         "name": "석장리박물관",
+        "rank": 13,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 13
+        "categoryLcls": "관광지"
       },
       {
         "code": "c9ca772221150cd71ce98804df735b9b",
         "name": "공주중동성당",
+        "rank": 19,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 19
+        "categoryLcls": "관광지"
       },
       {
         "code": "abd2e344bac6919e154a67155b1ad695",
         "name": "나태주풀꽃문학관",
+        "rank": 20,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 20
+        "categoryLcls": "관광지"
       },
       {
         "code": "ab225252b3add96f2f4224e37bc5b0c7",
         "name": "공주종합버스터미널",
+        "rank": 21,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 21
+        "categoryLcls": "관광지"
       },
       {
         "code": "00a55421157af4398837a3edac8cda42",
         "name": "충청남도역사박물관",
+        "rank": 34,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 34
+        "categoryLcls": "관광지"
       },
       {
         "code": "2c40cb2fc9c07fe9b778cfb742d25c1d",
         "name": "미르섬",
+        "rank": 42,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 42
+        "categoryLcls": "관광지"
       },
       {
         "code": "2e69ab62ba55ee0d6b13b821531aa8ed",
         "name": "금강신관공원",
+        "rank": 44,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 44
+        "categoryLcls": "관광지"
       },
       {
         "code": "9251b59c40eabc990a5c92da2ba9f470",
         "name": "웅진백제역사관",
+        "rank": 45,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 45
+        "categoryLcls": "관광지"
       },
       {
         "code": "d0bbe1a62856079a526c2d6c0329c2f6",
         "name": "동학사",
+        "rank": 48,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 48
+        "categoryLcls": "관광지"
       }
-    ]
+    ],
+    "baseYm": "202608",
+    "poiSlug": "gongsanseong"
   },
   {
-    "poiSlug": "gongju-national-museum",
-    "baseYm": "202608",
     "items": [
       {
         "code": "52498f93bb5c1825ebf59bb810a10ec8",
         "name": "공산성",
+        "rank": 1,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 1
+        "categoryLcls": "관광지"
       },
       {
         "code": "bd0b549a21986ab0709178ee301614e1",
         "name": "무령왕릉",
+        "rank": 3,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 3
+        "categoryLcls": "관광지"
       },
       {
         "code": "f1797c7275c1c842a14db01562070705",
         "name": "마곡사",
+        "rank": 9,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 9
+        "categoryLcls": "관광지"
       },
       {
         "code": "ef4311d7e495244ba9e0acbbcb6dd860",
         "name": "공주무령왕릉과왕릉원",
+        "rank": 10,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 10
+        "categoryLcls": "관광지"
       },
       {
         "code": "ef42e7dc89588d8af69d0f99e66a97a6",
         "name": "메타세콰이어길",
+        "rank": 11,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 11
+        "categoryLcls": "관광지"
       },
       {
         "code": "abd2e344bac6919e154a67155b1ad695",
         "name": "나태주풀꽃문학관",
+        "rank": 14,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 14
+        "categoryLcls": "관광지"
       },
       {
         "code": "68580e5855e9a539b2fe90ba455bf460",
         "name": "석장리박물관",
+        "rank": 15,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 15
+        "categoryLcls": "관광지"
       },
       {
         "code": "9d333692f77dccb3d2922de6c6a2f1e9",
         "name": "고마곰어린이체험관",
+        "rank": 19,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 19
+        "categoryLcls": "관광지"
       },
       {
         "code": "0cd24bf3b80f51c696a70f1b2dd11dbe",
         "name": "공주산성시장",
+        "rank": 22,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 22
+        "categoryLcls": "관광지"
       },
       {
         "code": "6a2b5e998a8ceb0141a1042b97b31c97",
         "name": "국립부여박물관",
+        "rank": 25,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 25
+        "categoryLcls": "관광지"
       },
       {
         "code": "70fdaf80eec3801f0a135e62061025e9",
         "name": "공주한옥마을",
+        "rank": 26,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 26
+        "categoryLcls": "관광지"
       },
       {
         "code": "d0bbe1a62856079a526c2d6c0329c2f6",
         "name": "동학사",
+        "rank": 31,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 31
+        "categoryLcls": "관광지"
       },
       {
         "code": "77b4ce0782857138f1e62d6842b4e022",
         "name": "공주공산성연지",
+        "rank": 33,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 33
+        "categoryLcls": "관광지"
       },
       {
         "code": "3c5ee49968c139256b92b1198b9a73d6",
         "name": "로보카폴리안전체험공원",
+        "rank": 34,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 34
+        "categoryLcls": "관광지"
       },
       {
         "code": "bd4ed4ae135bf88ae2247d426724ada5",
         "name": "정안천생태공원",
+        "rank": 35,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 35
+        "categoryLcls": "관광지"
       },
       {
         "code": "00a55421157af4398837a3edac8cda42",
         "name": "충청남도역사박물관",
+        "rank": 41,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 41
+        "categoryLcls": "관광지"
       },
       {
         "code": "e93841c9c1119a6da1b248e771a3dc4f",
         "name": "정림사지5층석탑",
+        "rank": 44,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 44
+        "categoryLcls": "관광지"
       },
       {
         "code": "44ac960a448e2294dc18f62d4fe493d9",
         "name": "연미산자연미술공원",
+        "rank": 45,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 45
+        "categoryLcls": "관광지"
       },
       {
         "code": "75567e67714f7a43c1892d3b9f171261",
         "name": "곰나루어린이수영장",
+        "rank": 47,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 47
+        "categoryLcls": "관광지"
       }
-    ]
+    ],
+    "baseYm": "202608",
+    "poiSlug": "gongju-national-museum"
   },
   {
-    "poiSlug": "buyeo-national-museum",
-    "baseYm": "202608",
     "items": [
       {
         "code": "024972f10aedfc9bc12e000bd470db87",
         "name": "궁남지",
+        "rank": 2,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 2
+        "categoryLcls": "관광지"
       },
       {
         "code": "a7ea55a5ae3ac4b15668e9c3caf6caf5",
         "name": "백제문화단지",
+        "rank": 3,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 3
+        "categoryLcls": "관광지"
       },
       {
         "code": "6eb7134c9d9fcad8462c78d35528f031",
         "name": "롯데아울렛/부여점",
+        "rank": 5,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 5
+        "categoryLcls": "관광지"
       },
       {
         "code": "8b177c3fbec83c6abfd3e722e7aec424",
         "name": "구드래선착장",
+        "rank": 6,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 6
+        "categoryLcls": "관광지"
       },
       {
         "code": "c685ad72ffb861d5d723e6651d3a97b1",
         "name": "낙화암",
+        "rank": 9,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 9
+        "categoryLcls": "관광지"
       },
       {
         "code": "9a2a03e4f50a44407ce69f54aab2cd9f",
         "name": "정림사지",
+        "rank": 11,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 11
+        "categoryLcls": "관광지"
       },
       {
         "code": "e93841c9c1119a6da1b248e771a3dc4f",
         "name": "정림사지5층석탑",
+        "rank": 13,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 13
+        "categoryLcls": "관광지"
       },
       {
         "code": "860da204afadf6600b992a0e411b1d06",
         "name": "정림사지박물관",
+        "rank": 18,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 18
+        "categoryLcls": "관광지"
       },
       {
         "code": "473ad33287509281e2c1c06f716a5996",
         "name": "백제역사박물관",
+        "rank": 19,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 19
+        "categoryLcls": "관광지"
       },
       {
         "code": "0d3e456d8ed0c38ba5297eb40eb06dbf",
         "name": "사랑나무",
+        "rank": 20,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 20
+        "categoryLcls": "관광지"
       },
       {
         "code": "8d7e8fdf7bf7658c5c5a4c0ef78678ef",
         "name": "부여왕릉원",
+        "rank": 28,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 28
+        "categoryLcls": "관광지"
       },
       {
         "code": "56b9eb3be6fb3c7f4144531ec516bf53",
         "name": "국립공주박물관",
+        "rank": 32,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 32
+        "categoryLcls": "관광지"
       },
       {
         "code": "5cc3e3da89ec8603bace363593d2bf6e",
         "name": "부여시외버스터미널",
+        "rank": 34,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 34
+        "categoryLcls": "관광지"
       },
       {
         "code": "41d089907b19cfb09720c3f8aa93b916",
         "name": "부여중앙시장",
+        "rank": 35,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 35
+        "categoryLcls": "관광지"
       },
       {
         "code": "064ccd7561041851e4a58f1362f92223",
         "name": "부여서울농장",
+        "rank": 39,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 39
+        "categoryLcls": "관광지"
       },
       {
         "code": "6feb10d9b7c5bac8ef035dc965933ce8",
         "name": "부여나성",
+        "rank": 43,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 43
+        "categoryLcls": "관광지"
       },
       {
         "code": "52498f93bb5c1825ebf59bb810a10ec8",
         "name": "공산성",
+        "rank": 46,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 46
+        "categoryLcls": "관광지"
       },
       {
         "code": "4f495a796a92e6a957d6d209861b3ca6",
         "name": "미암사",
+        "rank": 49,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 49
+        "categoryLcls": "관광지"
       }
-    ]
+    ],
+    "baseYm": "202608",
+    "poiSlug": "buyeo-national-museum"
   },
   {
-    "poiSlug": "baekje-cultural-land",
-    "baseYm": "202608",
     "items": [
       {
         "code": "6a2b5e998a8ceb0141a1042b97b31c97",
         "name": "국립부여박물관",
+        "rank": 1,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 1
+        "categoryLcls": "관광지"
       },
       {
         "code": "024972f10aedfc9bc12e000bd470db87",
         "name": "궁남지",
+        "rank": 2,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 2
+        "categoryLcls": "관광지"
       },
       {
         "code": "8b177c3fbec83c6abfd3e722e7aec424",
         "name": "구드래선착장",
+        "rank": 4,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 4
+        "categoryLcls": "관광지"
       },
       {
         "code": "c685ad72ffb861d5d723e6651d3a97b1",
         "name": "낙화암",
+        "rank": 6,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 6
+        "categoryLcls": "관광지"
       },
       {
         "code": "e93841c9c1119a6da1b248e771a3dc4f",
         "name": "정림사지5층석탑",
+        "rank": 10,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 10
+        "categoryLcls": "관광지"
       },
       {
         "code": "9a2a03e4f50a44407ce69f54aab2cd9f",
         "name": "정림사지",
+        "rank": 14,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 14
+        "categoryLcls": "관광지"
       },
       {
         "code": "860da204afadf6600b992a0e411b1d06",
         "name": "정림사지박물관",
+        "rank": 20,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 20
+        "categoryLcls": "관광지"
       },
       {
         "code": "0d3e456d8ed0c38ba5297eb40eb06dbf",
         "name": "사랑나무",
+        "rank": 22,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 22
+        "categoryLcls": "관광지"
       },
       {
         "code": "6eb7134c9d9fcad8462c78d35528f031",
         "name": "롯데아울렛/부여점",
+        "rank": 24,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 24
+        "categoryLcls": "관광지"
       },
       {
         "code": "8d7e8fdf7bf7658c5c5a4c0ef78678ef",
         "name": "부여왕릉원",
+        "rank": 29,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 29
+        "categoryLcls": "관광지"
       },
       {
         "code": "16242d64e2b53cc9844accd3f55caa88",
         "name": "무량사",
+        "rank": 31,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 31
+        "categoryLcls": "관광지"
       },
       {
         "code": "41d089907b19cfb09720c3f8aa93b916",
         "name": "부여중앙시장",
+        "rank": 36,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 36
+        "categoryLcls": "관광지"
       },
       {
         "code": "1617f81ae7b2fd8e61e50d8b40c0e91b",
         "name": "서동요오픈세트장",
+        "rank": 37,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 37
+        "categoryLcls": "관광지"
       },
       {
         "code": "f24417bb67463f98ee671336165053fd",
         "name": "백마강테마파크전망대",
+        "rank": 40,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 40
+        "categoryLcls": "관광지"
       },
       {
         "code": "ba842d47563a5dd0817d9673753dcc3a",
         "name": "굿뜨래웰빙마을",
+        "rank": 45,
         "signguNm": "부여군",
-        "categoryLcls": "관광지",
-        "rank": 45
+        "categoryLcls": "관광지"
       },
       {
         "code": "52498f93bb5c1825ebf59bb810a10ec8",
         "name": "공산성",
+        "rank": 47,
         "signguNm": "공주시",
-        "categoryLcls": "관광지",
-        "rank": 47
+        "categoryLcls": "관광지"
       }
-    ]
+    ],
+    "baseYm": "202608",
+    "poiSlug": "baekje-cultural-land"
   },
   {
-    "poiSlug": "gudeurae-sculpture-park",
-    "baseYm": "202608",
     "items": [
       {
         "code": "29ba45215277b969e2bf155f127f1224",
         "name": "신진항",
+        "rank": 1,
         "signguNm": "태안군",
-        "categoryLcls": "관광지",
-        "rank": 1
+        "categoryLcls": "관광지"
       }
-    ]
+    ],
+    "baseYm": "202608",
+    "poiSlug": "gudeurae-sculpture-park"
   }
 ]

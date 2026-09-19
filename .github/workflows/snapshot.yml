@@ -1,22 +1,28 @@
-name: ingest
+name: snapshot
 
-# 04:00 KST. Once a day is the right cadence for what this collects: the crowding
-# figure is a 30-day forecast and the visitor figure lags by days, so an hourly run
-# would multiply the call count and add nothing to the screens.
+# 04:30 KST, half an hour after the Vercel cron that collects.
 #
-# The changed snapshot files are committed, which is what replaces the ingest-history
-# table the earlier design had: `git diff` answers "what changed since yesterday".
+# Collection moved to a Vercel Function in icn1: a GitHub runner could not reliably
+# open a connection to apis.data.go.kr — UND_ERR_CONNECT_TIMEOUT, all-or-nothing per
+# run, so the wall was bound to the runner's address. A function cannot commit to git,
+# which is the half that stayed here. The committed files are what makes `git diff`
+# answer "what changed since yesterday", and they are the fixtures the e2e suite runs
+# against.
+#
+# This job talks to Supabase and to nothing else, so that wall does not apply to it.
+# It is also why a failure here is not a data problem: the snapshots are already
+# published and on the screens by the time this runs.
 
 on:
   schedule:
-    - cron: '0 19 * * *'
+    - cron: '30 19 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  ingest:
+  snapshot:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,15 +33,10 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm ingest
+      - run: pnpm pull:snapshots
         env:
-          # The DECODING form of the key. The ENCODING form is re-encoded by
-          # URLSearchParams and the gateway answers resultCode 30.
-          KTO_SERVICE_KEY_DECODING: ${{ secrets.KTO_SERVICE_KEY_DECODING }}
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
-          REVALIDATE_SECRET: ${{ secrets.REVALIDATE_SECRET }}
 
       - name: Commit the snapshot diff
         run: |

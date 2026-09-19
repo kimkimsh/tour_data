@@ -138,6 +138,16 @@ const SECURITY_HEADERS = [
 ];
 
 const nextConfig: NextConfig = {
+  /*
+    The cron route reads the committed inputs — pois.json, facilities.json,
+    certifications.json, curated-facts.json, the route files and the plain-language
+    docent scripts. Next traces imports, and these are opened by path at run time, so
+    without naming them the function deploys without them and the first stage exits on
+    "content/pois.json is missing".
+  */
+  outputFileTracingIncludes: {
+    '/api/cron/ingest': ['./content/**/*.json', './content/docent-easy/**/*.md'],
+  },
   // The framework's version is not the visitor's business, and it is the first thing
   // an automated scan reads.
   poweredByHeader: false,

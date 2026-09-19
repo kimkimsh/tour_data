@@ -82,13 +82,17 @@ import {
 import { getWeatherWarnings, kmaRegionFor, readWarningFor } from '../src/lib/kma/warnings';
 import { getMidOutlook, getShortTermForecast, readDayCondition } from '../src/lib/kma/forecast';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const CONTENT = join(ROOT, 'content');
-const GENERATED = join(CONTENT, 'generated');
-
-// tsx does not load .env.local the way next dev does.
-const ENV_FILE = join(ROOT, '.env.local');
-if (existsSync(ENV_FILE)) process.loadEnvFile(ENV_FILE);
+/**
+ * Where the committed inputs are read from and where the snapshot files are written.
+ *
+ * Settled per run rather than at import, because this module has two callers now. The
+ * CLI resolves them from its own location. The Vercel cron route runs from a bundle
+ * whose layout is not the repository's, so it passes process.cwd() and turns file
+ * writing off — a function's filesystem is read-only outside /tmp.
+ */
+let ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+let CONTENT = join(ROOT, 'content');
+let GENERATED = join(CONTENT, 'generated');
 
 const STAGE_ORDER = [
   'bootstrap',
@@ -127,17 +131,37 @@ const RELATED_ATTRACTION_CATEGORY = '관광지';
  */
 const ACCOMMODATION_CONTENT_TYPE_IDS: readonly number[] = [32];
 
-const args = process.argv.slice(2);
-const dryRun = args.includes('--dry-run');
-const onlyArg = args.find((arg) => arg.startsWith('--only='))?.slice('--only='.length);
-const stages: Stage[] = onlyArg
-  ? onlyArg.split(',').map((name) => {
-      if (!(STAGE_ORDER as readonly string[]).includes(name)) {
-        exit(`unknown stage "${name}". Stages: ${STAGE_ORDER.join(', ')}`);
-      }
-      return name as Stage;
-    })
-  : [...STAGE_ORDER];
+/**
+ * What one run was asked to do. Module-level because publish() and revalidate() read it
+ * and threading it through forty call sites would say nothing the name does not.
+ */
+interface RunOptions {
+  stages: Stage[];
+  dryRun: boolean;
+  /** False on Vercel, where only /tmp is writable and nothing reads the files after. */
+  writeFiles: boolean;
+  /** False where the caller invalidates its own cache rather than posting to a URL. */
+  revalidateOverHttp: boolean;
+  contentRoot: string;
+}
+
+let run: RunOptions = {
+  stages: [...STAGE_ORDER],
+  dryRun: false,
+  writeFiles: true,
+  revalidateOverHttp: true,
+  contentRoot: ROOT,
+};
+
+export function parseStages(value: string | undefined): Stage[] {
+  if (!value) return [...STAGE_ORDER];
+  return value.split(',').map((name) => {
+    if (!(STAGE_ORDER as readonly string[]).includes(name)) {
+      exit(`unknown stage "${name}". Stages: ${STAGE_ORDER.join(', ')}`);
+    }
+    return name as Stage;
+  });
+}
 
 /**
  * Spec 05 §3.4 and §3.4b: the three answers a stage must not build a payload on.
@@ -200,9 +224,16 @@ function barrierFreeDetail(contentId: string): Promise<KtoResult<DetailWithTour2
   return started;
 }
 
+/**
+ * Throws rather than calling process.exit. The CLI turns it into an exit code at the
+ * bottom of this file; inside a Vercel function process.exit would take down the
+ * invocation before the handler could answer, and a cron with no response body is a
+ * failure nobody can read.
+ */
+export class IngestError extends Error {}
+
 function exit(message: string): never {
-  console.error(`ingest: ${message}`);
-  process.exit(1);
+  throw new IngestError(message);
 }
 
 /**
@@ -242,7 +273,17 @@ function readContent<T>(relative: string, schema: z.ZodType<T>): T {
  * database, so a partial run (`--only=accessibility`) behaves the same whether or
  * not Supabase is reachable.
  */
+/** What this run has published so far, by snapshot key. See publish(). */
+const published = new Map<SnapshotKey, unknown>();
+
 function readGenerated<T>(key: SnapshotKey, schema: z.ZodType<T>): T | undefined {
+  const inMemory = published.get(key);
+  if (inMemory !== undefined) {
+    const parsed = schema.safeParse(inMemory);
+    if (parsed.success) return parsed.data;
+    warn(`the ${key} payload this run published does not match its schema and was ignored`);
+    return undefined;
+  }
   const path = join(GENERATED, `${key}.json`);
   if (!existsSync(path)) return undefined;
   const parsed = schema.safeParse(JSON.parse(readFileSync(path, 'utf8')));
@@ -285,12 +326,19 @@ function requireGatewayWasReachable(what: SnapshotKey | 'bootstrap'): void {
 async function publish(key: SnapshotKey, payload: unknown, rowCount: number, sourceNote: string) {
   requireGatewayWasReachable(key);
 
+  // Held for the stages that read it back. accessibility reads routes, context and
+  // pois, and it used to do that through the filesystem — which is one process writing
+  // a file so the same process can read it again, and it is why this pipeline could not
+  // run anywhere the disk is read-only.
+  published.set(key, payload);
+
   const writeFile = () => {
+    if (!run.writeFiles) return;
     mkdirSync(GENERATED, { recursive: true });
     writeFileSync(join(GENERATED, `${key}.json`), `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
   };
 
-  if (dryRun) {
+  if (run.dryRun) {
     writeFile();
     console.log(`dry-run  ${key}: ${rowCount} rows (file written, database untouched)`);
     return;
@@ -341,6 +389,12 @@ async function bootstrap(pois: PoiInput[]): Promise<void> {
   // code tables with two empty arrays, and every later stage reads this file.
   requireGatewayWasReachable('bootstrap');
 
+  // Not through publish(), because this one is a reference dump rather than a snapshot
+  // the screens read — so it needs its own check that this run writes files at all.
+  if (!run.writeFiles) {
+    console.log('ok       bootstrap: code tables fetched (no file written)');
+    return;
+  }
   mkdirSync(GENERATED, { recursive: true });
   writeFileSync(
     join(GENERATED, 'codes.json'),
@@ -1384,7 +1438,7 @@ async function buildRelated(pois: PoiInput[]): Promise<void> {
  * no promise.
  */
 async function deleteExpiredHiddenReports(): Promise<void> {
-  if (dryRun) return;
+  if (run.dryRun) return;
   if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
     // The promise is kept by this function and nothing else, so a run that skipped it
     // has to say so. Silence here reads as "nothing was due".
@@ -1414,7 +1468,7 @@ async function deleteExpiredHiddenReports(): Promise<void> {
 async function revalidate(): Promise<void> {
   const site = process.env.NEXT_PUBLIC_SITE_URL;
   const secret = process.env.REVALIDATE_SECRET;
-  if (dryRun) return;
+  if (run.dryRun || !run.revalidateOverHttp) return;
   if (!site || !secret) {
     // The failure path below names the host it could not reach; not attempting at all
     // printed nothing, so a deploy that lost one of these variables published new
@@ -1449,11 +1503,23 @@ async function revalidate(): Promise<void> {
 
 // ── run ────────────────────────────────────────────────────────────────────────
 
-async function main(): Promise<void> {
+/**
+ * One ingest run. Called by the CLI below and by the Vercel cron route.
+ *
+ * Nothing at module scope reads argv or the environment any more, so importing this
+ * file costs nothing and runs nothing — which is what lets a Next route bundle it.
+ */
+export async function runIngest(partial: Partial<RunOptions> = {}): Promise<void> {
+  run = { ...run, ...partial };
+  published.clear();
+  ROOT = run.contentRoot;
+  CONTENT = join(ROOT, 'content');
+  GENERATED = join(CONTENT, 'generated');
+
   const pois = readContent('pois.json', PoisInput);
 
   for (const stage of STAGE_ORDER) {
-    if (!stages.includes(stage)) continue;
+    if (!run.stages.includes(stage)) continue;
     console.log(`\n— ${stage}`);
     switch (stage) {
       case 'bootstrap':
@@ -1484,11 +1550,3 @@ async function main(): Promise<void> {
   await revalidate();
   console.log('\ningest finished');
 }
-
-// Not top-level await: package.json has no "type": "module", so tsx hands this file to
-// esbuild's cjs format, which cannot host one — `pnpm ingest` dies before the first
-// stage with "Top-level await is currently not supported". Same shape as probe.ts.
-main().catch((cause: unknown) => {
-  console.error(`ingest: ${cause instanceof Error ? cause.message : String(cause)}`);
-  process.exitCode = 1;
-});

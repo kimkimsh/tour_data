@@ -13,6 +13,7 @@ import { CapabilityEvidence, countKtoItems } from '@/components/place/Capability
 import { ReportsSection } from '@/components/place/ReportsSection';
 import { groupFactsByPoi, toPlaceCardData, type PlaceCardData } from '@/components/place/place-view';
 import { SourceText } from '@/components/SourceText';
+import { SpokenGap } from '@/components/a11y/SpokenGap';
 import { PlaceMap } from '@/components/map/PlaceMap';
 
 export const revalidate = 3600;
@@ -366,9 +367,14 @@ export default async function PlacePage({
                     <p className="font-bold">
                       {facility.name}
                       {distance !== null ? (
-                        <span className="ml-2 tabular font-normal">
-                          {t('distanceMeters', { value: distance })}
-                        </span>
+                        <>
+                          {/* ml-2 is margin, not text: 「충청남도 공주의료원
+                              응급실1,627m」. */}
+                          <SpokenGap />
+                          <span className="ml-2 tabular font-normal">
+                            {t('distanceMeters', { value: distance })}
+                          </span>
+                        </>
                       ) : null}
                     </p>
                     {facility.detail ? <p className="t-sm">{facility.detail}</p> : null}

@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LocaleSwitch } from '@/components/LocaleSwitch';
+import { SpokenGap } from '@/components/a11y/SpokenGap';
 import type { Locale } from '@/domain/types';
 
 const NAV = [
@@ -26,6 +27,10 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <span className="block t-lg font-extrabold tracking-[-0.03em]">
             {t('siteName')}
           </span>
+          {/* The two lines are one link, so they are one accessible name. Stacked
+              blocks contribute no text between them and the name came out as
+              「모두의 백제GONGJU · BUYEO」 on every screen in the service. */}
+          <SpokenGap />
           <span className="block font-mono t-xs uppercase tracking-[0.14em] text-[var(--color-gilt)]">
             Gongju · Buyeo
           </span>

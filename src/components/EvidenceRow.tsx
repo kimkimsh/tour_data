@@ -1,5 +1,6 @@
 import type { CapabilityStatus } from '@/domain/types';
 import type { Provenance } from '@/components/place/place-view';
+import { SpokenGap } from '@/components/a11y/SpokenGap';
 
 /**
  * The one element this service is built around: a claim next to the machinery
@@ -41,9 +42,13 @@ export function EvidenceRow({
           <h4 className="subhead !tracking-normal">{title}</h4>
           <StatusText kind={statusKind} notApplicable={notApplicable} text={statusText} />
           {derived ? (
-            <span className="t-xs text-[var(--color-ink-2)]">
-              {derivedLabel}
-            </span>
+            <>
+              {/* The heading above starts its own line, so it needs nothing. These two
+                  share one, separated by gap-x-3, and were read as
+                  「정보 없음우리가 더한 항목」. */}
+              <SpokenGap />
+              <span className="t-xs text-[var(--color-ink-2)]">{derivedLabel}</span>
+            </>
           ) : null}
         </div>
 

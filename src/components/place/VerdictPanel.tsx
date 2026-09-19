@@ -19,6 +19,7 @@ import { useConditions } from '@/components/persona/usePersona';
 import { capabilityLabel, capabilityLabels, type PlaceCardData } from './place-view';
 import { useToday } from '@/components/useClientValue';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
+import { SpokenGap } from '@/components/a11y/SpokenGap';
 
 /** How many of the score's deductions are named before the rest are counted. */
 const DEDUCTIONS_SHOWN_MAX = 8;
@@ -149,6 +150,9 @@ export function VerdictPanel({
       <div className={`verdict verdict--${VERDICT_MODIFIER[result.label]}`}>
         <p className="flex flex-wrap items-center gap-x-3 gap-y-2">
           <VerdictBadge label={result.label} text={tc(`label.${result.label}`)} size="lg" />
+          {/* The verdict and what it rests on are one line separated by gap-x-3, so
+              the headline came out as 「정보 없음기준 항목: 접근로, …」. */}
+          <SpokenGap />
           <span className="t-sm text-[var(--color-ink-2)]">
             {t('verdictBasis', { items: capabilityLabels(result.requiredCodes, locale) })}
           </span>
@@ -205,8 +209,16 @@ export function VerdictPanel({
                 total: result.relevantTotalCount,
               })}
             </span>
+            {/* Figure and label are stacked by .stat, which separates them with
+                layout rather than with text. Both figures and both labels ran into
+                one another as 「8 / 22관련 항목 중 상태를 확인한 수36%데이터
+                신뢰도 …」. */}
+            <SpokenGap />
             <span className="stat__label">{t('coverageBasis')}</span>
           </p>
+          {/* .stat-row is a flex row, so the two paragraphs share one line and are
+              read as one. The gap between them is the row's own, and it is not text. */}
+          <SpokenGap />
           <p className="stat">
             {/* With the unit. The figure beside it reads 9 / 28, so a bare 35 next to
                 it invited being read as a count of something rather than a percentage,
@@ -214,6 +226,7 @@ export function VerdictPanel({
             <span className="stat__figure">
               {t('confidenceValue', { value: result.evidenceConfidence })}
             </span>
+            <SpokenGap />
             {/* Body text, not a title attribute: that never appears on a touch device,
                 never appears for a keyboard user, and is read inconsistently. The
                 distinction it draws — confidence is not the score — is the one people

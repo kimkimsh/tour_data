@@ -6,6 +6,7 @@ import type { Docent } from '@/domain/snapshot-schema';
 import type { Locale } from '@/domain/types';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
 import { useAnnouncer } from '@/components/a11y/useAnnouncer';
+import { SpokenGap } from '@/components/a11y/SpokenGap';
 import { DocentPlayer } from './DocentPlayer';
 
 const SECONDS_PER_MINUTE = 60;
@@ -134,7 +135,11 @@ export function DocentView({ stories, uiLocale }: { stories: Docent[]; uiLocale:
                   snapshot already. */}
               {story.playTimeS === null ? null : (
                 <p className="t-sm text-[var(--color-ink-2)]">
-                  {t('playTimeLabel')}{' '}
+                  {t('playTimeLabel')}
+                  {/* The {' '} that used to stand here is in the HTML and not in the
+                      accessibility tree — Chrome drops whitespace-only text nodes —
+                      so this read as 「재생 시간2분 4초」. */}
+                  <SpokenGap />{' '}
                   <span className="tabular">
                     {t('playTime', {
                       minutes: Math.floor(story.playTimeS / SECONDS_PER_MINUTE),

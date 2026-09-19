@@ -2,6 +2,7 @@
 
 import { Dialog } from 'radix-ui';
 import { useLocale, useTranslations } from 'next-intl';
+import { SpokenGap } from '@/components/a11y/SpokenGap';
 import type { SafetyContact } from '@/domain/content-schema';
 
 /**
@@ -52,6 +53,12 @@ export function EmergencyContacts({ contacts }: { contacts: SafetyContact[] }) {
                   className="btn btn--filled w-full !justify-between !text-left"
                 >
                   <span>{locale === 'ko' ? contact.labelKo : contact.labelEn}</span>
+                  {/* justify-between is the only thing between these two, and it is
+                      drawn rather than written, so the number ran onto the end of the
+                      name: 「1330 관광통역안내1330」, 「외교부 영사안전콜센터
+                      (국내)02-3210-0404」. This is the screen someone reaches in an
+                      emergency. */}
+                  <SpokenGap />
                   <span className="font-mono tabular">{contact.tel}</span>
                 </a>
                 {contact.note ? (

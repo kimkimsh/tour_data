@@ -13,6 +13,7 @@ import { useConditions } from '@/components/persona/usePersona';
 import { capabilityLabels, type PlaceCardData, type PlaceThumbnail } from './place-view';
 import { useToday } from '@/components/useClientValue';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
+import { SpokenGap } from '@/components/a11y/SpokenGap';
 import { PlaceMap, type MapPin } from '@/components/map/PlaceMap';
 
 /**
@@ -139,11 +140,19 @@ export function PlaceList({
                       screen, under the sentence that says what it is. */}
                   <p className="flex flex-wrap items-center gap-x-3 gap-y-2">
                     <VerdictBadge label={result.label} text={tc(`label.${result.label}`)} />
+                    {/* gap-x-3 is the whole separation here, and it is not text. The
+                        verdict ran into whatever followed it —
+                        「주의 필요동행 전체관련 항목 22개 중 18개 상태 확인」 — on
+                        every card in the list. */}
+                    <SpokenGap />
                     {/* Named when there is more than one verdict on the card. Three
                         badges in a column with only the lower two labelled reads as
                         three conditions, one of them nameless. */}
                     {result.perPersona.length > 0 ? (
-                      <span className="t-sm font-bold">{t('groupBadge')}</span>
+                      <>
+                        <span className="t-sm font-bold">{t('groupBadge')}</span>
+                        <SpokenGap />
+                      </>
                     ) : null}
                     <span className="t-xs text-[var(--color-ink-2)]">
                       {t('checkedOf', {
@@ -166,6 +175,8 @@ export function PlaceList({
                       {result.perPersona.map((row) => (
                         <li key={row.personaId} className="flex flex-wrap items-center gap-x-2 t-sm">
                           <VerdictBadge label={row.label} text={tc(`label.${row.label}`)} />
+                          {/* 「방문 가능휠체어 이용 기준」 without this. */}
+                          <SpokenGap />
                           <span className="text-[var(--color-ink-2)]">
                             {t('perPersonaBadge', {
                               persona:

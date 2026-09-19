@@ -915,12 +915,12 @@
   {
     "poiSlug": "gongju-national-museum",
     "capabilityCode": "path_continuity",
-    "status": "unknown",
+    "status": "supported",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
+    "detail": "상설전시실이 두 층에 나뉜다 — 「국립공주박물관 상설전시실은 1층과 2층으로 나뉘어 유물이 전시되어 있습니다. 1층 웅진백제실은 무령왕릉에서 출토된 주요 유물들을 전시한 공간입니다. 2층 충청남도 역사문화실은 …」. 한국관광공사가 이 박물관의 무장애 편의정보로 「대부분 평지, 경사로, 전층 운행 엘리베이터, 무장애 보행로」를 적는다. 다만 같은 글이 「일부 구간에만 점자블록을 설치한 까닭에 안전을 위해 시각장애인과 시청각장애인의 경우 동행자가 함께할 것을 권한다」고 덧붙인다.",
+    "source": "curated",
+    "sourceField": "https://gongju.museum.go.kr/kor/sub02.do (국립공주박물관 전시 > 상설전시) · https://access.visitkorea.or.kr/cos/detail.do?cotId=859d4148-06a6-4428-bf68-2edf6d5bcb1c (열린관광 모두의 여행 「손끝으로 느끼는 백제의 숨결, 공주·세종 열린여행」, 국립공주박물관 항목의 무장애 편의정보. 본문에 「위 정보는 2024년에 작성한 것」이라고 적혀 있다)",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -1907,10 +1907,10 @@
     "capabilityCode": "path_continuity",
     "status": "unknown",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
+    "detail": "상설전시실(제1~3전시실·기증실)은 전시동 지상 1층에 모여 있어 그 안에서는 층을 오르내릴 일이 없다. 다만 국보 백제금동대향로는 2025-12-23 문을 연 별도 건물 3층에 있고, 박물관이 스스로 밝힌 연결 수단은 「전시실로의 입장은 수중세계의 용이 하늘로 솟구쳐 오르는 동선을 에스컬레이터로 구현해 1층과 3층 전시실을 연결하였다」 하나뿐이다. 에스컬레이터는 휠체어 경로가 아니다. 충청남도 포털과 정책브리핑의 시민기자 기사는 엘리베이터도 있다고 적지만 박물관 공식 안내로는 확인되지 않았다.",
+    "source": "curated",
+    "sourceField": "https://buyeo.museum.go.kr/bbs/view.do?pstSn=2601060001&key=2302150024 (국립부여박물관 보도자료 「‘백제대향로관’ 12월 23일 개관」, 등록일 2026-01-06) · https://buyeo.go.kr/_prog/festival/index.php?mode=V&mode2=EXP4&mng_no=33&site_dvs_cd=tour&menu_dvs_cd=0204 (부여군 「전시동 - 지상1층 : 제1전시실, 제2전시실, 제3전시실, 박만식교수 기증실, 영상실, 화장실 등」)",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -2565,12 +2565,12 @@
   {
     "poiSlug": "buyeo-naseong",
     "capabilityCode": "path_continuity",
-    "status": "unknown",
+    "status": "partial",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
+    "detail": "「유네스코 세계유산인 능산리고분군과 나성은 관람로가 잘 다듬어져 있어 산책하듯 걷기 좋다. 일부 계단으로 연결된 구간이 있어 휠체어나 유모차를 이용할 경우 조금 돌아가야 한다.」 판정을 지탱하는 것은 두 번째 문장이다 — 휠체어를 명시하고, 장애물(계단)과 우회로가 함께 있다고 말한다. 이 서술은 방문할 수 있는 나성 구간, 곧 부여왕릉원 매표소를 통해 들어가는 능산리 구간에 대한 것이다. 6.3km 토성 전체를 말한 것이 아니다.",
+    "source": "curated",
+    "sourceField": "https://access.visitkorea.or.kr/cos/detail.do?cotId=27f3c810-b34f-4237-a62f-22f040c6e874 (열린관광 모두의 여행 추천 여행코스 「여전히 아름다운 백제의 꽃, 부여」) · 구간 범위는 https://www.buyeo.go.kr/html/heritage/sub2/sub2_0204.html 의 「위치 충남 부여군 부여읍 능산리 산15-1」·「이용문의 부여왕릉원 매표소 041-830-2890」과 https://www.kh.or.kr/visit/kor/road/3/view.do?key=2408220003 의 부여나성 「위치 충청남도 부여군 부여읍 왕릉로 61」로 확인했다",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -3887,10 +3887,10 @@
     "capabilityCode": "path_continuity",
     "status": "unknown",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
+    "detail": "동선을 서술한 자료를 찾지 못했다. 한국관광공사의 이 관광지 무장애 기록은 전국에 단 1건인데, 그 지체장애 항목이 「주출입구 무단차 (주 놀이시설인 낙화암과 고란사 접근은 돌계단과 단차로 접근 불가능함) 이동통로 유효보폭 확보됨」으로 **다른 관광지(부소산성) 문장에 오염돼 있어** 그대로 쓸 수 없다. 부여군 백마강길 안내가 이 일대를 「둔치가 자연 잔디로 조성되어 있어」라고 적지만, 그 문장이 조각 사이 관람 동선을 가리키는지 분명하지 않다. 갈 수 없다고 적은 자료도 없으므로 「이용 불가」가 아니라 「정보 없음」이다.",
+    "source": "curated",
+    "sourceField": "https://access.visitkorea.or.kr/ms/detail.do?cotId=048d4124-762b-40e3-8a70-358057efa6d2 (열린관광 모두의 여행 「구드래조각공원」 — 부소산성 문장이 섞여 있다) · https://www.buyeo.go.kr/html/tour/info/info_01020701.html (부여군 백마강길 「구드래조각공원길」)",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {
@@ -4215,12 +4215,12 @@
   {
     "poiSlug": "gomanaru",
     "capabilityCode": "path_continuity",
-    "status": "unknown",
+    "status": "partial",
     "absenceKind": null,
-    "detail": null,
-    "source": "derived_facility",
-    "sourceField": null,
-    "verifiedAt": null,
+    "detail": "공주시 공식 블로그가 「평탄하게 쭉 뻗어있는 흙길은 경사가 거의 없어 남녀노소 누구나 부담 없이 걷기에도 좋습니다. 유모차나 휠체어, 혹은 어르신들과 함께 산책 코스로 방문해 보면 딱일 것 같았습니다」라고 적는다 — 권유하는 문장이지 휠체어로 다녀 보고 쓴 문장은 아니다. 노면은 공주시 물량내역서와 맞는다: 2025년 정비 내역이 「마사토포장A THK100 3,864㎡」, 「야자매트 W1200 442m」, 「야자매트 W1500 656m」, 「경화포장 THK100,W2000 101㎡」이고, 시설물 항목에 「데크 장애인램프 2640*1500 1개소」가 있다. 조건 둘 — 전망대에서 강변으로는 계단으로 내려가고, 모래사장 진입로는 2026년 6월 현재 풀숲으로 폐쇄돼 있다. 유효폭과 경사도를 밝힌 공식 문서는 없다. 2026년에도 탐방로 조성 공사가 진행 중이라 현장이 바뀌는 중이다.",
+    "source": "curated",
+    "sourceField": "https://blog.naver.com/cyber_gongju/224399479333 (공주시 공식 블로그) · https://www.gongju.go.kr/prog/saeolGosi/GOSI_02/sub04_03_02/view.do?notAncmtMgtNo=55098 (공주시 공고 제2025-2078호 「고마나루 탐방로 및 전망대 보수정비사업」 물량내역서) · https://www.gongju.go.kr/prog/saeolGosi/GOSI_02/sub04_03_02/view.do?notAncmtMgtNo=25112 (공주시 공고 제2017-1297호, 탐방로 정비 460m) · https://www.gongju.go.kr/prog/saeolGosi/GOSI_02/sub04_03_02/view.do?notAncmtMgtNo=58985 (공주시 공고 제2026-1731호, 진행 중). 물량내역서는 조달 문서이고 무장애 여부를 판단한 문서가 아니다.",
+    "verifiedAt": "2026-09-19",
     "isKtoScored": false
   },
   {

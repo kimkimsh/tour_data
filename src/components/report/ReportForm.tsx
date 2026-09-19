@@ -6,7 +6,7 @@ import { Link } from '@/i18n/navigation';
 import { REPORT_CATEGORIES } from '@/domain/types';
 import type { ReportCategory } from '@/domain/types';
 import { createBrowserClient } from '@/lib/supabase/browser';
-import { seoulToday } from '@/domain/today';
+import { useToday } from '@/components/useClientValue';
 import { oldestReportableDate } from '@/lib/report-window';
 
 const DETAIL_MAX = 500;
@@ -123,8 +123,11 @@ export function ReportForm({
 
   const errorFor = (field: string) => (error?.field === field ? error.message : null);
   // One reading of the clock for both ends, so min cannot be computed from a different
-  // day than max on a render that straddles midnight in Seoul.
-  const today = seoulToday();
+  // day than max. Read through useToday rather than called during render: the server
+  // renders this form too, and a render that straddles midnight in Seoul sent HTML
+  // whose min and max disagreed with the ones hydration produced. Until hydration the
+  // bounds are simply absent, which is the same as an unbounded date input.
+  const today = useToday();
 
   if (posted) {
     return (
@@ -209,8 +212,8 @@ export function ReportForm({
           id={`${groupId}-date`}
           type="date"
           className="field"
-          min={oldestReportableDate(today)}
-          max={today}
+          min={today === null ? undefined : oldestReportableDate(today)}
+          max={today ?? undefined}
           value={occurredOn}
           onChange={(event) => setOccurredOn(event.target.value)}
         />

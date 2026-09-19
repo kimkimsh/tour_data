@@ -51,14 +51,16 @@ export default async function SiteLayout({
           <SkipLinks toContent={t('skipToContent')} toNav={t('skipToNav')} />
           <RouteFocus />
           <SiteHeader locale={locale as Locale} />
-          {/* The whole service is an argument about where data comes from, so the one
-              state where none of it was collected has to say so on every screen. */}
-          {currentDataSource() === 'fixtures' ? (
-            <p role="status" className="shell mt-4 callout callout--caution">
-              {t('fixtureBanner')}
-            </p>
-          ) : null}
           <main id="main-content" tabIndex={-1} className="shell py-8">
+            {/* The whole service is an argument about where data comes from, so the one
+                state where none of it was collected has to say so on every screen.
+                Inside main, because a banner between two landmarks belongs to neither
+                and a reader moving by landmark never reaches it. No role="status"
+                either: it is server-rendered and never changes, and a live region
+                announces nothing it was already holding at first paint. */}
+            {currentDataSource() === 'fixtures' ? (
+              <p className="mb-6 callout callout--caution">{t('fixtureBanner')}</p>
+            ) : null}
             {children}
           </main>
           <SiteFooter />

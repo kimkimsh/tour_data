@@ -5,13 +5,14 @@ import {
   type AxisBreakdown,
   type CapabilityStatus,
   type Deduction,
+  type NoVerdictBasis,
   type PersonaId,
   type SuitabilityFactInput,
   type SuitabilityInput,
   type SuitabilityLabel,
   type SuitabilityResult,
 } from './types';
-import { CAPABILITIES, catalogueIndex } from './capabilities';
+import { CAPABILITIES, catalogueIndex, isStaleContext } from './capabilities';
 import {
   GENERAL_VERDICT_CODES,
   GRADE_WEIGHT,
@@ -120,10 +121,19 @@ interface NormalisedFact extends SuitabilityFactInput {
  * fact for is unknown with no absence reason — the same thing ingest writes when
  * KTO returns an empty field.
  */
-function normaliseFacts(facts: ReadonlyArray<SuitabilityFactInput>): NormalisedFact[] {
+function normaliseFacts(
+  facts: ReadonlyArray<SuitabilityFactInput>,
+  calculationDate: string,
+): NormalisedFact[] {
   const byCode = new Map(facts.map((f) => [f.capabilityCode, f]));
   return CAPABILITIES.map((capability) => {
-    const fact = byCode.get(capability.code);
+    const stored = byCode.get(capability.code);
+    // A context reading past its window is no longer a reading. Left standing it kept
+    // an all-clear about a day that has gone in the score and on the screen.
+    const fact =
+      stored !== undefined && isStaleContext(capability.code, stored.verifiedAt, calculationDate)
+        ? { ...stored, status: 'unknown' as const, absenceKind: null }
+        : stored;
     const base: SuitabilityFactInput = fact ?? {
       capabilityCode: capability.code,
       status: 'unknown',
@@ -185,9 +195,10 @@ function buildAxes(facts: NormalisedFact[]): AxisBreakdown[] {
 type KnownStatus = Exclude<CapabilityStatus, 'unknown'>;
 
 /**
- * Graded mean over the items this persona depends on, taken only over the ones whose
- * status is known. Nothing known returns 0, which the caller turns into the floor of
- * layer B; the label rules reach 정보없음 before that number is ever shown.
+ * Graded mean over every included item whose status is known, weighted by how much
+ * this persona depends on each one — an item outside their grades still counts, at
+ * GRADE_WEIGHT.other. Nothing known returns 0, which the caller turns into the floor
+ * of layer B; the label rules reach 정보없음 before that number is ever shown.
  */
 function personaFit(facts: NormalisedFact[], personaId: PersonaId | null): number {
   let numerator = 0;
@@ -253,7 +264,7 @@ function buildDeductions(facts: NormalisedFact[]): Deduction[] {
 }
 
 function pickAlternatives(
-  self: { label: SuitabilityLabel; score: number },
+  self: { label: SuitabilityLabel },
   candidates: ReadonlyArray<AlternativePoi>,
 ): AlternativePoi[] {
   const selfRank = LABEL_RANK[self.label];
@@ -265,9 +276,6 @@ function pickAlternatives(
   const better = candidates.filter(
     (c) => LABEL_RANK[c.label] < selfRank && (c.label === '방문가능' || c.label === '주의'),
   );
-  const trigger = self.label === '대체추천' || better.length > 0;
-  if (!trigger) return [];
-
   // A better label, and nothing else. There used to be a second arm for a place with
   // the same label and a higher score, and the screen no longer shows a score — so
   // "a better verdict under the same conditions" would have been offering a place
@@ -285,7 +293,7 @@ function pickAlternatives(
 }
 
 export function calculateSuitability(input: SuitabilityInput): SuitabilityResult {
-  const facts = normaliseFacts(input.facts);
+  const facts = normaliseFacts(input.facts, input.calculationDate);
   const included = facts.filter((f) => !f.excluded);
   const byCode = new Map(included.map((f) => [f.capabilityCode, f]));
 
@@ -362,10 +370,12 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
     // path to the "go elsewhere" label. A low score alone never produces it.
     label = '대체추천';
     score = Math.min(score, BLOCKED_SCORE_CEILING);
-  } else if (noVerdictBasis !== null || requiredFacts.length === 0) {
-    // Rule 2. More than half of what the verdict rests on is unknown, so there is no
-    // verdict to give. The second arm covers the case where the whole required set
-    // turned out not to apply to this kind of place, which leaves nothing to judge on.
+  } else if (noVerdictBasis !== null) {
+    // Rule 2. There is no verdict to give — either because more than half of what it
+    // would rest on is unknown, or because none of those items exists at this kind of
+    // place. findNoVerdictBasis answers both: it filters its codes through the same
+    // byCode map requiredFacts is built from, so an empty required set reaches it as
+    // an empty code list and comes back as a basis rather than as null.
     label = '정보없음';
   } else if (unknownCriticals.length > 0 || partialCriticals.length > 0) {
     // Rule 3. Something the verdict rests on has not been checked, or is only usable
@@ -412,7 +422,7 @@ export function calculateSuitability(input: SuitabilityInput): SuitabilityResult
             };
           }),
     deductions: buildDeductions(facts),
-    alternatives: pickAlternatives({ label, score }, input.scoredAlternatives),
+    alternatives: pickAlternatives({ label }, input.scoredAlternatives),
     relevantKnownCount: relevantFacts.filter((f) => f.status !== 'unknown').length,
     relevantTotalCount: relevantFacts.length,
     requiredCodes,
@@ -446,7 +456,7 @@ function findNoVerdictBasis(
   personaIds: ReadonlyArray<PersonaId>,
   byCode: ReadonlyMap<string, NormalisedFact>,
   generalCodes: ReadonlyArray<string>,
-): { personaId: PersonaId | null; total: number; unknown: number } | null {
+): NoVerdictBasis | null {
   const sets: { personaId: PersonaId | null; codes: readonly string[] }[] =
     personaIds.length === 0
       ? [{ personaId: null, codes: generalCodes }]
@@ -459,9 +469,13 @@ function findNoVerdictBasis(
     // this place answers nothing for, which is the same absence of a basis the
     // single-persona arm already calls 정보없음. Returning false here let a second
     // companion's known items carry a 방문가능 badge that claimed for both.
-    if (codes.length === 0) return { personaId, total: 0, unknown: 0 };
+    if (codes.length === 0) {
+      return { personaId, reason: 'nothing_applies', total: 0, unknown: 0 };
+    }
     const unknown = codes.filter((code) => byCode.get(code)!.status === 'unknown').length;
-    if (unknown / codes.length > 0.5) return { personaId, total: codes.length, unknown };
+    if (unknown / codes.length > 0.5) {
+      return { personaId, reason: 'unknown_majority', total: codes.length, unknown };
+    }
   }
   return null;
 }

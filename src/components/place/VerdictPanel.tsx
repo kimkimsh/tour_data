@@ -20,6 +20,9 @@ import { capabilityLabel, capabilityLabels, type PlaceCardData } from './place-v
 import { useToday } from '@/components/useClientValue';
 import { LiveRegion } from '@/components/a11y/LiveRegion';
 
+/** How many of the score's deductions are named before the rest are counted. */
+const DEDUCTIONS_SHOWN_MAX = 8;
+
 const VERDICT_MODIFIER: Record<SuitabilityLabel, string> = {
   방문가능: 'visitable',
   주의: 'caution',
@@ -177,7 +180,14 @@ export function VerdictPanel({
         ) : null}
 
         {result.label === '정보없음' ? (
-          <p className="blank-slot t-sm">{t('scoreHiddenReason')}</p>
+          <p className="blank-slot t-sm">
+            {/* The same split the list card makes. "판단할 정보가 부족합니다" is the
+                wrong sentence for a place where the items simply do not exist — it
+                says we do not know where nothing is missing. */}
+            {result.noVerdictBasis?.reason === 'nothing_applies'
+              ? tp('noVerdictNothingApplies')
+              : t('scoreHiddenReason')}
+          </p>
         ) : null}
 
         {/* The score is not one of these figures. It is a mean over whichever items
@@ -198,7 +208,12 @@ export function VerdictPanel({
             <span className="stat__label">{t('coverageBasis')}</span>
           </p>
           <p className="stat">
-            <span className="stat__figure">{result.evidenceConfidence}</span>
+            {/* With the unit. The figure beside it reads 9 / 28, so a bare 35 next to
+                it invited being read as a count of something rather than a percentage,
+                and the panel below prints the same number as 35%. */}
+            <span className="stat__figure">
+              {t('confidenceValue', { value: result.evidenceConfidence })}
+            </span>
             {/* Body text, not a title attribute: that never appears on a touch device,
                 never appears for a keyboard user, and is read inconsistently. The
                 distinction it draws — confidence is not the score — is the one people
@@ -431,14 +446,22 @@ function CalculationDisclosure({
           </div>
         ) : null}
 
+        {/* Named, and the overflow counted in words. The list ran under the heading
+            above it with nothing saying what it was, and ended in a bare "+12" that
+            could be read as twelve more of anything. */}
         {result.deductions.length > 0 ? (
-          <p className="t-sm text-[var(--color-ink-2)]">
-            {result.deductions
-              .slice(0, 8)
-              .map((d) => capabilityLabel(d.capabilityCode, locale))
-              .join(', ')}
-            {result.deductions.length > 8 ? ` +${result.deductions.length - 8}` : ''}
-          </p>
+          <div>
+            <h3 className="subhead">{t('deductionsLabel')}</h3>
+            <p className="mt-1 t-sm text-[var(--color-ink-2)]">
+              {result.deductions
+                .slice(0, DEDUCTIONS_SHOWN_MAX)
+                .map((d) => capabilityLabel(d.capabilityCode, locale))
+                .join(', ')}
+              {result.deductions.length > DEDUCTIONS_SHOWN_MAX
+                ? ` ${tc('andMore', { count: result.deductions.length - DEDUCTIONS_SHOWN_MAX })}`
+                : ''}
+            </p>
+          </div>
         ) : null}
 
         <p className="evidence__provenance border-t border-[var(--color-rule)] pt-3">

@@ -33,8 +33,22 @@ export function ConditionsForm() {
       cognitiveOption: conditions.cognitiveOption && personaIds.includes('P3'),
     };
     setConditions(next);
-    setAnnouncement(describe(next.personaIds, locale));
+    setAnnouncement(describe(next.personaIds));
   };
+
+  /**
+   * Through the message files like every other string. Built inline it was the only
+   * live-region text src/i18n/messages.test.ts could not see, which is the one place a
+   * missing translation shows up as nothing at all rather than as a visible key.
+   */
+  function describe(personaIds: PersonaId[]): string {
+    if (personaIds.length === 0) return t('announceNone');
+    return t('announceSelected', {
+      names: personaIds
+        .map((id) => (locale === 'ko' ? getPersona(id).labelKo : getPersona(id).labelEn))
+        .join(', '),
+    });
+  }
 
   return (
     <form
@@ -145,10 +159,3 @@ export function ConditionsForm() {
     </form>
   );
 }
-
-function describe(personaIds: PersonaId[], locale: string): string {
-  if (personaIds.length === 0) return locale === 'ko' ? '조건을 모두 해제했습니다.' : 'No conditions selected.';
-  const names = personaIds.map((id) => (locale === 'ko' ? getPersona(id).labelKo : getPersona(id).labelEn));
-  return locale === 'ko' ? `선택: ${names.join(', ')}` : `Selected: ${names.join(', ')}`;
-}
-

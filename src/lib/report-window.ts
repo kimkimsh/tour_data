@@ -22,7 +22,19 @@ const MS_PER_DAY = 86_400_000;
  * seoulToday() its `max` uses, so the two ends of the range cannot disagree by a day.
  */
 export function oldestReportableDate(today: string): string {
-  return new Date(Date.parse(`${today}T00:00:00Z`) - REPORT_MAX_AGE_DAYS * MS_PER_DAY)
-    .toISOString()
-    .slice(0, 10);
+  const midnight = Date.parse(`${today}T00:00:00Z`);
+  /*
+    Both halves are needed. Date.parse returns NaN for '2026-9-19', and toISOString then
+    throws RangeError from inside a date helper, which names no input. And it silently
+    normalises '2026-02-31' to 3 March, so the bound would be computed from a day that
+    does not exist and no exception would say so.
+
+    `today` is internal — the route reads its own clock and the form reads useToday —
+    so this is an assertion about a caller, not input validation. Throwing with the
+    value in the message is what makes a future caller's mistake readable.
+  */
+  if (!Number.isFinite(midnight) || new Date(midnight).toISOString().slice(0, 10) !== today) {
+    throw new RangeError(`oldestReportableDate: ${JSON.stringify(today)} is not a YYYY-MM-DD date`);
+  }
+  return new Date(midnight - REPORT_MAX_AGE_DAYS * MS_PER_DAY).toISOString().slice(0, 10);
 }

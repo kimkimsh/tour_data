@@ -4,6 +4,8 @@ import { useId, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { Docent } from '@/domain/snapshot-schema';
 import type { Locale } from '@/domain/types';
+import { LiveRegion } from '@/components/a11y/LiveRegion';
+import { useAnnouncer } from '@/components/a11y/useAnnouncer';
 import { DocentPlayer } from './DocentPlayer';
 
 const SECONDS_PER_MINUTE = 60;
@@ -11,12 +13,14 @@ const SECONDS_PER_MINUTE = 60;
 /**
  * Story picker plus the language and plain-language switches.
  *
- * The plain-language option only appears where a person actually wrote one. Offering
- * a switch that falls back to the original would say the plain version exists.
+ * The plain-language switch appears when any story on the page has one, and the
+ * stories that do not say so themselves — a switch that quietly falls back to the
+ * original asserts a plain version was written for every story under it.
  */
 export function DocentView({ stories, uiLocale }: { stories: Docent[]; uiLocale: Locale }) {
   const t = useTranslations('docent');
   const groupId = useId();
+  const { announcement, announce } = useAnnouncer();
   const [locale, setLocale] = useState<Locale>(
     stories.some((s) => s.locale === uiLocale) ? uiLocale : 'ko',
   );
@@ -26,57 +30,89 @@ export function DocentView({ stories, uiLocale }: { stories: Docent[]; uiLocale:
   const forLocale = stories.filter((s) => s.locale === locale).sort((a, b) => a.seq - b.seq);
   const hasEasy = forLocale.some((s) => s.easyScript !== null);
 
+  const countFor = (value: Locale) => stories.filter((s) => s.locale === value).length;
+  const easyCountFor = (value: Locale) =>
+    stories.filter((s) => s.locale === value && s.easyScript !== null).length;
+
   return (
     <div className="grid gap-8">
-      <div className="flex flex-wrap gap-x-8 gap-y-3">
-        {available.length > 1 ? (
-          <fieldset className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <legend className="sr-only">{t('language')}</legend>
-            {available.map((value) => {
-              const id = `${groupId}-lang-${value}`;
-              return (
-                <span key={value} className="flex items-center gap-2">
-                  <input
-                    id={id}
-                    type="radio"
-                    name="docent-locale"
-                    className="control"
-                    checked={locale === value}
-                    onChange={() => setLocale(value)}
-                  />
-                  <label htmlFor={id} className="min-h-[44px] py-1" lang={value}>
-                    {value === 'ko' ? '한국어' : 'English'}
-                  </label>
-                </span>
-              );
-            })}
-          </fieldset>
-        ) : null}
+      {/* Either switch replaces every story and every transcript on the page. Without
+          this the change was announced only as the radio's own state, and the thing
+          that actually moved — which stories are now on screen, and how many of them
+          have a plain-language version — was announced by nothing. */}
+      <LiveRegion message={announcement} />
 
-        {hasEasy ? (
-          <fieldset className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <legend className="sr-only">{t('mode')}</legend>
-            {[false, true].map((value) => {
-              const id = `${groupId}-mode-${value}`;
-              return (
-                <span key={String(value)} className="flex items-center gap-2">
-                  <input
-                    id={id}
-                    type="radio"
-                    name="docent-mode"
-                    className="control"
-                    checked={easyMode === value}
-                    onChange={() => setEasyMode(value)}
-                  />
-                  <label htmlFor={id} className="min-h-[44px] py-1">
-                    {value ? t('modeEasy') : t('modeOriginal')}
-                  </label>
-                </span>
-              );
-            })}
-          </fieldset>
-        ) : null}
-      </div>
+      {/* Not rendered at all when neither switch applies. As an always-present row it
+          was an empty grid child, and the two 2rem gaps around it left a band of dead
+          space between the page heading and the first story. */}
+      {available.length > 1 || hasEasy ? (
+        <div className="flex flex-wrap gap-x-8 gap-y-3">
+          {available.length > 1 ? (
+            <fieldset className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <legend className="sr-only">{t('language')}</legend>
+              {available.map((value) => {
+                const id = `${groupId}-lang-${value}`;
+                return (
+                  <span key={value} className="flex items-center gap-2">
+                    <input
+                      id={id}
+                      type="radio"
+                      name="docent-locale"
+                      className="control"
+                      checked={locale === value}
+                      onChange={() => {
+                        setLocale(value);
+                        announce(
+                          t('announceLocale', {
+                            language: value === 'ko' ? '한국어' : 'English',
+                            count: countFor(value),
+                          }),
+                        );
+                      }}
+                    />
+                    <label htmlFor={id} className="min-h-[44px] py-1" lang={value}>
+                      {value === 'ko' ? '한국어' : 'English'}
+                    </label>
+                  </span>
+                );
+              })}
+            </fieldset>
+          ) : null}
+
+          {hasEasy ? (
+            <fieldset className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <legend className="sr-only">{t('mode')}</legend>
+              {[false, true].map((value) => {
+                const id = `${groupId}-mode-${value}`;
+                return (
+                  <span key={String(value)} className="flex items-center gap-2">
+                    <input
+                      id={id}
+                      type="radio"
+                      name="docent-mode"
+                      className="control"
+                      checked={easyMode === value}
+                      onChange={() => {
+                        setEasyMode(value);
+                        announce(
+                          t('announceMode', {
+                            mode: value ? t('modeEasy') : t('modeOriginal'),
+                            ready: easyCountFor(locale),
+                            count: forLocale.length,
+                          }),
+                        );
+                      }}
+                    />
+                    <label htmlFor={id} className="min-h-[44px] py-1">
+                      {value ? t('modeEasy') : t('modeOriginal')}
+                    </label>
+                  </span>
+                );
+              })}
+            </fieldset>
+          ) : null}
+        </div>
+      ) : null}
 
       {/* The id carries the theme as well as the sequence. A place can hold more than
           one Odii theme, and two headings sharing `story-1` made aria-labelledby name

@@ -125,12 +125,17 @@ export function RouteSteps({ route }: { route: Route }) {
         ))}
       </ol>
 
+      {/* aria-disabled, not disabled. The button that runs out of steps is the one
+          holding focus, and disabling it drops focus to <body> — the next Tab then
+          restarts at the top of the document, which on a step-by-step guide means the
+          keyboard visitor loses their place at the end of every route. The clamps in
+          the handlers make the press a no-op instead. */}
       {effectiveMode === 'one' ? (
         <p className="flex gap-3">
           <button
             type="button"
             className="btn"
-            disabled={current === 0}
+            aria-disabled={current === 0}
             onClick={() => setCurrent((index) => Math.max(0, index - 1))}
           >
             {t('prev')}
@@ -138,7 +143,7 @@ export function RouteSteps({ route }: { route: Route }) {
           <button
             type="button"
             className="btn btn--filled"
-            disabled={current >= route.steps.length - 1}
+            aria-disabled={current >= route.steps.length - 1}
             onClick={() => setCurrent((index) => Math.min(route.steps.length - 1, index + 1))}
           >
             {t('next')}

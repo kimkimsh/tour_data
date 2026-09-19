@@ -34,25 +34,18 @@ const personaIdsArb = fc.uniqueArray(fc.constantFrom<PersonaId>(...PERSONA_IDS),
   maxLength: PERSONA_IDS.length,
 });
 
-const certificationsArb = fc.array(
-  fc.record({
-    grade: fc.constantFrom('bf_preliminary', 'bf_general', 'bf_excellent', 'open_tourism'),
-    validUntil: fc.constantFrom<string | null>(null, '2027-01-01', '2024-01-01'),
-  }),
-  { maxLength: 5 },
-);
-
+// No certification arbitrary. v5 removed the certification layer from the score, so
+// SuitabilityInput no longer declares the field and calculateSuitability never reads
+// it — generating one was building data for a multiplier that does not exist.
 const inputArb: fc.Arbitrary<SuitabilityInput> = fc
   .record({
     facts: factsArb,
     personaIds: personaIdsArb,
-    certifications: certificationsArb,
   })
-  .map(({ facts, personaIds, certifications }) => ({
+  .map(({ facts, personaIds }) => ({
     facts,
     personaIds,
     cognitiveOption: false,
-    certifications,
     calculationDate: CALC_DATE,
     scoredAlternatives: [],
   }));

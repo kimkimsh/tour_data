@@ -1,4 +1,4 @@
-import { CAPABILITIES } from '../capabilities';
+import { CAPABILITIES, CONTEXT_VALIDITY_DAYS } from '../capabilities';
 import type {
   AbsenceKind,
   CapabilityStatus,
@@ -36,12 +36,21 @@ export function facts(
       absenceKind: override.absenceKind ?? null,
       detail: override.detail ?? null,
       source: capability.ktoField === null ? 'derived_facility' : 'kto_with',
+      /*
+        Context items are dated today unless a case says otherwise. They describe a
+        moment rather than a building, so isStaleContext turns a reading older than its
+        window into `unknown` — and with one shared date every case named
+        facts('supported') quietly stopped meaning it, for reasons that had nothing to
+        do with what the case was about. A nightly run writes today's context anyway.
+      */
       verifiedAt:
         override.verifiedAt !== undefined
           ? override.verifiedAt
           : status === 'unknown'
             ? null
-            : baseVerifiedAt,
+            : CONTEXT_VALIDITY_DAYS[capability.code] !== undefined
+              ? CALC_DATE
+              : baseVerifiedAt,
       isKtoScored: capability.ktoField !== null,
     };
   });

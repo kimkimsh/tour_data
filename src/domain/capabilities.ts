@@ -5,9 +5,9 @@ import type { Axis, CapabilityStatus } from './types';
  * a domain code exists here and nowhere else — ingest, the screens and the gap
  * report all import it, which is what replaces the deleted "set-equality CI gate".
  *
- * ktoField !== null  -> 24 items that detailWithTour2 returns verbatim. These form
+ * ktoField !== null  -> 23 items that detailWithTour2 returns verbatim. These form
  *                       the gap-report denominator and carry isKtoScored = true.
- * ktoField === null  ->  8 derived items, filled from route data, content files or
+ * ktoField === null  ->  7 derived items, filled from route data, content files or
  *                        secondary APIs. No source means unknown, never "absent".
  *
  * labelEn exists because the interface ships in ko and en (docs/spec/01_scope.md
@@ -24,14 +24,14 @@ export interface Capability {
 export const CAPABILITIES: readonly Capability[] = [
   // entry
   { code: 'access_route', ktoField: 'route', labelKo: '접근로', labelEn: 'Route to entrance', axis: 'entry' },
-  { code: 'entrance_passage', ktoField: 'exit', labelKo: '출입통로', labelEn: 'Entrance doorway', axis: 'entry' },
+  { code: 'entrance_passage', ktoField: 'exit', labelKo: '출입통로', labelEn: 'Entrance passage', axis: 'entry' },
   { code: 'wheelchair', ktoField: 'wheelchair', labelKo: '휠체어 대여', labelEn: 'Wheelchair rental', axis: 'entry' },
   { code: 'elevator', ktoField: 'elevator', labelKo: '엘리베이터', labelEn: 'Elevator', axis: 'entry' },
   { code: 'ticket_office', ktoField: 'ticketoffice', labelKo: '매표소', labelEn: 'Ticket office', axis: 'entry' },
-  { code: 'help_dog', ktoField: 'helpdog', labelKo: '보조견 동반', labelEn: 'Assistance dogs', axis: 'entry' },
+  { code: 'help_dog', ktoField: 'helpdog', labelKo: '보조견 동반', labelEn: 'Assistance dogs admitted', axis: 'entry' },
   // continuity
   { code: 'braille_block', ktoField: 'braileblock', labelKo: '점자블록', labelEn: 'Tactile paving', axis: 'continuity' },
-  { code: 'guide_system', ktoField: 'guidesystem', labelKo: '유도 안내 설비', labelEn: 'Wayfinding signage', axis: 'continuity' },
+  { code: 'guide_system', ktoField: 'guidesystem', labelKo: '유도 안내 설비', labelEn: 'Wayfinding guidance', axis: 'continuity' },
   /**
    * Can the visitor move between the points they came to see, inside the visiting area
    * the screen names? Covers changing floors indoors and moving around outdoors, and a
@@ -49,20 +49,20 @@ export const CAPABILITIES: readonly Capability[] = [
    */
   { code: 'path_continuity', ktoField: null, labelKo: '관람 동선', labelEn: 'Route through the site', axis: 'continuity' },
   // facility
-  { code: 'restroom', ktoField: 'restroom', labelKo: '장애인 화장실', labelEn: 'Accessible restroom', axis: 'facility' },
+  { code: 'restroom', ktoField: 'restroom', labelKo: '장애인 화장실', labelEn: 'Accessible toilet', axis: 'facility' },
   { code: 'parking', ktoField: 'parking', labelKo: '장애인 주차구역', labelEn: 'Accessible parking', axis: 'facility' },
   { code: 'stroller', ktoField: 'stroller', labelKo: '유아차 대여', labelEn: 'Stroller rental', axis: 'facility' },
   { code: 'nursing_room', ktoField: 'lactationroom', labelKo: '수유실', labelEn: 'Baby feeding room', axis: 'facility' },
   { code: 'baby_chair', ktoField: 'babysparechair', labelKo: '유아용 보조의자', labelEn: 'High chair', axis: 'facility' },
   { code: 'room', ktoField: 'room', labelKo: '휠체어 이용 가능 객실', labelEn: 'Wheelchair-accessible room', axis: 'facility' },
-  { code: 'hearing_room', ktoField: 'hearingroom', labelKo: '청각장애인 편의 객실', labelEn: 'Hearing-accessible room', axis: 'facility' },
+  { code: 'hearing_room', ktoField: 'hearingroom', labelKo: '청각장애인 편의 객실', labelEn: 'Guest room with communication features', axis: 'facility' },
   // information
   { code: 'audio_guide', ktoField: 'audioguide', labelKo: '오디오 가이드', labelEn: 'Audio guide', axis: 'information' },
   { code: 'big_print', ktoField: 'bigprint', labelKo: '큰 활자 홍보물', labelEn: 'Large print information', axis: 'information' },
   { code: 'braille_promotion', ktoField: 'brailepromotion', labelKo: '점자 홍보물·표지', labelEn: 'Braille information and signage', axis: 'information' },
   { code: 'promotion_material', ktoField: 'promotion', labelKo: '홍보물', labelEn: 'Printed information', axis: 'information' },
   { code: 'guide_human', ktoField: 'guidehuman', labelKo: '안내요원', labelEn: 'Staff assistance', axis: 'information' },
-  { code: 'sign_guide', ktoField: 'signguide', labelKo: '수어 안내', labelEn: 'Korean Sign Language (KSL)', axis: 'information' },
+  { code: 'sign_guide', ktoField: 'signguide', labelKo: '수어 안내', labelEn: 'Korean Sign Language (KSL) guidance', axis: 'information' },
   { code: 'video_caption', ktoField: 'videoguide', labelKo: '자막 영상 안내', labelEn: 'Captioned video', axis: 'information' },
   { code: 'visual_alarm', ktoField: null, labelKo: '시각 경보기', labelEn: 'Visual fire alarm', axis: 'information' },
   // rest
@@ -86,6 +86,46 @@ export const CAPABILITIES: readonly Capability[] = [
 ] as const;
 
 export type CapabilityCode = (typeof CAPABILITIES)[number]['code'];
+
+/**
+ * How long a context reading is still a statement about now, in days.
+ *
+ * The other twenty-seven items describe a building, which does not change between two
+ * visits. These three describe a moment. Freshness alone does not cover them: it
+ * discounts confidence and leaves the status standing, so a snapshot kept past its
+ * observation window went on saying 발효 중인 기상 특보가 없습니다 — an all-clear about
+ * a day that has passed, on the one service whose argument is that it does not say
+ * things it has not checked.
+ *
+ * A warning and today's forecast are about today. The crowding figure says in its own
+ * detail line that it is a thirty-day prediction, so thirty days is its own window.
+ */
+export const CONTEXT_VALIDITY_DAYS: Readonly<Record<string, number>> = {
+  weather_warning: 1,
+  weather_forecast: 1,
+  crowd_forecast: 30,
+};
+
+/**
+ * True when a context reading has outlived the moment it described.
+ *
+ * An undated reading counts as expired: a claim about now with no date on it is one
+ * nobody can place. Items outside CONTEXT_VALIDITY_DAYS never expire here — a ramp
+ * checked last year is stale, which is what freshness is for, not untrue.
+ */
+export function isStaleContext(
+  capabilityCode: string,
+  verifiedAt: string | null,
+  today: string,
+): boolean {
+  const window = CONTEXT_VALIDITY_DAYS[capabilityCode];
+  if (window === undefined) return false;
+  if (verifiedAt === null) return true;
+  const from = Date.parse(`${verifiedAt}T00:00:00Z`);
+  const to = Date.parse(`${today}T00:00:00Z`);
+  if (!Number.isFinite(from) || !Number.isFinite(to)) return true;
+  return (to - from) / 86_400_000 > window;
+}
 
 const BY_CODE = new Map(CAPABILITIES.map((c) => [c.code, c]));
 const BY_KTO_FIELD = new Map(
@@ -160,17 +200,73 @@ export const KTO_PROSE_FIELDS = [
 const BARRIER_NOUN = /(단차|턱(?!없)|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;
 
 /**
- * Looked for in the few characters after a barrier noun, not across the sentence.
+ * Markers, anchored to the head of the token they are looked for in.
  *
- * '만' is in the presence set because it is the exclusivity particle: '계단으로만',
- * '계단만' assert that the barrier is the only way through.
+ * Unanchored they matched anywhere inside a word, so '계단 손잡이없음' credited the
+ * handrail's absence to the stairs and answered 이용 가능 for a sentence saying stairs
+ * are there. A marker that belongs to the barrier is the token's own head — 없음, 없어,
+ * 없이, 아님, 있음, 있지 — never buried in the middle of another noun.
  */
-const NEGATED_NEARBY = /(없|아니|불가|미설치|않|못)/;
-const PRESENT_NEARBY = /(있|존재|많|만)/;
-const NEARBY_WINDOW = 8;
+// 아[니닌님녀], not 아니: Korean writes the syllable whole, so 아닌 and 아님 contain no
+// 니 at all and a stem-only pattern reads '무단차가 아닌 출입구' as a step-free entrance.
+const NEGATED_NEARBY = /^(없|아[니닌님녀]|불가|미설치|않|못)/;
+const PRESENT_NEARBY = /^(있|존재)/;
+/**
+ * A quantity, not an existence claim. '계단 많음' asserts the stairs are there; '계단
+ * 많지 않음' says there are few of them, which is not the same as none — so a quantity
+ * marker may answer "present" and may never answer "absent".
+ */
+const QUANTITY_NEARBY = /^많/;
+/**
+ * The exclusivity particle: '계단만', '계단으로만' assert the barrier is the only way
+ * through, so it reads as presence. Anchored to the start of the token, because a bare
+ * 만 also sits inside 완만 (gentle) and 미만 (under) — and '경사가 완만함' read as a
+ * confirmed slope is 대체추천 with the score capped at 49, out of a sentence saying the
+ * slope is easy.
+ */
+const EXCLUSIVE_PARTICLE = /^(으로|로)?만/;
+/** 장형 부정 cancels the presence marker from the following token: '단차가 있지 않음'. */
+const LONG_NEGATION = /^(않|못)/;
+/**
+ * An embedded question, not a claim: '계단이 있는지 확인 필요' asks whether there are
+ * stairs. Read as an assertion it answered 이용 불가 for a sentence that asserts
+ * nothing at all.
+ */
+const INTERROGATIVE = /(는지|은지|을지)$/;
+/**
+ * 완만 says the slope is gentle, which is a statement that it is not a barrier — the
+ * same thing 경사로 says, and 경사로 is already excluded from BARRIER_NOUN for it. With
+ * no rule for it the noun stayed unpolarised, the ambiguity rule blocked every positive
+ * verdict below, and '경사가 완만하여 휠체어 이동 가능' answered 정보 없음 to a sentence
+ * that states wheelchair access outright.
+ */
+const GENTLE_MODIFIER = /^완만/;
 
 /**
- * Ends the polarity window. Past one of these the marker belongs to a list, not to
+ * The particles that can stand alone between a barrier noun and its marker, and the
+ * degree adverbs that can do the same. Both are closed sets, because length cannot
+ * tell 옆 from 이 or 거의 from 난간: skipping every one-syllable token stepped over
+ * 문 in '계단 옆 문 없음' and credited the door's absence to the stairs, and stopping
+ * at every two-syllable token stopped at 거의 and published every step-free entrance
+ * KTO writes as '단차가 거의 없어' as 이용 불가.
+ *
+ * 일부 is deliberately absent from the adverbs. It is a quantity, CONDITIONAL_LOCAL
+ * already reads it, and skipping it would take '일부 구간에 계단 있음' off the partial
+ * path.
+ */
+const BARE_PARTICLE =
+  /^(이|가|은|는|을|를|에|의|도|와|과|로|으로|에서|에는|에도|및|등|또는|랑|나)$/;
+const DEGREE_ADVERB =
+  /^(거의|전혀|별로|크게|그다지|다소|약간|조금|매우|아주|아예|하나도|따로|딱히|완전히|상당히|대체로|사실상|모두|전부)$/;
+/**
+ * A hedged absence. '단차 별로 없음' is not '단차 없음': hardly any is not none, and a
+ * path field that answers 이용 가능 to it claims a step-free way in that nobody
+ * confirmed. These resolve to 일부 가능 instead.
+ */
+const HEDGE_ADVERB = /^(거의|별로|그다지|다소|약간|조금|대체로|사실상)$/;
+
+/**
+ * Ends the polarity scan. Past one of these the marker belongs to a list, not to
  * the noun the window opened on: '계단·엘리베이터 없음' negates both members, and the
  * second is a facility whose absence is the opposite news from the first's.
  *
@@ -193,6 +289,16 @@ const NOT_APPLICABLE = /해당\s*(사항\s*)?없/;
 const NEEDS_CHECKING = /(미확인|확인\s*필요|확인\s*요|문의\s*필요|파악\s*중)/;
 
 /**
+ * A facility that does not exist yet. '휠체어 대여 예정' carries the presence stem 대여
+ * and nothing that negates it, so it answered 이용 가능 for a service nobody can use
+ * today — and this capability is what a wheelchair user checks before setting out.
+ *
+ * `unknown`, not `unsupported`: the sentence says the thing is coming, and we do not
+ * know whether it has arrived since the record was written.
+ */
+const FUTURE_PLAN = /(예정|추진\s*중)/;
+
+/**
  * Korean negates by suffix, so a negation marker is a *shape*, not a phrase. An
  * earlier version listed specific collocations — 설치되지 않, 운영하지 않, 제공하지 않 —
  * while PRESENCE matched bare stems, and the two sets were asymmetric in the one
@@ -207,7 +313,7 @@ const NEEDS_CHECKING = /(미확인|확인\s*필요|확인\s*요|문의\s*필요|
  * state a facility has stopped working.
  */
 const NEGATION =
-  /(없|불가|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되])/;
+  /(없|불가|아[니닌님녀]|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되해하합한])/;
 /**
  * Conditions split by what they qualify, because they are not all the same shape.
  *
@@ -266,6 +372,8 @@ interface BarrierScan {
   /** A condition sits beside the barrier that made `present` true. */
   presentConditional: boolean;
   absent: boolean;
+  /** At least one of those absences was hedged — '거의 없음' rather than '없음'. */
+  hedgedAbsent: boolean;
   /**
    * A barrier noun was found and the window around it said neither "present" nor
    * "absent". The noun is still in the sentence and still unexplained, so the
@@ -276,41 +384,165 @@ interface BarrierScan {
   rest: string;
 }
 
+/** What the window after one barrier noun said, and how much of it that took. */
+interface BarrierPolarity {
+  value: 'present' | 'absent' | null;
+  /** The absence came through a hedge — '거의 없음' rather than '없음'. */
+  hedged: boolean;
+  consumed: number;
+}
+
+/**
+ * Reads the polarity marker that belongs to the barrier noun ending at `end`.
+ *
+ * Token by token, not character by character. The marker attaches to the noun through
+ * a particle — 턱이 없어, 계단 있고 — and never across an intervening noun, so a
+ * character window wide enough for the first shape also reaches the second:
+ * '계단 있고 난간 없음' put 없음 within eight characters of 계단, the negation was
+ * credited to the stairs, and a sentence stating stairs are there was published as
+ * 이용 가능 under a critical item.
+ *
+ * So the search stops at the first token that carries a marker, steps over bare
+ * particles, and gives up at the first content word that carries none.
+ */
+function readBarrierPolarity(s: string, end: number): BarrierPolarity {
+  const reach = s.slice(end);
+  const separator = LIST_SEPARATOR.exec(reach);
+  const window = separator ? reach.slice(0, separator.index) : reach;
+  // Brackets split tokens like whitespace. Without that the whole of
+  // '없음(휠체어진입불가)' was one token, the scan consumed all of it as the barrier's
+  // marker, and the entry prohibition inside the brackets was deleted before any rule
+  // could read it.
+  const tokens = [...window.matchAll(/[^\s()[\]（）]+/g)];
+  let hedged = false;
+
+  for (const [index, match] of tokens.entries()) {
+    const token = match[0];
+    const consumed = match.index + token.length;
+    if (INTERROGATIVE.test(token)) break;
+    if (GENTLE_MODIFIER.test(token)) {
+      const next = tokens[index + 1];
+      // '완만하지 않음' is the slope asserting itself again.
+      if (next !== undefined && LONG_NEGATION.test(next[0])) {
+        return { value: 'present', hedged: false, consumed: next.index + next[0].length };
+      }
+      return { value: 'absent', hedged, consumed };
+    }
+    if (NEGATED_NEARBY.test(token)) return { value: 'absent', hedged, consumed };
+    const quantity = QUANTITY_NEARBY.test(token);
+    if (PRESENT_NEARBY.test(token) || quantity || EXCLUSIVE_PARTICLE.test(token)) {
+      const next = tokens[index + 1];
+      if (next !== undefined && LONG_NEGATION.test(next[0])) {
+        // A negated quantity is not an absence — '계단 많지 않음' still has stairs — so
+        // it leaves the barrier unread rather than answering 'absent'.
+        if (quantity) break;
+        return { value: 'absent', hedged, consumed: next.index + next[0].length };
+      }
+      return { value: 'present', hedged: false, consumed };
+    }
+    if (DEGREE_ADVERB.test(token)) {
+      if (HEDGE_ADVERB.test(token)) hedged = true;
+      continue;
+    }
+    if (!BARE_PARTICLE.test(token)) break;
+  }
+  return { value: null, hedged: false, consumed: 0 };
+}
+
+/** Nothing but list punctuation between two barrier nouns — '계단 및 단차', '턱, 계단'. */
+const LIST_GAP_ONLY = /^(?:\s|[·,/]|및|또는|와|과)*$/;
+
+/**
+ * 무- is the one negation Korean writes in front of the noun rather than after it, and
+ * KTO's own survey form uses it: '주출입구 무단차'. The token scan looks only to the
+ * right, so without this the commonest positive phrasing in the corpus reads as a
+ * barrier nobody polarised.
+ *
+ * The prefix has to open the word. Matched anywhere before the noun it turned the 무 of
+ * 나무 into a negation, and '나무계단으로만 접근 가능' — stairs, and only stairs — came
+ * out 이용 가능.
+ */
+const PREFIX_NEGATION = /(?:^|\s)무$/;
+
 /**
  * Polarity has to be read locally. '단차 없고 경사로 있음' contains both a negation
- * and a presence marker, and only the distance between each marker and the noun it
- * belongs to says which is which.
+ * and a presence marker, and only the marker's attachment says which is which.
+ *
+ * A list member whose own window was cut short by the separator takes the polarity of
+ * the member after it, where the two are adjacent with only list punctuation between:
+ * one 없음 negates every barrier in '계단 및 단차 없음', and leaving the first member
+ * unread made a place somebody had checked read worse than one nobody had.
  */
 function scanBarriers(s: string): BarrierScan {
+  const hits = [...s.matchAll(BARRIER_NOUN)].map((match) => {
+    const start = match.index;
+    const end = start + match[0].length;
+    if (PREFIX_NEGATION.test(s.slice(0, start))) {
+      return { start: start - 1, end, value: 'absent' as const, hedged: false, consumed: 0 };
+    }
+    return { start, end, ...readBarrierPolarity(s, end) };
+  });
+
+  for (let index = hits.length - 2; index >= 0; index -= 1) {
+    const hit = hits[index];
+    const donor = hits[index + 1];
+    if (hit === undefined || donor === undefined) continue;
+    if (hit.value !== null || donor.value === null) continue;
+    if (!LIST_GAP_ONLY.test(s.slice(hit.end, donor.start))) continue;
+    hit.value = donor.value;
+    hit.consumed = 0;
+  }
+
   let present = false;
   let presentConditional = false;
   let absent = false;
+  let hedgedAbsent = false;
   let ambiguous = false;
   let rest = '';
   let cursor = 0;
 
-  for (const match of s.matchAll(BARRIER_NOUN)) {
-    const start = match.index;
-    const end = start + match[0].length;
-    const separator = LIST_SEPARATOR.exec(s.slice(end, end + NEARBY_WINDOW));
-    const windowLength = separator ? separator.index : NEARBY_WINDOW;
-    const window = s.slice(end, end + windowLength);
-    if (NEGATED_NEARBY.test(window)) absent = true;
-    else if (PRESENT_NEARBY.test(window)) {
-      present = true;
-      // The noun's own span, not the polarity window — the window already runs eight
-      // characters past the noun and would carry the clause search past a full stop.
-      if (conditionalNear(s, start, end)) presentConditional = true;
-    } else {
+  for (const hit of hits) {
+    if (hit.value === null) {
       ambiguous = true;
       continue;
     }
-    // Drop the noun and its window so the remaining text can be read on its own.
-    rest += s.slice(cursor, start);
-    cursor = Math.min(s.length, end + windowLength);
+    if (hit.value === 'absent') {
+      absent = true;
+      if (hit.hedged) hedgedAbsent = true;
+    }
+    else {
+      present = true;
+      // The noun's own span, not the polarity window — the window runs past the noun
+      // and would carry the clause search over a full stop.
+      if (conditionalNear(s, hit.start, hit.end)) presentConditional = true;
+    }
+    // Drop the noun and its marker so the remaining text can be read on its own.
+    if (hit.start < cursor) continue;
+    rest += s.slice(cursor, hit.start);
+    cursor = Math.min(s.length, hit.end + hit.consumed);
   }
 
-  return { present, presentConditional, absent, ambiguous, rest: rest + s.slice(cursor) };
+  return {
+    present,
+    presentConditional,
+    absent,
+    hedgedAbsent,
+    ambiguous,
+    rest: rest + s.slice(cursor),
+  };
+}
+
+/** Right after a negation, 여부 turns the whole phrase into a question about it. */
+const QUESTION_SUFFIX = /^\s*여부/;
+
+/** The first negation in `s` that states something rather than asking about it. */
+function firstAssertedNegation(s: string): { index: number; 0: string } | null {
+  const pattern = new RegExp(NEGATION, 'g');
+  for (const match of s.matchAll(pattern)) {
+    const after = s.slice(match.index + match[0].length);
+    if (!QUESTION_SUFFIX.test(after)) return match;
+  }
+  return null;
 }
 
 /**
@@ -358,8 +590,6 @@ export function resolveStatus(
   const s = (raw ?? '').trim();
   if (s === '') return 'unknown';
 
-  // A statement that the value itself needs checking outranks every rule below.
-  if (NEEDS_CHECKING.test(s)) return 'unknown';
   if (NOT_APPLICABLE.test(s)) return 'unknown';
 
   const barrier = scanBarriers(s);
@@ -384,11 +614,26 @@ export function resolveStatus(
   // is partly usable. A condition in a different clause is about a different facility
   // and must not: '장애인 화장실 없음. 일부 주차구역 이용 가능' answered 일부 가능 under
   // `restroom`, on a sentence stating the restroom is not there.
-  const negation = NEGATION.exec(rest);
+  // '휠체어 대여 불가 여부 확인 필요' asks whether the loan is unavailable; read as a
+  // statement it published a confirmed refusal out of an open question. The 여부 has to
+  // sit right after the marker, so a sentence that states an absence and separately
+  // asks about something else — '엘리베이터 없음. 리프트 설치 여부 확인 필요' — keeps
+  // its absence.
+  const negation = firstAssertedNegation(rest);
   if (negation !== null) {
     const from = negation.index;
     return conditionalNear(rest, from, from + negation[0].length) ? 'partial' : 'unsupported';
   }
+  // Below the two negation rules, above every positive one. A sentence that both
+  // states an absence and asks for the detail to be confirmed — '엘리베이터 없음.
+  // 리프트 설치 여부 확인 필요' — has already told the visitor the thing is not there,
+  // and softening that to 확인 필요 is the more expensive of the two mistakes. Above
+  // the positive rules because '이용 가능 여부 확인 필요' is a question, not a claim.
+  if (NEEDS_CHECKING.test(s)) return 'unknown';
+  // Beside NEEDS_CHECKING and for the same reason: both describe the state of our
+  // knowledge or of the facility's future rather than of the facility now, and both
+  // have to outrank the positive rules without softening a stated absence above them.
+  if (FUTURE_PLAN.test(s)) return 'unknown';
   // A condition with nothing to negate still qualifies the sentence — '예약 필요',
   // '사전 문의 후 이용', '진입 어려움'. Before the ambiguity rule, because a barrier
   // whose polarity could not be read is exactly what '진입 어려움' is explaining.
@@ -402,7 +647,13 @@ export function resolveStatus(
   // barrier is the subject. '계단 없음' under `route` says the way in is step-free;
   // under `elevator` it says nothing whatever about a lift, and answering 'supported'
   // there printed 엘리베이터 확인됨 for a building nobody had checked.
-  if (barrier.absent && isPathField(capabilityCode)) return 'supported';
+  //
+  // A hedged absence stops at 일부 가능. '단차 별로 없음' is hardly any, not none, and
+  // the difference between the two is a wheel that rolls over the threshold and one
+  // that does not.
+  if (barrier.absent && isPathField(capabilityCode)) {
+    return barrier.hedgedAbsent ? 'partial' : 'supported';
+  }
 
   return 'unknown';
 }

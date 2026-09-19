@@ -32,6 +32,16 @@ type Sort = 'flagged' | 'recent';
  * and it is the view to open when the flagged set is being used as a weapon.
  */
 const PAGE_SIZE = 50;
+/**
+ * A ceiling on ?page=. Unbounded, `?page=99999999` turned into a five-billion-row
+ * PostgREST offset, which the database plans and scans before answering with nothing.
+ *
+ * 2,000 pages is 100,000 reports — an offset Postgres answers without trouble, and far
+ * past anything a barrier-report table for thirteen places will hold. The next link is
+ * suppressed at the ceiling rather than offering a page that clamps back onto itself;
+ * past it the filtered views are how an operator reaches a row.
+ */
+const MAX_PAGE = 2_000;
 
 export default async function AdminReportsPage({
   searchParams,
@@ -43,7 +53,7 @@ export default async function AdminReportsPage({
   const view: View =
     rawView === 'flagged' || rawView === 'hidden' || rawView === 'unflagged' ? rawView : 'all';
   const sort: Sort = rawSort === 'recent' ? 'recent' : 'flagged';
-  const page = Math.max(1, Number.parseInt(rawPage ?? '1', 10) || 1);
+  const page = Math.min(MAX_PAGE, Math.max(1, Number.parseInt(rawPage ?? '1', 10) || 1));
 
   if (!isSupabaseConfigured()) {
     return (
@@ -127,7 +137,7 @@ export default async function AdminReportsPage({
   }
 
   const fetched = (data ?? []) as AdminReport[];
-  const hasNext = fetched.length > PAGE_SIZE;
+  const hasNext = fetched.length > PAGE_SIZE && page < MAX_PAGE;
   const reports = hasNext ? fetched.slice(0, PAGE_SIZE) : fetched;
 
   /**

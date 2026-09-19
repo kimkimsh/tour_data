@@ -22,11 +22,11 @@
       },
       {
         "capabilityCode": "wheelchair",
-        "status": "supported",
+        "status": "unknown",
         "absenceKind": null,
         "detail": null,
         "source": "kto_with",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "isKtoScored": true
       },
       {
@@ -260,7 +260,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       },
       {
@@ -269,7 +269,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       }
     ],
@@ -293,7 +293,7 @@
         "weight": 0.30000000000000004,
         "rawScore": 1,
         "weighted": 0.30000000000000004,
-        "knownCount": 4,
+        "knownCount": 3,
         "totalCount": 6
       },
       {
@@ -348,13 +348,19 @@
       }
     ],
     "freshness": 1,
-    "coverage": 0.4166666666666667,
-    "evidenceConfidence": 42,
+    "coverage": 0.3333333333333333,
+    "evidenceConfidence": 33,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "partialCriticals": [],
     "perPersona": [],
     "deductions": [
+      {
+        "capabilityCode": "wheelchair",
+        "labelKo": "휠체어 대여",
+        "reason": "휠체어 대여 정보 없음",
+        "axis": "entry"
+      },
       {
         "capabilityCode": "elevator",
         "labelKo": "엘리베이터",
@@ -399,17 +405,16 @@
       }
     ],
     "alternatives": [],
-    "relevantKnownCount": 5,
+    "relevantKnownCount": 4,
     "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
-      "wheelchair",
       "path_continuity",
       "restroom"
     ],
     "noVerdictBasis": null,
-    "ktoUnknownCount": 5,
+    "ktoUnknownCount": 6,
     "ktoTotalCount": 23,
     "dataDates": [
       {
@@ -424,7 +429,7 @@
       },
       {
         "capabilityCode": "wheelchair",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": null,
         "source": "kto_with"
       },
       {
@@ -554,12 +559,12 @@
       },
       {
         "capabilityCode": "weather_warning",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       }
     ],

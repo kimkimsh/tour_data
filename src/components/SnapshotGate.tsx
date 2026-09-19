@@ -37,3 +37,21 @@ export function SnapshotProblem({
     </section>
   );
 }
+
+/**
+ * One of the supporting snapshots did not read, and the page is rendering without it.
+ *
+ * Its own notice rather than SnapshotProblem, because the page is still correct: the
+ * verdict and the evidence come from the two snapshots the page gates on. What the
+ * visitor loses is the route guide, the audio guide or the nearby-places list, and
+ * without this line their absence reads as this place not having any.
+ */
+export function PartialData() {
+  const t = useTranslations('common.error');
+  return (
+    <section className="callout callout--caution" role="status">
+      <h2 className="subhead">{t('partialTitle')}</h2>
+      <p className="mt-2 t-sm">{t('partialBody')}</p>
+    </section>
+  );
+}

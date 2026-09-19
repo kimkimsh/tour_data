@@ -71,6 +71,21 @@ export function CourseView({
   const template = templates.find((tpl) => tpl.budgetMode === conditions.budgetMode);
   const byslug = new Map(places.map((p) => [p.slug, p]));
 
+  /**
+   * Read off the itinerary the page is actually showing, so it follows hydration and a
+   * conditions change made in another tab as well as the radios below. Built in the
+   * radio handler instead, it announced only its own event and rebuilt an itinerary the
+   * memo above had already produced.
+   */
+  const announcement =
+    itinerary === null || scores === null || template === undefined
+      ? t('calculating')
+      : t('readyDetail', {
+          course: locale === 'ko' ? template.titleKo : template.titleEn,
+          places: itinerary.legs.length,
+          minutes: itinerary.totalMinutes,
+        });
+
   return (
     <div className="grid gap-8">
       <fieldset className="grid gap-2">
@@ -97,11 +112,12 @@ export function CourseView({
         </div>
       </fieldset>
 
-      {/* Outside the branch below, so it survives the swap. Its text used to be an
-          ellipsis, which announces nothing at all. */}
-      <LiveRegion
-        message={itinerary === null || scores === null ? t('calculating') : t('ready')}
-      />
+      {/* Outside the branch below, so it survives the swap. The text has to differ
+          from the text before it or the region says nothing, and a fixed "코스를
+          계산했습니다." is byte-identical after every change of budget — which is
+          precisely the moment a screen reader user needs to be told the course,
+          the stop count and the total are now different ones. */}
+      <LiveRegion message={announcement} />
 
       {itinerary === null || scores === null ? (
         <p className="card">{t('calculating')}</p>
@@ -144,9 +160,12 @@ export function CourseView({
               return (
                 <li key={leg.poiSlug} className="grid gap-1">
                   <p className="flex flex-wrap items-baseline gap-x-3">
-                    <span className="step-mark" aria-hidden="true">
-                      {index + 1}
-                    </span>
+                    {/* Read out, not hidden. Hiding it assumed the ol announces the
+                        position, and Tailwind's preflight sets list-style: none on
+                        every ol — which is the shape Safari drops list semantics from.
+                        On the one screen whose entire content is an ordered sequence,
+                        the ordinal has to be in the text rather than in a role. */}
+                    <span className="step-mark">{index + 1}</span>
                     <Link href={`/places/${leg.poiSlug}`} className="font-bold">
                       {place?.title ?? leg.poiSlug}
                     </Link>

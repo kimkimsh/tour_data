@@ -175,7 +175,13 @@ export const RouteSchema = z.object({
   evidenceLevel: z.enum(EVIDENCE_LEVELS),
   /** Empty fails validation. An unstated evidence level is what we refuse to ship. */
   evidenceNote: z.string().min(1),
-  checkedAt: z.string().min(1),
+  /**
+   * An ISO date, not any non-empty string. Ingest copies it onto the derived
+   * path_continuity fact, whose own schema requires one — so a route dated '2026년 6월'
+   * validated here and failed the accessibility stage, one step further along and with
+   * a message about the wrong file.
+   */
+  checkedAt: z.iso.date(),
   steps: z.array(RouteStepSchema).min(1),
 });
 export const RoutesPayload = z.array(RouteSchema);
@@ -190,14 +196,11 @@ export const DocentSchema = z.object({
   /** Plain-language rewrite. Written by hand, tier A POIs only. */
   easyScript: z.string().nullable(),
   audioUrl: z.string().nullable(),
-  /** Same shape rule as pois[].media[].url — see the note there. */
-  imageUrl: z
-    .string()
-    .refine(
-      (value) => value.startsWith('https://') || value.startsWith('/api/image-proxy?'),
-      'must be an https URL or an /api/image-proxy path',
-    )
-    .nullable(),
+  // storyBasedList also returns an image per story, and it is not carried. Odii serves
+  // those from the KT CDN in AUDIO_HOSTS, which is in neither the image-proxy allow-list
+  // nor img-src, so every value the field could hold is one a browser refuses — and the
+  // probe that produced it cost one request per image per run. Add it back beside the
+  // component that renders it, and to both host lists in the same change.
   playTimeS: z.number().nullable(),
   odiiTid: z.string().nullable(),
   odiiStid: z.string().nullable(),

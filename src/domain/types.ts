@@ -171,6 +171,23 @@ export interface PersonaVerdict {
   knownCriticalBlockers: string[];
 }
 
+/**
+ * Why a place has no verdict, and for whom.
+ *
+ * Two different facts wear the same label on screen, and the wording has to tell them
+ * apart. `unknown_majority` is "more than half of what this verdict rests on has not
+ * been checked", which is a gap somebody could close. `nothing_applies` is "none of
+ * those items exists at this kind of place" — nothing is missing and nothing can be
+ * filled in, and printing the first sentence for it read as 「0개 항목 중 0개를 모릅니다」
+ * under a badge saying there is no verdict.
+ */
+export interface NoVerdictBasis {
+  personaId: PersonaId | null;
+  reason: 'unknown_majority' | 'nothing_applies';
+  total: number;
+  unknown: number;
+}
+
 export interface SuitabilityResult {
   /**
    * 0..100 integer. Hidden when label === '정보없음', and off the default screens
@@ -225,7 +242,7 @@ export interface SuitabilityResult {
    * well under the half the rule tests — measured at 3 of 7 on a screen explaining a
    * rule that needs more than half.
    */
-  noVerdictBasis: { personaId: PersonaId | null; total: number; unknown: number } | null;
+  noVerdictBasis: NoVerdictBasis | null;
 
   /**
    * One row per chosen condition, each answered as if that condition had been the
@@ -253,7 +270,7 @@ export interface SuitabilityResult {
   alternatives: AlternativePoi[];
 
   ktoUnknownCount: number;
-  /** isKtoScored capabilities that are not not_applicable. Usually 24, not always. */
+  /** isKtoScored capabilities that are not not_applicable. Usually all 23, not always. */
   ktoTotalCount: number;
 
   dataDates: { capabilityCode: string; verifiedAt: string | null; source: string }[];
@@ -426,6 +443,6 @@ export interface GapReport {
   priorities: GapRow[];
   /** The same facts as `priorities`, counted per item instead of per place. */
   items: GapItemRow[];
-  /** POIs absent from the barrier-free dataset. One line per POI, never 24. */
+  /** POIs absent from the barrier-free dataset. One line per POI, never one per item. */
   notRegisteredPoiSlugs: string[];
 }

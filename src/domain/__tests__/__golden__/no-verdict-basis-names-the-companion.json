@@ -251,7 +251,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       },
       {
@@ -260,7 +260,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       },
       {
@@ -269,7 +269,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       }
     ],
@@ -364,7 +364,6 @@
         "requiredCodes": [
           "access_route",
           "entrance_passage",
-          "wheelchair",
           "path_continuity",
           "restroom"
         ],
@@ -407,7 +406,6 @@
     "requiredCodes": [
       "access_route",
       "entrance_passage",
-      "wheelchair",
       "path_continuity",
       "restroom",
       "sign_guide",
@@ -415,6 +413,7 @@
     ],
     "noVerdictBasis": {
       "personaId": "P2b",
+      "reason": "unknown_majority",
       "total": 2,
       "unknown": 2
     },
@@ -558,17 +557,17 @@
       },
       {
         "capabilityCode": "crowd_forecast",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       },
       {
         "capabilityCode": "weather_warning",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       }
     ],

@@ -66,9 +66,13 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         {/* Its own heading. Both section headings used to be column-header strings, so
             the table of filled items was titled "항목 수" — the name of its last column. */}
         <h2 id="fill-heading">{t('fillSectionTitle')}</h2>
-        <div className="scroll-x" tabIndex={0} role="region" aria-label={t('fillSectionTitle')}>
+        {/* The scrollable box is the landmark, named by the table's own caption. Named
+            by the section heading instead, it was a `region` nested inside a `region`
+            of the same name, which is the one landmark arrangement a screen reader
+            cannot describe. */}
+        <div className="scroll-x" tabIndex={0} role="region" aria-labelledby="fill-caption">
           <table className="data-table">
-            <caption>{t('fillCaption')}</caption>
+            <caption id="fill-caption">{t('fillCaption')}</caption>
             <thead>
               <tr>
                 <th scope="col">{t('fillHeader.place')}</th>
@@ -151,9 +155,9 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
         {report.items.length === 0 ? (
           <p className="blank-slot">{t('itemsEmpty')}</p>
         ) : (
-          <div className="scroll-x" tabIndex={0} role="region" aria-label={t('itemsSectionTitle')}>
+          <div className="scroll-x" tabIndex={0} role="region" aria-labelledby="items-caption">
             <table className="data-table">
-              <caption>{t('itemsCaption')}</caption>
+              <caption id="items-caption">{t('itemsCaption')}</caption>
               <thead>
                 <tr>
                   <th scope="col">{t('itemsHeader.capability')}</th>
@@ -296,7 +300,7 @@ export default async function GapReportPage({ params }: { params: Promise<{ loca
             <span className="ml-2 font-normal t-xs">{t('csvHint', { size: csvKb })}</span>
           </a>
         </p>
-        <p className="t-sm text-[var(--color-ink-2)]">{tc('honesty.gapScope', { count: report.fill.length })}</p>
+        <p className="t-sm text-[var(--color-ink-2)]">{tc('honesty.gapScope')}</p>
       </section>
     </div>
   );

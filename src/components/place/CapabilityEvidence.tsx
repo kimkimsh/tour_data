@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { AXES } from '@/domain/types';
 import type { Axis, CapabilityStatus, Locale } from '@/domain/types';
-import { CAPABILITIES, KTO_PROSE_FIELDS, getCapability } from '@/domain/capabilities';
+import { CAPABILITIES, KTO_PROSE_FIELDS, getCapability, isStaleContext } from '@/domain/capabilities';
 import { AXIS_LABEL } from '@/domain/suitability';
 import type { Fact } from '@/domain/snapshot-schema';
 import { EvidenceRow } from '@/components/EvidenceRow';
@@ -23,19 +23,32 @@ import { provenanceLine } from './place-view';
 export function CapabilityEvidence({
   facts,
   locale,
+  today,
   ktoUnknownCount,
   ktoTotalCount,
   etcNotes,
 }: {
   facts: readonly Fact[];
   locale: Locale;
+  /** Today in Seoul, so a context reading past its window reads as 정보 없음 here too. */
+  today: string;
   ktoUnknownCount: number;
   ktoTotalCount: number;
   etcNotes: ReadonlyArray<{ sourceField: string; text: string }>;
 }) {
   const t = useTranslations('place');
   const tc = useTranslations('common');
-  const byCode = new Map(facts.map((fact) => [fact.capabilityCode, fact]));
+  // The same expiry the score applies. Applied only there, the badge and the sentence
+  // beside it went on saying 이상 없음 about a day that had passed while the verdict had
+  // already stopped counting it — two answers to one question on one screen.
+  const byCode = new Map(
+    facts.map((fact) => [
+      fact.capabilityCode,
+      isStaleContext(fact.capabilityCode, fact.verifiedAt, today)
+        ? { ...fact, status: 'unknown' as const, absenceKind: null }
+        : fact,
+    ]),
+  );
 
   return (
     <section className="grid gap-5" aria-labelledby="evidence-heading">

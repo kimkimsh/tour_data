@@ -135,6 +135,92 @@ const CASES: ReadonlyArray<readonly [string, string, CapabilityStatus, string]> 
   ['동절기 미운영', 'restroom', 'partial', 'closed in winter, not closed'],
   ['우천 시 이용 불가', 'path_continuity', 'partial', 'weather, and the negation must not win'],
   ['평일만 운영', 'guide_human', 'partial', 'weekdays only'],
+
+  // A marker belongs to the noun it is attached to, and a second noun between the two
+  // breaks the attachment. Read across one, the negation on 난간 became the stairs'
+  // and a sentence saying 계단 있고 was published as 이용 가능 under a critical item.
+  ['계단 있고 난간 없음', 'access_route', 'unsupported', 'the negation belongs to 난간; the stairs are stated present'],
+  ['계단 옆 난간 없음', 'access_route', 'unsupported', 'one noun away, and still not the stairs’ negation'],
+  ['계단에 손잡이 없음', 'access_route', 'unsupported', 'particle then another noun'],
+  ['단차가 있지 않음', 'entrance_passage', 'supported', '장형 부정 cancels the presence marker from the next token'],
+  ['턱이 없어', 'entrance_passage', 'supported', 'the marker reaches across a particle, which is the shape KTO writes'],
+  ['계단 등 없음', 'access_route', 'supported', 'a one-syllable filler does not break the attachment'],
+
+  // 만 is the exclusivity particle only at the head of the token. Matched anywhere it
+  // fired inside 완만 and 미만, and a slope described as gentle came out 이용 불가.
+  ['계단으로만 이동 가능', 'access_route', 'unsupported', 'stairs are the only way through'],
+  ['단차 5cm 미만', 'entrance_passage', 'unknown', '미만 is not the exclusivity particle either'],
+  ['경사가 완만한 편', 'access_route', 'supported', '완만 is read by GENTLE_MODIFIER, not by the 만 particle'],
+
+  // One negation covers every barrier in a list. Leaving the first member unread made
+  // a place somebody had checked score worse than one nobody had.
+  ['계단 및 단차 없음', 'access_route', 'supported', 'both barriers are negated'],
+  ['단차와 계단 없음', 'access_route', 'supported', 'the same list with 와'],
+  ['턱, 계단 없음', 'entrance_passage', 'supported', 'the same list with a comma'],
+
+  // A degree adverb stands between the barrier and its own marker without starting a
+  // new claim. Read as the next noun, every step-free entrance KTO writes this way came
+  // out 이용 불가 — the one direction this function may never be wrong in.
+  ['주출입구는 단차가 거의 없어 휠체어 접근 가능함', 'entrance_passage', 'supported', '거의 modifies 없어, and the sentence states wheelchair access on its own'],
+  ['계단 전혀 없음', 'access_route', 'supported', '전혀 — an absolute, so the absence is absolute'],
+  ['경사가 크게 없음', 'access_route', 'supported', '크게'],
+  ['계단 등 없음', 'access_route', 'supported', '등 is a bare particle, not the next noun'],
+
+  // Hardly any is not none, and the difference is a wheel that rolls over the
+  // threshold and one that does not. A hedge stops the reading at 일부 가능.
+  ['단차 별로 없음', 'entrance_passage', 'partial', 'hardly any is not none'],
+  ['단차가 거의 없는 편입니다', 'entrance_passage', 'partial', 'the same hedge in the polite form'],
+  ['계단 많지 않음', 'access_route', 'unsupported', 'a negated quantity still has stairs in it'],
+
+  // The marker has to be the head of its own token, and the token has to be one the
+  // barrier can reach across. Each of these credited another noun's marker to the
+  // barrier and published a confirmed barrier as a step-free way in.
+  ['계단 손잡이없음', 'access_route', 'unsupported', 'the handrail is missing, not the stairs'],
+  ['계단 옆 문 없음', 'access_route', 'unsupported', '문 is a noun, not a particle'],
+  ['단차 없음(휠체어진입불가)', 'entrance_passage', 'unsupported', 'the bracket is a token boundary, and what is inside it is read'],
+  ['나무계단으로만 접근 가능', 'access_route', 'unsupported', 'the 무 of 나무 is not the 무- prefix'],
+
+  // A question asserts nothing. Read as a claim, each of these published a verdict out
+  // of a sentence asking for one.
+  ['계단이 있는지 확인 필요', 'access_route', 'unknown', '-는지 is an embedded question'],
+  ['휠체어 대여 불가 여부 확인 필요', 'wheelchair', 'unknown', '여부 after the negation makes it the question, not the answer'],
+
+  ['무단차가 아닌 출입구', 'entrance_passage', 'unsupported', '아닌 cancels the 무- prefix; the syllable is 닌, not 니'],
+  ['무단차 아님. 휠체어 이동 불가', 'entrance_passage', 'unsupported', 'the 무- prefix does not survive its own negation'],
+  ['단차가 아예 없음', 'entrance_passage', 'supported', '아예 is an absolute, not a hedge'],
+
+  // 단형 부정 written with the verb spelled out. The pattern carried 안 함 and 안 됨 and
+  // stopped there, so the commonest polite form fell through to the presence stem 대여
+  // and published 이용 가능 for a loan service the source says is not offered.
+  ['휠체어 대여 안 합니다', 'wheelchair', 'unsupported', '안 합니다'],
+  ['휠체어 대여 안 해요', 'wheelchair', 'unsupported', '안 해요'],
+  ['대여 안 한다', 'wheelchair', 'unsupported', '안 한다'],
+  ['실내 안내판 있음', 'guide_system', 'supported', '안내 must not read as the 안 negation'],
+
+  // A facility that does not exist yet. 예정 carries no negation, so the presence stem
+  // beside it decided the sentence. unknown rather than unsupported: the record says it
+  // is coming, and we do not know whether it has since arrived.
+  ['휠체어 대여 예정', 'wheelchair', 'unknown', '예정 is not a facility'],
+  ['엘리베이터 설치 예정', 'elevator', 'unknown', 'the same, with a different stem'],
+  ['경사로 설치 추진 중', 'access_route', 'unknown', '추진 중'],
+
+  // 완만 says the slope is not a barrier, which is what 경사로 says and why 경사로 is
+  // excluded from the barrier list outright. With no rule for it the noun stayed
+  // unpolarised and the ambiguity rule discarded an explicit statement of access.
+  ['경사가 완만하여 휠체어 이동 가능', 'access_route', 'supported', 'the sentence states access outright'],
+  ['경사가 완만함', 'access_route', 'supported', 'a gentle slope is not a barrier'],
+  ['경사가 완만하지 않음', 'access_route', 'unsupported', 'and the negation of it is one'],
+
+  // 무- is the negation Korean writes in front of the noun. It is what KTO's own
+  // survey form uses, and the token scan looks only to the right.
+  ['주출입구 무단차', 'entrance_passage', 'supported', '무단차 is a step-free entrance'],
+
+  // A sentence that states an absence has already answered the visitor's question.
+  // Softening it because the same sentence also asks for a detail to be confirmed is
+  // the expensive direction: 확인 필요 sends a wheelchair user to look for a lift.
+  ['엘리베이터 없음. 리프트 설치 여부 확인 필요', 'elevator', 'unsupported', 'the absence outranks the request to check'],
+  ['장애인 화장실 없음(위치 확인 필요)', 'restroom', 'unsupported', 'the same shape inside one clause'],
+  ['이용 가능 여부 확인 필요', 'elevator', 'unknown', 'a question, not a claim — 확인 필요 still outranks 가능'],
 ];
 
 describe('resolveStatus', () => {

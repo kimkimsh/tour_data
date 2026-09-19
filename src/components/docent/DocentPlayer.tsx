@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import type { Docent } from '@/domain/snapshot-schema';
 
@@ -15,11 +15,17 @@ import type { Docent } from '@/domain/snapshot-schema';
  */
 export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boolean }) {
   const t = useTranslations('docent');
-  const groupId = useId();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [failed, setFailed] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [speaking, setSpeaking] = useState(false);
+  /**
+   * The transcript the device voice is currently reading, or null.
+   *
+   * The text rather than a boolean, so that switching to 쉬운 글 — which replaces the
+   * transcript without remounting this component — makes `speaking` false by
+   * derivation instead of leaving a stop button pointed at words nobody can see.
+   */
+  const [spokenText, setSpokenText] = useState<string | null>(null);
 
   const text = (easyMode ? story.easyScript : story.script) ?? story.script ?? '';
   const paragraphs = useMemo(
@@ -43,11 +49,17 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
     return `data:text/vtt;charset=utf-8,${encodeURIComponent(`WEBVTT\n\n${cues.join('\n')}`)}`;
   }, [paragraphs, story.playTimeS]);
 
+  // Keyed on the text, not on mount. The 쉬운 글 switch replaces the transcript without
+  // remounting this component, so a voice started on the original carried on reading it
+  // while the screen showed the plain version and the button still offered to stop
+  // something that no longer matched anything visible.
+  // Keyed on the text, not on mount: a voice started on the original script kept
+  // reading it after the switch to 쉬운 글 put different words on screen.
   useEffect(() => {
     return () => {
       if (typeof window !== 'undefined') window.speechSynthesis?.cancel();
     };
-  }, []);
+  }, [text]);
 
   const onTimeUpdate = () => {
     const audio = audioRef.current;
@@ -61,21 +73,26 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
     const utterance = new SpeechSynthesisUtterance(paragraphs.join('\n'));
     utterance.lang = story.locale === 'en' ? 'en-US' : 'ko-KR';
-    utterance.onend = () => setSpeaking(false);
+    utterance.onend = () => setSpokenText(null);
     // A voice that fails never fires onend, and without this the button stayed on
     // "stop" with nothing left to stop.
-    utterance.onerror = () => setSpeaking(false);
+    utterance.onerror = () => setSpokenText(null);
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
-    setSpeaking(true);
+    setSpokenText(text);
   };
 
   const stopSpeaking = () => {
     window.speechSynthesis?.cancel();
-    setSpeaking(false);
+    setSpokenText(null);
   };
 
   const audioMissing = story.audioUrl === null;
+  const speaking = spokenText === text;
+  // The switch is one control over a whole page of stories, and only some of them have
+  // a plain-language version. Falling back without saying so made the switch assert
+  // that every story on screen had one.
+  const easyMissing = easyMode && story.easyScript === null;
 
   return (
     <div className="grid gap-5">
@@ -116,13 +133,13 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
             {speaking ? t('stopSpeak') : t('speak')}
           </button>
           {/* Real DOM text, not a CSS pseudo-element: a synthesised voice has to be
-              declared where a screen reader will read it. */}
-          <span
-            role="img"
-            aria-label={t('ttsBadgeLabel')}
-            className="rounded-full border border-[var(--color-rule-strong)] px-3 py-1 t-xs"
-          >
+              declared where a screen reader will read it. The visible word is the short
+              form and the sentence after it is the whole statement, which is why the
+              longer text is a sibling rather than an aria-label — an aria-label would
+              replace what is on screen instead of extending it. */}
+          <span className="rounded-full border border-[var(--color-rule-strong)] px-3 py-1 t-xs">
             {t('ttsBadge')}
+            <span className="sr-only"> — {t('ttsBadgeLabel')}</span>
           </span>
         </p>
       ) : null}
@@ -130,13 +147,14 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
       {/* Not a <details>. The transcript is the accessible equivalent of the audio, and
           a disclosure lets it be collapsed out of the accessibility tree entirely —
           which removes the only form of this content that a deaf visitor can use. */}
-      {/* h3, under the story's own h2. A page of a dozen stories used to produce a
-          dozen sibling headings all reading "대본", so the heading list a screen
-          reader offers could not say which story any of them belonged to. */}
-      <section className="card" aria-labelledby={`${groupId}-script`}>
-        <h3 id={`${groupId}-script`} className="subhead">
-          {t('script')}
-        </h3>
+      {/* h3, under the story's own h2, so the heading list a screen reader offers says
+          which story each 대본 belongs to. A div, not a section: `section` with an accessible name is a `region`
+          `section` with an accessible name is a `region` landmark, and a dozen stories
+          published a dozen landmarks all named 대본 — a landmark list that cannot tell
+          its entries apart is worse than no landmark. */}
+      <div className="card">
+        <h3 className="subhead">{t('script')}</h3>
+        {easyMissing ? <p className="mt-2 t-sm text-[var(--color-ink-2)]">{t('easyMissing')}</p> : null}
         <div className="mt-3 grid gap-3">
           {paragraphs.map((paragraph, index) => (
             <p
@@ -152,7 +170,7 @@ export function DocentPlayer({ story, easyMode }: { story: Docent; easyMode: boo
             </p>
           ))}
         </div>
-      </section>
+      </div>
 
       <p className="evidence__provenance">{t('source')}</p>
     </div>

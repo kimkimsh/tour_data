@@ -548,6 +548,7 @@
     ],
     "noVerdictBasis": {
       "personaId": "P2b",
+      "reason": "unknown_majority",
       "total": 2,
       "unknown": 2
     },

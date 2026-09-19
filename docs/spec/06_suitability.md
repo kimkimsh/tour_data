@@ -283,7 +283,7 @@ GENERAL_VERDICT_CODES = access_route · entrance_passage · path_continuity · r
 |---|---|:--:|:--:|:--:|:--:|:--:|
 | `access_route` 접근로 | 진입 | **C** | **C** | S | · | S |
 | `entrance_passage` 출입통로 | 진입 | **C** | **C** | · | · | S |
-| `wheelchair` 휠체어 | 진입 | **C** | S | · | · | · |
+| `wheelchair` 휠체어 | 진입 | S | S | · | · | · |
 | `elevator` 엘리베이터 | 진입 | S | S | · | · | S |
 | `ticket_office` 매표소 | 진입 | S | S | S | S | · |
 | `help_dog` 보조견 동반 | 진입 | · | · | **C** | · | · |
@@ -292,7 +292,7 @@ GENERAL_VERDICT_CODES = access_route · entrance_passage · path_continuity · r
 | `path_continuity` 관람 동선 ※ | 이동 | **C** | **C** | S | · | S |
 | `restroom` 화장실 | 편의시설 | **C** | **C** | S | · | **C** |
 | `parking` 주차 | 편의시설 | S | S | · | · | S |
-| `stroller` 유모차 | 편의시설 | · | · | · | · | **C** |
+| `stroller` 유모차 | 편의시설 | · | · | · | · | S |
 | `nursing_room` 수유실 | 편의시설 | · | · | · | · | S |
 | `baby_chair` 유아용 보조의자 | 편의시설 | · | · | · | · | S |
 | `room` 객실 | 편의시설 | · | · | · | · | · |
@@ -320,11 +320,17 @@ GENERAL_VERDICT_CODES = access_route · entrance_passage · path_continuity · r
 
 | 페르소나 | critical 항목 |
 |---|---|
-| P1a 휠체어 | `access_route` `entrance_passage` `wheelchair` `path_continuity` `restroom` (5개) |
+| P1a 휠체어 | `access_route` `entrance_passage` `path_continuity` `restroom` (4개) |
 | P1b 시니어 | `access_route` `entrance_passage` `path_continuity` `restroom` (4개) |
 | P2a 시각 | `help_dog` `braille_block` `guide_system` `audio_guide` `big_print` `braille_promotion` `guide_human` (7개) |
 | P2b 청각 | `sign_guide` `video_caption` (2개) |
-| P3 가족 | `restroom` `stroller` (2개) |
+| P3 가족 | `restroom` (1개) |
+
+> **대여 두 항목은 critical이 아니다 (2026-09-19 변경).** `wheelchair`(P1a)와 `stroller`(P3)는 원래 critical이었는데, 그 두 조건의 화면 문구는 「휠체어를 **이용해요**」·「유아차와 **함께** 가요」 — **이미 가지고 있다**는 뜻이다. 대여는 그것을 갖는 **수단**이고 방문자는 이미 **결과**를 들고 온다. critical로 두면 대여 서비스가 없다고 확인된 곳이 자기 휠체어로 온 사람에게도 「다른 곳 권장」이 된다.
+>
+> 실측: 서동공원과 궁남지 / 유아차 동반 → **대체추천**, 유일한 차단 항목이 `stroller`, 근거는 「유모차 대여 여부 - 없음」. v7이 `elevator`에 대해 편 논리와 같은 모양이다([`../work_log/14_scoring_v7.md`](../work_log/14_scoring_v7.md)).
+>
+> **P3의 critical이 `restroom` 하나만 남는다.** 유아차에게도 계단과 단차는 휠체어만큼 문제지만 `access_route`·`entrance_passage`·`path_continuity`는 P3에서 모두 S다 — 이 표의 별개 문제이고, 이번 변경의 범위가 아니다.
 
 > **예상되는 결과 하나를 미리 적어 둔다.** 청각장애(P2b)의 critical 두 항목(`수화 안내`, `자막 영상 안내`)은 **6곳 대부분에서 비어 있을 가능성이 높다.** 그러면 청각장애 조건으로 조회했을 때 대부분이 `정보없음`으로 나온다.
 > **이건 버그가 아니라 이 서비스가 밝히려는 사실이다.** 그리고 그것이 갭 리포트(S10)의 1순위 항목이 된다. 화면에 "이 관광지는 청각장애 관련 정보가 등록돼 있지 않습니다"라고 정확히 쓰고, 개선 필요 목록에 올린다.

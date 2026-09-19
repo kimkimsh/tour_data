@@ -326,7 +326,7 @@ pois + facts   ─────────▶ localStorage 에서 페르소나 �
 | `content/certifications.json` | BF 인증 등급 / 열린관광지 지정 | `pois.certifications` |
 | `content/curated-facts.json` | 한국관광공사가 비운 항목 중 공개 자료로 확인한 것 **+ 제보를 검토해 사실로 반영한 것** | `accessibility` |
 | `content/routes/{slug}.json` | 경로 단계 | `routes` 스냅샷 |
-| `content/docent-easy/{slug}.{locale}.md` | 쉬운 글 도슨트 (사람이 작성) | `docent.easyScript` |
+| `content/docent-easy/{slug}.{locale}.{odiiTid}-{odiiStid\|seq}.md` | 쉬운 글 도슨트 (사람이 작성, **이야기 하나당 한 파일**) | `docent.easyScript` |
 | `content/itineraries.json` | 코스 템플릿 | **코드에서 직접 import** (갱신 안 되는 상수) |
 | `content/safety-directory.json` | 119 · 1330 · 영사콜센터 · 시군 장애인콜택시 | **코드에서 직접 import** |
 

@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 
-import { getPois, getRoutes, orEmpty } from '@/lib/data';
+import { getPois, getRoutes, optionalRows } from '@/lib/data';
 import { DiaryPrint } from '@/components/diary/DiaryPrint';
 
 export const revalidate = 3600;
@@ -21,5 +21,5 @@ export default async function DiaryPrintPage({
   setRequestLocale(locale);
 
   const [pois, routes] = await Promise.all([getPois(), getRoutes()]);
-  return <DiaryPrint pois={orEmpty(pois)} routes={orEmpty(routes)} />;
+  return <DiaryPrint pois={optionalRows(pois).rows} routes={optionalRows(routes).rows} />;
 }

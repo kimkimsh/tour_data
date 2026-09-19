@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { buildScoreboard, sortScoreboard } from '@/domain/scoreboard';
 import { getPersona } from '@/domain/personas';
+import { getCapability } from '@/domain/capabilities';
 import type { Locale, SuitabilityFactInput, SuitabilityLabel } from '@/domain/types';
 import { VerdictBadge } from '@/components/VerdictBadge';
 import { useConditions } from '@/components/persona/usePersona';
@@ -69,6 +70,18 @@ export function PlaceList({
     );
   }
 
+  // Before anything reads a coordinate. mapCentre spreads the list into Math.min and
+  // Math.max, and on an empty list those are Infinity and -Infinity, so the map opened
+  // on NaN, NaN under a list with no rows and no explanation in it.
+  if (entries.length === 0) {
+    return (
+      <div className="grid gap-6">
+        <LiveRegion message={t('resultsReady', { count: 0 })} />
+        <p className="blank-slot">{t('noPlaces')}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid gap-6">
       <LiveRegion message={t('resultsReady', { count: entries.length })} />
@@ -89,7 +102,15 @@ export function PlaceList({
         {entries.map(({ poiSlug, title, result }) => {
           const place = byslug.get(poiSlug);
           if (!place) return null;
-          const confirmed = (factsByPoi[poiSlug] ?? []).filter((f) => f.status === 'supported');
+          /**
+           * Facilities only, the same filter the detail panel applies. Unfiltered, the
+           * context axis put today's forecast and any weather warning under the word
+           * for "available", so every card read 「이용 가능: … 기상 특보」 — a weather
+           * warning offered as something the visitor can use.
+           */
+          const confirmed = (factsByPoi[poiSlug] ?? []).filter(
+            (f) => f.status === 'supported' && getCapability(f.capabilityCode)?.axis !== 'context',
+          );
           return (
             <li key={poiSlug}>
               <article className="tile">
@@ -185,10 +206,16 @@ export function PlaceList({
                           the top of the list, and dropping them in here produced
                           「조건 미선택 — 일반 방문 기준 기준으로」 in Korean and a clause
                           in the middle of an English sentence. */}
-                      {t('noVerdict', {
-                        total: result.noVerdictBasis?.total ?? result.requiredCodes.length,
-                        unknown: result.noVerdictBasis?.unknown ?? result.unknownCriticals.length,
-                      })}
+                      {/* Two different reasons wear the same badge. "0개 항목 중 0개를
+                          모릅니다" was what the first sentence said for the second one,
+                          which reads as nothing being missing. */}
+                      {result.noVerdictBasis?.reason === 'nothing_applies'
+                        ? t('noVerdictNothingApplies')
+                        : t('noVerdict', {
+                            total: result.noVerdictBasis?.total ?? result.requiredCodes.length,
+                            unknown:
+                              result.noVerdictBasis?.unknown ?? result.unknownCriticals.length,
+                          })}
                     </p>
                   ) : null}
 
@@ -196,10 +223,12 @@ export function PlaceList({
                     <p className="t-sm">
                       {t('confirmed')}:{' '}
                       {capabilityLabels(
-                        confirmed.slice(0, 5).map((f) => f.capabilityCode),
+                        confirmed.slice(0, CONFIRMED_SHOWN_MAX).map((f) => f.capabilityCode),
                         locale,
                       )}
-                      {confirmed.length > 5 ? ` +${confirmed.length - 5}` : ''}
+                      {confirmed.length > CONFIRMED_SHOWN_MAX
+                        ? ` ${tc('andMore', { count: confirmed.length - CONFIRMED_SHOWN_MAX })}`
+                        : ''}
                     </p>
                   ) : null}
 
@@ -256,6 +285,9 @@ export function PlaceList({
     </div>
   );
 }
+
+/** How many confirmed items a card names before the rest are counted. */
+const CONFIRMED_SHOWN_MAX = 5;
 
 const TONE: Record<SuitabilityLabel, MapPin['tone']> = {
   방문가능: 'visitable',

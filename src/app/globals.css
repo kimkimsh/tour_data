@@ -757,6 +757,28 @@
   }
 
   /*
+    A button that cannot act has to look like one. Without this a disabled .btn was
+    pixel-identical to a live one — same accent border, same accent text, full opacity
+    — so a visitor pressed it, nothing happened, and nothing said why. Both spellings
+    are styled: the forms use `disabled`, and the step-by-step route guide uses
+    `aria-disabled` so the button that runs out of steps keeps keyboard focus.
+  */
+  .btn:disabled,
+  .btn[aria-disabled='true'] {
+    border-color: var(--color-rule-strong);
+    color: var(--color-ink-2);
+    background: transparent;
+    cursor: not-allowed;
+  }
+
+  .btn:disabled:hover,
+  .btn[aria-disabled='true']:hover {
+    background: transparent;
+    border-color: var(--color-rule-strong);
+    color: var(--color-ink-2);
+  }
+
+  /*
     Checkbox and radio. 1.75rem at a 17px root is ~30px, up from the ~25px the
     arbitrary utility gave: the label is the real click target and is already 44px
     tall, but the box itself is what a visitor with a tremor aims at.
@@ -815,16 +837,28 @@
       scrolls with the content (`local`) and covers the shadow when that edge is
       reached; the second pair is pinned to the box. No script, and nothing to read:
       the region above already carries a name for anyone who is not looking.
+
+      The masking pair has to be the colour of whatever the box sits on. Hard-coded to
+      paper it painted a white band down both edges of every table inside a card or a
+      verdict panel — whose ground is surface — whether or not there was anything to
+      scroll, so a table that fits looked cropped.
     */
+    --scroll-x-mask: var(--color-paper);
     background:
-      linear-gradient(to right, var(--color-paper) 40%, transparent) left center / 2.5rem 100%
-        no-repeat local,
-      linear-gradient(to left, var(--color-paper) 40%, transparent) right center / 2.5rem 100%
-        no-repeat local,
+      linear-gradient(to right, var(--scroll-x-mask) 40%, transparent) left center /
+        2.5rem 100% no-repeat local,
+      linear-gradient(to left, var(--scroll-x-mask) 40%, transparent) right center /
+        2.5rem 100% no-repeat local,
       linear-gradient(to right, var(--color-rule) 0%, transparent 100%) left center / 0.75rem 100%
         no-repeat scroll,
       linear-gradient(to left, var(--color-rule) 0%, transparent 100%) right center / 0.75rem 100%
         no-repeat scroll;
+  }
+
+  .card .scroll-x,
+  .verdict .scroll-x,
+  .callout .scroll-x {
+    --scroll-x-mask: var(--color-surface);
   }
 
   .scroll-x:focus-visible {

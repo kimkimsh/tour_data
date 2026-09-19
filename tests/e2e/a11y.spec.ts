@@ -75,17 +75,29 @@ for (const route of [...SPEC_ROUTES, ...EXTRA_ROUTES]) {
       });
     });
 
-    const results = await new AxeBuilder({ page })
+    // The tile surface is excluded from both passes. It is the provider's DOM and can
+    // change under us without a commit here; the exclusion is precautionary rather than
+    // load-bearing, since the same page scanned without it came back with the same zero
+    // violations, markers and all. What we own inside it has its own test below.
+    const conformance = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-      // The tile surface is the provider's DOM and can change under us without a
-      // commit here. The exclusion is precautionary rather than load-bearing: the same
-      // page was scanned with it removed and came back with the same zero violations,
-      // markers and all. What we own inside it has its own test below, which asserts
-      // the marker contract directly rather than trusting a scan to notice.
       .exclude('.map-canvas')
       .analyze();
 
-    const summary = results.violations.map(
+    /*
+      A second pass, because withRules replaces the tag selection rather than adding to
+      it. landmark-unique carries axe's `best-practice` tag, so the conformance tags
+      above cannot reach it — and it is the rule that catches a defect this site
+      shipped: a dozen `region` landmarks all named 대본 on the audio-tour page, and a
+      table's scroll region nested inside a section of the same name on the gap report.
+      A landmark list whose entries cannot be told apart is worse than no landmarks.
+    */
+    const bestPractice = await new AxeBuilder({ page })
+      .withRules(['landmark-unique', 'landmark-one-main', 'page-has-heading-one'])
+      .exclude('.map-canvas')
+      .analyze();
+
+    const summary = [...conformance.violations, ...bestPractice.violations].map(
       (violation) =>
         `${violation.id} (${violation.impact}) x${violation.nodes.length}: ${violation.help}`,
     );

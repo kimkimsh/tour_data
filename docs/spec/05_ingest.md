@@ -162,42 +162,72 @@ export type Axis = typeof CAPABILITIES[number]['axis'];
 //   방향을 정하기 때문이다 — `단차 없음`(좋음)과 `엘리베이터 없음`(나쁨)은 같은
 //   `없음`이고, 앞의 명사가 장애물인지 시설인지만 다르다.
 const BARRIER_NOUN = /(단차|턱(?!없)|계단|장애물|급경사|경사(?!로)|돌길|자갈|비포장|협소|좁음)/g;  // ← 머리 명사 '턱'. '문턱'만 적으면 맨 '턱'을 놓치고, 부정 전망 없이 적으면 '턱없이'(부사)를 장벽으로 읽는다
-const NEGATED_NEARBY = /(없|아니|불가|미설치|않|못)/;  // 명사 뒤 8자 안에서만 본다
-const PRESENT_NEARBY = /(있|존재|많|만)/;             // '만'은 배타 조사 — '계단으로만'
+
+// 표지는 전부 **토큰 머리에 고정**한다. 고정하지 않으면 단어 한가운데서 걸린다 —
+// '계단 손잡이없음'의 '없'은 손잡이의 것이고, '아닌'·'아님'에는 '아니'가 들어 있지
+// 않다(음절이 '닌'·'님'이다).
+const NEGATED_NEARBY = /^(없|아[니닌님녀]|불가|미설치|않|못)/;
+const PRESENT_NEARBY = /^(있|존재)/;
+const QUANTITY_NEARBY = /^많/;                 // 수량은 존재를 말하지만 부재는 말하지 못한다
+const EXCLUSIVE_PARTICLE = /^(으로|로)?만/;    // '계단만', '계단으로만'. 맨 '만'은 완만·미만 안에서 터진다
+const LONG_NEGATION = /^(않|못)/;              // 장형 부정은 다음 토큰에 온다 — '있지 않음'
+const INTERROGATIVE = /(는지|은지|을지)$/;     // '있는지'는 묻는 말이지 주장이 아니다
+const PREFIX_NEGATION = /(?:^|\s)무$/;         // '무단차'. 어두에 고정하지 않으면 '나무'의 무가 걸린다
+
+// 조사와 부사는 **닫힌 집합**이다. 길이로는 '옆'과 '이'를, '거의'와 '난간'을 구분할 수 없다.
+const BARE_PARTICLE = /^(이|가|은|는|을|를|에|의|도|와|과|로|으로|에서|에는|에도|및|등|또는|랑|나)$/;
+const DEGREE_ADVERB = /^(거의|전혀|별로|크게|…|아예|하나도|완전히|모두|전부)$/;
+const HEDGE_ADVERB  = /^(거의|별로|그다지|다소|약간|조금|대체로|사실상)$/;  // 완충된 부재는 '일부 가능'에서 멈춘다
 
 // ★★ 부정은 **구절 목록이 아니라 형태**다. 한국어의 부정은 접미이므로 부정형 안에는
 //    언제나 그 동사 어간이 그대로 들어 있다. 어간만 보는 긍정 사전과 어미까지 붙은
 //    연어만 나열한 부정 사전을 짝지으면, 나열에 없는 부정 표현이 전부 긍정으로 넘어간다.
 const NEGATION =
-  /(없|불가|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되]|해당\s*없)/;
+  /(없|불가|아[니닌님녀]|않|못하|못\s|미설치|미운영|미제공|미비치|미배치|미비|중단|중지|폐쇄|고장|파손|안\s*[함됨돼되])/;
 
 // 시설 어간은 **후보**일 뿐이다. 어간 뒤 10자 안에 부정 표지가 있으면 존재의 증거가 아니다.
 const PRESENCE_STEM = /(있음|있습니다|있다|있어요|설치되어|설치돼|설치되었|가능|운영|대여|비치|제공|완비)/g;
 
-export function resolveStatus(raw: string | null | undefined): CapabilityStatus {
+export function resolveStatus(raw: string | null | undefined, capabilityCode?: string): CapabilityStatus {
   const s = (raw ?? '').trim();
   if (s === '') return 'unknown';                       // 빈 값은 '없음'이 아니라 '모름'
 
-  // ① 확인이 필요하다는 서술이 먼저다 — 아래 어떤 규칙보다 앞선다
-  if (NEEDS_CHECKING.test(s)) return 'unknown';
+  if (NOT_APPLICABLE.test(s)) return 'unknown';         // '해당 없음'은 부재 주장이 아니다
 
-  // ② 장애물 명사의 극성을 국소적으로 읽는다.
-  //    장애물 + 부정 → 좋은 상태 / 장애물 + 존재 → 그게 바로 장애물
-  const barrier = scanBarriers(s);                      // { present, absent, rest }
-  const conditional = CONDITIONAL.test(s);
-  if (barrier.present) return conditional ? 'partial' : 'unsupported';
+  // ① 장애물 명사의 극성을 **토큰 단위로** 읽는다. 표지를 단 첫 토큰이 답하고,
+  //    조사와 정도 부사는 넘어가고, 표지 없는 내용어에서 멈춘다.
+  //    글자 창이었을 때 '계단 있고 난간 없음'이 난간의 부정을 계단에 붙여
+  //    critical 항목에서 '이용 가능'을 발행했다.
+  const barrier = scanBarriers(s);   // { present, absent, hedgedAbsent, ambiguous, rest }
+  if (barrier.present) {
+    return CONDITIONAL_SENTENCE.test(s) || barrier.presentConditional ? 'partial' : 'unsupported';
+  }
 
-  // ③ 장애물 구절을 걷어낸 나머지 문장으로 판정한다
-  if (CONDITIONAL.test(barrier.rest)) return 'partial';   // 일부·제한·어려움·사전문의…
+  // ② 장애물 구절을 걷어낸 나머지 문장으로 판정한다
+  if (CONDITIONAL_SENTENCE.test(barrier.rest)) return 'partial';  // 동절기·우천 시·평일만
   // 부정만은 일부러 문장 전체를 본다. KTO가 확인된 부재를 적는 가장 흔한 방식이
   // 대체 수단을 같은 문장에 붙이는 것이기 때문이다 — '장애인 화장실 없음. 인근
   // 공중화장실 이용 가능.' 부정 옆의 긍정 주장을 이유로 '모름'으로 물러서면 이런
-  // 문장이 전부 '확인 필요'가 되고, 그것이 휠체어 이용자를 못 들어가는 건물로 보낸다
-  if (NEGATION.test(barrier.rest)) return 'unsupported';
+  // 문장이 전부 '확인 필요'가 되고, 그것이 휠체어 이용자를 못 들어가는 건물로 보낸다.
+  // 다만 부정 바로 뒤의 '여부'는 그 부정을 **질문**으로 만든다.
+  const negation = firstAssertedNegation(barrier.rest);
+  if (negation) {
+    return conditionalNear(barrier.rest, negation.index, negation.index + negation[0].length)
+      ? 'partial' : 'unsupported';
+  }
+  // ③ 확인이 필요하다는 서술. 부정 **아래**, 긍정 **위**다 — 확인된 부재를 무르게
+  //    하면 안 되고('엘리베이터 없음. … 확인 필요'), '이용 가능 여부 확인 필요'가
+  //    '가능'으로 읽혀서도 안 된다.
+  if (NEEDS_CHECKING.test(s)) return 'unknown';
+  if (CONDITIONAL_LOCAL.test(barrier.rest)) return 'partial';     // 일부·예약 필요·어려움
   // 극성을 읽지 못한 장애물 명사는 아래 긍정 판정을 전부 막는다
-  if (barrier.ambiguous)             return 'unknown';
+  if (barrier.ambiguous) return 'unknown';
   if (hasUnnegatedPresence(barrier.rest)) return 'supported';
-  if (barrier.absent)                return 'supported';   // 장애물만 없다고 확인된 경우
+  // 장애물만 없다고 확인된 경우. 그 장애물이 주어인 항목에서만 좋은 소식이고,
+  // 완충된 부재('거의 없음')는 '일부 가능'에서 멈춘다.
+  if (barrier.absent && isPathField(capabilityCode)) {
+    return barrier.hedgedAbsent ? 'partial' : 'supported';
+  }
 
   return 'unknown';
 }
@@ -214,6 +244,18 @@ export function resolveStatus(raw: string | null | undefined): CapabilityStatus 
 > **고친 방향은 목록을 늘리는 것이 아니다.** ① 부정을 **형태**로 본다(장형 `-지 않-`·`-지 못-`, 단형 `안 V`·`못 V`, 존재 `없-`, 접두 `미-`·`불-`, 그리고 시설이 멈췄다는 말). ② **긍정도 국소적으로 읽는다** — 시설 어간 뒤 창에 부정 표지가 있으면 그 어간은 증거가 아니다. `scanBarriers()`가 장애물 명사에 쓰는 기법을 동사에 그대로 쓴다. ③ **극성을 읽지 못한 장애물 명사는 긍정 판정을 막는다** — `계단으로만 이동 가능`은 `계단`이 조용히 버려지고 `가능`이 문장을 혼자 결정하던 경로다.
 >
 > 기록은 [`../work_log/09_review_and_polish.md`](../work_log/09_review_and_polish.md) §1.
+
+> **★★★ 네 번째 방향 — 표지가 남의 명사에 붙어 있었다.**
+>
+> 장애물 명사 뒤 **여덟 글자** 창은 다음 명사를 넘어간다. `계단 있고 난간 없음`에서 난간의 `없음`이 계단의 부재로 읽혀 `access_route`가 **`supported`** 가 됐다 — 계단이 있다고 적힌 문장이다. `계단 옆 난간 없음`, `계단에 손잡이 없음`, `계단 손잡이없음`도 같다.
+>
+> 반대 방향으로는 `PRESENT_NEARBY`의 맨 `만`이 **완만**·**미만** 안에서 터졌다. `경사가 완만함` → **`unsupported`** → 대체추천, 점수 상한 49. 경사가 완만하다고 적힌 문장이다.
+>
+> **고침은 창을 줄이는 것이 아니라 단위를 바꾸는 것이다.** 글자 창 대신 **토큰 주사**를 쓴다 — 표지를 단 첫 토큰이 답하고, 조사(닫힌 집합)와 정도 부사(닫힌 집합)는 넘어가고, 표지 없는 내용어에서 멈춘다. 표지는 전부 토큰 머리에 고정하고, 괄호는 토큰 경계로 센다(`단차 없음(휠체어진입불가)`가 괄호 안을 통째로 삼키고 있었다).
+>
+> 같은 회차에 닫은 것: `NEEDS_CHECKING`이 확인된 부재보다 위에 있어 `엘리베이터 없음. 리프트 설치 여부 확인 필요`를 `unknown`으로 무르게 했고(이 파일 바로 위 ★★가 금지한다고 적어 둔 동작이다), 묻는 말(`있는지`, `불가 여부`)을 주장으로 읽었고, `아닌`·`아님`에 `아니`가 들어 있지 않아 `무단차가 아닌 출입구`가 `supported`였고, 완충 부사를 지나온 부재(`단차 별로 없음`)가 `supported`였다.
+>
+> 회귀 78 → **111건**. 기록은 [`../work_log/16_review_round_after_v7.md`](../work_log/16_review_round_after_v7.md) §1.
 
 > **★ 방향은 두 번 틀렸고, 두 번 다 비용이 실제 헛걸음이었다.**
 >
@@ -392,7 +434,7 @@ for each 확보한 (tid, tlid):
     → ★ 좌표는 addr1(경도)/addr2(위도) 로 온다. mapX/mapY 도 함께 읽어
        먼저 값이 있는 쪽을 쓴다 (03 §2.3 · 11 P0-9 4번)
 
-content/docent-easy/{slug}.{locale}.md → easyScript (A등급 2곳만)
+content/docent-easy/{slug}.{locale}.{odiiTid}-{odiiStid|seq}.md → easyScript (이야기 하나당 파일 하나)
 
 → 스냅샷 'docent'
 ```

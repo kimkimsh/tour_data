@@ -477,11 +477,13 @@ export async function ktoRequest(
 /**
  * How many calls this process reached the gateway on, and how many it could not.
  *
- * "Unreachable" means the retries ran out against a transport failure — no response,
- * or one the gateway itself never wrote. It is not a resultCode: a 03 or a 30 is an
- * answer, and an answer can be published. A run with no reachable gateway assembled
- * its snapshots out of absences it never observed, which is the one thing this
- * pipeline may not write, so scripts/ingest.ts checks this before it publishes.
+ * "Unreachable" means the retries ran out — a refused connection, a transient status,
+ * or a RETRYABLE_RESULT_CODES fault the gateway repeated every time. None of those say
+ * anything about the data. A substantive answer does, even an unwelcome one: 03 is "no
+ * rows" and 30 is "bad key", and both can be reasoned about. A run that never reached
+ * the gateway assembled its snapshots out of absences it never observed, which is the
+ * one thing this pipeline may not write, so scripts/ingest.ts checks this before it
+ * publishes.
  *
  * Counted here rather than at each call site because here is the single funnel every
  * call passes through; a counter a caller has to remember to increment is a counter
@@ -520,8 +522,14 @@ export async function gatewayRequest(
       return result;
     }
     if (!isRetryable(result)) {
-      // The gateway answered; we did not like the answer. That is still contact.
-      gatewayReached += 1;
+      // A resultCode is an answer, even an unwelcome one — 03 is "no rows", 30 is "bad
+      // key" — and a run that got one can still decide what to publish. A
+      // transport-level code is not an answer: the body could not be read at all, so
+      // nothing came back about the data whatever the status line said. An HTML holding
+      // page served with 200 is the shape that matters, and booking it as contact let a
+      // stage publish a snapshot assembled from it.
+      if (isTransportOnly(result.resultCode)) gatewayUnreachable += 1;
+      else gatewayReached += 1;
       return result;
     }
     failure = result;
@@ -529,19 +537,11 @@ export async function gatewayRequest(
       await sleep(RETRY_BASE_DELAY_MS * 2 ** (attempt - 1));
     }
   }
-  // A 429 or 5xx that survived every retry counts as not reached, the same as a refused
-  // connection. The counter exists so ingest can tell "we asked and were told nothing is
-  // there" from "we never got an answer", and a gateway that returned 503 three times
-  // running told us nothing about the data.
-  if (
-    failure.resultCode === TRANSPORT_CODES.network ||
-    failure.resultCode === TRANSPORT_CODES.timeout ||
-    (isTransportOnly(failure.resultCode) && isTransientStatus(failure.httpStatus))
-  ) {
-    gatewayUnreachable += 1;
-  } else {
-    gatewayReached += 1;
-  }
+  // Only a retryable failure survives the loop; everything else returned above. A
+  // refused connection, a 503 and a resultCode 05 are the same fact by the time the
+  // retries run out: the gateway said nothing about the data. Booking any of them as
+  // contact lets a stage assemble a snapshot out of an absence it never observed.
+  gatewayUnreachable += 1;
   return { ...failure, message: `${failure.message} (gave up after ${maxAttempts} attempts)` };
 }
 
@@ -565,22 +565,24 @@ export async function fetchAllPages(
   const items: unknown[] = [];
   let totalCount = 0;
   let pagesFetched = 0;
-  let truncated = false;
 
-  for (let pageNo = 1; ; pageNo += 1) {
-    if (pageNo > maxPages) {
-      truncated = items.length < totalCount;
-      break;
-    }
+  for (let pageNo = 1; pageNo <= maxPages; pageNo += 1) {
     const page = await ktoRequest(serviceId, operation, { ...params, numOfRows, pageNo }, options);
     if (!page.ok) return page;
     pagesFetched = pageNo;
-    totalCount = page.totalCount;
+    // The largest count any page reported, not the last one. resultCode 03 answers with
+    // an empty body and totalCount 0, so a no-data page part-way through a walk erased
+    // the figure the first page gave and the short walk reported itself complete.
+    totalCount = Math.max(totalCount, page.totalCount);
     items.push(...page.items);
     // An empty page ends the walk whatever totalCount claims: the alternative is looping
     // to the cap against an operation that reports a count it will not serve.
     if (page.items.length === 0 || items.length >= totalCount) break;
   }
 
-  return { ok: true, items, totalCount, pagesFetched, truncated };
+  // Short of the count is short of the count, whichever exit got here. Setting the flag
+  // only on the page cap left the empty-page exit reporting a complete walk, and
+  // listBarrierFreeSync reads this flag to decide whether "not in the list" may be told
+  // to a visitor as "not registered".
+  return { ok: true, items, totalCount, pagesFetched, truncated: items.length < totalCount };
 }

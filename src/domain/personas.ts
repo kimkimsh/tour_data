@@ -20,6 +20,15 @@ export const GRADE_WEIGHT: Record<Grade, number> = {
 
 export interface Persona {
   id: PersonaId;
+  /**
+   * The short name every screen after the home one uses — the badge on a card, the
+   * per-condition table, the course warning. It is the noun form of `choiceKo`, not a
+   * disability category: the home screen takes care never to name one, and a visitor
+   * who answered 「눈이 잘 안 보여요」 was called 「시각장애 기준」 on every screen after.
+   *
+   * It is also interpolated into whole sentences, so it has to be something a Korean
+   * particle and an English preposition can both attach to.
+   */
   labelKo: string;
   labelEn: string;
   /** Wording used on the home screen. It avoids naming a disability category. */
@@ -35,7 +44,7 @@ export const PERSONAS: readonly Persona[] = [
   {
     id: 'P1a',
     labelKo: '휠체어 이용',
-    labelEn: 'Wheelchair user',
+    labelEn: 'Wheelchair users',
     choiceKo: '휠체어를 이용해요',
     choiceEn: 'I use a wheelchair',
     stayMultiplier: 1.25,
@@ -43,17 +52,17 @@ export const PERSONAS: readonly Persona[] = [
   },
   {
     id: 'P1b',
-    labelKo: '시니어·보행 약자',
-    labelEn: 'Limited walking',
+    labelKo: '오래 걷기 어려움',
+    labelEn: 'Visitors who cannot walk far',
     choiceKo: '오래 걷기 어려워요',
-    choiceEn: 'I cannot walk far',
+    choiceEn: 'I find it hard to walk far',
     stayMultiplier: 1.3,
     restLimitMinutes: 15,
   },
   {
     id: 'P2a',
-    labelKo: '시각장애',
-    labelEn: 'Blind or low vision',
+    labelKo: '눈이 잘 안 보임',
+    labelEn: 'Blind and low-vision visitors',
     choiceKo: '눈이 잘 안 보여요',
     choiceEn: 'I have trouble seeing',
     stayMultiplier: 1.2,
@@ -61,8 +70,8 @@ export const PERSONAS: readonly Persona[] = [
   },
   {
     id: 'P2b',
-    labelKo: '청각장애',
-    labelEn: 'Deaf or hard of hearing',
+    labelKo: '귀가 잘 안 들림',
+    labelEn: 'Deaf and hard-of-hearing visitors',
     choiceKo: '귀가 잘 안 들려요',
     choiceEn: 'I have trouble hearing',
     stayMultiplier: 1.0,
@@ -70,8 +79,8 @@ export const PERSONAS: readonly Persona[] = [
   },
   {
     id: 'P3',
-    labelKo: '영유아 동반 가족',
-    labelEn: 'Family with a young child',
+    labelKo: '유아차 동반',
+    labelEn: 'Families with a young child',
     choiceKo: '유아차와 함께 가요',
     choiceEn: 'I travel with a stroller',
     stayMultiplier: 1.2,
@@ -96,7 +105,12 @@ type GradeCell = 'C' | 'S' | '.';
 const MATRIX: Record<string, readonly [GradeCell, GradeCell, GradeCell, GradeCell, GradeCell]> = {
   access_route: ['C', 'C', 'S', '.', 'S'],
   entrance_passage: ['C', 'C', '.', '.', 'S'],
-  wheelchair: ['C', 'S', '.', '.', '.'],
+  // Supporting, not critical, and for the same reason the lift below is. Renting a
+  // wheelchair is a MEANS of having one; the visitor who ticked 「휠체어를 이용해요」
+  // already has the END. Graded critical, a confirmed absence of the loan service
+  // answered 「다른 곳을 권해요」 to somebody who arrived in their own chair. The
+  // absence still enters the score and still shows on screen; it no longer decides.
+  wheelchair: ['S', 'S', '.', '.', '.'],
   // Supporting, not critical, and that is v7's central move. A lift is a MEANS of
   // changing level; whether the visitor can reach the places they came to see is the
   // END, and that is path_continuity below. Grading the means critical answered
@@ -115,7 +129,10 @@ const MATRIX: Record<string, readonly [GradeCell, GradeCell, GradeCell, GradeCel
   path_continuity: ['C', 'C', 'S', '.', 'S'],
   restroom: ['C', 'C', 'S', '.', 'C'],
   parking: ['S', 'S', '.', '.', 'S'],
-  stroller: ['.', '.', '.', '.', 'C'],
+  // Same as wheelchair above, and this one was measurable: 서동공원과 궁남지 came out
+  // 대체추천 for 유아차 동반 with `stroller` as its only blocker, on the strength of
+  // 「유모차 대여 여부 - 없음」 — told to a visitor pushing their own pushchair.
+  stroller: ['.', '.', '.', '.', 'S'],
   nursing_room: ['.', '.', '.', '.', 'S'],
   baby_chair: ['.', '.', '.', '.', 'S'],
   room: ['.', '.', '.', '.', '.'],

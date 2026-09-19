@@ -251,7 +251,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       },
       {
@@ -260,7 +260,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       },
       {
@@ -269,7 +269,7 @@
         "absenceKind": null,
         "detail": null,
         "source": "derived_facility",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "isKtoScored": false
       }
     ],
@@ -286,7 +286,7 @@
     "score": 87,
     "label": "주의",
     "layerA": 0.9000000000000001,
-    "layerB": 0.9663461538461539,
+    "layerB": 0.97,
     "axes": [
       {
         "axis": "entry",
@@ -356,8 +356,7 @@
     "unknownCriticals": [],
     "partialCriticals": [
       "access_route",
-      "entrance_passage",
-      "wheelchair"
+      "entrance_passage"
     ],
     "perPersona": [
       {
@@ -366,15 +365,13 @@
         "requiredCodes": [
           "access_route",
           "entrance_passage",
-          "wheelchair",
           "path_continuity",
           "restroom"
         ],
         "unknownCriticals": [],
         "partialCriticals": [
           "access_route",
-          "entrance_passage",
-          "wheelchair"
+          "entrance_passage"
         ],
         "knownCriticalBlockers": []
       },
@@ -398,8 +395,7 @@
         "personaId": "P3",
         "label": "방문가능",
         "requiredCodes": [
-          "restroom",
-          "stroller"
+          "restroom"
         ],
         "unknownCriticals": [],
         "partialCriticals": [],
@@ -413,10 +409,8 @@
     "requiredCodes": [
       "access_route",
       "entrance_passage",
-      "wheelchair",
       "path_continuity",
-      "restroom",
-      "stroller"
+      "restroom"
     ],
     "noVerdictBasis": null,
     "ktoUnknownCount": 0,
@@ -559,17 +553,17 @@
       },
       {
         "capabilityCode": "crowd_forecast",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       },
       {
         "capabilityCode": "weather_warning",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       },
       {
         "capabilityCode": "weather_forecast",
-        "verifiedAt": "2026-08-01",
+        "verifiedAt": "2026-09-20",
         "source": "derived_facility"
       }
     ],

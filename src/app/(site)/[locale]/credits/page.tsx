@@ -55,9 +55,9 @@ const ASSETS: readonly AssetRow[] = [
     assetEn: 'KTO barrier-free travel data (detailWithTour2)',
     license: '이용허락범위 제한 없음',
     licenseEn: 'No stated restriction on use',
-    handling: '24개 항목의 원문 문장과 원래 필드명을 화면에 그대로 노출합니다.',
+    handling: '23개 항목의 원문 문장과 원래 필드명을 화면에 그대로 노출합니다.',
     handlingEn:
-      'All 24 items are shown with the original sentence and the upstream field name.',
+      'All 23 items are shown with the original sentence and the upstream field name.',
   },
   {
     asset: '한국관광공사 이미지 (cpyrhtDivCd=Type1)',
@@ -101,9 +101,9 @@ const ASSETS: readonly AssetRow[] = [
     license: '공공데이터',
     licenseEn: 'Korean public open data',
     handling:
-      '「방문자는 관광객과 동일하게 정의되지 않습니다」 주의 문구를 숫자와 함께 항상 표시합니다.',
+      '「여기서 말하는 방문자는 관광객과 같은 뜻이 아닙니다」 주의 문구를 숫자와 함께 항상 표시합니다.',
     handlingEn:
-      'The caveat "visitors are not defined the same way as tourists" is always shown beside the figure.',
+      'The note ““Visitor” here does not mean the same thing as “tourist”” is always shown beside the figure.',
   },
   {
     asset: '관광지 집중률 (TatsCnctrRateService)',
@@ -111,9 +111,9 @@ const ASSETS: readonly AssetRow[] = [
     license: '공공데이터',
     licenseEn: 'Korean public open data',
     handling:
-      '향후 30일 예측치이므로 「예측 혼잡도(향후 30일)」로만 표기하고 현재 혼잡도라고 쓰지 않습니다.',
+      '향후 30일 예측치이므로 「향후 30일 예측 혼잡도」로만 표기하고 현재 혼잡도라고 쓰지 않습니다.',
     handlingEn:
-      'It is a 30-day forecast, so it is labelled "expected crowds (next 30 days)" and never described as current crowding.',
+      'It is a 30-day forecast, so it is labelled “Expected crowds over the next 30 days” and never described as current crowding.',
   },
   {
     asset: '관광지별 연관관광지 (TarRlteTarService1)',

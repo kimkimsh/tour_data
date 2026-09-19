@@ -3,10 +3,11 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { getContext, getDocent, getFacts, getPois, getRelated, getRoutes, orEmpty } from '@/lib/data';
+import { getContext, getDocent, getFacts, getPois, getRelated, getRoutes, optionalRows } from '@/lib/data';
 import { distanceMeters } from '@/domain/geo';
+import { seoulToday } from '@/domain/today';
 import type { ContentLocale, Locale } from '@/domain/types';
-import { SnapshotProblem } from '@/components/SnapshotGate';
+import { PartialData, SnapshotProblem } from '@/components/SnapshotGate';
 import { VerdictPanel } from '@/components/place/VerdictPanel';
 import { CapabilityEvidence, countKtoItems } from '@/components/place/CapabilityEvidence';
 import { ReportsSection } from '@/components/place/ReportsSection';
@@ -65,28 +66,37 @@ export default async function PlacePage({
   // screen arrives inside the real layout and the answer is a 404 rather than a 200.
   if (!poi) notFound();
 
-  const routes = orEmpty(await getRoutes());
-  const docent = orEmpty(await getDocent());
-  const related = orEmpty(await getRelated());
+  const routes = optionalRows(await getRoutes());
+  const docent = optionalRows(await getDocent());
+  const related = optionalRows(await getRelated());
   const contextResult = await getContext();
 
   const localeKey = locale as Locale;
-  const i18n = poi.i18n[locale as ContentLocale] ?? poi.i18n.ko;
-  const title = i18n?.title ?? poi.slug;
+  /**
+   * Field by field, not row by row. KTO's English service answers with a row for every
+   * place and an overview for none, and ingest writes the hand-checked English name
+   * into it — so `poi.i18n.en` is always a truthy object, the row-level fallback never
+   * fired, and all thirteen English place pages ran from the title straight into the
+   * accessibility items with no description of the place at all.
+   */
+  const localeRow = poi.i18n[locale as ContentLocale];
+  const title = localeRow?.title ?? poi.i18n.ko?.title ?? poi.slug;
+  const overview = localeRow?.overview ?? poi.i18n.ko?.overview ?? null;
+  const overviewIsKorean = !localeRow?.overview;
   const poiFacts = facts.data.filter((fact) => fact.poiSlug === poi.slug);
   const counts = countKtoItems(poiFacts);
 
   const places: PlaceCardData[] = pois.data.map((p) =>
     toPlaceCardData(p, localeKey, {
-      hasRoute: routes.some((route) => route.poiSlug === p.slug),
-      hasDocent: docent.some((story) => story.poiSlug === p.slug),
+      hasRoute: routes.rows.some((route) => route.poiSlug === p.slug),
+      hasDocent: docent.rows.some((story) => story.poiSlug === p.slug),
     }),
   );
 
   const crowd = contextResult.ok
     ? contextResult.data.crowd.find((row) => row.poiSlug === poi.slug)
     : undefined;
-  const relatedForPoi = related.find((row) => row.poiSlug === poi.slug);
+  const relatedForPoi = related.rows.find((row) => row.poiSlug === poi.slug);
   /**
    * Attractions only, and the first few of them.
    *
@@ -145,15 +155,22 @@ export default async function PlacePage({
               ))}
             </ul>
           ) : null}
-          {/* The overview is whatever the locale's own TourAPI service returned, and
-              the English service falls back to the Korean row when it has none. */}
-          {i18n?.overview ? (
-            <p
-              lang={poi.i18n[locale as ContentLocale]?.overview ? localeKey : 'ko'}
-              className="mt-2 max-w-[var(--container-prose)]"
-            >
-              {i18n.overview}
-            </p>
+          {/* The locale's own TourAPI overview where there is one, the Korean one
+              otherwise — declared as Korean, so a screen reader switches voice instead
+              of sounding Hangul out as English phonemes, and said in words above it so
+              a reader who cannot read Korean knows why. */}
+          {overview ? (
+            <>
+              {overviewIsKorean && localeKey !== 'ko' ? (
+                <p className="mt-2 t-sm text-[var(--color-ink-2)]">{t('overviewInKorean')}</p>
+              ) : null}
+              <p
+                lang={overviewIsKorean ? 'ko' : localeKey}
+                className="mt-2 max-w-[var(--container-prose)]"
+              >
+                {overview}
+              </p>
+            </>
           ) : null}
         </div>
 
@@ -182,18 +199,26 @@ export default async function PlacePage({
         ) : null}
       </header>
 
+      {routes.unavailable ||
+      docent.unavailable ||
+      related.unavailable ||
+      (!contextResult.ok && contextResult.kind === 'error') ? (
+        <PartialData />
+      ) : null}
+
       <VerdictPanel
         poiSlug={poi.slug}
         places={places}
         factsByPoi={groupFactsByPoi(facts.data)}
-        hasRoute={routes.some((route) => route.poiSlug === poi.slug)}
-        hasDocent={docent.some((story) => story.poiSlug === poi.slug)}
+        hasRoute={routes.rows.some((route) => route.poiSlug === poi.slug)}
+        hasDocent={docent.rows.some((story) => story.poiSlug === poi.slug)}
       />
 
       <ReportsSection poiSlug={poi.slug} />
 
       <CapabilityEvidence
         facts={poiFacts}
+        today={seoulToday()}
         locale={localeKey}
         ktoUnknownCount={counts.unknown}
         ktoTotalCount={counts.total}
@@ -202,8 +227,11 @@ export default async function PlacePage({
 
       {crowd ? (
         <section aria-labelledby="crowd-heading" className="card">
+          {/* Its own key. This used to share the string with the credits page's list
+              of what the service admits to, where every other line says what was not
+              done — so one entry in that list was a section heading saying nothing. */}
           <h2 id="crowd-heading" className="subhead">
-            {tc('honesty.crowd')}
+            {t('crowdHeading')}
           </h2>
           {/* The caveats are under the figure, not inside the heading and not inside
               the figure's own line. Both used to carry one: a heading that says what

@@ -1,7 +1,20 @@
+import { readFileSync, readdirSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import en from '../../messages/en.json';
 import ko from '../../messages/ko.json';
 import { routing } from './routing';
+import { statusLabel } from '@/domain/gap';
+
+/** Every .ts/.tsx under src/, so a new screen is covered the day it is written. */
+function sourceFiles(dir: string): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) return sourceFiles(full);
+    return /\.tsx?$/.test(entry.name) ? [full] : [];
+  });
+}
 
 /**
  * The two message files have to hold the same keys.
@@ -64,7 +77,12 @@ function englishStrings(): { key: string; value: string }[] {
  * `report.error.tooLong` names the unit in the sentence before: "Details can be up to
  * 500 characters. This is {count}."
  */
-const COUNT_WITH_NO_NOUN: readonly string[] = ['report.error.tooLong'];
+const COUNT_WITH_NO_NOUN: readonly string[] = [
+  'report.error.tooLong',
+  // "and 1 more" / "and 12 more". `more` is invariant, and the noun it stands for is
+  // the list the phrase is appended to.
+  'common.andMore',
+];
 
 describe('message files', () => {
   it('cover every locale the router serves', () => {
@@ -108,8 +126,84 @@ describe('message files', () => {
     const uninflected = englishStrings()
       .filter(({ value }) => /\{\s*count\b/.test(value))
       .filter(({ value }) => !/\{\s*count\s*,\s*plural\s*,/.test(value))
-      .map(({ key }) => key);
-    expect(uninflected, uninflected.join('\n')).toEqual([...COUNT_WITH_NO_NOUN]);
+      .map(({ key }) => key)
+      .sort();
+    // Sorted on both sides: the exemption list is a set, and comparing it in file order
+    // made adding a key to either one fail on where it landed rather than on what it is.
+    expect(uninflected, uninflected.join('\n')).toEqual([...COUNT_WITH_NO_NOUN].sort());
+  });
+
+  /**
+   * Every literal key a component asks for, resolved in the namespace it asked in.
+   *
+   * The key-set comparison above cannot see this: `common.andMore` exists in both
+   * files, so both are complete, and a component reading it as `places.andMore` still
+   * renders the key name where a sentence belongs. next-intl logs MISSING_MESSAGE on
+   * the server and carries on, so the only place it shows is the screen.
+   *
+   * Template-literal keys — `t(\`label.\${code}\`)` — are skipped here and covered by
+   * the enum sweeps below.
+   */
+  it('resolve every literal key in the namespace its component asked for', () => {
+    const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+    const files = sourceFiles(root);
+    const missing: string[] = [];
+    for (const file of files) {
+      const text = readFileSync(file, 'utf8');
+      // Every namespace a name is bound to in this file, not the last one. Two
+      // components in one file each calling their translator `t` is ordinary here, and
+      // a single-valued map made the second binding silently replace the first.
+      const namespaces = new Map<string, Set<string>>();
+      for (const match of text.matchAll(
+        /\b(?:const|let)\s+(\w+)\s*=\s*(?:await\s+)?(?:useTranslations|getTranslations)\s*\(\s*(?:\{[^}]*namespace:\s*)?['"]([\w.]+)['"]/g,
+      )) {
+        const name = match[1] as string;
+        const set = namespaces.get(name) ?? new Set<string>();
+        set.add(match[2] as string);
+        namespaces.set(name, set);
+      }
+      if (namespaces.size === 0) continue;
+      for (const [variable, candidates] of namespaces) {
+        const call = new RegExp(`\\b${variable}(?:\\.raw)?\\(\\s*['"]([\\w.]+)['"]`, 'g');
+        for (const use of text.matchAll(call)) {
+          const suffix = use[1] as string;
+          const resolves = [...candidates].some(
+            (namespace) =>
+              valueAt(ko as Tree, `${namespace}.${suffix}`) !== undefined &&
+              valueAt(en as Tree, `${namespace}.${suffix}`) !== undefined,
+          );
+          if (!resolves) {
+            missing.push(
+              `${file.slice(root.length + 1)}: ${variable}('${suffix}') resolves in none of ${[...candidates].join(', ')}`,
+            );
+          }
+        }
+      }
+    }
+    expect(missing, missing.join('\n')).toEqual([]);
+  });
+
+  /**
+   * The CSV writes the four capability states itself, from its own table, because a
+   * server route has no next-intl scope. The reader moves between the screen and the
+   * downloaded file, so the two lists have to be one list — and they have drifted
+   * before, with `unknown` reading "No information" in the file and "Unknown" on the
+   * screen.
+   */
+  it('spell the four capability states the same in the CSV as on the screen', () => {
+    for (const [status, locale] of [
+      ['supported', 'ko'],
+      ['partial', 'ko'],
+      ['unsupported', 'ko'],
+      ['unknown', 'ko'],
+      ['supported', 'en'],
+      ['partial', 'en'],
+      ['unsupported', 'en'],
+      ['unknown', 'en'],
+    ] as const) {
+      const onScreen = valueAt((locale === 'ko' ? ko : en) as Tree, `common.status.${status}`);
+      expect(statusLabel(status, locale), `${locale}.${status}`).toBe(onScreen);
+    }
   });
 
   it('have no empty strings', () => {

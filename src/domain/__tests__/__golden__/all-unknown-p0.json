@@ -550,6 +550,7 @@
     ],
     "noVerdictBasis": {
       "personaId": null,
+      "reason": "unknown_majority",
       "total": 4,
       "unknown": 4
     },

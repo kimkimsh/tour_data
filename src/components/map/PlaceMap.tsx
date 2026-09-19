@@ -94,6 +94,8 @@ export function PlaceMap({
    * would throw away whatever the reader had panned to.
    */
   const initialView = useRef({ center, zoom });
+  /** The pin footprint the view was last fitted to, so a re-render does not refit it. */
+  const fittedRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (clientId === null) return;
@@ -166,7 +168,16 @@ export function PlaceMap({
       });
     });
 
-    if (pins.length > 1) {
+    // Only when the points themselves moved, as a set. `pins` is rebuilt inline by the
+    // parent and ordered by the scoreboard, so any re-render — and any change of
+    // conditions, which reorders the same thirteen places — produced a new array over
+    // the same coordinates and snapped the view back, discarding the reader's pan.
+    const footprint = pins
+      .map((pin) => `${pin.lat},${pin.lng}`)
+      .sort()
+      .join('|');
+    if (pins.length > 1 && fittedRef.current !== footprint) {
+      fittedRef.current = footprint;
       const lats = pins.map((p) => p.lat);
       const lngs = pins.map((p) => p.lng);
       map.fitBounds(
@@ -179,6 +190,18 @@ export function PlaceMap({
     }
   }, [pins, state]);
 
+  // The canvas is unmounted by the error branch below, while the effect that built the
+  // map cleans up on clientId alone — so a failure that arrives after the map was
+  // constructed left a live NAVER map, and its markers, bound to a removed node.
+  const errored = state === 'auth_error' || state === 'script_error';
+  useEffect(() => {
+    if (!errored) return;
+    for (const marker of markersRef.current) marker.setMap(null);
+    markersRef.current = [];
+    mapRef.current?.destroy();
+    mapRef.current = null;
+  }, [errored]);
+
   const zoomBy = useCallback((delta: number) => {
     const map = mapRef.current;
     if (!map) return;
@@ -189,7 +212,7 @@ export function PlaceMap({
     mapRef.current?.panBy(x * PAN_STEP_PX, y * PAN_STEP_PX);
   }, []);
 
-  if (state === 'auth_error' || state === 'script_error') {
+  if (errored) {
     return (
       <div className="blank-slot">
         <p>{t('unavailable')}</p>

@@ -88,8 +88,8 @@ function fillCatalogue(
 /**
  * `knownPoiSlugs` is the authoritative place list, normally every slug in the pois
  * snapshot. Passing it is what lets a place with no accessibility rows at all still
- * appear in the fill table as 0 filled / 22 unknown, instead of vanishing from the
- * municipal report.
+ * appear in the fill table as 0 filled and every KTO item unknown, instead of
+ * vanishing from the municipal report.
  */
 export function computeGapReport(
   rawFacts: ReadonlyArray<GapFact>,
@@ -225,7 +225,10 @@ const GAP_CSV_HEADER: Record<'ko' | 'en', readonly string[]> = {
 };
 
 const STATUS_LABEL_KO: Record<SuitabilityFactInput['status'], string> = {
-  supported: '확인됨',
+  // 이용 가능, not 확인됨. The other three answer "can you use it"; 확인됨 answers
+  // "did anyone look", which is the column beside this one, so one column carried two
+  // axes and the officer reading the file could not add it up.
+  supported: '이용 가능',
   partial: '일부 가능',
   unsupported: '이용 불가',
   unknown: '정보 없음',
@@ -233,19 +236,21 @@ const STATUS_LABEL_KO: Record<SuitabilityFactInput['status'], string> = {
 
 /**
  * Must stay identical to common.status.* in messages/en.json — the same four states
- * are rendered from both, on screens a reader moves between. They disagreed:
- * `unknown` was "No information" here and "Unknown" there.
+ * are rendered from both, on screens a reader moves between. messages.test.ts
+ * compares the two lists.
  *
- * The set separates two axes on purpose. Available / Partly available / Not available
- * describe the facility; "Not known" describes our information. "Not available" and
- * "No information" both start with a negation and read as synonyms, which is the one
- * confusion the Korean (이용 불가 / 정보 없음) never had.
+ * The set separates two axes: the first three describe the facility, the fourth
+ * describes our information. It says "Cannot be used" rather than "Not available"
+ * because "not available" is the ordinary English phrase for *data* that is missing —
+ * so the one label that has to mean "we checked, and you cannot use this" read as the
+ * one thing it must never be confused with, which is the confusion the Korean
+ * (이용 불가 / 정보 없음) never had.
  */
 const STATUS_LABEL_EN: Record<SuitabilityFactInput['status'], string> = {
-  supported: 'Available',
-  partial: 'Partly available',
-  unsupported: 'Not available',
-  unknown: 'Not known',
+  supported: 'Can be used',
+  partial: 'Partly usable',
+  unsupported: 'Cannot be used',
+  unknown: 'No information',
 };
 
 const ABSENCE_LABEL_KO: Record<string, string> = {

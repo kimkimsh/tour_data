@@ -5,9 +5,9 @@ import { describe, expect, it } from 'vitest';
 
 import { calculateSuitability } from '../suitability';
 import { assertPersonaMatrix } from '../personas';
-import { CAPABILITIES } from '../capabilities';
-import { findScoreInput, goldenCases } from './golden-cases';
-import { RECENT_DATE, facts, withPersonas } from './fixtures';
+import { CAPABILITIES, CONTEXT_VALIDITY_DAYS, isStaleContext } from '../capabilities';
+import { assertCriticalsMatchMatrix, findScoreInput, goldenCases } from './golden-cases';
+import { CALC_DATE, OLD_DATE, RECENT_DATE, facts, input, withPersonas } from './fixtures';
 import type { SuitabilityResult } from '../types';
 
 const GOLDEN_DIR = join(dirname(fileURLToPath(import.meta.url)), '__golden__');
@@ -45,6 +45,86 @@ describe('capability catalogue', () => {
 
   it('satisfies the persona matrix invariants', () => {
     expect(() => assertPersonaMatrix()).not.toThrow();
+  });
+
+  // The coverage cases subtract a hand-written copy of the critical sets from the
+  // relevant ones. Nothing compared the copy with the matrix, so editing a MATRIX row
+  // moved what those cases treat as "supporting" without moving a single expectation.
+  it('keeps the golden files\' critical table equal to the matrix', () => {
+    expect(() => assertCriticalsMatchMatrix()).not.toThrow();
+  });
+});
+
+/**
+ * The freshness buckets, driven directly rather than through a golden file.
+ *
+ * The three dated buckets are pinned by golden cases; the undated one is not, because
+ * every fixture gives a known fact a date. It is the bucket that decides what a claim
+ * with no check date behind it is worth, which is the one number here that must not be
+ * quietly generous.
+ */
+describe('freshness', () => {
+  // The context items are dated per case here, because fixtures.ts dates them today by
+  // default — which is right for every other case and wrong for this one.
+  const scoreWith = (verifiedAt: string | null) => {
+    const overrides = Object.fromEntries(
+      Object.keys(CONTEXT_VALIDITY_DAYS).map((code) => [code, { verifiedAt }]),
+    );
+    return calculateSuitability(input({ facts: facts('supported', overrides, verifiedAt) }))
+      .freshness;
+  };
+
+  it('puts a known item with no check date in the oldest bucket', () => {
+    expect(scoreWith(null)).toBe(0.75);
+    expect(scoreWith(OLD_DATE)).toBe(0.75);
+  });
+
+  it('keeps a recent check date in the full bucket', () => {
+    expect(scoreWith(RECENT_DATE)).toBe(1);
+  });
+});
+
+/**
+ * A context reading describes a moment, so it stops being true on its own.
+ *
+ * Freshness alone does not do this: it discounts confidence and leaves the status
+ * standing, so a preserved snapshot kept saying 「발효 중인 기상 특보가 없습니다」 — an
+ * all-clear about a day that has gone.
+ */
+describe('context expiry', () => {
+  const statusOf = (code: string, verifiedAt: string) =>
+    calculateSuitability(
+      input({ facts: facts('supported', { [code]: { status: 'supported', verifiedAt } }) }),
+    ).axes.find((axis) => axis.axis === 'context');
+
+  it('keeps a weather reading taken today', () => {
+    expect(isStaleContext('weather_warning', CALC_DATE, CALC_DATE)).toBe(false);
+  });
+
+  it('expires a weather reading from the day before yesterday', () => {
+    expect(isStaleContext('weather_warning', '2026-09-18', CALC_DATE)).toBe(true);
+    expect(isStaleContext('weather_forecast', '2026-09-18', CALC_DATE)).toBe(true);
+  });
+
+  it('gives the crowd forecast its own thirty-day window', () => {
+    expect(isStaleContext('crowd_forecast', '2026-08-22', CALC_DATE)).toBe(false); // 29 days
+    expect(isStaleContext('crowd_forecast', '2026-08-20', CALC_DATE)).toBe(true); // 31 days
+  });
+
+  it('expires a context reading with no date at all', () => {
+    expect(isStaleContext('weather_warning', null, CALC_DATE)).toBe(true);
+  });
+
+  it('never expires an item that describes a building', () => {
+    expect(isStaleContext('restroom', OLD_DATE, CALC_DATE)).toBe(false);
+    expect(isStaleContext('access_route', null, CALC_DATE)).toBe(false);
+  });
+
+  it('drops an expired reading out of the scored context axis', () => {
+    const fresh = statusOf('weather_warning', CALC_DATE);
+    const stale = statusOf('weather_warning', '2026-09-01');
+    expect(fresh?.knownCount).toBe(3);
+    expect(stale?.knownCount).toBe(2);
   });
 });
 

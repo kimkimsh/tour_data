@@ -13,7 +13,10 @@ export function AdminSignIn({ deniedMessage }: { deniedMessage: string | null })
   const t = useTranslations('admin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState<string | null>(deniedMessage);
+  // Not seeded with deniedMessage. A live region announces nothing it was already
+  // holding at first paint, so the denial was silent to a screen reader; it is part of
+  // the page the visitor arrived on, and it renders as such below.
+  const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -65,6 +68,11 @@ export function AdminSignIn({ deniedMessage }: { deniedMessage: string | null })
           required
         />
       </div>
+      {deniedMessage === null ? null : (
+        <p className="callout callout--stop font-bold text-[var(--color-state-bad)]">
+          {deniedMessage}
+        </p>
+      )}
       {error ? (
         <p role="alert" className="callout callout--stop font-bold text-[var(--color-state-bad)]">
           {error}

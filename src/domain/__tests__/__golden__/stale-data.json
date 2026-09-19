@@ -283,16 +283,16 @@
   "expected": {
     "score": 100,
     "label": "방문가능",
-    "layerA": 1.0000000000000002,
+    "layerA": 1,
     "layerB": 1,
     "axes": [
       {
         "axis": "entry",
         "labelKo": "진입",
         "labelEn": "Entry",
-        "weight": 0.30000000000000004,
+        "weight": 0.3333333333333333,
         "rawScore": 1,
-        "weighted": 0.30000000000000004,
+        "weighted": 0.3333333333333333,
         "knownCount": 6,
         "totalCount": 6
       },
@@ -300,9 +300,9 @@
         "axis": "continuity",
         "labelKo": "이동",
         "labelEn": "Movement",
-        "weight": 0.18000000000000002,
+        "weight": 0.2,
         "rawScore": 1,
-        "weighted": 0.18000000000000002,
+        "weighted": 0.2,
         "knownCount": 3,
         "totalCount": 3
       },
@@ -310,9 +310,9 @@
         "axis": "facility",
         "labelKo": "편의시설",
         "labelEn": "Facilities",
-        "weight": 0.18000000000000002,
+        "weight": 0.2,
         "rawScore": 1,
-        "weighted": 0.18000000000000002,
+        "weighted": 0.2,
         "knownCount": 7,
         "totalCount": 7
       },
@@ -320,9 +320,9 @@
         "axis": "information",
         "labelKo": "정보안내",
         "labelEn": "Information",
-        "weight": 0.14000000000000004,
+        "weight": 0.15555555555555559,
         "rawScore": 1,
-        "weighted": 0.14000000000000004,
+        "weighted": 0.15555555555555559,
         "knownCount": 8,
         "totalCount": 8
       },
@@ -330,9 +330,9 @@
         "axis": "rest",
         "labelKo": "휴식",
         "labelEn": "Rest",
-        "weight": 0.10000000000000003,
+        "weight": 0.11111111111111112,
         "rawScore": 1,
-        "weighted": 0.10000000000000003,
+        "weighted": 0.11111111111111112,
         "knownCount": 3,
         "totalCount": 3
       },
@@ -340,28 +340,46 @@
         "axis": "context",
         "labelKo": "상황",
         "labelEn": "Situation",
-        "weight": 0.10000000000000003,
-        "rawScore": 1,
-        "weighted": 0.10000000000000003,
-        "knownCount": 3,
+        "weight": 0,
+        "rawScore": 0,
+        "weighted": 0,
+        "knownCount": 0,
         "totalCount": 3
       }
     ],
     "freshness": 0.75,
-    "coverage": 1,
-    "evidenceConfidence": 75,
+    "coverage": 0.9166666666666666,
+    "evidenceConfidence": 69,
     "knownCriticalBlockers": [],
     "unknownCriticals": [],
     "partialCriticals": [],
     "perPersona": [],
-    "deductions": [],
+    "deductions": [
+      {
+        "capabilityCode": "crowd_forecast",
+        "labelKo": "예측 혼잡도",
+        "reason": "예측 혼잡도 정보 없음",
+        "axis": "context"
+      },
+      {
+        "capabilityCode": "weather_warning",
+        "labelKo": "기상 특보",
+        "reason": "기상 특보 정보 없음",
+        "axis": "context"
+      },
+      {
+        "capabilityCode": "weather_forecast",
+        "labelKo": "당일 기상 예보",
+        "reason": "당일 기상 예보 정보 없음",
+        "axis": "context"
+      }
+    ],
     "alternatives": [],
-    "relevantKnownCount": 12,
+    "relevantKnownCount": 11,
     "relevantTotalCount": 12,
     "requiredCodes": [
       "access_route",
       "entrance_passage",
-      "wheelchair",
       "path_continuity",
       "restroom"
     ],

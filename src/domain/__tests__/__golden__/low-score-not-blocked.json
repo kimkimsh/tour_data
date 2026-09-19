@@ -514,7 +514,6 @@
     "requiredCodes": [
       "access_route",
       "entrance_passage",
-      "wheelchair",
       "path_continuity",
       "restroom"
     ],

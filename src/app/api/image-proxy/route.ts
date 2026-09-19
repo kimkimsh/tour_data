@@ -83,8 +83,11 @@ export async function GET(request: Request) {
     return new NextResponse('too large', { status: 413 });
   }
 
-  const body = await upstream.arrayBuffer();
-  if (body.byteLength > MAX_BYTES) return new NextResponse('too large', { status: 413 });
+  // Read against the cap rather than buffering first. content-length is the upstream's
+  // claim about itself, and the check above only bounds a truthful one; a body that
+  // keeps coming was previously bounded by the fetch timeout instead of by MAX_BYTES.
+  const body = await readCapped(upstream, MAX_BYTES);
+  if (body === null) return new NextResponse('too large', { status: 413 });
 
   return new NextResponse(body, {
     headers: {
@@ -93,4 +96,33 @@ export async function GET(request: Request) {
       'content-security-policy': "default-src 'none'; sandbox",
     },
   });
+}
+
+/** The response body, or null as soon as it passes `limit` bytes. */
+async function readCapped(response: Response, limit: number): Promise<ArrayBuffer | null> {
+  const reader = response.body?.getReader();
+  if (reader === undefined) return null;
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > limit) {
+        await reader.cancel();
+        return null;
+      }
+      chunks.push(value);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  const body = new Uint8Array(new ArrayBuffer(size));
+  let offset = 0;
+  for (const chunk of chunks) {
+    body.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return body.buffer as ArrayBuffer;
 }

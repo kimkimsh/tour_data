@@ -76,7 +76,6 @@ import {
 } from '../src/lib/kto/transport';
 import {
   ktoTimestampToIsoDate,
-  readStoryCoord,
   readThemeCoord,
   type DetailWithTour2Item,
 } from '../src/lib/kto/schemas';
@@ -491,6 +490,13 @@ async function buildPois(pois: PoiInput[]): Promise<void> {
       [`${poi.slug} detailCommon2`, common],
       [`${poi.slug} detailImage2`, images],
       [`${poi.slug} detailWithTour2`, barrierFree],
+      // Only made for contentTypeId 12, so the entry is conditional rather than the
+      // call. Left out, a quota code or a key fault on it neither stopped the run nor
+      // reached the log, and the 장애인 편의시설 paragraph — the second documented
+      // source of barrier-free prose — simply stopped appearing.
+      ...(repeatInfo === null
+        ? []
+        : [[`${poi.slug} detailInfo2`, repeatInfo] as [string, KtoResult]]),
     ];
     for (const [where, result] of primaryCalls) {
       abortOnBadAnswer(result, where);
@@ -849,6 +855,13 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
   const curated = readContent('curated-facts.json', CuratedFactsInput);
   const routes = readGenerated('routes', RoutesPayload);
   const context = readGenerated('context', ContextPayload);
+  /**
+   * When the context snapshot was collected, not when this stage runs. The two are the
+   * same in a full nightly run and differ the moment anyone runs `--only=accessibility`
+   * against a saved context — which republished an old crowding reading as verified
+   * today and put it back in the full freshness bucket.
+   */
+  const contextCheckedAt = context?.fetchedAt.slice(0, 10);
   const poisSnapshot = readGenerated('pois', PoisPayload);
 
   if (!routes) warn('routes snapshot missing: path_continuity will be unknown');
@@ -897,20 +910,22 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
       });
     }
 
-    // Never 'supported' from route data alone, however clean the walk is. A route file
-    // records the one way through the site we mapped — 공산성's stops at 금서루에서 공북루
-    // 방향, which is one of four gates — and this capability asks whether the visitor can
-    // reach every required point. Zero hazards on a partial walkthrough is evidence of a
-    // usable route, not confirmation of coverage, and since v7 made this item critical a
-    // 'supported' here would carry a 방문가능 on its own. Only a sourced sentence in
-    // curated-facts.json can say that, and it overrides this.
+    // 'unknown', not 'partial', and not 'supported' either. This capability's contract
+    // is that every required point is reachable — 'partial' means reachable under a
+    // stated condition, which is a confirmation. A route file records the one way
+    // through the site we mapped — 공산성's stops at 금서루에서 공북루 방향, one of four
+    // gates — and its own sentence says the rest was not checked. That is missing
+    // coverage, not conditional coverage, and publishing it as 'partial' also counted
+    // the item as known and raised the evidence confidence on the strength of it.
+    // Only a sourced sentence in curated-facts.json can say more, and it overrides this.
     const route = routes?.find((r) => r.poiSlug === poi.slug);
     const hazardSteps = route?.steps.filter((step) => step.hazard !== null).length ?? null;
     push(facts, poi.slug, 'path_continuity', route
       ? {
-          status: 'partial',
-          detail: `안내 경로 ${route.steps.length}단계 중 주의 표시 ${hazardSteps}개. 이 경로 밖의 구간은 확인하지 않았다.`,
+          status: 'unknown',
+          detail: `안내 경로 ${route.steps.length}단계 중 주의 표시 ${hazardSteps}개. 이 경로 밖의 구간은 확인하지 않았습니다.`,
           source: 'derived_route',
+          verifiedAt: route.checkedAt,
         }
       : null);
 
@@ -920,7 +935,12 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
         ? // The manual states no unit, denominator or ceiling for cnctrRate, so a value
           // outside 0..100 breaks the assumption the grades rest on. A wrong grade is
           // worse than no grade.
-          { status: 'unknown', detail: `집중률 ${crowdRow.rate} — 스케일 가정 밖`, source: 'tats' }
+          {
+            status: 'unknown',
+            detail: `집중률 ${crowdRow.rate} — 스케일 가정 밖`,
+            source: 'tats',
+            verifiedAt: contextCheckedAt,
+          }
         : {
             status: derivedStatus(crowdRow.rate, CROWD_SUPPORTED_MAX, CROWD_PARTIAL_MAX),
             // The band in words, then the figure. The manual gives cnctrRate no unit,
@@ -933,6 +953,7 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
               ` (${CROWD_SUPPORTED_MAX} 이하 여유 · ${CROWD_PARTIAL_MAX} 이하 보통).` +
               ` ${formatYmd(crowdRow.baseYmd)} 기준, 향후 30일 예측치입니다`,
             source: 'tats',
+            verifiedAt: contextCheckedAt,
           }
       : null);
 
@@ -950,6 +971,7 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
                 `${weatherRow.scope === 'province' ? ', 도 단위 조회' : ''})`
               : weatherRow.warning,
           source: 'kma',
+          verifiedAt: weatherRow.checkedAt,
         }
       : null);
 
@@ -968,6 +990,7 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
                 : 'unsupported',
           detail: forecastRow.today.detail,
           source: 'kma',
+          verifiedAt: forecastRow.checkedAt,
         }
       : null);
 
@@ -981,6 +1004,9 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
           status: 'supported',
           detail: `휴게 시설 ${restAreas.length}곳: ${restAreas.map((f) => f.name).join(', ')}`,
           source: 'derived_facility',
+          // The oldest member's date. The claim is that these places exist as a set,
+          // and a set is only as recently checked as its least recently checked member.
+          verifiedAt: restAreas.map((f) => f.checkedAt).sort()[0],
         }
       : null);
 
@@ -1000,11 +1026,28 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
 
 }
 
+/**
+ * `verifiedAt` is when the claim was last checked, not when this process ran.
+ *
+ * Three of the derived items are read live every night — crowding and the two weather
+ * ones — and today is the honest date for those. The other two restate a file: a route
+ * walked in June and a rest area surveyed in May each carry their own `checkedAt`, and
+ * stamping today over it republishes an unchecked claim as fresh every night, which
+ * computeFreshness then scores at the full bucket forever. Callers with a source date
+ * pass it; only the live ones leave it out.
+ */
 function push(
   facts: Fact[],
   poiSlug: string,
   capabilityCode: string,
-  value: { status: Fact['status']; detail: string | null; source: Fact['source'] } | null,
+  value:
+    | {
+        status: Fact['status'];
+        detail: string | null;
+        source: Fact['source'];
+        verifiedAt?: string;
+      }
+    | null,
 ): void {
   facts.push({
     poiSlug,
@@ -1014,7 +1057,7 @@ function push(
     detail: value?.detail ?? null,
     source: value?.source ?? 'derived_facility',
     sourceField: null,
-    verifiedAt: value ? seoulToday() : null,
+    verifiedAt: value ? (value.verifiedAt ?? seoulToday()) : null,
     isKtoScored: false,
   });
 }
@@ -1148,7 +1191,17 @@ async function buildDocent(pois: PoiInput[]): Promise<void> {
     warn(`Odii themeBasedList failed — ${themes.message}. docent left unchanged.`);
     return;
   }
-  if (themes.truncated) warn('Odii theme list hit the page cap; some places may be missing');
+  // Exit, not warn. The enumeration is how a place's themes are found at all, so a
+  // short list drops stories that exist — and the stage then publishes the shortened
+  // snapshot over the full one, which is the same "published its own silence" failure
+  // requireGatewayWasReachable exists to stop, arriving through the paging door.
+  if (themes.truncated) {
+    exit(
+      `Odii themeBasedList returned ${themes.items.length} of ${themes.totalCount} themes. ` +
+        'Nothing was published: a short enumeration drops stories that exist, and the ' +
+        'docent snapshot already in place was built from a complete one.',
+    );
+  }
 
   const stories: z.infer<typeof DocentPayload> = [];
 
@@ -1180,21 +1233,26 @@ async function buildDocent(pois: PoiInput[]): Promise<void> {
           warn(`${poi.slug}: storyBasedList (${locale}) failed — ${result.message}`);
           continue;
         }
+        // Odii's manual documents no langCode but 'ko', so this pass is a probe for one
+        // it has not announced. Silent it was indistinguishable from a theme with no
+        // stories: 156 rows collected, 0 of them English, and nothing said which.
+        if (result.items.length === 0) {
+          warn(`${poi.slug}: Odii theme ${tid} returned no ${locale} stories`);
+        }
         for (const story of result.items) {
-          // readStoryCoord exists because addr1/addr2 hold coordinates in this
-          // response while the same names hold an address in themeBasedList.
-          readStoryCoord(story);
           const seq = (seqByLocale.get(locale) ?? 0) + 1;
           seqByLocale.set(locale, seq);
+          // The same key DocentView builds its React key and its heading ids from, so a
+          // plain-language file names exactly the story the screen will put it under.
+          const storyKey = `${story.tid ?? tid}-${story.stid ?? seq}`;
           stories.push({
             poiSlug: poi.slug,
             locale,
             seq,
             title: story.title ?? '',
             script: story.script ?? null,
-            easyScript: readEasyScript(poi.slug, locale),
+            easyScript: readEasyScript(poi.slug, locale, storyKey),
             audioUrl: story.audioUrl ? checkedAudioUrl(toHttps(story.audioUrl), poi.slug) : null,
-            imageUrl: story.imageUrl ? await resolveImageUrl(story.imageUrl) : null,
             playTimeS: story.playTime ?? null,
             odiiTid: story.tid ?? tid,
             odiiStid: story.stid ?? null,
@@ -1235,8 +1293,24 @@ function reportUndeclaredThemes(
 }
 
 /** Plain-language text is written by a person; the API does not provide one. */
-function readEasyScript(slug: string, locale: string): string | null {
-  const path = join(CONTENT, 'docent-easy', `${slug}.${locale}.md`);
+/**
+ * The plain-language rewrite of one story, by story.
+ *
+ * Keyed on the place and the locale alone, one file was handed to every story at that
+ * place — so the moment anyone wrote one, a dozen different recordings on the audio-tour
+ * page would all have shown the same plain text under them, each claiming to be the
+ * plain version of a different story. The key is the one the screen already uses to
+ * tell the stories apart.
+ *
+ * `{slug}.{locale}.{tid}-{stid}.md`, and `{stid}` is the sequence number where Odii
+ * gives the story no id of its own. Nothing is written yet, so nothing has to move.
+ */
+function readEasyScript(
+  slug: string,
+  locale: string,
+  storyKey: string,
+): string | null {
+  const path = join(CONTENT, 'docent-easy', `${slug}.${locale}.${storyKey}.md`);
   return existsSync(path) ? readFileSync(path, 'utf8') : null;
 }
 

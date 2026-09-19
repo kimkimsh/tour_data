@@ -68,6 +68,21 @@ async function readFixture(key: SnapshotKey): Promise<unknown | undefined> {
   }
 }
 
+/**
+ * `message` names a Postgres error, a Zod issue or a deployment instruction, none of
+ * which may reach a public page — so SnapshotProblem renders only `snapshot`, and this
+ * is the one place the text is written down. Without it a snapshot outage left no
+ * trace anywhere: the screen said "다시 시도해 주세요" and the server log said nothing.
+ */
+function fail<T>(
+  kind: 'missing' | 'error',
+  key: SnapshotKey,
+  message: string,
+): Extract<SnapshotResult<T>, { ok: false }> {
+  if (kind === 'error') console.error(`snapshot read failed — ${message}`);
+  return { ok: false, kind, snapshot: key, message };
+}
+
 async function readSnapshot<T>(
   key: SnapshotKey,
   schema: z.ZodType<T>,
@@ -76,7 +91,7 @@ async function readSnapshot<T>(
   try {
     source = resolveSource();
   } catch (error) {
-    return { ok: false, kind: 'error', snapshot: key, message: (error as Error).message };
+    return fail('error', key, (error as Error).message);
   }
 
   let payload: unknown;
@@ -84,10 +99,10 @@ async function readSnapshot<T>(
     try {
       payload = await readFixture(key);
     } catch (error) {
-      return { ok: false, kind: 'error', snapshot: key, message: `${key}: ${(error as Error).message}` };
+      return fail('error', key, `${key}: ${(error as Error).message}`);
     }
     if (payload === undefined) {
-      return { ok: false, kind: 'missing', snapshot: key, message: `${key}: no fixture file` };
+      return fail('missing', key, `${key}: no fixture file`);
     }
   } else {
     const { data, error } = await getPublicDb()
@@ -97,20 +112,15 @@ async function readSnapshot<T>(
       .maybeSingle();
     // maybeSingle, not single: single() reports "no row" as an error, and the two
     // have to reach the screen as different states.
-    if (error) return { ok: false, kind: 'error', snapshot: key, message: `${key}: ${error.message}` };
-    if (!data) return { ok: false, kind: 'missing', snapshot: key, message: `${key}: no snapshot row` };
+    if (error) return fail('error', key, `${key}: ${error.message}`);
+    if (!data) return fail('missing', key, `${key}: no snapshot row`);
     payload = data.payload;
   }
 
   const parsed = schema.safeParse(payload);
   if (!parsed.success) {
     // A shape that no longer matches is a broken snapshot, not an empty one.
-    return {
-      ok: false,
-      kind: 'error',
-      snapshot: key,
-      message: `${key}: ${parsed.error.issues[0]?.message ?? 'invalid shape'}`,
-    };
+    return fail('error', key, `${key}: ${parsed.error.issues[0]?.message ?? 'invalid shape'}`);
   }
   return { ok: true, data: parsed.data, source };
 }
@@ -122,9 +132,31 @@ export const getDocent = cache(() => readSnapshot('docent', DocentPayload));
 export const getContext = cache(() => readSnapshot('context', ContextPayload));
 export const getRelated = cache(() => readSnapshot('related', RelatedPayload));
 
-/** Empty rather than absent: a screen that only decorates with this data should still render. */
-export function orEmpty<T>(result: SnapshotResult<T[]>): T[] {
-  return result.ok ? result.data : [];
+/**
+ * Rows for a section the page decorates with rather than depends on, plus whether the
+ * read failed.
+ *
+ * The two halves of this module's first responsibility meet here. "No rows" and "the
+ * read failed" are the same empty array to a caller, and the screens spend that array
+ * on presence: no route row means no 경로 안내 보기 button, no docent row means no
+ * 오디오 해설 듣기, no related row means the section is gone. Returning [] for a failed
+ * read therefore publishes "this place has no route guide" out of a Postgres error —
+ * a claim nobody made, on the one service whose whole argument is that it does not
+ * make them.
+ *
+ * `missing` stays an empty array. Nothing has been collected yet is a true statement
+ * about the data, and it is the state every screen is built to render.
+ */
+export interface OptionalRows<T> {
+  rows: T[];
+  /** The read failed. The page still renders; the sections fed by it say so. */
+  unavailable: boolean;
+}
+
+export function optionalRows<T>(result: SnapshotResult<T[]>): OptionalRows<T> {
+  if (result.ok) return { rows: result.data, unavailable: false };
+  if (result.kind === 'error') return { rows: [], unavailable: true };
+  return { rows: [], unavailable: false };
 }
 
 export const currentDataSource = cache((): DataSource | 'unresolved' => {

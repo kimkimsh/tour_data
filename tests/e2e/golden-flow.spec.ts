@@ -55,8 +55,10 @@ test('a visitor can reach a verdict, its basis, a route and the gap report', asy
   await page.getByLabel('오래 걷기 어려워요').check();
   await page.getByLabel('유아차와 함께 가요').check();
 
-  // The rule that separates this from a filter list has to be on screen.
-  await expect(page.getByText('도움이 가장 많이 필요한 분을 기준으로 판정합니다')).toBeVisible();
+  // The rule that separates this from a filter list has to be on screen. From the
+  // message file, like the rest of this suite: a reworded heading should fail a copy
+  // review, not a test about whether the rule is stated at all.
+  await expect(page.getByText(ko.home.minRuleTitle)).toBeVisible();
 
   await page.getByLabel('반나절 (3~4시간)').check();
   await page.getByRole('button', { name: '관광지 보기' }).click();
@@ -156,9 +158,7 @@ test('the route guide states its evidence level before any step', async ({ page 
   ).toBeVisible();
 
   await routeLink.click();
-  await expect(
-    page.getByText('공공 자료·공식 사진·위성 이미지를 근거로 작성했습니다'),
-  ).toBeVisible();
+  await expect(page.getByText(ko.common.honesty.routeEvidence)).toBeVisible();
   await expect(page.getByRole('list', { name: '경로 단계' })).toBeVisible();
   // A gradient as a number is what the content check forbids; this is the screen-side
   // half of that rule.

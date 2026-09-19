@@ -51,10 +51,18 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'failed' }, { status: 502 });
   }
 
-  return NextResponse.json({
-    available: true,
-    reports: (data ?? []).filter((row) =>
-      (REPORT_CATEGORIES as readonly string[]).includes(row.category as string),
-    ),
-  });
+  // The Postgres enum and REPORT_CATEGORIES are the same list in two places. A row
+  // outside it cannot exist today; if the two ever drift, the symptom without this
+  // line is reports that quietly stop appearing on the place page.
+  const rows = data ?? [];
+  const reports = rows.filter((row) =>
+    (REPORT_CATEGORIES as readonly string[]).includes(row.category as string),
+  );
+  if (reports.length !== rows.length) {
+    console.error(
+      `reports: dropped ${rows.length - reports.length} row(s) whose category is outside REPORT_CATEGORIES`,
+    );
+  }
+
+  return NextResponse.json({ available: true, reports });
 }

@@ -1,5 +1,11 @@
 import { expect, test } from '@playwright/test';
 
+// From the message files, so rewording a heading is a copy change rather than a test
+// failure. What this file asserts is that one document is served and both languages
+// reach it, which no wording affects.
+import en from '../../messages/en.json';
+import ko from '../../messages/ko.json';
+
 /**
  * An address that names nothing has to say so in the status line, not only on screen.
  *
@@ -46,7 +52,7 @@ test('the missing-place screen keeps the site around it', async ({ page }) => {
   await page.goto('/ko/places/no-such-place');
   await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
   await expect(page.getByRole('navigation', { name: '주요 메뉴' })).toBeVisible();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('이 주소에는 아무것도 없습니다');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(ko.common.error.notFoundTitle);
 });
 
 /**
@@ -69,7 +75,7 @@ test('an unmatched address renders one document, in both languages', async ({ pa
   expect(await page.locator('html').count()).toBe(1);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('이 주소에는 아무것도 없습니다');
   // The English half, and its own lang: an unmatched address carries no locale to read.
-  await expect(page.getByRole('heading', { level: 2 })).toHaveText('There is nothing at this address');
+  await expect(page.getByRole('heading', { level: 2 })).toHaveText(en.common.error.notFoundTitle);
   await expect(page.locator('[lang="en"]').first()).toBeVisible();
   expect(errors).toEqual([]);
 });

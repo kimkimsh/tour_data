@@ -50,6 +50,13 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
   const t = useTranslations('place');
   const tr = useTranslations('report');
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
+  /**
+   * What happened to each flag press, by report id.
+   *
+   * The outcome used to exist only as a live-region announcement, so a sighted visitor
+   * pressed 신고 and the screen did not change — including when it failed.
+   */
+  const [flagged, setFlagged] = useState<Record<string, 'done' | 'failed'>>({});
   const { announcement, announce } = useAnnouncer();
 
   useEffect(() => {
@@ -92,6 +99,7 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
       if (!session.session) {
         const { error } = await supabase.auth.signInAnonymously();
         if (error) {
+          setFlagged((current) => ({ ...current, [id]: 'failed' }));
           announce(t('reportFlagFailed'));
           return;
         }
@@ -102,11 +110,13 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ id }),
       });
+      setFlagged((current) => ({ ...current, [id]: response.ok ? 'done' : 'failed' }));
       announce(response.ok ? t('reportFlagged') : t('reportFlagFailed'));
     } catch {
       // fetch rejects rather than resolving when the network is gone, and getSession
       // rejects the same way. Without this the handler rejected unhandled: nothing was
       // announced and the button looked inert.
+      setFlagged((current) => ({ ...current, [id]: 'failed' }));
       announce(t('reportFlagFailed'));
     }
   };
@@ -173,17 +183,27 @@ export function ReportsSection({ poiSlug }: { poiSlug: string }) {
                 <span className="evidence__provenance">
                   {t('reportPostedOn', { date: seoulDate(report.created_at) })}
                 </span>
-                {/* The visible word is the same on every row, so the name carries the
-                    category and date: a list of identical "신고" links is unusable from
-                    a screen reader's link list. */}
+                {/* The button stays and changes its word. Replaced by a span on
+                    success it took the focus with it, and the keyboard visitor who
+                    pressed it landed back at the top of the document. aria-disabled
+                    rather than disabled for the same reason; the handler no-ops so the
+                    same flag is not filed twice. The accessible name carries the
+                    category and date, because a list of identical 신고 links is
+                    unusable from a screen reader's link list. */}
                 <button
                   type="button"
                   className="inline-flex min-h-[44px] items-center px-2 t-xs underline"
                   aria-label={`${t('reportFlag')} — ${tr(`category.${report.category}`)}, ${seoulDate(report.created_at)}`}
-                  onClick={() => flag(report.id)}
+                  aria-disabled={flagged[report.id] === 'done'}
+                  onClick={() => {
+                    if (flagged[report.id] !== 'done') flag(report.id);
+                  }}
                 >
-                  {t('reportFlag')}
+                  {flagged[report.id] === 'done' ? t('reportFlagged') : t('reportFlag')}
                 </button>
+                {flagged[report.id] === 'failed' ? (
+                  <span className="t-xs text-[var(--color-ink-2)]">{t('reportFlagFailed')}</span>
+                ) : null}
               </p>
             </li>
           ))}

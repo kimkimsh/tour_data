@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { ConditionsForm } from '@/components/persona/ConditionsForm';
-import { getFacts, getPois, orEmpty } from '@/lib/data';
+import { getFacts, getPois, optionalRows } from '@/lib/data';
 import { CAPABILITIES } from '@/domain/capabilities';
 
 export const revalidate = 3600;
@@ -28,11 +28,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const howTo = t.raw('howTo') as string[];
 
   // Measured rather than written down: a figure typed into a heading is the one number
-  // on the page nothing can contradict. orEmpty because the picker still works with no
-  // snapshot at all — the panel beside it goes quiet, the form does not.
-  const pois = orEmpty(await getPois());
-  const facts = orEmpty(await getFacts());
+  // on the page nothing can contradict. The panel is optional because the picker still
+  // works with no snapshot at all — the panel goes quiet, the form does not.
+  const poiRows = optionalRows(await getPois());
+  const factRows = optionalRows(await getFacts());
+  const pois = poiRows.rows;
+  const facts = factRows.rows;
   const known = facts.filter((f) => f.status !== 'unknown').length;
+  // Both, not either. The panel's three figures come from the two reads together, and
+  // gating it on the facts alone printed 「대상 관광지 0」 whenever the places read was
+  // the one that failed.
+  const showStats = pois.length > 0 && facts.length > 0;
 
   return (
     <div className="grid gap-9">
@@ -57,7 +63,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             ))}
           </ol>
 
-          {facts.length > 0 ? (
+          {showStats ? (
             <dl className="grid gap-2 border-t border-[var(--color-rule)] pt-3">
               <div className="flex items-baseline justify-between gap-3">
                 <dt className="t-sm">{t('statPlaces')}</dt>

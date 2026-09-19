@@ -1,7 +1,7 @@
 {
   "common": {
     "siteName": "Modu Baekje",
-    "tagline": "Baekje sites in Gongju and Buyeo — starting with whether you can get there",
+    "tagline": "Baekje sites in Gongju and Buyeo — we answer first whether you can get there",
     "skipToContent": "Skip to content",
     "skipToNav": "Skip to main menu",
     "navLabel": "Main menu",
@@ -14,46 +14,49 @@
     },
     "langLabel": "Language",
     "changeConditions": "Change conditions",
-    "conditionsNone": "No conditions selected — general visit",
+    "conditionsNone": "No conditions chosen — general visit",
     "retry": "Try again",
+    "andMore": "and {count} more",
     "close": "Close",
     "back": "Back",
     "print": "Print",
     "openDetail": "Open details",
     "openRouteGuide": "Open route guide",
     "openDocent": "Listen to the audio tour",
-    "openReport": "Report a condition",
+    "openReport": "Report a problem here",
     "derivedLabel": "Added by us",
-    "unknownCountScoped": "{unknown} of {total} unknown (KTO items only)",
+    "unknownCountScoped": "No information for {unknown} of {total} items (Korea Tourism Organization items only)",
     "emergency": {
       "trigger": "Emergency",
       "title": "Emergency contacts",
-      "hint": "Choosing a number opens your phone app."
+      "hint": "Tapping a number opens your phone app."
     },
     "footer": {
       "credits": "All sources",
       "privacy": "Privacy policy",
       "sourceBefore": "Source: Korea Tourism Organization TourAPI (",
-      "sourceAfter": ") · terms are stated per asset"
+      "sourceAfter": ") · licence terms are listed for each source"
     },
     "error": {
       "noSnapshotTitle": "Nothing collected yet",
-      "noSnapshotBody": "As soon as we collect any, it appears here exactly as it arrives.",
+      "noSnapshotBody": "As soon as data comes in, it appears here exactly as it arrives.",
       "loadFailedTitle": "Could not load the data",
       "loadFailedBody": "Please try again in a moment.",
-      "notFoundTitle": "There is nothing at this address",
+      "partialTitle": "Part of this page did not load",
+      "partialBody": "Some supporting information, such as the route guide and the audio tour, is missing right now. That means we could not load it, not that this place has none. The verdict and the evidence behind it are unchanged.",
+      "notFoundTitle": "There is nothing at this web address",
       "notFoundBody": "The address may be wrong, or the page may have been removed. Try finding it again from the place list.",
       "digest": "Error reference {digest}"
     },
     "status": {
-      "supported": "Available",
-      "partial": "Partly available",
-      "unsupported": "Not available",
-      "unknown": "Not known",
-      "notApplicable": "Not applicable"
+      "supported": "Can be used",
+      "partial": "Partly usable",
+      "unsupported": "Cannot be used",
+      "unknown": "No information",
+      "notApplicable": "Does not apply here"
     },
     "contextStatus": {
-      "supported": "Good",
+      "supported": "All clear",
       "partial": "Caution",
       "unsupported": "Poor",
       "unknown": "Not known",
@@ -73,22 +76,22 @@
       "not_registered": "This place is not registered in the KTO barrier-free travel dataset."
     },
     "honesty": {
-      "routeEvidence": "This route was written from public records, official photographs and satellite imagery. Nothing was measured on site.",
+      "routeEvidence": "This route was written from published documents and maps. Nobody measured it on site, and no photographs were read. The material it rests on is listed below.",
       "formula": "Formula version {version} · not reviewed by an accessibility specialist",
-      "crowd": "Expected crowds over the next 30 days",
+      "crowd": "The crowding figure is a forecast for the next 30 days, not the present, and the source publishes neither a unit nor a ceiling.",
       "visitors": "“Visitor” here does not mean the same thing as “tourist” (source: Korea Tourism Data Lab)",
-      "gapScope": "This report covers {count, plural, one {# place} other {# places}}.",
-      "related": "How this list defines relatedness is not published, and its accessibility has not been checked.",
+      "gapScope": "It says nothing about any place it does not cover.",
+      "related": "The source does not say how it decides these places are related, and we have not checked accessibility at any of them.",
       "reportsExcluded": "Visitor reports do not enter the verdict.",
-      "a11ySelfCheck": "KWCAG 2.2 self-assessment (axe-core automated checks. Manual NVDA testing has not been done yet)",
-      "handover": "The Gongju–Buyeo gap report is built in a format a municipality can take as it is."
+      "a11ySelfCheck": "Self-assessed against KWCAG 2.2, Korea’s web accessibility guidelines (automated axe-core checks only; not yet tested by hand with the NVDA screen reader)",
+      "handover": "The Gongju–Buyeo gap report is laid out so a local council can use it as it stands."
     },
     "fixtureBanner": "This screen is built from example data, not collected data. Do not rely on it.",
     "certification": {
       "bf_preliminary": "BF certification — preliminary",
       "bf_general": "BF certification — general",
       "bf_excellent": "BF certification — excellent",
-      "open_tourism": "Open Tourism site"
+      "open_tourism": "Open Tourism Destination"
     },
     "facility": {
       "restroom": "Accessible toilet",
@@ -100,20 +103,22 @@
     }
   },
   "home": {
-    "title": "Who are you travelling with?",
+    "title": "Which conditions should we use?",
     "metaTitle": "Your conditions",
     "intro": "What you choose here changes the verdicts on the screens that follow. Choosing nothing is fine.",
     "howToTitle": "How to use this service",
     "howTo": [
-      "Pick the conditions of the people travelling with you. Several at once is fine.",
+      "Pick your own conditions, or those of the people travelling with you. Several at once is fine.",
       "In the place list, read the verdict and what still needs checking.",
-      "On a detail page, expand “How this score was calculated” to see the whole basis of the verdict."
+      "On a place page, open “See how this verdict was worked out” below the verdict to see how the score was arrived at."
     ],
-    "conditionsLegend": "Conditions of your group",
+    "conditionsLegend": "Your own conditions, or those of the people with you",
     "cognitiveOption": "Travelling with a child who finds new places hard",
-    "cognitiveHint": "You can choose this only when you are travelling with a stroller.",
-    "minRuleTitle": "The verdict follows whoever needs the most support",
+    "cognitiveHint": "Available only once you have ticked “I travel with a stroller”.",
+    "minRuleTitle": "The verdict follows whichever condition this place fits worst",
     "minRule": "If you choose more than one condition, the calculation follows the one this place serves worst. That keeps an item that is decisive for one person from being hidden behind another person’s score.",
+    "announceNone": "No conditions selected.",
+    "announceSelected": "Selected: {names}",
     "budgetLegend": "How long are you staying?",
     "budget": {
       "half_day": "Half a day (3–4 hours)",
@@ -125,30 +130,32 @@
     "statPlaces": "Places covered",
     "statItems": "Items we check at each place",
     "statChecked": "Items with an answer",
-    "statNote": "A blank field means “not known yet”, never “not available”. This service keeps those two apart everywhere."
+    "statNote": "A blank field means “not known yet”, never “cannot be used”. This service keeps those two apart everywhere."
   },
   "places": {
     "metaTitle": "Places",
     "title": "Baekje sites and related places in Gongju and Buyeo",
     "listLabel": "Place list",
-    "sortNote": "Ordered by verdict: you can visit, check first, not enough information, consider another place. “Not enough information” sits above “Consider another place” because not knowing about a place is better news than knowing you cannot enter it. Places with the same verdict are ordered by how much of what your conditions rest on has been checked.",
-    "confirmed": "Available",
-    "needCheck": "Still to check",
-    "noVerdict": "{unknown} of the {total} items this verdict rests on have not been checked.",
+    "sortNote": "Ordered by verdict: “You can visit”, then “Check first”, then “No information”, then “Consider another place”. “Consider another place” means one required item was confirmed unusable; “No information” means we cannot say anything yet. Confirmed bad news sits at the bottom, which is why those two are in that order. Within the same verdict: fewest per-condition “No information”, then fewest “Check first”, then most of the required items checked.",
+    "confirmed": "Can be used",
+    "needCheck": "No information — check before you go",
+    "noVerdict": "Of the {total} items this verdict is judged on, {unknown} are unknown.",
+    "noVerdictNothingApplies": "None of the items this condition is judged on exists at a place of this kind. Nothing is unchecked — there is nothing to check.",
     "calculating": "Calculating for your conditions",
     "resultsReady": "Calculated the verdict for {count, plural, one {# place} other {# places}}.",
-    "blocked": "Not available",
+    "blocked": "Cannot be used",
     "checkedOf": "{known} of {total} related items checked",
-    "unknownCount": "{count, plural, one {# not checked} other {# not checked}}",
+    "unknownCount": "{count, plural, one {# item with no information} other {# items with no information}}",
     "perPersonaBadge": "for {persona}",
     "groupBadge": "Everyone together",
     "noPhoto": "No photograph",
+    "noPlaces": "There are no places to show yet.",
     "role": {
       "unesco_component": "UNESCO Baekje Historic Areas component",
       "baekje_museum": "Museum of Baekje material",
-      "baekje_related": "Baekje site or facility"
+      "baekje_related": "Place connected with Baekje"
     },
-    "condition": "Conditions apply"
+    "condition": "Partly usable"
   },
   "place": {
     "headingVerdict": "Verdict",
@@ -160,9 +167,10 @@
     "headingRelated": "Related places",
     "scoreHiddenReason": "Not enough information to judge — check on site",
     "confidence": "Data confidence {value}%",
+    "confidenceValue": "{value}%",
     "conditions": "Conditions",
-    "confirmedItems": "Available",
-    "needCheckItems": "Still to check",
+    "confirmedItems": "Can be used",
+    "needCheckItems": "No information — check before you go",
     "openCalc": "See how this verdict was worked out",
     "axisTable": "Contribution by axis",
     "axisHeader": {
@@ -175,17 +183,19 @@
     "layerA": "A — Item score",
     "layerB": "B — Fit to your conditions",
     "scoreFormula": "Score = 100 × {a} × {b} = {score}",
-    "roundingNote": "Displayed values are rounded to three decimals. The score is computed before rounding, so the sum of the rows and the A total can differ in the last digit.",
-    "confidenceFactors": "Known {coverage} × recency {freshness}",
+    "roundingNote": "Displayed values are rounded to three decimal places. The score is computed before rounding, so the row totals and the A total can differ in the last digit.",
+    "confidenceFactors": "Share checked {coverage} × recency {freshness}",
     "freshnessNote": "An old check date means we are less sure, not that the place is worse — so it does not reduce the score.",
-    "whyCaution": "Why the verdict is “check first”",
+    "whyCaution": "Why the verdict is “Check first”",
     "whyCautionUnknown": "Required items we do not know: {items}",
-    "whyCautionCoverage": "Only {known} of the {total} items the verdict needs are known",
+    "whyCautionCoverage": "We have checked {known} of the {total} related items",
     "biggestGaps": "Axes with no information",
+    "deductionsLabel": "Items that lowered the score",
     "axisAllUnknown": "Nothing is known about {count, plural, one {# item} other {# items}} on the {axis} axis",
     "fieldTabs": "Jump to an axis",
     "etcNotes": "Other notes",
-    "etcNotesHint": "Source text we could not split into individual accessibility items. It does not enter the score.",
+    "etcNotesHint": "Source text we could not split into individual accessibility items. It is shown in Korean, exactly as the source wrote it, and does not enter the score.",
+    "overviewInKorean": "This description is published by the Korea Tourism Organization in Korean only, and is shown here as written.",
     "proseLabel": {
       "publictransport": "Getting there by public transport",
       "handicapetc": "Mobility",
@@ -194,70 +204,72 @@
       "infantsfamilyetc": "Family with a young child"
     },
     "reportsEmpty": "No reports yet.",
-    "reportsDisclaimer": "Visitors write these, and the operator has not checked them. They are separate from the items above and do not enter the verdict.",
+    "reportsDisclaimer": "Posted by visitors and not checked by us. Read it apart from “What the verdict rests on” below, and note that none of it enters the verdict.",
     "reportFlag": "Flag",
     "reportFlagged": "Flagged.",
     "reportSeenOn": "seen {date}",
     "reportPostedOn": "posted {date}",
     "alternativesHint": "Places with a better verdict under the same conditions.",
-    "safetyNote": "The distances below are straight lines between two points, not the distance you would walk — on a hill fortress the path is far longer. A facility whose coordinates we could not confirm carries no distance. None of this enters the verdict: what counts as close enough is not something this material can settle.",
+    "safetyNote": "The distances above are straight lines between two points, not the distance you would walk — at a hill fortress the path is far longer. Where we could not confirm a facility’s coordinates, no distance is shown. None of this enters the verdict: this material cannot settle how close is close enough.",
     "distanceMeters": "{value, number} m",
     "crowdRate": "Expected crowds {value}",
-    "crowdNote": "A forecast for the next 30 days, not how busy it is right now. It is not a score out of 100 and its unit is not published, so it only means something against the same place on another date.",
+    "crowdNote": "Not how busy it is now, but a forecast for the next 30 days. The source publishes neither a unit nor a ceiling, so the 40 and 70 boundaries below are ones we drew from the spread of observed values. It is not a score out of 100.",
+    "crowdHeading": "Expected crowds over the next 30 days",
     "noPhotos": "No photographs have been collected for this place yet.",
     "reportsLoading": "Loading reports.",
     "reportsReady": "Loaded {count, plural, one {# report} other {# reports}}.",
     "reportsFailed": "Reports could not be loaded. That does not mean there are none — it means we cannot check right now.",
     "reportFlagFailed": "Could not flag this report. Try again in a moment.",
-    "unknownCountValue": "{unknown} of {total} (KTO items only)",
+    "unknownCountValue": "{unknown} of {total} (Korea Tourism Organization items only)",
     "evidenceLevel": {
       "desk": "Desk research",
       "photo": "Confirmed from photographs",
       "field": "Measured on site"
     },
     "photoAlt": "{place}, photograph {index}",
-    "blockedItems": "Not available",
+    "blockedItems": "Cannot be used",
     "verdictBasis": "Judged on: {items}",
     "coverageValue": "{known} / {total}",
-    "coverageBasis": "items your conditions rest on whose status is known",
+    "coverageBasis": "related items whose status we know",
     "perPersonaHeading": "By condition",
     "perPersonaIntro": "The verdict above follows whichever condition this place suits least. Taken one condition at a time:",
     "perPersonaColumnCondition": "Condition",
-    "perPersonaColumnVerdict": "On its own",
+    "perPersonaColumnVerdict": "Verdict on its own",
     "perPersonaColumnBasis": "What it rests on",
     "perPersonaBasisKnown": "{known} of {total} items this needs are checked",
-    "perPersonaBasisUnknown": "Not checked: {items}",
+    "perPersonaBasisUnknown": "No information: {items}",
     "perPersonaBasisBlocked": "Confirmed unavailable: {items}",
     "perPersonaBasisNone": "The items this condition rests on do not apply at this place.",
     "scoreInCalc": "Score over the checked items",
     "scoreInCalcNote": "Computed from the checked items only. Unchecked items are left out, and which items are checked differs from place to place, so this is not a number to compare places by.",
     "confidenceBasis": "data confidence — coverage and check dates together",
     "whyCautionScore": "Everything this verdict rests on is checked, but the fit score is {score}, below the 75 needed for “You can visit”.",
-    "conditionItems": "Conditions apply",
+    "conditionItems": "Partly usable",
     "perPersonaBasisPartial": "Conditions apply: {items}",
     "whyCautionPartial": "These required items come with a condition: {items}",
-    "audioDescriptionAbsent": "Audio description — someone describing what is there to see — is not in the list below. An audio guide is exhibit commentary, which is a different thing, and this service has not surveyed audio description yet."
+    "audioDescriptionAbsent": "Audio description — a spoken account of what is in front of you, for blind visitors — is not in the list below. This site’s audio tour and the “Audio guide” item below both tell the story of the site and its exhibits, which is a different thing. We have not yet looked into audio description."
   },
   "courses": {
     "metaTitle": "Courses",
     "budgetLegend": "How long are you staying?",
-    "total": "{hours} h {minutes} min in total",
+    "total": "{hours} hr {minutes} min in total",
     "totalMinutesOnly": "{minutes} min in total",
-    "multiplierNote": "Stay times are multiplied by {multiplier, number} for {persona}",
+    "multiplierNote": "Stay times are multiplied by {multiplier, number} for the condition “{persona}”",
     "stay": "Stay {base} min → {adjusted} min",
     "stayPlain": "Stay {minutes} min",
     "transfer": "Travel {minutes} min",
-    "restWarning": "This leg is {minutes} minutes. The recommended limit for {persona} is {limit} minutes. Plan a break.",
+    "restWarning": "This leg is {minutes} minutes. For the condition “{persona}”, the recommended travel time is up to {limit} minutes, so plan a break part-way.",
     "addToDiary": "Add to trip record",
-    "empty": "No course for this time budget yet.",
+    "empty": "No course fits this length of stay yet.",
     "calculating": "Building the course for your conditions.",
     "ready": "Course ready.",
+    "readyDetail": "{course} — {places, plural, one {# place} other {# places}}, {minutes, plural, one {# minute} other {# minutes}} in total",
     "pageTitle": "Courses"
   },
   "routeGuide": {
     "metaTitle": "Route guide",
     "summary": "{distance} m in total · about {minutes} min",
-    "personaFor": "Suited to",
+    "personaFor": "Conditions this route was written for",
     "viewMode": "View",
     "viewAll": "All steps",
     "viewOne": "One step at a time",
@@ -276,7 +288,7 @@
     "openInGoogle": "Open in Google Maps",
     "stepsLabel": "Route steps",
     "none": "No route guide was written for this place.",
-    "noneHint": "Route guides are written by hand, one place at a time. They are never generated."
+    "noneHint": "Route guides are written by hand, one place at a time. None of them is machine-generated."
   },
   "docent": {
     "metaTitle": "Audio tour",
@@ -285,6 +297,9 @@
     "mode": "Mode",
     "modeOriginal": "Original",
     "modeEasy": "Plain language",
+    "easyMissing": "No plain-language version of this story has been written, so the original is shown.",
+    "announceLocale": "Switched to the {language} transcript. {count, plural, one {# story} other {# stories}}.",
+    "announceMode": "Switched to {mode}. Plain-language version available for {ready} of {count, plural, one {# story} other {# stories}}.",
     "script": "Transcript",
     "playTime": "{minutes} min {seconds} sec",
     "playTimeLabel": "Run time",
@@ -293,21 +308,21 @@
     "noAudio": "This story has no audio file.",
     "speak": "Read aloud on this device",
     "stopSpeak": "Stop reading",
-    "ttsBadge": "Device speech synthesis",
-    "ttsBadgeLabel": "Read aloud by device speech synthesis",
-    "source": "Source: Korea Tourism Organization Odii audio tour",
+    "ttsBadge": "Your device’s voice",
+    "ttsBadgeLabel": "Read aloud by your device’s text-to-speech",
+    "source": "Source: Korea Tourism Organization Odii audio guide",
     "none": "This place has no audio tour.",
     "noneHint": "You can read the official commentary on the Korea Heritage Service portal."
   },
   "report": {
-    "metaTitle": "Report a condition",
-    "title": "Report a condition",
-    "publicNotice": "What you write here publishes at once and is visible to other visitors.",
+    "metaTitle": "Report a problem on site",
+    "title": "Report a problem on site",
+    "publicNotice": "What you write here is published straight away, and other visitors can see it.",
     "noLocationNotice": "This screen does not collect location data.",
     "wherePlace": "Where?",
     "whatProblem": "What is wrong?",
     "whenSeen": "When did you see it?",
-    "detail": "Details (optional, 500 characters)",
+    "detail": "Details (optional, up to 500 characters)",
     "detailHint": "Do not write anything that identifies another person by name, contact detail or face.",
     "consent": "I agree that this is published immediately.",
     "consentRequired": "Required",
@@ -337,10 +352,10 @@
     "reportSeenOnShort": "Seen {date}",
     "afterwardsTitle": "What happens after you post",
     "afterwards": [
-      "It publishes at once. Nobody reads it first.",
+      "It is published straight away. Nobody reads it first.",
       "It appears only in the visitor-reports block on the place page, never mixed in with the items the verdict was taken from.",
       "It does not enter the verdict. A report is what a visitor saw, not a fact we checked.",
-      "Anyone can flag a post, and a hidden one is actually deleted after 90 days."
+      "Anyone can flag a post. If an administrator hides one, it is permanently deleted 90 days later."
     ]
   },
   "admin": {
@@ -364,8 +379,8 @@
     "unhide": "Unhide",
     "hideReason": "Reason",
     "reason": {
-      "abuse": "Abuse",
-      "false": "False",
+      "abuse": "Abusive language",
+      "false": "Untrue",
       "duplicate": "Duplicate",
       "privacy": "Personal information",
       "other": "Other"
@@ -375,7 +390,7 @@
     "copyFailed": "Could not copy to the clipboard. Check the browser’s clipboard permission.",
     "copyHint": "A person fills in capabilityCode and status. Nothing changes a fact automatically.",
     "signIn": "Sign in",
-    "signInHint": "Only accounts listed in admin_users can enter.",
+    "signInHint": "Only accounts listed in admin_users can sign in.",
     "denied": "This account is not an administrator.",
     "unavailable": "The admin screen is not available here — this copy of the site has no database connected.",
     "empty": "No reports.",
@@ -429,7 +444,7 @@
     "stateNotDone": "Not done",
     "printTitle": "Trip record",
     "printSources": "Sources",
-    "printRunningFooter": "{source} · Full source list on the last page",
+    "printRunningFooter": "{source} · the full source list is on the last page.",
     "ready": "Trip record loaded."
   },
   "gapReport": {
@@ -444,14 +459,14 @@
       "unknown": "Not known",
       "total": "Items"
     },
-    "fillNote": "The two columns stay apart because merging them would make the municipality look as though it had improved something every time we fill a cell ourselves. Only the “Confirmed by KTO” column going up means the municipality itself has moved.",
+    "fillNote": "The two columns stay apart because merging them would make the council look as if it had improved something every time we fill in a cell ourselves. Only a rise in the “Confirmed by KTO” column means the council itself has done anything.",
     "notRegisteredTitle": "Not in the barrier-free dataset",
     "notRegistered": "{place} — the place itself is not registered. It has to be registered before any item can be filled in.",
     "itemsSectionTitle": "What to establish first",
-    "itemsIntro": "Nobody has established the status of the items below from the material we hold. Whether the facility is absent or only the record is, and why, is not something we found out.",
+    "itemsIntro": "Nobody has established the status of the items below from the material we hold. We could not find out whether the facility itself is missing or only the record of it, or why.",
     "itemsHeader": {
       "capability": "Item to establish",
-      "unknown": "Status not known",
+      "unknown": "No information",
       "personas": "Conditions that rest on it"
     },
     "itemsUnknownValue": "{unknown} of {total} places",
@@ -461,7 +476,7 @@
     "itemsGroupOther": "Items no verdict rests on, still used on a visit",
     "itemsEmpty": "Nothing is left to establish.",
     "blockedSectionTitle": "Confirmed limits on use",
-    "blockedIntro": "The items below are confirmed unavailable. Unlike an unknown, establishing the fact does not finish the job — it opens the question of an alternative or a change to the facility. What either would take is not something we established.",
+    "blockedIntro": "The items below are confirmed unusable. Where an item merely has no information, checking it finishes the job; here it does not — someone still has to decide on an alternative, or on changing the facility. We have not worked out what either would take.",
     "blockedEmpty": "Nothing is confirmed unavailable.",
     "blockedValue": "{place} — {capability}",
     "visitorsTitle": "Visitor trend (for reference)",
@@ -480,7 +495,7 @@
     "title": "Sources and terms",
     "intro": "The assets this service uses and the terms attached to each. Terms differ per asset, which is why no single licence type is printed in the footer.",
     "assetHeader": {
-      "asset": "Asset",
+      "asset": "Source",
       "license": "Terms",
       "handling": "How we handle it"
     },
@@ -495,7 +510,7 @@
   },
   "map": {
     "heading": "Map",
-    "hint": "The map supports the list; the list alone does everything. Zoom and move with the buttons above, and open a place by its marker.",
+    "hint": "The map supports the list — you can do everything from the list alone. Zoom and move with the buttons above, and open a place from its marker.",
     "controlsLabel": "Map controls",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
@@ -504,7 +519,7 @@
     "panLeft": "Move map left",
     "panRight": "Move map right",
     "unavailable": "The map did not load. Everything you need is in the list above.",
-    "authHint": "The map provider has not authorised this address.",
-    "scriptHint": "The map script could not be fetched. Try opening the page again."
+    "authHint": "The map provider has not authorised this website.",
+    "scriptHint": "The map files could not be downloaded. Try opening the page again."
   }
 }

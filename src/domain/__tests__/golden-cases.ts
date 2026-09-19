@@ -1,6 +1,6 @@
-import { CAPABILITIES } from '../capabilities';
+import { CAPABILITIES, CONTEXT_VALIDITY_DAYS } from '../capabilities';
 import { calculateSuitability } from '../suitability';
-import { relevantCodesFor } from '../personas';
+import { criticalCodesFor, relevantCodesFor } from '../personas';
 import type { AlternativePoi, CapabilityStatus, PersonaId, SuitabilityFactInput, SuitabilityInput } from '../types';
 import { CALC_DATE, OLD_DATE, RECENT_DATE, facts, input, withPersonas } from './fixtures';
 
@@ -30,8 +30,22 @@ function coverageCase(personaId: PersonaId, unknownSupportingCount: number): Sui
   return unknownOn(supportingOnly.slice(0, unknownSupportingCount));
 }
 
+/**
+ * The critical set per persona, spelled out so the coverage cases can subtract it from
+ * the relevant set. It restates what criticalCodesFor() computes, and a hand copy of a
+ * table nobody compares is a table that goes quietly wrong — assertCriticalsMatchMatrix
+ * below is what makes editing a MATRIX row show up here rather than silently change
+ * what a coverage case considers "supporting".
+ */
+/** Overrides that put the three context items on a given date, for freshness cases. */
+function datedContext(verifiedAt: string): Record<string, { verifiedAt: string }> {
+  return Object.fromEntries(
+    Object.keys(CONTEXT_VALIDITY_DAYS).map((code) => [code, { verifiedAt }]),
+  );
+}
+
 const PERSONA_CRITICALS: Record<PersonaId, string[]> = {
-  P1a: ['access_route', 'entrance_passage', 'wheelchair', 'path_continuity', 'restroom'],
+  P1a: ['access_route', 'entrance_passage', 'path_continuity', 'restroom'],
   P1b: ['access_route', 'entrance_passage', 'path_continuity', 'restroom'],
   P2a: [
     'help_dog',
@@ -43,7 +57,7 @@ const PERSONA_CRITICALS: Record<PersonaId, string[]> = {
     'guide_human',
   ],
   P2b: ['sign_guide', 'video_caption'],
-  P3: ['restroom', 'stroller'],
+  P3: ['restroom'],
 };
 
 /**
@@ -168,8 +182,11 @@ export function goldenCases(): GoldenCase[] {
       }),
     },
     {
+      // Every item stale, context included. fixtures.ts dates the three context items
+      // today by default, which is right everywhere else and would leave this case
+      // measuring a mixture.
       name: 'stale-data',
-      input: withPersonas(['P1a'], facts('supported', {}, OLD_DATE)),
+      input: withPersonas(['P1a'], facts('supported', datedContext(OLD_DATE), OLD_DATE)),
     },
     {
       name: 'alternatives-by-label',
@@ -232,7 +249,7 @@ export function goldenCases(): GoldenCase[] {
     { name: 'boundary-75', input: findScoreInput(75) },
     {
       // A POI type where the room capabilities cannot exist. They leave the
-      // denominator instead of scoring 0.35, so ktoTotalCount is not 24.
+      // denominator instead of scoring 0.35, so ktoTotalCount is short of the full 23.
       name: 'not-applicable-excluded',
       input: withPersonas(
         ['P1a'],
@@ -245,9 +262,10 @@ export function goldenCases(): GoldenCase[] {
     {
       // A companion whose whole critical set cannot exist here. Rule 2 has nothing to
       // take a ratio over, and the answer is still "no verdict for that person" — not
-      // a badge earned on the other companion's items. Alone this case is 정보없음
-      // through the requiredFacts.length === 0 arm; paired it used to come out 방문가능
-      // with the deaf visitor's basis silently gone.
+      // a badge earned on the other companion's items. The basis comes back with
+      // reason 'nothing_applies', which is what keeps the card from printing
+      // 「0개 항목 중 0개를 모릅니다」; paired, this used to come out 방문가능 with the
+      // deaf visitor's basis silently gone.
       name: 'critical-set-all-not-applicable-pair',
       input: withPersonas(
         ['P2b', 'P1a'],
@@ -282,3 +300,16 @@ export function goldenCases(): GoldenCase[] {
 }
 
 export const GOLDEN_CALC_DATE = CALC_DATE;
+
+/** Throws when the hand-written table above and criticalCodesFor() have drifted apart. */
+export function assertCriticalsMatchMatrix(): void {
+  for (const personaId of Object.keys(PERSONA_CRITICALS) as PersonaId[]) {
+    const fromMatrix = [...criticalCodesFor(personaId)].sort();
+    const written = [...(PERSONA_CRITICALS[personaId] ?? [])].sort();
+    if (fromMatrix.join(',') !== written.join(',')) {
+      throw new Error(
+        `PERSONA_CRITICALS[${personaId}] says ${written.join(', ')}; the matrix says ${fromMatrix.join(', ')}`,
+      );
+    }
+  }
+}

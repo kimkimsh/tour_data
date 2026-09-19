@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { getFacts, getPois, getRoutes, getDocent, orEmpty } from '@/lib/data';
-import { SnapshotProblem } from '@/components/SnapshotGate';
+import { getFacts, getPois, getRoutes, getDocent, optionalRows } from '@/lib/data';
+import { PartialData, SnapshotProblem } from '@/components/SnapshotGate';
 import { PlaceList } from '@/components/place/PlaceList';
 import { groupFactsByPoi, toPlaceCardData, type PlaceCardData } from '@/components/place/place-view';
 import type { Locale } from '@/domain/types';
@@ -28,13 +28,13 @@ export default async function PlacesPage({ params }: { params: Promise<{ locale:
   if (!pois.ok) return <SnapshotProblem result={pois} />;
   if (!facts.ok) return <SnapshotProblem result={facts} />;
 
-  const routes = orEmpty(await getRoutes());
-  const docent = orEmpty(await getDocent());
+  const routes = optionalRows(await getRoutes());
+  const docent = optionalRows(await getDocent());
 
   const places: PlaceCardData[] = pois.data.map((poi) =>
     toPlaceCardData(poi, locale as Locale, {
-      hasRoute: routes.some((route) => route.poiSlug === poi.slug),
-      hasDocent: docent.some((story) => story.poiSlug === poi.slug),
+      hasRoute: routes.rows.some((route) => route.poiSlug === poi.slug),
+      hasDocent: docent.rows.some((story) => story.poiSlug === poi.slug),
     }),
   );
 
@@ -43,6 +43,8 @@ export default async function PlacesPage({ params }: { params: Promise<{ locale:
       <section className="grid gap-3">
         <h1>{t('title')}</h1>
       </section>
+
+      {routes.unavailable || docent.unavailable ? <PartialData /> : null}
 
       <PlaceList places={places} factsByPoi={groupFactsByPoi(facts.data)} />
 

@@ -357,6 +357,32 @@ function sleep(ms: number): Promise<void> {
   });
 }
 
+/**
+ * What actually went wrong, rather than the word `fetch failed`.
+ *
+ * undici raises a TypeError whose message is the constant string "fetch failed" and
+ * puts the reason — ENOTFOUND, ECONNREFUSED, UND_ERR_CONNECT_TIMEOUT, a TLS alert — on
+ * `.cause`. Logging only the message produced a nightly failure nobody could act on:
+ * the run said "fetch failed — fetch failed (gave up after 3 attempts)" twice and
+ * stopped, which names neither DNS, nor the connection, nor the handshake.
+ *
+ * The chain is walked because undici nests it, and a `code` is printed where one
+ * exists because that is the part worth searching for.
+ */
+function describeFetchFailure(cause: unknown): string {
+  const seen = new Set<unknown>();
+  const parts: string[] = [];
+  let current: unknown = cause;
+  while (current instanceof Error && !seen.has(current)) {
+    seen.add(current);
+    const code = (current as NodeJS.ErrnoException).code;
+    parts.push(code ? `${current.name}(${code}): ${current.message}` : `${current.name}: ${current.message}`);
+    current = (current as { cause?: unknown }).cause;
+  }
+  if (parts.length === 0) return String(cause);
+  return parts.join(' <- ');
+}
+
 async function attemptOnce(
   org: OrgCode,
   serviceId: string,
@@ -377,7 +403,7 @@ async function attemptOnce(
     body = await response.text();
   } catch (cause) {
     const name = cause instanceof Error ? cause.name : '';
-    const detail = redactSecrets(cause instanceof Error ? cause.message : String(cause));
+    const detail = redactSecrets(describeFetchFailure(cause));
     const timedOut = name === 'TimeoutError' || name === 'AbortError';
     return {
       ok: false,

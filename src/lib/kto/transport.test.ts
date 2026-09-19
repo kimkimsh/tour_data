@@ -128,6 +128,35 @@ describe('gateway counters and paging', () => {
     expect(after.unreachable - before.unreachable).toBe(0);
   });
 
+  it('names what the fetch actually failed on, not the word fetch failed', async () => {
+    // undici's TypeError carries the constant string "fetch failed" and puts the reason
+    // on .cause. Logging the message alone produced two nights of a failing cron whose
+    // log said "fetch failed — fetch failed" and named neither DNS, the connection, nor
+    // the handshake.
+    const withCause = () => {
+      const error: Error & { cause?: unknown } = new TypeError('fetch failed');
+      error.cause = Object.assign(new Error('getaddrinfo ENOTFOUND apis.data.go.kr'), {
+        code: 'ENOTFOUND',
+      });
+      throw error;
+    };
+    const real = globalThis.fetch;
+    const realKey = process.env.KTO_SERVICE_KEY_DECODING;
+    process.env.KTO_SERVICE_KEY_DECODING = 'test-key';
+    globalThis.fetch = withCause as unknown as typeof fetch;
+    try {
+      const result = await ktoRequest('TestService', 'testOperation', {}, { maxAttempts: 1 });
+      expect(result.ok).toBe(false);
+      if (result.ok) return;
+      expect(result.message).toContain('ENOTFOUND');
+      expect(result.message).toContain('apis.data.go.kr');
+    } finally {
+      globalThis.fetch = real;
+      if (realKey === undefined) delete process.env.KTO_SERVICE_KEY_DECODING;
+      else process.env.KTO_SERVICE_KEY_DECODING = realKey;
+    }
+  });
+
   it('books an unreadable body as unreachable whatever the status line said', async () => {
     const before = gatewayCallStats();
     // The gateway's own holding page, served with 200. The body sniffer reads it as an

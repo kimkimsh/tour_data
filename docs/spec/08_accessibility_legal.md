@@ -129,6 +129,8 @@ axe-core 자동 검사는 KWCAG 33개 항목의 **30~50% 정도만** 잡는다. 
 > > **"KWCAG 2.2 자체 점검 (axe-core 자동 검사. NVDA 수동 검증은 아직 하지 않았습니다)"**
 >
 > 접근성 서비스가 자기 접근성 검증에 대해 하지 않은 일을 적으면, §5의 정직성 문구 전체가 같이 무너진다. 현재 문자열은 `common.honesty.a11ySelfCheck`(ko·en)이고, 과업 A·B·C를 마치는 회차에 위 형태로 되돌린다.
+>
+> **조건 충족.** 과업 A·B·C를 NVDA 2026.2 + Chrome으로 돌렸고 `common.honesty.a11ySelfCheck`는 NVDA 절을 포함하는 형태로 되돌아갔다. 되돌리지 않는다 — 기록은 [`docs/work_log/18_nvda_manual_verification.md`](../work_log/18_nvda_manual_verification.md). 과업 C의 지도 마커만은 확인하지 못했다(이 환경에 지도 키가 없어 지도가 뜨지 않았다). 마커는 §1.4의 과업 문장에 들어 있지 않고 별도 열린 항목으로 남는다.
 
 ---
 

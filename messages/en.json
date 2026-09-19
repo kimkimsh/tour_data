@@ -83,7 +83,7 @@
       "gapScope": "It says nothing about any place it does not cover.",
       "related": "The source does not say how it decides these places are related, and we have not checked accessibility at any of them.",
       "reportsExcluded": "Visitor reports do not enter the verdict.",
-      "a11ySelfCheck": "Self-assessed against KWCAG 2.2, Korea’s web accessibility guidelines (automated axe-core checks only; not yet tested by hand with the NVDA screen reader)",
+      "a11ySelfCheck": "Self-assessed against KWCAG 2.2, Korea’s web accessibility guidelines (automated axe-core checks, plus a hand pass listening to the NVDA screen reader. Not a certification)",
       "handover": "The Gongju–Buyeo gap report is laid out so a local council can use it as it stands."
     },
     "fixtureBanner": "This screen is built from example data, not collected data. Do not rely on it.",

@@ -13,7 +13,7 @@
 |---|---|
 | **주소** | https://www.modubaekje.com |
 | **데이터** | 공공데이터포털 API 11종 + 기상청, Supabase `data_snapshots` 6개 스냅샷 |
-| **야간 수집** | GitHub Actions, 매일 04:00 KST. 스냅샷을 `main`에 커밋하고 Vercel이 이어서 배포한다 |
+| **야간 수집** | Vercel cron(`icn1`), 매일 04:00~04:59 KST. 30분 뒤 GitHub Actions가 스냅샷을 `main`에 커밋하고 Vercel이 이어서 배포한다 |
 | **결정 5가지** | 전부 결정됨 (04번) |
 
 한 번에 확인하는 법:
@@ -23,7 +23,7 @@ pnpm validate:content
 ```
 
 ```
-content validation passed: 6 places, 20 facilities, 1 certifications, 54 curated facts
+content validation passed: 13 places, 48 facilities, 2 certifications, 86 curated facts
 ```
 
 이 파일이 빨간불이 되는 건 **누가 `content/` 안의 사실을 손으로 고쳤을 때**다.
@@ -42,7 +42,7 @@ content validation passed: 6 places, 20 facilities, 1 certifications, 54 curated
 
 ---
 
-## 걸리는 함정 네 개
+## 걸리는 함정 다섯 개
 
 실제로 사람들이 걸린 곳이고, 각 문서에서 다시 나온다.
 
@@ -58,9 +58,12 @@ content validation passed: 6 places, 20 facilities, 1 certifications, 54 curated
 **4. 야간 수집 봇이 `main`에 직접 커밋한다. 푸시 전에 rebase한다.**
 `chore(ingest): daily snapshot`이 `content/generated/*`를 건드리므로, 로컬에서 `pnpm ingest`를 돌린 뒤 그냥 푸시하면 거절당한다. **충돌은 로컬 쪽을 택한다** — 그 파일은 같은 실행이 Supabase에 쓴 것과 같아야 하기 때문이다. 05번 §4에 있다.
 
+**5. 수집이 읽는 비밀은 Vercel에도 있어야 한다.**
+수집이 GitHub 러너에서 Vercel 함수로 옮겨 가면서 `KTO_SERVICE_KEY_DECODING`·`SUPABASE_SERVICE_ROLE_KEY`·`CRON_SECRET`이 **Vercel 환경변수**가 됐다. 화면만 생각하고 넷만 넣으면 cron 라우트가 503으로 닫힌다. **환경변수는 새 배포에만 붙으므로 넣은 뒤 재배포한다.** 05번 §1에 일곱 개 표가 있다.
+
 ---
 
 ## 이 문서들이 다루지 않는 것
 
 - ~~**도메인 연결**~~ — `www.modubaekje.com` (2026-09-18). 정식 주소는 `www.`가 붙은 쪽이고, `modubaekje.com`은 거기로 308 넘긴다
-- **NVDA 수동 접근성 점검** — Windows가 필요하다. `../work_log/04_open_items.md` §4b
+- ~~**NVDA 수동 접근성 점검**~~ — 2026-09-19에 했다(NVDA 2026.2 + Chrome). 판정이 바로 뒤 낱말과 붙어 읽히던 58건을 고쳤다. `../work_log/18_nvda_manual_verification.md`

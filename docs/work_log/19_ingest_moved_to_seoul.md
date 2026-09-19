@@ -107,7 +107,7 @@ icn1  gateway ok 401  54ms   images ok 200  52ms
 |---|---|---|
 | cron 개수 | 100개 | 1개 |
 | cron 주기 | 하루 1회 | 하루 1회 |
-| 함수 최대 실행 | **300초(기본이자 최대, 못 늘림)** | **33초** |
+| 함수 최대 실행 | **300초(기본이자 최대, 못 늘림)** | **27~33초** |
 | 메모리 | 2 GB / 1 vCPU | 무관 |
 | 리전 | 단일 리전 변경 가능 | `icn1` |
 
@@ -118,29 +118,63 @@ icn1  gateway ok 401  54ms   images ok 200  52ms
 두 가지는 알고 둡니다.
 
 1. **시각이 ±59분입니다**(Hobby). `0 19 * * *`는 04:00~04:59 KST 사이에 뜹니다. 하루치 관광 데이터에 무관합니다.
-2. **Vercel은 실패한 cron을 재시도하지 않습니다.** 그리고 전달은 best effort라 **중복 호출도 가능**합니다. 수집은 key 기준 upsert라 멱등이고, 33초짜리가 하루 한 번이라 겹칠 일은 사실상 없습니다.
+2. **Vercel은 실패한 cron을 재시도하지 않습니다.** 그리고 전달은 best effort라 **중복 호출도 가능**합니다. 수집은 key 기준 upsert라 멱등이고, 30초 안팎짜리가 하루 한 번이라 겹칠 일은 사실상 없습니다.
 
 실행이 300초에 닿기 시작하면 `runIngest({ stages })`가 단계 부분집합을 받고 cron은 100개까지 쓸 수 있습니다. 지금 할 일은 아닙니다.
 
 ---
 
-## 8. 사람이 해야 할 것 하나
+## 8. 환경변수 — 하나인 줄 알았는데 셋이었다
 
-**Vercel 프로젝트 환경변수에 `CRON_SECRET`을 넣어야 합니다.** 자동으로 생기지 않습니다.
+`CRON_SECRET`을 넣고 재배포하니 라우트가 열렸습니다. 그리고 **게이트웨이 단계까지 가서 `KTO_SERVICE_KEY_DECODING`이 없다고 말하고 멈췄습니다.** 그 뒤에 있는 `SUPABASE_SERVICE_ROLE_KEY`에 대해서는 한마디도 하지 않았습니다.
 
-Vercel은 그 값을 `Authorization: Bearer …`로 보내고, 라우트가 그것과 대조합니다. 없으면 **503으로 닫힙니다** — 인증 없는 수집 엔드포인트가 공개 배포에 서 있는 일은 없습니다.
+**이건 §8을 쓸 때 내가 빠뜨린 것입니다.** 수집을 옮긴다는 말은 수집이 읽던 비밀을 GitHub 저장소 시크릿에서 Vercel 환경변수로 옮긴다는 뜻인데, 사람이 할 일로 `CRON_SECRET` 하나만 적었습니다. 나머지 둘은 옮기는 코드에는 들어가 있고 문서에는 없었습니다.
 
-16자 이상 무작위 문자열이면 됩니다. 넣은 뒤 재배포하면 cron이 붙습니다.
+변수 하나를 알아내는 데 **배포 한 번과 실행 한 번**이 듭니다. 그래서 아무것도 부르기 전에 셋을 한꺼번에 이름으로 말하게 고쳤습니다.
+
+```ts
+const missing = ['KTO_SERVICE_KEY_DECODING', 'NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY']
+  .filter((name) => !process.env[name]);
+if (missing.length > 0) return NextResponse.json({ ok: false, error: `not configured: ${missing.join(', ')}` }, { status: 503 });
+```
+
+`NEXT_PUBLIC_SITE_URL`은 일부러 뺐습니다. 이 프로세스가 자기 캐시를 직접 무효화하므로(`revalidatePath`) 부를 주소가 없습니다.
+
+**그래서 Vercel 환경변수는 넷이 아니라 일곱입니다.** 화면이 쓰는 넷(`NEXT_PUBLIC_SUPABASE_URL`·`NEXT_PUBLIC_SUPABASE_ANON_KEY`·`REVALIDATE_SECRET`·`NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`)에 수집이 쓰는 셋(`KTO_SERVICE_KEY_DECODING`·`SUPABASE_SERVICE_ROLE_KEY`·`CRON_SECRET`)이 붙었습니다. `docs/guide/05_operations.md` §1이 「Vercel에 서비스 롤 키와 KTO 키는 필요 없다」고 적어 두고 있었어서 같이 고쳤습니다.
+
+**서비스 롤 키가 사는 곳이 하나 늘었습니다.** 전에는 내 컴퓨터와 GitHub 시크릿 두 곳이었고 이제 Vercel이 셋째입니다. 서버 전용이라는 성질은 그대로입니다 — 이 키를 읽는 파일은 `src/lib/supabase/admin.ts` 하나이고, `src/app`·`src/components`가 그쪽을 import하는 것은 ESLint `no-restricted-imports`가 막습니다. 늘어난 것은 권한이 아니라 보관 장소의 수입니다.
 
 ---
 
-## 9. 게이트
+## 9. 배포하고 실제로 돌렸습니다
+
+```
+GET /api/cron/ingest   {"ok":true,"seconds":27}
+```
+
+27초입니다. 300초 한도의 9%입니다.
+
+| 확인한 것 | 값 |
+|---|---|
+| `context.fetchedAt` | `2026-09-19T16:45:05.853Z` (2026-09-20 01:45 KST) |
+| `accessibility` | 390행 |
+| 운영 격차 보고서 | 「2026-09-20까지 확인」 |
+| 함수 리전 | `x-vercel-id: icn1::…` |
+
+`snapshot` 워크플로도 수동으로 한 번 돌렸습니다. Supabase에서 여섯 개를 읽었고 **이미 커밋된 것과 같아서 「no change」로 끝났습니다.** 읽는 쪽은 확인됐지만 **커밋·푸시 단계는 아직 실제로 커밋을 만들어 본 적이 없습니다** — 내용이 달라지는 첫 야간 실행에서 확인됩니다.
+
+`CRON_SECRET` 값은 만드는 과정에서 대화 화면에 찍혔습니다. 바꾸고 싶으면 Vercel에서 값만 바꾸고 재배포하면 됩니다 — 이 값을 아는 다른 곳이 없습니다.
+
+---
+
+## 10. 게이트
 
 ```
 typecheck · lint · validate:content · check:contrast      통과
 test                                                      271 통과
+e2e                                                        47 통과
 build (production)                                        통과 · 수집 실행 0건 · 파일 변경 0건
-라우트 실전 실행                                           33초, 6개 스냅샷 발행, 파일 0개
+운영 cron 라우트                                           27초, 6개 스냅샷 발행, 파일 0개
 CLI (pnpm ingest)                                          그대로 동작
-pull:snapshots                                             6개 파일 기록
+pull:snapshots                                             6개 읽음
 ```

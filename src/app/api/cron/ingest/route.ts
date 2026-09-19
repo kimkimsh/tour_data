@@ -19,9 +19,10 @@ import { runIngest } from '../../../../../scripts/ingest';
  * to each other in memory now, and the screens read Supabase. The committed fixtures
  * are refreshed by the workflow this replaced, which still runs on request.
  *
- * 300 seconds is the ceiling on this plan and cannot be raised. The observed run is
- * 116 seconds. If it ever approaches the ceiling the stages split cleanly — `stages`
- * takes a subset, and the plan allows a hundred cron jobs.
+ * 300 seconds is the ceiling on this plan and cannot be raised. Runs from here measure
+ * 27–33 seconds; the CLI's 116 seconds is a different machine on a different network and
+ * is not the figure that matters. If a run ever approaches the ceiling the stages split
+ * cleanly — `stages` takes a subset, and the plan allows a hundred cron jobs.
  */
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;

@@ -86,7 +86,7 @@
 
 그래서:
 - **`NEXT_PUBLIC_`을 절대 붙이지 않는다.** 붙이는 순간 브라우저 코드에 들어가서 전 세계에 공개된다
-- 이 프로젝트에서 이 키를 쓰는 건 `pnpm ingest` 하나뿐이고, 그건 내 컴퓨터나 GitHub Actions에서만 돈다
+- 이 프로젝트에서 이 키를 쓰는 건 수집 하나뿐이다 — 내 컴퓨터의 `pnpm ingest`, Vercel의 `/api/cron/ingest`, 그리고 읽기만 하는 `snapshot` 워크플로
 
 넣고 나면 이런 모양이 된다:
 

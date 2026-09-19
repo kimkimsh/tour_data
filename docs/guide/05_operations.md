@@ -9,44 +9,76 @@
 
 ## 1. 매일 저절로 도는 것
 
-`.github/workflows/ingest.yml` — **매일 04:00 KST** (cron은 UTC `0 19 * * *`).
+**두 개로 나뉘어 있다.** 수집은 Vercel에서, git 커밋은 GitHub에서 돈다.
+
+| | 어디서 | 언제 | 무엇을 |
+|---|---|---|---|
+| **수집** | Vercel cron, `icn1`(서울) | 매일 04:00~04:59 KST | 공공데이터포털·기상청 → Supabase, 캐시 무효화 |
+| **스냅샷 커밋** | GitHub Actions `snapshot.yml` | 매일 04:30 KST | Supabase → `content/generated` → `main`에 커밋 |
 
 ```
-pnpm ingest
+GET /api/cron/ingest            (Vercel이 Authorization: Bearer $CRON_SECRET 을 붙여 부른다)
    → 공공데이터포털·기상청 호출
    → Supabase data_snapshots 6개 갱신
-   → POST /api/revalidate  (캐시 무효화)
+   → revalidatePath('/', 'layout')       ← 자기 캐시를 자기가 지운다. HTTP 호출이 아니다
+   (파일은 하나도 안 쓴다. 함수의 디스크는 /tmp 밖이 읽기 전용이다)
+
+snapshot.yml (30분 뒤)
+   → pnpm pull:snapshots                  ← Supabase만 읽는다
    → content/generated/*.json 변경분을 main에 커밋
    → Vercel이 그 커밋을 배포
 ```
 
-**직접 돌리려면** GitHub의 Actions 탭에서 `ingest` → `Run workflow`.
+**왜 나뉘어 있는가.** 수집이 GitHub 러너에서 돌 때 `apis.data.go.kr`가 러너의 IP에서 TCP 연결을 받아 주지 않아 하루걸러 실패했다(`UND_ERR_CONNECT_TIMEOUT`). 같은 호출이 `icn1`에서는 27~54ms에 답한다. 함수는 git에 커밋할 수 없으므로 커밋하는 쪽만 GitHub에 남겼다. 전말은 `../work_log/19_ingest_moved_to_seoul.md`.
 
-### 필요한 저장소 시크릿 5개
+**직접 돌리려면** — 수집은 Vercel 대시보드의 Cron Jobs에서 `Run`, 스냅샷 커밋은 GitHub Actions 탭에서 `snapshot` → `Run workflow`.
+
+### 비밀은 두 곳에 나뉘어 있다
+
+**수집이 Vercel로 옮겨 가면서 수집이 읽는 키도 같이 옮겨 갔다.** 옛 문서는 이 표가 GitHub 쪽에만 있었고, 그대로 믿고 배포했다가 라우트가 「`KTO_SERVICE_KEY_DECODING`이 없다」로 멈췄다.
+
+**Vercel 환경변수 — 일곱 개**
+
+| 이름 | 누가 쓰나 |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | 화면 · 수집 |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 화면 (방문자 제보의 익명 세션) |
+| `REVALIDATE_SECRET` | 화면 (`/api/revalidate`의 공유 비밀) |
+| `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID` | 화면 (지도) |
+| `KTO_SERVICE_KEY_DECODING` | **수집** — 일반 인증키 **Decoding 쪽** |
+| `SUPABASE_SERVICE_ROLE_KEY` | **수집** — 스냅샷을 쓰는 유일한 권한 |
+| `CRON_SECRET` | **수집** — Vercel이 `Authorization: Bearer …`로 보내는 값. 없으면 라우트가 503으로 닫힌다 |
+
+**GitHub 저장소 시크릿 — 두 개**
 
 | 이름 | 무엇 |
 |---|---|
-| `KTO_SERVICE_KEY_DECODING` | 공공데이터포털 일반 인증키 — **Decoding 쪽** |
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase 프로젝트 URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | 서버 전용 키. 스냅샷을 쓰는 유일한 권한 |
-| `NEXT_PUBLIC_SITE_URL` | `https://www.modubaekje.com` — 캐시 무효화를 부를 주소. **`www.`가 붙은 쪽이다** (§8) |
-| `REVALIDATE_SECRET` | `/api/revalidate`의 공유 비밀 |
+| `SUPABASE_SERVICE_ROLE_KEY` | `pull:snapshots`가 `data_snapshots`를 읽는 데 쓴다 |
 
-같은 다섯 개가 로컬 `.env.local`에도 있다.
+`snapshot.yml`은 공공데이터포털을 안 부르므로 KTO 키가 필요 없다.
 
-**세 곳이 서로 다른 것을 필요로 한다.** 하나만 고치고 끝내는 것이 흔한 실수다.
+**로컬 `.env.local`** 은 `pnpm ingest`도 돌리고 화면도 띄우므로 위의 것을 다 갖고 있으면 된다. `CRON_SECRET`만은 로컬에서 쓰이지 않는다.
 
-| | 필요한 것 |
-|---|---|
-| **로컬 `.env.local`** | 다섯 개 전부 (수집도 돌리고 화면도 띄우므로) |
-| **GitHub 저장소 시크릿** | 위 표의 다섯 개 |
-| **Vercel 환경변수** | `NEXT_PUBLIC_SUPABASE_URL` · `NEXT_PUBLIC_SUPABASE_ANON_KEY` · `REVALIDATE_SECRET` · `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID` — **네 개다** |
+**`NEXT_PUBLIC_SITE_URL`은 Vercel에 넣지 않는다.** `NEXT_PUBLIC_` 접두사가 붙어 있어 화면이 쓰는 값처럼 보이지만, 이 값을 읽는 곳은 `scripts/ingest.ts`의 HTTP 캐시 무효화 경로 하나뿐이고 cron 라우트는 그 경로를 안 쓴다 — 자기 프로세스가 곧 캐시라 `revalidatePath()`를 직접 부른다. 로컬 CLI에서만 의미가 있다.
 
-**`NEXT_PUBLIC_SITE_URL`도 Vercel에는 필요 없다.** `NEXT_PUBLIC_` 접두사가 붙어 있어 화면이 쓰는 값처럼 보이지만, 이 값을 읽는 곳은 `scripts/ingest.ts` 하나뿐이고 그 스크립트는 Vercel에서 돌지 않는다. 주소를 바꿀 때 고칠 곳은 **GitHub 저장소 시크릿 쪽**이다.
+**서비스 롤 키가 사는 곳이 셋이 됐다** — 내 컴퓨터, GitHub 시크릿, Vercel. 서버 전용이라는 성질은 그대로다: 이 키를 읽는 파일은 `src/lib/supabase/admin.ts` 하나이고, `src/app`과 `src/components`가 `src/lib/kto/`를 import하는 것은 ESLint `no-restricted-imports`가 막는다(`docs/spec/02_stack.md` §2 규칙2). 늘어난 것은 권한이 아니라 보관 장소의 수다.
 
-Vercel에 `SUPABASE_SERVICE_ROLE_KEY`와 `KTO_SERVICE_KEY_DECODING`은 **필요 없다.** 화면은 수집을 하지 않기 때문이고, 그건 구조로 강제돼 있다 — `src/lib/supabase/admin.ts`(서비스 롤 키를 읽는 유일한 파일)와 `src/lib/kto/transport.ts`는 **`scripts/ingest.ts`에서만** 불린다. `src/app`과 `src/components`가 `src/lib/kto/`를 import하는 것은 ESLint `no-restricted-imports`가 막는다(`docs/spec/02_stack.md` §2 규칙2).
+### 수집이 안 돌 때 먼저 보는 것
 
-반대로 `NEXT_PUBLIC_SUPABASE_ANON_KEY`와 `NEXT_PUBLIC_NAVER_MAP_CLIENT_ID`는 **화면에만** 필요하다. 방문자 제보의 익명 세션이 앞의 키로 만들어지고, 지도는 뒤의 키로 그려진다. 수집은 둘 다 쓰지 않는다.
+라우트는 **아무것도 부르기 전에** 빠진 환경변수를 전부 한 줄로 말한다.
+
+```
+503  {"ok":false,"error":"not configured: KTO_SERVICE_KEY_DECODING, SUPABASE_SERVICE_ROLE_KEY"}
+```
+
+**환경변수는 새 배포에만 붙는다.** 값을 넣었으면 재배포해야 라우트가 본다.
+
+성공하면 이렇게 답한다.
+
+```
+200  {"ok":true,"seconds":27}
+```
 
 ### 배포 뒤 지도는 브라우저로 한 번 열어 봐야 한다
 

@@ -49,3 +49,6 @@ supabase/.temp/
 .impeccable/
 # Vercel CLI link state
 .vercel
+
+# Local submission builds and validation outputs
+/tmp/submission/

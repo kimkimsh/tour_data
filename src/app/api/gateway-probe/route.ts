@@ -3,6 +3,10 @@ import { NextResponse } from 'next/server';
 /**
  * TEMPORARY. Delete once the question below is answered.
  *
+ * Not under an underscore: a folder whose name begins with one is a private folder in
+ * the App Router and is opted out of routing entirely, so the first version of this
+ * deployed successfully and answered 404.
+ *
  * The nightly ingest fails about half the time from a GitHub runner with
  * UND_ERR_CONNECT_TIMEOUT against apis.data.go.kr:443 — all-or-nothing per run, so the
  * wall is bound to the runner's source address. Moving the job to a Vercel cron in

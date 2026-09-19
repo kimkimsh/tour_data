@@ -39,23 +39,24 @@ export type OrgCode = (typeof ORG)[keyof typeof ORG];
 
 const DEFAULT_TIMEOUT_MS = 15_000;
 /**
- * Six, not three, and the reason is the cost of giving up rather than a measurement.
+ * Six, not three, and it is for a server that answers badly — not for one that will
+ * not accept a connection.
  *
- * Every caller of this module is a batch job — scripts/ingest.ts, scripts/probe.ts, and
+ * Every caller of this module is a batch job: scripts/ingest.ts, scripts/probe.ts, and
  * the two KMA readers that only ingest calls. Nothing under src/app touches the gateway
  * at request time, which the golden-flow test asserts. So a retry costs seconds of a
- * nightly run, and giving up costs a day of stale data on a service whose whole claim
- * is that it says when it does not know.
+ * nightly run, and giving up on a RETRYABLE_RESULT_CODES answer costs a day of stale
+ * data. That is what this budget is for.
  *
- * Three attempts at 700ms and 1400ms spent the entire retry window in 2.1 seconds. The
- * nightly run failed on three nights against `fetch failed`, and a dispatch two minutes
- * after a failing one succeeded — an intermittent fault, and 2.1 seconds is not a
- * serious attempt to wait one out. Six attempts spend 21.7 seconds.
- *
- * How long the real outages lasted is not known: the logs of the nights that failed
- * predate the cause chain being printed at all, so this number is chosen from the
- * asymmetry, not fitted to a measurement. A gateway that is actually down still fails
- * the run inside a minute, because bootstrap makes two calls and publishes first.
+ * It does not rescue a refused connection, and the record should say so rather than
+ * imply it. The nightly run's failures are UND_ERR_CONNECT_TIMEOUT against
+ * apis.data.go.kr:443 — undici's own 10s connect timeout, before any request is
+ * written. Measured over eight runs: four succeeded outright and four failed with
+ * **zero** successful calls between them, twelve connect attempts over eighty seconds
+ * in the failing ones. All-or-nothing per run is not a passing blip; the variable that
+ * is fixed for a whole run and differs between runs is the runner's source address, and
+ * the same host answers from a workstation in under a tenth of a second. Retrying
+ * inside a run redials the same wall.
  */
 const MAX_ATTEMPTS = 6;
 const RETRY_BASE_DELAY_MS = 700;

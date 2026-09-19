@@ -128,10 +128,11 @@ describe('gateway counters and paging', () => {
     expect(after.unreachable - before.unreachable).toBe(0);
   });
 
-  it('keeps retrying long enough for a nightly job to outlast a blip', async () => {
-    // The budget is the point, not the number. Three attempts at 700ms and 1400ms gave
-    // up 2.1 seconds in, and the cron failed three nights running on an intermittent
-    // fault that a dispatch two minutes later did not hit.
+  it('keeps retrying long enough for a batch job to outlast a bad answer', async () => {
+    // The budget is the point, not the number, and it is for a gateway that answers
+    // badly — a RETRYABLE_RESULT_CODES fault — rather than one that refuses the
+    // connection. A refused connection is bound to the run's source address and no
+    // number of redials inside that run reaches past it.
     let attempts = 0;
     const real = globalThis.fetch;
     const realKey = process.env.KTO_SERVICE_KEY_DECODING;

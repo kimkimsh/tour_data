@@ -40,6 +40,23 @@ export async function GET(request: Request) {
     return new NextResponse('forbidden', { status: 403 });
   }
 
+  /*
+    Named together, before anything is fetched. These moved here from a GitHub
+    Actions secret set, and finding out one at a time costs a deploy and a run each:
+    the first attempt after the move reached the gateway stage before saying
+    KTO_SERVICE_KEY_DECODING was missing, and said nothing about the one after it.
+
+    NEXT_PUBLIC_SITE_URL is deliberately absent — this process invalidates its own
+    cache rather than posting to a URL.
+  */
+  const missing = ['KTO_SERVICE_KEY_DECODING', 'NEXT_PUBLIC_SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY']
+    .filter((name) => !process.env[name]);
+  if (missing.length > 0) {
+    const message = `not configured: ${missing.join(', ')}`;
+    console.error(`cron ingest ${message}`);
+    return NextResponse.json({ ok: false, error: message }, { status: 503 });
+  }
+
   const started = Date.now();
   try {
     await runIngest({

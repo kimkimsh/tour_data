@@ -235,7 +235,8 @@
     "whyCautionScore": "Everything this verdict rests on is checked, but the fit score is {score}, below the 75 needed for “You can visit”.",
     "conditionItems": "Conditions apply",
     "perPersonaBasisPartial": "Conditions apply: {items}",
-    "whyCautionPartial": "These required items come with a condition: {items}"
+    "whyCautionPartial": "These required items come with a condition: {items}",
+    "audioDescriptionAbsent": "Audio description — someone describing what is there to see — is not in the list below. An audio guide is exhibit commentary, which is a different thing, and this service has not surveyed audio description yet."
   },
   "courses": {
     "metaTitle": "Courses",

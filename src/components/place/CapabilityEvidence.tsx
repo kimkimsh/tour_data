@@ -73,6 +73,19 @@ export function CapabilityEvidence({
             <h3 id={`axis-${axis}-heading`} className="subhead">
               {axisLabel(axis, locale)}
             </h3>
+
+            {/* A capability that is not in the catalogue is worse than one that is
+                unknown: the reader cannot tell it was never asked. 오디오 가이드 sits
+                between 수어 안내 and 자막 영상 here, so the group reads as a list of
+                access features and 음성 해설 reads as covered. It is not — an audio
+                guide is exhibit commentary, not a description of what is in front of
+                you. Saying so is the same thing this screen does with 정보 없음. */}
+            {axis === 'information' ? (
+              <p className="max-w-[var(--container-prose)] t-sm text-[var(--color-ink-2)]">
+                {t('audioDescriptionAbsent')}
+              </p>
+            ) : null}
+
             <div>
               {items.map((capability) => {
                 const fact = byCode.get(capability.code);

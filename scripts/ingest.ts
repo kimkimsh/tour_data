@@ -897,12 +897,19 @@ async function buildAccessibility(pois: PoiInput[]): Promise<void> {
       });
     }
 
+    // Never 'supported' from route data alone, however clean the walk is. A route file
+    // records the one way through the site we mapped — 공산성's stops at 금서루에서 공북루
+    // 방향, which is one of four gates — and this capability asks whether the visitor can
+    // reach every required point. Zero hazards on a partial walkthrough is evidence of a
+    // usable route, not confirmation of coverage, and since v7 made this item critical a
+    // 'supported' here would carry a 방문가능 on its own. Only a sourced sentence in
+    // curated-facts.json can say that, and it overrides this.
     const route = routes?.find((r) => r.poiSlug === poi.slug);
     const hazardSteps = route?.steps.filter((step) => step.hazard !== null).length ?? null;
     push(facts, poi.slug, 'path_continuity', route
       ? {
-          status: hazardSteps === 0 ? 'supported' : 'partial',
-          detail: `경로 단계 ${route.steps.length}개 중 주의 표시 ${hazardSteps}개`,
+          status: 'partial',
+          detail: `안내 경로 ${route.steps.length}단계 중 주의 표시 ${hazardSteps}개. 이 경로 밖의 구간은 확인하지 않았다.`,
           source: 'derived_route',
         }
       : null);

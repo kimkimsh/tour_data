@@ -2641,7 +2641,7 @@
         "tel": "",
         "addr": "충청남도 공주시 백제큰길 2045 (웅진동)",
         "title": "공주 고마나루",
-        "homepage": "<a href=\"https://www.gongju.go.kr/prog/tursmCn/tour/sub02_01_05/view.do?cntno=15\" target=\"_blank\" title=\"새창 : 공주 문화관광 홈페이지로 이동\">https://www.gongju.go.kr/tour</a>",
+        "homepage": "https://www.gongju.go.kr/tour",
         "overview": "금강 및 연미산을 포함한 무령왕릉 서쪽으로 펼쳐진 낮은 언덕과 금강변 나루 일대로, 공주지역의 태동지이자 곰과 인간에 얽힌 전설이 있는 유서 깊은 명승지다.\n고마나루는 공주의 옛 지명으로서 ‘고마(固麻)’는 곰의 옛말로 한자로 ‘웅진(熊津)’이라 썼다. 신라 신문왕 때는 웅천주(熊川州), 경덕왕 때는 웅주(熊州)라 하였으며, 고려 태조 때(940년) 공주(公州)로 고쳐 오늘에 이르고 있다. 이곳은 백제 문주왕이 웅진으로 천도하던 교통로였고, 나당연합군의 장군 소정방이 백제 공격을 위해 금강을 거슬러와 주둔했으며, 백제 멸망 후에는 웅진도독부를 설치하였던 곳으로써 백제 역사의 중심무대이자 국제적 교통의 관문이었다. 또한 금강의 수신(水神)에게 제사를 올리던 웅진단(熊津壇) 터가 남아있는 등 백제시대부터 조선시대까지 국가의 제사 공간이었으며, 서민들의 생활터이자 물길로서 민중의 애환이 짙게 서려 역사적 가치가 큰 곳이다.\n처녀곰과 나무꾼 총각에 얽힌 아름답고 슬픈 전설이 전해오는데, 고마나루 북쪽 연미산 중턱에는 전설 속 곰이 살았다는 곰굴이 고마나루를 내려다보고 있으며, 마을에서는 곰의 원한을 풀고 마을의 안녕을 기원하기 위하여 나루터 인근에 곰사당을 짓고 제사를 지내왔다고 한다.\n고마나루는 백제 역사의 중심에 있던 곳으로 역사적 가치가 클 뿐 아니라 금강변에 넓게 펼쳐진 백사장과 450여 주의 솔밭이 금강과 연미산과 함께 어우러져 아름다운 경관을 자아내고 있는, 역사 문화적·경관적 가치가 뛰어난 경승지다.\n\n(출처 : 국가유산청)"
       }
     },
@@ -2662,8 +2662,8 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "alt": "공주_고마나루 (4)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/37/3534837_image2_1.jpg",
+        "alt": "공주_고마나루 (5)",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/38/3534838_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -2692,8 +2692,8 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "alt": "공주_고마나루 (8)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/42/3534842_image2_1.jpg",
+        "alt": "충남_공주_공주 고마나루_외부_1.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/09/4114709_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -2702,8 +2702,8 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "alt": "공주_고마나루 (9)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/43/3534843_image2_1.jpg",
+        "alt": "충남_공주_공주 고마나루_외부_2.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/10/4114710_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -2712,8 +2712,28 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "alt": "공주_고마나루 (10)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/44/3534844_image2_1.jpg",
+        "alt": "충남_공주_공주 고마나루_외부_3.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/11/4114711_image2_1.jpg",
+        "kind": "photo",
+        "caption": null,
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "licenseCode": "Type1",
+        "noTransform": false,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "alt": "충남_공주_공주 고마나루_외부_5.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/13/4114713_image2_1.jpg",
+        "kind": "photo",
+        "caption": null,
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "licenseCode": "Type1",
+        "noTransform": false,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "alt": "충남_공주_공주 고마나루_외부_6.jpg",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/14/4114714_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -2724,16 +2744,6 @@
       {
         "alt": "공주_고마나루 (6)",
         "url": "https://tong.visitkorea.or.kr/cms/resource/45/3534845_image2_1.jpg",
-        "kind": "photo",
-        "caption": null,
-        "attribution": "출처: 한국관광공사 TourAPI",
-        "licenseCode": "Type1",
-        "noTransform": false,
-        "sourceField": "detailImage2.originimgurl"
-      },
-      {
-        "alt": "공주_고마나루 (7)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/46/3534846_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -2871,7 +2881,7 @@
     "ktoContentId": "2035859",
     "contentTypeId": 12,
     "heritageLabel": null,
-    "ktoModifiedAt": "2025-10-29",
+    "ktoModifiedAt": "2026-09-29",
     "lDongSignguCd": "150",
     "certifications": [],
     "unescoComponentNote": "웅진이라는 이름이 나온 금강 나루입니다. 백제 유적이 남아 있는 곳은 아닙니다."

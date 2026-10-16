@@ -1,74 +1,74 @@
 {
   "crowd": [
     {
-      "rate": 38.75,
-      "baseYmd": "20261015",
+      "rate": 39.06,
+      "baseYmd": "20261016",
       "poiSlug": "gongsanseong",
       "isPredicted": true
     },
     {
-      "rate": 64.54,
-      "baseYmd": "20261015",
+      "rate": 64.72,
+      "baseYmd": "20261016",
       "poiSlug": "muryeong-royal-tombs",
       "isPredicted": true
     },
     {
-      "rate": 51.92,
-      "baseYmd": "20261015",
+      "rate": 49.54,
+      "baseYmd": "20261016",
       "poiSlug": "gongju-national-museum",
       "isPredicted": true
     },
     {
-      "rate": 39.71,
-      "baseYmd": "20261015",
+      "rate": 42.21,
+      "baseYmd": "20261016",
       "poiSlug": "gomanaru",
       "isPredicted": true
     },
     {
-      "rate": 48.83,
-      "baseYmd": "20261015",
+      "rate": 56.35,
+      "baseYmd": "20261016",
       "poiSlug": "busosanseong",
       "isPredicted": true
     },
     {
-      "rate": 46.97,
-      "baseYmd": "20261015",
+      "rate": 44.81,
+      "baseYmd": "20261016",
       "poiSlug": "jeongnimsaji",
       "isPredicted": true
     },
     {
-      "rate": 46.55,
-      "baseYmd": "20261015",
+      "rate": 46.89,
+      "baseYmd": "20261016",
       "poiSlug": "buyeo-national-museum",
       "isPredicted": true
     },
     {
-      "rate": 38.35,
-      "baseYmd": "20261015",
+      "rate": 41.28,
+      "baseYmd": "20261016",
       "poiSlug": "buyeo-royal-tombs",
       "isPredicted": true
     },
     {
-      "rate": 23.77,
-      "baseYmd": "20261015",
+      "rate": 29.14,
+      "baseYmd": "20261016",
       "poiSlug": "buyeo-naseong",
       "isPredicted": true
     },
     {
-      "rate": 29.06,
-      "baseYmd": "20261015",
+      "rate": 33.27,
+      "baseYmd": "20261016",
       "poiSlug": "baekje-cultural-land",
       "isPredicted": true
     },
     {
-      "rate": 37.43,
-      "baseYmd": "20261015",
+      "rate": 35.04,
+      "baseYmd": "20261016",
       "poiSlug": "gungnamji",
       "isPredicted": true
     },
     {
-      "rate": 33.4,
-      "baseYmd": "20261015",
+      "rate": 41.58,
+      "baseYmd": "20261016",
       "poiSlug": "gudeurae-sculpture-park",
       "isPredicted": true
     }
@@ -78,7 +78,7 @@
       "scope": "district",
       "state": "none",
       "warning": null,
-      "checkedAt": "2026-10-16",
+      "checkedAt": "2026-10-17",
       "signguCd5": "44150",
       "unknownReason": null
     },
@@ -86,7 +86,7 @@
       "scope": "district",
       "state": "none",
       "warning": null,
-      "checkedAt": "2026-10-16",
+      "checkedAt": "2026-10-17",
       "signguCd5": "44760",
       "unknownReason": null
     }
@@ -95,107 +95,41 @@
     {
       "today": {
         "state": "good",
-        "detail": "구름많음 · 최고 23℃ · 최저 9℃ · 강수확률 20%. 야외 이동에 무리가 없는 예보입니다",
+        "detail": "흐림 · 최고 24℃ · 최저 10℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
         "unknownReason": null
       },
-      "baseAt": "20261016 0200",
+      "baseAt": "20261017 0200",
       "outlook": [
-        {
-          "tmn": 7,
-          "tmx": 20,
-          "amRainPct": 20,
-          "amWeather": "구름많음",
-          "dayOffset": 5,
-          "pmRainPct": 20,
-          "pmWeather": "구름많음"
-        },
         {
           "tmn": 10,
-          "tmx": 17,
-          "amRainPct": 20,
-          "amWeather": "구름많음",
-          "dayOffset": 6,
-          "pmRainPct": 20,
-          "pmWeather": "구름많음"
-        },
-        {
-          "tmn": 5,
-          "tmx": 17,
-          "amRainPct": 10,
-          "amWeather": "맑음",
-          "dayOffset": 7,
-          "pmRainPct": 10,
-          "pmWeather": "맑음"
-        },
-        {
-          "tmn": 5,
-          "tmx": 20,
-          "amRainPct": 10,
-          "amWeather": "맑음",
-          "dayOffset": 8,
-          "pmRainPct": 10,
-          "pmWeather": "맑음"
-        },
-        {
-          "tmn": 7,
-          "tmx": 22,
-          "amRainPct": 10,
-          "amWeather": "맑음",
-          "dayOffset": 9,
-          "pmRainPct": 10,
-          "pmWeather": "맑음"
-        },
-        {
-          "tmn": 9,
-          "tmx": 22,
-          "amRainPct": 10,
-          "amWeather": "맑음",
-          "dayOffset": 10,
-          "pmRainPct": 10,
-          "pmWeather": "맑음"
-        }
-      ],
-      "checkedAt": "2026-10-16",
-      "signguCd5": "44150"
-    },
-    {
-      "today": {
-        "state": "good",
-        "detail": "흐림 · 최고 24℃ · 최저 9℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
-        "unknownReason": null
-      },
-      "baseAt": "20261016 0200",
-      "outlook": [
-        {
-          "tmn": 8,
-          "tmx": 20,
-          "amRainPct": 20,
-          "amWeather": "구름많음",
+          "tmx": 16,
+          "amRainPct": 30,
+          "amWeather": "흐림",
           "dayOffset": 5,
           "pmRainPct": 20,
           "pmWeather": "구름많음"
         },
         {
-          "tmn": 11,
-          "tmx": 17,
-          "amRainPct": 20,
-          "amWeather": "구름많음",
-          "dayOffset": 6,
-          "pmRainPct": 20,
-          "pmWeather": "구름많음"
-        },
-        {
-          "tmn": 6,
+          "tmn": 3,
           "tmx": 18,
           "amRainPct": 10,
           "amWeather": "맑음",
+          "dayOffset": 6,
+          "pmRainPct": 10,
+          "pmWeather": "맑음"
+        },
+        {
+          "tmn": 5,
+          "tmx": 22,
+          "amRainPct": 10,
+          "amWeather": "맑음",
           "dayOffset": 7,
           "pmRainPct": 10,
           "pmWeather": "맑음"
         },
         {
           "tmn": 7,
-          "tmx": 20,
+          "tmx": 23,
           "amRainPct": 10,
           "amWeather": "맑음",
           "dayOffset": 8,
@@ -203,7 +137,7 @@
           "pmWeather": "맑음"
         },
         {
-          "tmn": 8,
+          "tmn": 10,
           "tmx": 23,
           "amRainPct": 10,
           "amWeather": "맑음",
@@ -213,7 +147,7 @@
         },
         {
           "tmn": 10,
-          "tmx": 22,
+          "tmx": 21,
           "amRainPct": 10,
           "amWeather": "맑음",
           "dayOffset": 10,
@@ -221,7 +155,73 @@
           "pmWeather": "맑음"
         }
       ],
-      "checkedAt": "2026-10-16",
+      "checkedAt": "2026-10-17",
+      "signguCd5": "44150"
+    },
+    {
+      "today": {
+        "state": "good",
+        "detail": "흐림 · 최고 27℃ · 최저 9℃ · 강수확률 30%. 야외 이동에 무리가 없는 예보입니다",
+        "unknownReason": null
+      },
+      "baseAt": "20261017 0200",
+      "outlook": [
+        {
+          "tmn": 11,
+          "tmx": 16,
+          "amRainPct": 30,
+          "amWeather": "흐림",
+          "dayOffset": 5,
+          "pmRainPct": 20,
+          "pmWeather": "구름많음"
+        },
+        {
+          "tmn": 4,
+          "tmx": 19,
+          "amRainPct": 10,
+          "amWeather": "맑음",
+          "dayOffset": 6,
+          "pmRainPct": 10,
+          "pmWeather": "맑음"
+        },
+        {
+          "tmn": 6,
+          "tmx": 22,
+          "amRainPct": 10,
+          "amWeather": "맑음",
+          "dayOffset": 7,
+          "pmRainPct": 10,
+          "pmWeather": "맑음"
+        },
+        {
+          "tmn": 8,
+          "tmx": 24,
+          "amRainPct": 10,
+          "amWeather": "맑음",
+          "dayOffset": 8,
+          "pmRainPct": 10,
+          "pmWeather": "맑음"
+        },
+        {
+          "tmn": 11,
+          "tmx": 24,
+          "amRainPct": 10,
+          "amWeather": "맑음",
+          "dayOffset": 9,
+          "pmRainPct": 10,
+          "pmWeather": "맑음"
+        },
+        {
+          "tmn": 11,
+          "tmx": 21,
+          "amRainPct": 10,
+          "amWeather": "맑음",
+          "dayOffset": 10,
+          "pmRainPct": 10,
+          "pmWeather": "맑음"
+        }
+      ],
+      "checkedAt": "2026-10-17",
       "signguCd5": "44760"
     }
   ],
@@ -233,9 +233,9 @@
       "touDivCd": "2",
       "touDivNm": "외지인(b)",
       "signguCd5": "44150",
-      "windowEnd": "20260915",
-      "windowStart": "20260908",
-      "dailyAverage": 75703.6875
+      "windowEnd": "20260916",
+      "windowStart": "20260909",
+      "dailyAverage": 76385.75
     },
     {
       "days": 8,
@@ -244,10 +244,10 @@
       "touDivCd": "2",
       "touDivNm": "외지인(b)",
       "signguCd5": "44760",
-      "windowEnd": "20260915",
-      "windowStart": "20260908",
-      "dailyAverage": 33139.3125
+      "windowEnd": "20260916",
+      "windowStart": "20260909",
+      "dailyAverage": 33308.625
     }
   ],
-  "fetchedAt": "2026-10-15T19:28:42.967Z"
+  "fetchedAt": "2026-10-16T19:28:43.621Z"
 }

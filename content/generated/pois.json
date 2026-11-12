@@ -472,7 +472,7 @@
     "ktoContentId": "126681",
     "contentTypeId": 12,
     "heritageLabel": "사적 「공주 무령왕릉과 왕릉원」",
-    "ktoModifiedAt": "2026-10-22",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "150",
     "certifications": [
       {
@@ -497,7 +497,7 @@
         "tel": "",
         "addr": "충청남도 공주시 관광단지길 34 (웅진동)",
         "title": "국립공주박물관",
-        "homepage": "<a href=\"http://gongju.museum.go.kr/\" target=\"_blank\" title=\"새창 : 국립공주박물관 홈페이지로 이동\">http://gongju.museum.go.kr</a>",
+        "homepage": "http://gongju.museum.go.kr",
         "overview": "국립공주박물관은 1946년 4월 1일 웅진 백제 문화를 중심으로 충청남도의 역사와 문화를 보존, 전시하기 위해 개관했다. 웅진백제를 주제로 하는 전시실과 충청남도의 역사문화를 주제로 한 전시실이 있으며, 다양한 주제의 특별전시도 수시로 열리고 있다. 전시 외에도 다채로운 문화행사와 교육 프로그램도 진행하고 있다."
       }
     },
@@ -558,16 +558,6 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "alt": "공주_국립공주박물관 (9)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/39/3534939_image2_1.jpg",
-        "kind": "photo",
-        "caption": null,
-        "attribution": "출처: 한국관광공사 TourAPI",
-        "licenseCode": "Type1",
-        "noTransform": false,
-        "sourceField": "detailImage2.originimgurl"
-      },
-      {
         "alt": "공주_국립공주박물관 (7)",
         "url": "https://tong.visitkorea.or.kr/cms/resource/41/3534941_image2_1.jpg",
         "kind": "photo",
@@ -580,6 +570,16 @@
       {
         "alt": "공주_국립공주박물관 (8)",
         "url": "https://tong.visitkorea.or.kr/cms/resource/42/3534942_image2_1.jpg",
+        "kind": "photo",
+        "caption": null,
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "licenseCode": "Type1",
+        "noTransform": false,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "alt": "공주_국립공주박물관 (9)",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/39/3534939_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -704,7 +704,7 @@
     "ktoContentId": "129787",
     "contentTypeId": 14,
     "heritageLabel": null,
-    "ktoModifiedAt": "2026-01-05",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "150",
     "certifications": [],
     "unescoComponentNote": "백제역사유적지구 구성유산이 아닙니다. 구성유산에 인접한 박물관입니다."
@@ -904,7 +904,7 @@
     "ktoContentId": "125988",
     "contentTypeId": 12,
     "heritageLabel": "사적 「부여 부소산성」",
-    "ktoModifiedAt": "2026-02-09",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": "유네스코 구성유산은 「부여 관북리 유적과 부소산성」 하나이고, 우리가 다루는 것은 그중 부소산성입니다. 사적으로는 관북리 유적과 부소산성이 각각 따로 지정돼 있습니다."
@@ -1172,7 +1172,7 @@
     "ktoContentId": "126650",
     "contentTypeId": 12,
     "heritageLabel": "사적 「부여 정림사지」",
-    "ktoModifiedAt": "2026-06-01",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": null
@@ -1440,7 +1440,7 @@
     "ktoContentId": "130062",
     "contentTypeId": 14,
     "heritageLabel": null,
-    "ktoModifiedAt": "2026-11-03",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": "백제역사유적지구 구성유산이 아닙니다. 구성유산에 인접한 박물관입니다."
@@ -1638,7 +1638,7 @@
     "ktoContentId": "125987",
     "contentTypeId": 12,
     "heritageLabel": "사적 「부여 왕릉원」",
-    "ktoModifiedAt": "2026-06-01",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": "2021-09-17 관보 고시로 「부여 능산리 고분군」에서 이름이 바뀌었습니다. 오디오 해설 두 편이 옛 이름과 새 이름으로 각각 올라와 있어 둘 다 이 관광지의 것으로 묶었습니다."
@@ -1826,7 +1826,7 @@
     "ktoContentId": "250259",
     "contentTypeId": 12,
     "heritageLabel": "사적 「부여 나성」",
-    "ktoModifiedAt": "2026-10-30",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": null
@@ -2064,7 +2064,7 @@
     "ktoContentId": "1103949",
     "contentTypeId": 12,
     "heritageLabel": null,
-    "ktoModifiedAt": "2026-09-17",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": "사비 왕궁과 능사를 고증해 새로 지은 곳입니다. 유적 자체가 아니라 재현 시설입니다."
@@ -2262,7 +2262,7 @@
     "ktoContentId": "130875",
     "contentTypeId": 14,
     "heritageLabel": null,
-    "ktoModifiedAt": "2026-11-09",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": "백제문화단지 안에 있는 전시관입니다. 주차장과 매표소를 단지와 함께 씁니다."
@@ -2545,7 +2545,7 @@
     "ktoContentId": "125984",
     "contentTypeId": 12,
     "heritageLabel": null,
-    "ktoModifiedAt": "2026-06-19",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [
       {
@@ -2570,7 +2570,7 @@
         "tel": "",
         "addr": "충청남도 부여군 부여읍 백강로 148",
         "title": "구드래조각공원",
-        "homepage": "<a href=\"https://www.buyeo.go.kr/html/tour/info/info_010402.html\" target=\"_blank\" title=\"새창 : 홈페이지로 이동\">https://www.buyeo.go.kr</a>",
+        "homepage": "https://www.buyeo.go.kr",
         "overview": "구드래조각공원은 부여군 부소산성 서쪽 백마강(금강)변에 조성된 공원이다. 백마강과 어우러져 빼어난 경승을 이루고 조각공원이 잘 꾸며져 있어 많은 사람들이 즐겨 찾는 휴식공간이다. 구드래 나루는 백제시대에 큰 나루터였으며, 현재는 백마강을 오르내리는 유람선의 선착장으로 주변에는 토속음식이나 별미를 즐길 수 있는 음식점들이 많이 있다. 1985년도에 국민관광단지로 조성된 구드래에는 옛 백제인의 조각 기술을 이어받은 지역 출신 유명 조각가 작품 30점과 1999년도 국제현대조각 심포지엄에 참가한 국내외 유명 조각가의 작품 29점 등 총 59점의 조각 작품으로 옛 정취와 함께 현대적인 아름다움을 함께 갖춘 공원을 조성하여 관광객들을 맞고 있다.\n인근 관광지로는 부소산성, 백마강 외에 백마강 유람선을 이용할 수 있는 구드래나루터, 부여 구아리 백제유적, 관북리 유적, 부여 중앙시장 등이 있다."
       }
     },
@@ -2581,8 +2581,8 @@
     },
     "media": [
       {
-        "alt": "부여군_구드래조각공원 (5)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/02/3568202_image2_1.jpg",
+        "alt": "부여군_구드래조각공원 (2)",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/98/3568198_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -2601,16 +2601,6 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "alt": "부여군_구드래조각공원 (6)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/03/3568203_image2_1.jpg",
-        "kind": "photo",
-        "caption": null,
-        "attribution": "출처: 한국관광공사 TourAPI",
-        "licenseCode": "Type1",
-        "noTransform": false,
-        "sourceField": "detailImage2.originimgurl"
-      },
-      {
         "alt": "부여군_구드래조각공원 (4)",
         "url": "https://tong.visitkorea.or.kr/cms/resource/01/3568201_image2_1.jpg",
         "kind": "photo",
@@ -2621,8 +2611,18 @@
         "sourceField": "detailImage2.originimgurl"
       },
       {
-        "alt": "부여군_구드래조각공원 (2)",
-        "url": "https://tong.visitkorea.or.kr/cms/resource/98/3568198_image2_1.jpg",
+        "alt": "부여군_구드래조각공원 (5)",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/02/3568202_image2_1.jpg",
+        "kind": "photo",
+        "caption": null,
+        "attribution": "출처: 한국관광공사 TourAPI",
+        "licenseCode": "Type1",
+        "noTransform": false,
+        "sourceField": "detailImage2.originimgurl"
+      },
+      {
+        "alt": "부여군_구드래조각공원 (6)",
+        "url": "https://tong.visitkorea.or.kr/cms/resource/03/3568203_image2_1.jpg",
         "kind": "photo",
         "caption": null,
         "attribution": "출처: 한국관광공사 TourAPI",
@@ -2693,7 +2693,7 @@
     "ktoContentId": "126699",
     "contentTypeId": 12,
     "heritageLabel": null,
-    "ktoModifiedAt": "2025-11-18",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "760",
     "certifications": [],
     "unescoComponentNote": "사비 시대 백마강 나루였던 구드래 일원에 있습니다. 조각공원 자체는 현대에 조성했습니다."
@@ -2951,7 +2951,7 @@
     "ktoContentId": "2035859",
     "contentTypeId": 12,
     "heritageLabel": null,
-    "ktoModifiedAt": "2026-09-29",
+    "ktoModifiedAt": "2026-11-11",
     "lDongSignguCd": "150",
     "certifications": [],
     "unescoComponentNote": "웅진이라는 이름이 나온 금강 나루입니다. 백제 유적이 남아 있는 곳은 아닙니다."

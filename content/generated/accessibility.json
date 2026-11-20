@@ -264,11 +264,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 36.1 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "보통 — 집중률 40.8 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
-    "status": "supported",
+    "status": "partial",
     "poiSlug": "gongsanseong",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -286,11 +286,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "눈 예보 — 흐림 · 최고 6℃ · 최저 -1℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 3℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "gongsanseong",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -594,11 +594,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "보통 — 집중률 43.5 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "보통 — 집중률 54.1 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "partial",
     "poiSlug": "muryeong-royal-tombs",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -616,11 +616,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "눈 예보 — 흐림 · 최고 6℃ · 최저 -1℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 3℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "muryeong-royal-tombs",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -924,11 +924,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 30.6 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "보통 — 집중률 52.9 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
-    "status": "supported",
+    "status": "partial",
     "poiSlug": "gongju-national-museum",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -946,11 +946,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "눈 예보 — 흐림 · 최고 6℃ · 최저 -1℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 3℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "gongju-national-museum",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -1254,11 +1254,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "보통 — 집중률 41.5 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "보통 — 집중률 40.8 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "partial",
     "poiSlug": "busosanseong",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -1276,11 +1276,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "busosanseong",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -1584,11 +1584,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 37.2 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "보통 — 집중률 42.1 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
-    "status": "supported",
+    "status": "partial",
     "poiSlug": "jeongnimsaji",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -1606,11 +1606,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "jeongnimsaji",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -1914,11 +1914,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 29.5 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 33.7 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "supported",
     "poiSlug": "buyeo-national-museum",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -1936,11 +1936,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "buyeo-national-museum",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -2244,11 +2244,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 19.9 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 21.5 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "supported",
     "poiSlug": "buyeo-royal-tombs",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -2266,11 +2266,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "buyeo-royal-tombs",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -2574,11 +2574,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 30.6 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 29.6 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "supported",
     "poiSlug": "buyeo-naseong",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -2596,11 +2596,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "buyeo-naseong",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -2904,11 +2904,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 27.4 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 28.0 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "supported",
     "poiSlug": "baekje-cultural-land",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -2926,11 +2926,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "baekje-cultural-land",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -3256,11 +3256,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "baekje-history-museum",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -3564,11 +3564,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 32.9 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 32.8 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "supported",
     "poiSlug": "gungnamji",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -3586,11 +3586,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "gungnamji",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -3894,11 +3894,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "보통 — 집중률 40.4 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "보통 — 집중률 44.0 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "partial",
     "poiSlug": "gudeurae-sculpture-park",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -3916,11 +3916,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "비 예보 — 흐림 · 최고 8℃ · 최저 0℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 5℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "gudeurae-sculpture-park",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -4224,11 +4224,11 @@
     "capabilityCode": "path_continuity"
   },
   {
-    "detail": "여유 — 집중률 29.5 (40 이하 여유 · 70 이하 보통). 2026-11-18 기준, 향후 30일 예측치입니다",
+    "detail": "여유 — 집중률 28.1 (40 이하 여유 · 70 이하 보통). 2026-11-19 기준, 향후 30일 예측치입니다",
     "source": "tats",
     "status": "supported",
     "poiSlug": "gomanaru",
-    "verifiedAt": "2026-11-18",
+    "verifiedAt": "2026-11-19",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
@@ -4246,11 +4246,11 @@
     "capabilityCode": "weather_warning"
   },
   {
-    "detail": "눈 예보 — 흐림 · 최고 6℃ · 최저 -1℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
+    "detail": "눈 예보 — 흐림 · 최고 3℃ · 최저 -3℃ · 강수확률 60%. 비포장 경사로는 이동이 어려워집니다",
     "source": "kma",
     "status": "unsupported",
     "poiSlug": "gomanaru",
-    "verifiedAt": "2026-11-19",
+    "verifiedAt": "2026-11-20",
     "absenceKind": null,
     "isKtoScored": false,
     "sourceField": null,
